@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 远程客户端配置 本机拦截-->
+	<bean id="proxyInvokeRemoteClientFactory" class="com.nm.base.framwork.remote.RemoteClientFactory" init-method="startup">
+		<property name="debug" value="true"/>
+		<property name="connectionTimeOutSeconds" value="120"/>
+		<property name="socketTimeOutSeconds" value="120"/>
+		<property name="enableThreadLocal" value="true"/>
+	</bean>
+</beans>

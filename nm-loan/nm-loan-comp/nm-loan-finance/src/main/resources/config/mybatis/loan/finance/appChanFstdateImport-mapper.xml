@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AppChanFstdateImportMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppChanFstdateImportRetMap" type="com.hs.loan.finance.entity.AppChanFstdateImport">
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="OPEN_DATE" property="fstDate"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AppChanFstdateImport">
+		insert into APP_CHAN_FSTDATE_IMPORT
+		(
+  			LOAN_NO
+  			,OPEN_DATE
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{loanNo}
+  			, #{fstDate}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_CHAN_FSTDATE_IMPORT
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('fstDate')">  
+	  					OPEN_DATE = #{fstDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			LOAN_NO = #{loanNo}				
+	</update>
+	
+	<!-- 删除  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_CHAN_FSTDATE_IMPORT
+		where 
+  			LOAN_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询  -->
+	<select id="getByPrimaryKey" resultMap="AppChanFstdateImportRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_CHAN_FSTDATE_IMPORT t
+		where 
+  				t.LOAN_NO = #{id}				
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="AppChanFstdateImportRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_CHAN_FSTDATE_IMPORT t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="fstDate != null and fstDate != ''">
+	  				and t.OPEN_DATE = #{fstDate}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<select id="callDcFlow" statementType="CALLABLE">  
+			<![CDATA[  
+			    {call PROC_ACC_CHAN_PLATFORM_LOAN_DC_FLOW}  
+			 ]]>  
+	</select>
+</mapper>

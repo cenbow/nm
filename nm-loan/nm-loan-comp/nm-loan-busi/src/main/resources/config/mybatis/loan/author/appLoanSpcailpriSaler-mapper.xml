@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.author.mapper.AppLoanSpcailpriSalerMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanSpcailpriSalerRetMap" type="com.hs.loan.author.entity.AppLoanSpcailpriSaler">
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="HAND_PERSON" property="handPerson"/>
+			<result column="ORG_NO" property="orgNo"/>
+	</resultMap>
+	
+	<!-- 新增 APP_销售直通车权限 -->
+	<insert id="insert" parameterType="com.hs.loan.author.entity.AppLoanSpcailpriSaler">
+		insert into APP_LOAN_SPCAILPRI_SALER
+		(
+  			STAFF_NO
+  			,STAFF_NAME
+  			,INST_DATE
+  			,HAND_PERSON
+  			,ORG_NO
+    	)
+    	values
+    	(
+  			 #{staffNo}
+  			, #{staffName}
+  			, #{instDate}
+  			, #{handPerson}
+  			, #{orgNo}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_销售直通车权限 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_SPCAILPRI_SALER
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handPerson')">  
+	  					HAND_PERSON = #{handPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgNo')">  
+	  					ORG_NO = #{orgNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			STAFF_NO = #{staffNo}				
+	</update>
+	
+	<!-- 删除 APP_销售直通车权限 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_SPCAILPRI_SALER
+		where 
+  			STAFF_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_销售直通车权限 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanSpcailpriSalerRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_SALER t
+		where 
+  				t.STAFF_NO = #{id}				
+	</select>
+	
+	<!-- 查询 APP_销售直通车权限 列表 -->
+	<select id="queryForList" resultMap="AppLoanSpcailpriSalerRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_SALER t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="handPerson != null and handPerson != ''">
+	  				and t.HAND_PERSON = #{handPerson}				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and t.ORG_NO = #{orgNo}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<resultMap id="PubSalerSimpleRetMap" type="com.hs.loan.author.entity.AppLoanSpcailpriSaler">
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+	</resultMap>
+	
+	 <select id="queryNotSpcailpriSalerList" resultMap="PubSalerSimpleRetMap" parameterType="java.util.Map">
+    	SELECT DISTINCT a.STAFF_NO,a.STAFF_NAME FROM SYS_STAFF a JOIN SYS_STAFF_ROLE c ON a.ID=c.STAFF_ID 
+    	LEFT JOIN APP_LOAN_SPCAILPRI_SALER b ON a.STAFF_NO=b.STAFF_NO  
+		WHERE c.ROLE_ID in ('role_r_sale_staff','role_r_sale_mgr_area') 
+		AND a.STAFF_STAT = #{status} 
+				<if test="staffNo != null and staffNo != ''">
+	  				AND a.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				AND a.STAFF_NAME like '%${staffName}%'				
+	  			</if>
+				AND b.STAFF_NO IS NULL
+    </select>
+    
+    	<!-- 新增 APP_商户直通车权限 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into APP_LOAN_SPCAILPRI_SALER
+		(
+  			STAFF_NO
+  			,STAFF_NAME
+  			,INST_DATE
+  			,HAND_PERSON
+  			,ORG_NO
+    	)
+    	values
+    	<foreach collection="list" item="item" index="index" separator=",">
+		    (
+		      #{item.staffNo}, #{item.staffName}, #{item.instDate}, #{item.handPerson}, #{item.orgNo}
+    	    )
+		</foreach>
+	</insert>
+</mapper>

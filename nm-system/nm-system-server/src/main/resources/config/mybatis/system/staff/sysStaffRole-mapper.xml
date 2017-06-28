@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.staff.mapper.SysStaffRoleMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysStaffRoleRetMap" type="com.hs.system.entity.SysStaffRole">
+		<result column="ID" property="id" />
+		<result column="STAFF_ID" property="staffId" />
+		<result column="ROLE_ID" property="roleId" />
+	</resultMap>
+
+	<!-- 新增 用户角色 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysStaffRole">
+		insert into sys_staff_role
+		(
+		ID
+		,STAFF_ID
+		,ROLE_ID
+		)
+		values
+		(
+		#{id}
+		, #{staffId}
+		, #{roleId}
+		)
+	</insert>
+
+	<!-- 修改 用户角色 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_staff_role
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('staffId')">
+				STAFF_ID = #{staffId},
+			</if>
+			<if test="_parameter.containsKey('roleId')">
+				ROLE_ID = #{roleId},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 用户角色 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_staff_role
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 删除 用户所有角色 -->
+	<delete id="deleteByStaffId" parameterType="java.lang.String">
+		delete from
+		sys_staff_role
+		where
+		STAFF_ID = #{staffId}
+	</delete>
+
+	<!-- 通过主键查询 用户角色 -->
+	<select id="getByPrimaryKey" resultMap="SysStaffRoleRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_staff_role t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 用户角色 列表 -->
+	<select id="queryForList" resultMap="SysStaffRoleRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_staff_role t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="staffId != null and staffId != ''">
+				and t.STAFF_ID = #{staffId}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				and t.ROLE_ID = #{roleId}
+			</if>
+		</trim>
+	</select>
+</mapper>

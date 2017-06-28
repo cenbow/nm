@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppLoanApprHMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanApprHRetMap" type="com.hs.loan.approve.entity.AppLoanApprH">
+			<result column="APPR_ID" property="apprId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="SALE_NO" property="saleNo"/>
+			<result column="SALE_NAME" property="saleName"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="INST_NUM" property="instNum"/>
+			<result column="STAT" property="stat"/>
+			<result column="AUTO_START_DATE" property="autoStartDate"/>
+			<result column="AUTO_END_DATE" property="autoEndDate"/>
+			<result column="MANU_START_DATE" property="manuStartDate"/>
+			<result column="MANU_END_DATE" property="manuEndDate"/>
+			<result column="APPR_NO" property="apprNo"/>
+			<result column="APPR_NAME" property="apprName"/>
+			<result column="MANU_FLAG" property="manuFlag"/>
+			<result column="APPR_GROUP_NO" property="apprGroupNo"/>
+			<result column="APPR_GROUP_NAME" property="apprGroupName"/>
+			<result column="APPR_DESC" property="apprDesc"/>
+			<result column="REMARK" property="remark"/>
+	</resultMap>
+	<!-- 根据员工编号查询员工角色 -->
+	<select id="selectRoleByStaffNo" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT r.ROLE_NO FROM sys_staff_role AS sr
+		INNER JOIN sys_staff AS s ON s.ID=sr.STAFF_ID
+		INNER JOIN sys_role AS r ON sr.ROLE_ID=r.ID
+		WHERE s.STAFF_NO=#{staffNo}
+	</select>
+	<!-- 新增 APP_分期审批信息 -->
+	<insert id="insert" parameterType="com.hs.loan.approve.entity.AppLoanApprH">
+		insert into APP_LOAN_APPR_H
+		(
+  			APPR_ID
+  			,LOAN_NO
+  			,CUST_NO
+  			,CUST_NAME
+  			,SALE_NO
+  			,SALE_NAME
+  			,INST_DATE
+  			,INST_NUM
+  			,STAT
+  			,AUTO_START_DATE
+  			,AUTO_END_DATE
+  			,MANU_START_DATE
+  			,MANU_END_DATE
+  			,APPR_NO
+  			,APPR_NAME
+  			,MANU_FLAG
+  			,APPR_GROUP_NO
+  			,APPR_GROUP_NAME
+  			,APPR_DESC
+  			,REMARK
+    	)
+    	values
+    	(
+  			 #{apprId}
+  			, #{loanNo}
+  			, #{custNo}
+  			, #{custName}
+  			, #{saleNo}
+  			, #{saleName}
+  			, #{instDate}
+  			, #{instNum}
+  			, #{stat}
+  			, #{autoStartDate}
+  			, #{autoEndDate}
+  			, #{manuStartDate}
+  			, #{manuEndDate}
+  			, #{apprNo}
+  			, #{apprName}
+  			, #{manuFlag}
+  			, #{apprGroupNo}
+  			, #{apprGroupName}
+  			, #{apprDesc}
+  			, #{remark}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期审批信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_APPR_H
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleNo')">  
+	  					SALE_NO = #{saleNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleName')">  
+	  					SALE_NAME = #{saleName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instNum')">  
+	  					INST_NUM = #{instNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('autoStartDate')">  
+	  					AUTO_START_DATE = #{autoStartDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('autoEndDate')">  
+	  					AUTO_END_DATE = #{autoEndDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('manuStartDate')">  
+	  					MANU_START_DATE = #{manuStartDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('manuEndDate')">  
+	  					MANU_END_DATE = #{manuEndDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprNo')">  
+	  					APPR_NO = #{apprNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprName')">  
+	  					APPR_NAME = #{apprName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('manuFlag')">  
+	  					MANU_FLAG = #{manuFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprGroupNo')">  
+	  					APPR_GROUP_NO = #{apprGroupNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprGroupName')">  
+	  					APPR_GROUP_NAME = #{apprGroupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprDesc')">  
+	  					APPR_DESC = #{apprDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+    	</trim>
+		where 
+  			APPR_ID = #{apprId}				
+	</update>
+	
+	<!-- 删除 APP_分期审批信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR_H
+		where 
+  			APPR_ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期审批信息 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanApprHRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_APPR_H t
+		where 
+  				t.APPR_ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期审批信息 列表 -->
+	<select id="queryForList" resultMap="AppLoanApprHRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_APPR_H t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="apprId != null and apprId != ''">
+	  				and t.APPR_ID = #{apprId}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME like CONCAT('%',#{custName},'%')				
+	  			</if>
+				<if test="saleNo != null and saleNo != ''">
+	  				and t.SALE_NO = #{saleNo}				
+	  			</if>
+				<if test="saleName != null and saleName != ''">
+	  				and t.SALE_NAME like '%${saleName}%'				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="instNum != null">
+	  				and t.INST_NUM = #{instNum}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="autoStartDate != null">
+	  				and t.AUTO_START_DATE >= #{autoStartDate}				
+	  			</if>
+				<if test="autoEndDate != null">
+	  				and t.AUTO_END_DATE &lt;= #{autoEndDate}				
+	  			</if>
+				<if test="manuStartDate != null">
+	  				and t.MANU_START_DATE >= #{manuStartDate}				
+	  			</if>
+				<if test="manuEndDate != null">
+	  				and t.MANU_END_DATE &lt;= #{manuEndDate}				
+	  			</if>
+				<if test="apprNo != null and apprNo != ''">
+	  				and t.APPR_NO = #{apprNo}				
+	  			</if>
+				<if test="apprName != null and apprName != ''">
+	  				and t.APPR_NAME like '%${apprName}%'				
+	  			</if>
+				<if test="manuFlag != null and manuFlag != ''">
+	  				and t.MANU_FLAG = #{manuFlag}				
+	  			</if>
+				<if test="apprGroupNo != null and apprGroupNo != ''">
+	  				and t.APPR_GROUP_NO = #{apprGroupNo}				
+	  			</if>
+				<if test="apprGroupName != null and apprGroupName != ''">
+	  				and t.APPR_GROUP_NAME like '%${apprGroupName}%'				
+	  			</if>
+				<if test="apprDesc != null and apprDesc != ''">
+	  				and t.APPR_DESC = #{apprDesc}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nm.mapper.login.RegisterApiMapper">
+
+
+    <insert id="addUser" parameterType="map">
+        insert into app_user_info (cust_no,mobl_no,login_pwd,source,reg_date,inst_date) VALUES (#{custNo},#{phone},#{passWord},#{source},#{regDate},#{insDate})
+    </insert>
+
+    <insert id="addCust" parameterType="map">
+        insert into app_cust_info (cust_no,phone_no,inst_date) VALUES (#{custNo},#{phone},#{insDate})
+    </insert>
+
+    <update id="updatePassWord" parameterType="map">
+        UPDATE app_user_info SET login_pwd=#{passWord} WHERE mobl_no=#{phone}
+    </update>
+
+    <select id="queryMobileNo" resultType="java.lang.Integer">
+        <![CDATA[  select count(*) from app_user_info where mobl_no=#{mobileNo} limit 1 ]]>
+    </select>
+
+    <select id="queryIsExist" resultType="java.lang.String">
+        select cust_no from app_cust_info where phone_no=#{mobileNo} limit 1
+    </select>
+    <select id="queryPhoneKey" resultType="java.lang.Integer">
+        select count(*)  from APP_CUST_TELE_REG where phone_key=#{phoneKey}
+    </select>
+
+    <insert id="loginToLogs" parameterType="java.util.HashMap">
+        insert into app_cust_reg_info
+        (
+        ID
+        ,CUST_NO
+        ,AREA
+        )
+        values
+        (
+        #{id}
+        , #{custNo}
+        , #{context}
+        )
+    </insert>
+
+</mapper>

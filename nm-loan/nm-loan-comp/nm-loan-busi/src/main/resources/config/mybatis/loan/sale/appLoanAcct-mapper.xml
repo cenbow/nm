@@ -1,0 +1,1060 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanAcctMapper" >
+	<!-- 返回 Bean-->   
+	<resultMap id="AppLoanAcctRetMap" type="com.hs.loan.sale.entity.AppLoanAcct">
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="FST_PAY_AMT" property="fstPayAmt"/>
+			<result column="INTER_RATE" property="interRate"/>
+			<result column="LOAN_AMT" property="loanAmt"/>
+			<result column="LOAN_TYP" property="loanTyp"/>
+			<result column="INST_NUM" property="instNum"/>
+			<result column="FST_REPAY_AMT" property="fstRepayAmt"/>
+			<result column="FST_REPAY_DATE" property="fstRepayDate"/>
+			<result column="MTH_REPAY_DATE" property="mthRepayDate"/>
+			<result column="MTH_REPAY_AMT" property="mthRepayAmt"/>
+			<result column="APPLY_DATE" property="applyDate"/>
+			<result column="APRV_DATE" property="aprvDate"/>
+			<result column="REG_DATE" property="regDate"/>
+			<result column="DISTR_DATE" property="distrDate"/>
+			<result column="FILE_NO" property="fileNo"/>
+			<result column="STAT" property="stat"/>
+			<result column="AFTER_STAT" property="afterStat"/>
+			<result column="FIV_CLS" property="fivCls"/>
+			<result column="APPLY_PROV" property="applyProv"/>
+			<result column="APPLY_AREA" property="applyArea"/>
+			<result column="APPLY_CITY" property="applyCity"/>
+			<result column="LOAN_REMARK" property="loanRemark"/>
+			<result column="ENTR_FLAG" property="entrFlag"/>
+			<result column="APPLY_ADDR" property="applyAddr"/>
+			<result column="CONTACT_ADDR" property="contactAddr"/>
+			<result column="SALE_CHANL" property="saleChanl"/>
+			<result column="LOAN_STAT" property="loanState"/>
+	</resultMap>
+	<!-- 列表返回值 -->
+	<resultMap id="LoanListOutRetMap2" type="com.hs.loan.sale.bo.LoanListOutBo" extends="AppLoanAcctRetMap">
+			<result column="SALER_NAME" property="salerName"/>
+			<result column="ORG_NAME" property="orgName"/>
+			<result column="BRANCH_NAME" property="branchName"/>
+			<result column="CONTRACT_URL" property="contractUrl"/>
+			<result column="RECVBL_AMT" property="recvblAmt"/>
+			<result column="RECVBL_BAL" property="recvblBal"/>
+			<result column="REPAY_AMT" property="repayAmt"/>
+			<result column="OVERDUE_AMT" property="overdueAmt"/>
+			<result column="OVERDUE_PRIN" property="overduePrin"/>
+			<result column="OVERDUE_NUM" property="overdueNum"/>
+			<result column="RECVBL_BEGIN_DATE" property="recvblBeginDate"/>
+			<result column="RECVBL_END_DATE" property="recvblEndDate"/>
+			<result column="CUST_TYPE" property="custType"/>
+			<result column="CERT_NO" property="certNo"/>
+			<result column="ATT_NO" property="attNo"/>
+			<result column="chan_no" property="chanNo"/>
+			<result column="SETL_AMT" property="setlAmt"/>
+			<result column="AFTER_STAT" property="afterStat"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="AUTHOR_BRANCH_NO" property="authorBranchNo"/>
+			<result column="AUTHOR_STAFF_NO" property="authorStaffNo"/>
+			<result column="APPR_RESULT_ID" property="apprResultId"/>
+			<result column="APPR_RESULT" property="apprResult"/>
+			<result column="REG_DATE" property="regDate"/>
+			<result column="GOODS_TYPE" property="goodsType"/>
+	</resultMap>
+	<!-- 列表返回值 -->
+	<resultMap id="LoanListOutRetMap" type="com.hs.loan.sale.bo.LoanListOutBo" extends="AppLoanAcctRetMap">
+			<result column="SALER_NAME" property="salerName"/>
+			<result column="ORG_NAME" property="orgName"/>
+			<result column="BRANCH_NAME" property="branchName"/>
+			<result column="CONTRACT_URL" property="contractUrl"/>
+			<result column="RECVBL_AMT" property="recvblAmt"/>
+			<result column="LOAN_BAL" property="loanBal"/>
+			<result column="RECVBL_BAL" property="recvblBal"/>
+			<result column="REPAY_AMT" property="repayAmt"/>
+			<result column="OVERDUE_AMT" property="overdueAmt"/>
+			<result column="OVERDUE_PRIN" property="overduePrin"/>
+			<result column="OVERDUE_NUM" property="overdueNum"/>
+			<result column="RECVBL_BEGIN_DATE" property="recvblBeginDate"/>
+			<result column="RECVBL_END_DATE" property="recvblEndDate"/>
+			<result column="CUST_TYPE" property="custType"/>
+			<result column="CERT_NO" property="certNo"/>
+			<result column="ATT_NO" property="attNo"/>
+			<result column="chan_no" property="chanNo"/>
+			<result column="SETL_AMT" property="setlAmt"/>
+	</resultMap>
+	
+	<!-- 列表返回值 -->
+	<resultMap id="LoanHistoryListOutRetMap" type="com.hs.loan.sale.bo.LoanListHistoryOutBo">
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="APPLY_DATE" property="applyDate"/>
+			<result column="STAT" property="stat"/>
+			<result column="CERT_NO" property="certNo"/>
+	</resultMap>
+	<select id="existsAccDownPaymentInfo" parameterType="java.lang.String" resultType="java.lang.String">
+      SELECT LOAN_NO FROM ACC_DOWN_PAYMENT_INFO WHERE LOAN_NO=#{loanNo} LIMIT 1
+	</select>
+	<insert id="insertAccDownPaymentInfo" parameterType="java.util.Map">
+		INSERT INTO ACC_DOWN_PAYMENT_INFO (LOAN_NO, CUST_NO, CUST_NAME, PAY_AMT, STAT, PAY_CHAN, INST_DATE, UPDT_DATE)
+		VALUES (#{loanNo}, #{custNo}, #{custName}, #{payAmt}, #{stat}, #{payChan}, #{instDate}, #{updtDate})
+	</insert>
+	<select id="getContractCustPhone" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT * FROM app_contract_sign_info WHERE loan_no=#{loanNo} AND sign_type='cust' limit 1
+	</select>
+	<select id="getAttachmentType" resultType="java.util.Map" parameterType="java.util.Map">
+      SELECT a.* FROM sys_attachment AS a INNER JOIN app_loan_att AS b ON a.ID=b.ATT_NO WHERE b.LOAN_NO=#{loanNo}
+	</select>
+	<select id="getFeeAmtByProd" resultType="java.util.Map" parameterType="java.util.Map">
+    SELECT * FROM pub_prod_prefee AS a WHERE a.PROD_NO=#{prodNo} AND a.FEE_NUM = #{instNum} limit 1
+	</select>
+	<update id="updateChanNoByLoanNo" parameterType="com.hs.loan.sale.bo.HandFundMatchBo">
+		UPDATE APP_LOAN_FUND_CHAN SET CHAN_NO=#{chanNo},UPDT_DATE=NOW(),CHAN_NAME=#{chanName} WHERE LOAN_NO=#{loanNo}
+	</update>
+	<!-- 根据贷款编号得到cust -->
+	<select id="selectCustByNo" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT a.CUST_NAME,a.CUST_NO FROM app_loan_acct AS a WHERE a.LOAN_NO=#{loanNo} GROUP BY a.LOAN_NO
+	</select>
+	<insert id="insertFundMatchLog" parameterType="java.util.HashMap">
+		INSERT INTO app_loan_fund_match_log (`ID`, `MATCH_ID`,
+        `LOAN_NO`, `INST_DATE`, `MATCH_RESULT`,
+        `MATCH_TYP`, `MATCH_PSN`, `MATCH_NAME`,
+        `MATCH_DATE`,`CHAN_NO`,
+        `STAT`, `LOAN_AMT`)
+        VALUES (#{id}, #{matchId}, #{loanNo}, #{instDate}, '40103001',
+        '40104002', #{matchPsn}, #{matchName}, #{matchDate}, #{chanNo}, '40003003', #{loanAmt})
+	</insert>
+	<insert id="insertFundMatch" parameterType="com.hs.loan.sale.bo.HandFundMatchBo">
+		INSERT INTO app_loan_fund_match (`MATCH_ID`, `LOAN_NO`, `CUST_NO`, `CUST_NAME`, `INST_DATE`,
+        `MATCH_RESULT`, `MATCH_TYP`, `MATCH_PSN`, `MATCH_NAME`,
+       `MATCH_DATE`, `STAT`, `CHAN_NO`, `CHAN_NAME`,
+       `LOAN_AMT`) VALUES (#{matchId}, #{loanNo},#{custNo},
+        #{custName},#{instDate}, '40103001', '40104002', #{matchPsn},
+       #{matchName}, #{matchDate}, '40003003', #{chanNo}, #{chanName}, #{loanAmt})
+	</insert>
+	<!-- 根据贷款编号变更匹配结果为匹配变更 -->
+	<update id="updateMatchResultByLoan" parameterType="java.lang.String">
+     UPDATE APP_LOAN_FUND_MATCH SET MATCH_RESULT='40103003' WHERE LOAN_NO=#{loanNo}
+	</update>
+	<!-- 查询该贷款编号是否已经资方匹配过 -->
+	<select id="selectCountByLoanNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT count(0) FROM APP_LOAN_FUND_MATCH WHERE LOAN_NO=#{loanNo}
+	</select>
+	<!-- 新增 APP_分期基本信息 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanAcct">
+		insert into app_loan_acct
+		(
+  			LOAN_NO
+  			,CUST_NO
+  			,CUST_NAME
+  			,FST_PAY_AMT
+  			,INTER_RATE
+  			,LOAN_AMT
+  			,LOAN_TYP
+  			,INST_NUM
+  			,FST_REPAY_AMT
+  			,FST_REPAY_DATE
+  			,MTH_REPAY_DATE
+  			,MTH_REPAY_AMT
+  			,APPLY_DATE
+  			,APRV_DATE
+  			,REG_DATE
+  			,DISTR_DATE
+  			,FILE_NO
+  			,STAT
+  			,AFTER_STAT
+  			,FIV_CLS
+  			,APPLY_PROV
+  			,APPLY_AREA
+  			,APPLY_CITY
+  			,LOAN_REMARK
+  			,ENTR_FLAG
+  			,APPLY_ADDR
+  			,CONTACT_ADDR
+  			,SALE_CHANL
+  			,LOAN_STAT
+    	)
+    	values
+    	(
+  			 #{loanNo}
+  			, #{custNo}
+  			, #{custName}
+  			, #{fstPayAmt}
+  			, #{interRate}
+  			, #{loanAmt}
+  			, #{loanTyp}
+  			, #{instNum}
+  			, #{fstRepayAmt}
+  			, #{fstRepayDate}
+  			, #{mthRepayDate}
+  			, #{mthRepayAmt}
+  			, #{applyDate}
+  			, #{aprvDate}
+  			, #{regDate}
+  			, #{distrDate}
+  			, #{fileNo}
+  			, #{stat}
+  			, #{afterStat}
+  			, #{fivCls}
+  			, #{applyProv}
+  			, #{applyArea}
+  			, #{applyCity}
+  			, #{loanRemark}
+  			, #{entrFlag}
+  			, #{applyAddr}
+  			, #{contactAddr}
+  			, #{saleChanl}
+  			, #{loanState}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期基本信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_loan_acct
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstPayAmt')">  
+	  					FST_PAY_AMT = #{fstPayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('interRate')">  
+	  					INTER_RATE = #{interRate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanAmt')">  
+	  					LOAN_AMT = #{loanAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanTyp')">  
+	  					LOAN_TYP = #{loanTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instNum')">  
+	  					INST_NUM = #{instNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstRepayAmt')">  
+	  					FST_REPAY_AMT = #{fstRepayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstRepayDate')">  
+	  					FST_REPAY_DATE = #{fstRepayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthRepayDate')">  
+	  					MTH_REPAY_DATE = #{mthRepayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthRepayAmt')">  
+	  					MTH_REPAY_AMT = #{mthRepayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyDate')">  
+	  					APPLY_DATE = #{applyDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('aprvDate')">  
+	  					APRV_DATE = #{aprvDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regDate')">  
+	  					REG_DATE = #{regDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('distrDate')">  
+	  					DISTR_DATE = #{distrDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fileNo')">  
+	  					FILE_NO = #{fileNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('afterStat')">  
+	  					AFTER_STAT = #{afterStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fivCls')">  
+	  					FIV_CLS = #{fivCls},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyProv')">  
+	  					APPLY_PROV = #{applyProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyArea')">  
+	  					APPLY_AREA = #{applyArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyCity')">  
+	  					APPLY_CITY = #{applyCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanRemark')">  
+	  					LOAN_REMARK = #{loanRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('entrFlag')">  
+	  					entr_Flag = #{entrFlag},  
+	  				</if>
+					<if test="_parameter.containsKey('applyAddr')">
+						APPLY_ADDR = #{applyAddr},
+					</if>
+					<if test="_parameter.containsKey('contactAddr')">
+						CONTACT_ADDR = #{contactAddr},
+					</if>
+					<if test="_parameter.containsKey('loanState')">
+						LOAN_STAT = #{loanState},
+					</if>
+		</trim>
+		where 
+  			LOAN_NO = #{loanNo}				
+	</update>
+	
+	<update id="batchModifyByLoanNoLst" parameterType="java.util.Map">
+		    update app_loan_acct
+			<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstPayAmt')">  
+	  					FST_PAY_AMT = #{fstPayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('interRate')">  
+	  					INTER_RATE = #{interRate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanAmt')">  
+	  					LOAN_AMT = #{loanAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanTyp')">  
+	  					LOAN_TYP = #{loanTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instNum')">  
+	  					INST_NUM = #{instNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstRepayAmt')">  
+	  					FST_REPAY_AMT = #{fstRepayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstRepayDate')">  
+	  					FST_REPAY_DATE = #{fstRepayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthRepayDate')">  
+	  					MTH_REPAY_DATE = #{mthRepayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthRepayAmt')">  
+	  					MTH_REPAY_AMT = #{mthRepayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyDate')">  
+	  					APPLY_DATE = #{applyDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('aprvDate')">  
+	  					APRV_DATE = #{aprvDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regDate')">  
+	  					REG_DATE = #{regDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('distrDate')">  
+	  					DISTR_DATE = #{distrDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fileNo')">  
+	  					FILE_NO = #{fileNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('afterStat')">  
+	  					AFTER_STAT = #{afterStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fivCls')">  
+	  					FIV_CLS = #{fivCls},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyProv')">  
+	  					APPLY_PROV = #{applyProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyArea')">  
+	  					APPLY_AREA = #{applyArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyCity')">  
+	  					APPLY_CITY = #{applyCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanRemark')">  
+	  					LOAN_REMARK = #{loanRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('entrFlag')">  
+	  					entr_Flag = #{entrFlag},  
+	  				</if>
+					<if test="_parameter.containsKey('applyAddr')">
+						APPLY_ADDR = #{applyAddr},
+					</if>
+					<if test="_parameter.containsKey('contactAddr')">
+						CONTACT_ADDR = #{contactAddr},
+					</if>
+					<if test="_parameter.containsKey('loanState')">
+						LOAN_STAT = #{loanState},
+					</if>
+			</trim>
+			where LOAN_NO IN 
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			 #{item.loanNo}		
+  		</foreach>		
+	</update>
+	
+	<!-- 删除 APP_分期基本信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_loan_acct
+		where 
+  			LOAN_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期基本信息 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanAcctRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_loan_acct t
+		where 
+  				t.LOAN_NO = #{id}				
+	</select>
+	
+	<!-- 查询条件 -->
+	<sql id="functionSearchCond">
+			<if test="loanNo != null and loanNo != ''">
+  				and t.LOAN_NO = #{loanNo}				
+  			</if>
+			<if test="custNo != null and custNo != ''">
+  				and t.CUST_NO = #{custNo}				
+  			</if>
+			<if test="custName != null and custName != ''">
+  				and t.CUST_NAME  like CONCAT(CONCAT('%', #{custName}), '%')						
+  			</if>
+			<if test="fstPayAmt != null">
+  				and t.FST_PAY_AMT = #{fstPayAmt}				
+  			</if>
+			<if test="interRate != null">
+  				and t.INTER_RATE = #{interRate}				
+  			</if>
+			<if test="loanAmt != null">
+  				and t.LOAN_AMT = #{loanAmt}				
+  			</if>
+			<if test="loanTyp != null and loanTyp != ''">
+  				and t.LOAN_TYP = #{loanTyp}				
+  			</if>
+			<if test="instNum != null">
+  				and t.INST_NUM = #{instNum}				
+  			</if>
+			<if test="fstRepayAmt != null">
+  				and t.FST_REPAY_AMT = #{fstRepayAmt}				
+  			</if>
+			<if test="fstRepayDate != null and fstRepayDate != ''">
+  				and t.FST_REPAY_DATE = #{fstRepayDate}				
+  			</if>
+			<if test="mthRepayDate != null and mthRepayDate != ''">
+  				and t.MTH_REPAY_DATE = #{mthRepayDate}				
+  			</if>
+			<if test="mthRepayAmt != null">
+  				and t.MTH_REPAY_AMT = #{mthRepayAmt}				
+  			</if>
+			<if test="applyDate != null">
+  				and t.APPLY_DATE = #{applyDate}				
+  			</if>
+			<if test="aprvDate != null">
+  				and t.APRV_DATE = #{aprvDate}				
+  			</if>
+			<if test="regDate != null">
+  				and t.REG_DATE = #{regDate}				
+  			</if>
+			<if test="distrDate != null">
+  				and t.DISTR_DATE = #{distrDate}				
+  			</if>
+		<if test="null!=fileNo and ''!=fileNo">
+			and mod(t.FILE_NO,4) = #{fileNo}
+		</if>
+		<if test="null!=fileNo2015 and ''!=fileNo2015">
+			and t.FILE_NO = #{fileNo2015}
+		</if>
+			<if test="stat != null and stat != ''">
+  				and t.STAT = #{stat}				
+  			</if>
+			<if test="afterStat != null and afterStat != ''">
+  				and t.AFTER_STAT = #{afterStat}				
+  			</if>
+			<if test="fivCls != null and fivCls != ''">
+  				and t.FIV_CLS = #{fivCls}				
+  			</if>
+			<if test="applyProv != null and applyProv != ''">
+  				and t.APPLY_PROV = #{applyProv}				
+  			</if>
+			<if test="applyArea != null and applyArea != ''">
+  				and t.APPLY_AREA = #{applyArea}				
+  			</if>
+			<if test="applyCity != null and applyCity != ''">
+  				and t.APPLY_CITY = #{applyCity}				
+  			</if>
+			<if test="saleChanl != null and saleChanl != ''">
+  				and t.SALE_CHANL = #{saleChanl}				
+  			</if>
+	</sql>
+	<select id="getCustInfo" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT * FROM app_cust_contct_other WHERE CUST_NO=#{custNo}
+	</select>
+	<select id="getAddressList" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT * FROM APP_CUST_TELE_REG WHERE CUST_NO=#{custNo}
+	</select>
+	<select id="getAcct" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT * FROM app_loan_acct WHERE LOAN_NO=#{loanNo} LIMIT 1
+	</select>
+	<select id="getLoanAcctByLoanNo" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT * FROM sys_regional_belong WHERE AREA_NO
+=(SELECT APPLY_AREA FROM app_loan_acct WHERE LOAN_NO=#{loanNo} LIMIT 1)
+	</select>
+	<select id="flexiblePaymentHistory" parameterType="java.util.Map" resultType="java.util.HashMap">
+     SELECT a.MTH_REPAY_DATE AS mthRepayDate,a.LOAN_NO AS  loanNo,
+     CASE
+     WHEN b.ADJU_REPAY_DATE IS NULL THEN '暂未变更'
+     WHEN b.ADJU_REPAY_DATE IS NOT NULL THEN b.ADJU_REPAY_DATE
+     END AS adjuRepayDate
+     FROM app_loan_acct AS a LEFT  JOIN APP_FEE_ADJU_REG
+     AS b ON a.LOAN_NO=b.LOAN_NO WHERE a.LOAN_NO=#{loanNo}
+	</select>
+	<select id="flexiblePayment" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select t.CUST_NAME as custName,m.CERT_NO AS  certNo,t.LOAN_NO AS  loanNo,t.INST_NUM AS  instNum,t.FST_REPAY_DATE AS  fstRepayDate,
+        CASE
+        WHEN t2.repay_cnt IS NULL THEN 0
+        WHEN t2.repay_cnt IS NOT NULL THEN t2.repay_cnt
+        END AS repay_cnt,
+		CASE
+		WHEN '50002001'=r.DEAL_STAT THEN '是'
+		ELSE '否'
+		END AS dealStat
+		FROM (SELECT * FROM app_loan_acct ORDER BY APPLY_DATE DESC) t
+			left join app_cust_info m on t.cust_no=m.cust_no
+			left join pl_loan_ovdu_case r on t.LOAN_NO = r.LOAN_NO
+      LEFT JOIN (SELECT loan_no,count(*) as repay_cnt
+             from acc_loan_inst
+            where ovdu_flag = '1'
+              and ACT_TOTL_AMT >= RCV_TOTL_AMT
+            group by loan_no
+          ) t2 on t.LOAN_NO = t2.loan_no
+       <where>
+		   <if test="null!=custName">
+			   AND  t.CUST_NAME LIKE CONCAT('%',#{custName},'%')
+		   </if>
+		   <if test="null!=certNo">
+			   AND  m.CERT_NO =#{certNo}
+		   </if>
+		   <if test="null!=loanNo">
+			   AND  t.LOAN_NO =#{loanNo}
+		   </if>
+		   <if test="null!=instNum">
+			   AND  t.INST_NUM =#{instNum}
+		   </if>
+		   <if test="null!=fstRepayDate">
+			   AND  t.FST_REPAY_DATE =#{fstRepayDate}
+		   </if>
+		   <if test="null!=repay_cnt and 0==repay_cnt">
+			   AND t2.repay_cnt IS NULL
+		   </if>
+		   <if test="null!=repay_cnt and 0!=repay_cnt">
+			   AND t2.repay_cnt = #{repay_cnt}
+		   </if>
+	   </where>
+	</select>
+	<!-- 查询 APP_分期基本信息 列表 -->
+	<select id="queryForList" resultMap="AppLoanAcctRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_loan_acct t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<include refid="functionSearchCond"></include>
+    	</trim>
+	</select>
+	 <select id="queryLoanList2Count" resultType="java.lang.Integer">
+		 SELECT count(0) FROM  app_loan_acct
+	 </select>
+     <select id="queryLoanList2" parameterType="java.util.HashMap" resultMap="LoanListOutRetMap">
+      select
+			t.*,
+			s.STAFF_NAME,
+			s.ORG_NAME,
+			b.BRANCH_NAME,
+			r.RECVBL_AMT,
+			r.LOAN_BAL,
+			r.REPAY_AMT,
+			r.OVERDUE_AMT,
+			r.OVERDUE_PRIN,
+			r.OVERDUE_NUM,
+			r.RECVBL_BEGIN_DATE,
+			r.RECVBL_END_DATE,
+			c.CONTRACT_URL,
+			m.CUST_TYPE,
+			m.CERT_NO,
+			a.att_no,
+		    mt.CHAN_NAME AS chanNo
+		from (SELECT * FROM app_loan_acct ORDER BY APPLY_DATE DESC) t
+			left join app_cust_info m on t.cust_no=m.cust_no
+			left join acc_repay_sum r on t.LOAN_NO = r.LOAN_NO
+			left join (SELECT w.ORG_NO,w.LOAN_NO,w.STAFF_NAME,w.ORG_NAME FROM app_loan_saler AS w INNER JOIN sys_org AS g ON w.org_no=g.org_no) s on t.LOAN_NO = s.LOAN_NO
+			left join app_loan_branch b on t.LOAN_NO = b.LOAN_NO
+			left join app_contract_sign_info c on t.loan_no=c.loan_no
+			left join (select lat.loan_no,lat.att_no from APP_LOAN_ATT lat where lat.att_typ = '40103499' ) a on a.loan_no = t.loan_no
+			left join (select ma.loan_no,ma.chan_no,ma.CHAN_NAME from APP_LOAN_FUND_MATCH ma where  ma.MATCH_RESULT = '40103001' and ma.stat='40003003') mt
+            on mt.loan_no = t.loan_no LIMIT #{pageNo},#{pageSize};
+	 </select>
+	<!-- 查询 APP_分期基本信息 列表 -->
+	<!-- <select id="queryLoanList" resultMap="LoanListOutRetMap" parameterType="java.util.Map">
+		select	
+			t.*,
+			s.STAFF_NAME SALER_NAME,
+			s.ORG_NAME,
+			b.BRANCH_NAME,
+			r.RECVBL_AMT,
+			r.LOAN_BAL,
+			r.REPAY_AMT,
+			r.OVERDUE_AMT,
+			r.OVERDUE_PRIN,
+			r.OVERDUE_NUM,
+			r.RECVBL_BEGIN_DATE,
+			r.RECVBL_END_DATE,
+			c.CONTRACT_URL,
+			m.CUST_TYPE,
+			m.CERT_NO,
+			a.att_no,
+		    mt.CHAN_NAME AS chanNo
+		from (SELECT * FROM app_loan_acct ORDER BY APPLY_DATE DESC)  t
+			left join app_cust_info m on t.cust_no=m.cust_no
+			left join acc_repay_sum r on t.LOAN_NO = r.LOAN_NO
+			left join app_loan_saler s on t.LOAN_NO = s.LOAN_NO
+			left join app_loan_branch b on t.LOAN_NO = b.LOAN_NO
+			left join app_contract_sign_info c on t.loan_no=c.loan_no
+			left join (select lat.loan_no,lat.att_no from APP_LOAN_ATT lat where lat.att_typ = '40103499' ) a on a.loan_no = t.loan_no
+			left join (select ma.loan_no,ma.chan_no,ma.CHAN_NAME from APP_LOAN_FUND_MATCH ma where  ma.MATCH_RESULT = '40103001' and ma.stat='40003003') mt on mt.loan_no = t.loan_no
+          join sys_org org on s.org_no = org.org_no
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<include refid="functionSearchCond"></include>
+	  			<if test="authority != null and authority == '_SELF_AND_SUB'.toString()">  
+				    and org.org_cod_path like CONCAT('%',#{orgCodPath},'%') 
+				</if>  
+				<if test="appointorgCodPath !=null and appointorgCodPath.size()>0">  
+				    or  org.org_no in
+				  <foreach collection="appointorgCodPath" item="item" index="index" open="(" close=")" separator="," >
+			      #{item}
+		        </foreach>
+				</if> 
+	  			<if test="authority != null and authority == '_SELF'.toString()">  
+				     and s.STAFF_NO=#{staffNo}
+				</if>  
+				<if test="certNo != null and certNo != ''">
+	  				and m.CERT_NO=#{certNo}
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and mt.chan_No=#{chanNo}
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and m.CUST_TYPE=#{custType}
+	  			</if>
+				<if test="salerName != null and salerName != ''">
+	  				and s.STAFF_NAME like CONCAT('%',#{salerName},'%')
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and  org.org_cod_path like CONCAT('%',#{orgNo},'%')
+	  			</if>
+				<if test="branchName != null and branchName != ''">
+	  				and b.BRANCH_NAME like CONCAT('%',#{branchName},'%')
+	  			</if>
+				<if test="applyDateMin != null">
+	  				and t.APPLY_DATE >=  #{applyDateMin}
+	  			</if>
+				<if test="applyDateMax != null">
+	  				and t.APPLY_DATE &lt;  #{applyDateMax}
+	  			</if>
+				<if test="regDateMin != null">
+	  				and t.REG_DATE >=  #{regDateMin}
+	  			</if>
+				<if test="regDateMax != null">
+	  				and t.REG_DATE &lt;  #{regDateMax}
+	  			</if>
+				<if test="distrDateMin != null">
+	  				and t.DISTR_DATE >=  #{distrDateMin}
+	  			</if>
+				<if test="distrDateMax != null">
+	  				and t.DISTR_DATE &lt;  #{distrDateMax}
+	  			</if>
+				<if test="aprvDateMin != null">
+	  				and t.APRV_DATE >=  #{aprvDateMin}
+	  			</if>
+				<if test="aprvDateMax != null">
+	  				and t.APRV_DATE &lt;  #{aprvDateMax}
+	  			</if>
+			<if test="instNum != null and ''!=instNum">
+				and t.INST_NUM = #{instNum}
+			</if>
+    	</trim>
+    	order by t.APPLY_DATE desc
+	</select>-->
+	
+	<select id="getPubProd" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT * from pub_prod WHERE PROD_STAT=#{prodStat}
+	</select>
+	<!-- 查询 APP_分期基本信息 列表  升级-->
+	<select id="queryLoanList" resultMap="LoanListOutRetMap2" parameterType="java.util.Map">
+		select	
+			 t.LOAN_NO
+  			,t.CUST_NO
+  			,t.CUST_NAME
+  			,t.FST_PAY_AMT
+  			,t.INTER_RATE
+  			,t.LOAN_AMT
+  			,t.LOAN_TYP
+  			,t.INST_NUM
+  			,t.FST_REPAY_AMT
+  			,t.FST_REPAY_DATE
+  			,t.MTH_REPAY_DATE
+  			,t.MTH_REPAY_AMT
+  			,t.APPLY_DATE
+  			,t.APRV_DATE
+  			,t.REG_DATE
+  			,t.DISTR_DATE
+  			,t.FILE_NO
+  			,t.STAT
+  			,t.AFTER_STAT
+  			,t.FIV_CLS
+  			,t.APPLY_PROV
+  			,t.APPLY_AREA
+  			,t.APPLY_CITY
+  			,t.LOAN_REMARK
+  			,s.STAFF_NO 
+			,s.STAFF_NAME SALER_NAME,
+			s.ORG_NAME,
+			b.BRANCH_NAME,
+			m.CUST_TYPE,
+			m.CERT_NO,
+		    mt.CHAN_NO AS chanNo,
+		    t.ENTR_FLAG,
+	       (SELECT IT.SETL_AMT AS SETL_AMT
+	          FROM ACC_LOAN_ACCT_INST IT
+	         WHERE IT.LOAN_NO = T.LOAN_NO limit 1)
+	          AS SETL_AMT,
+	       (SELECT IFNULL(SUM(INST.RCV_TOTL_AMT),0)
+	          FROM acc_loan_inst INST
+	         WHERE     INST.loan_no = t.LOAN_NO
+	               AND OVDU_FLAG = '1'
+	               AND ACT_TOTL_AMT &lt; RCV_TOTL_AMT)
+	          AS overdue_Amt,
+	        sb.BRANCH_NO AUTHOR_BRANCH_NO,
+	        ss.STAFF_NO AUTHOR_STAFF_NO,
+	        si.ID APPR_RESULT_ID,
+	        si.APPR_RESULT,
+	        t.LOAN_STAT,
+	        gds.goods_type 
+		from app_loan_acct t
+			left join app_cust_info m on t.cust_no=m.cust_no
+			left join app_loan_saler s on t.LOAN_NO = s.LOAN_NO
+			left join app_loan_branch b on t.LOAN_NO = b.LOAN_NO
+			left join APP_LOAN_FUND_CHAN mt on mt.loan_no=t.loan_No
+			LEFT JOIN app_loan_prod p ON t.LOAN_NO=p.LOAN_NO
+            join sys_org org on s.org_no = org.org_no
+            LEFT JOIN APP_LOAN_SPCAILPRI_SALER ss ON ss.STAFF_NO = s.STAFF_NO
+            LEFT JOIN APP_LOAN_SPCAILPRI_BRANCH sb ON sb.BRANCH_NO = b.BRANCH_NO
+            LEFT JOIN APP_LOAN_SPCAILPRI_INFO si ON si.LOAN_NO = t.LOAN_NO
+           	left join app_loan_goods gds on t.loan_no = gds.loan_no         
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<include refid="functionSearchCond"></include>
+	  			<if test="authority != null and authority == '_SELF_AND_SUB'.toString()">  
+				    and org.org_cod_path like CONCAT('%',#{orgCodPath},'%') 
+				</if>  
+				<if test="appointorgCodPath !=null and appointorgCodPath.size()>0">  
+				    or  org.org_no in
+				  <foreach collection="appointorgCodPath" item="item" index="index" open="(" close=")" separator="," >
+			      #{item}
+		        </foreach>
+				</if> 
+	  			<if test="authority != null and authority == '_SELF'.toString()">  
+				     and s.STAFF_NO=#{staffNo}
+				</if> 
+				<if test="certNo != null and certNo != ''">
+	  				and m.CERT_NO=#{certNo}
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and mt.chan_No=#{chanNo}
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and m.CUST_TYPE=#{custType}
+	  			</if>
+				<if test="salerName != null and salerName != ''">
+	  				and s.STAFF_NAME like CONCAT('%',#{salerName},'%')
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and  org.org_cod_path like CONCAT('%',#{orgNo},'%')
+	  			</if>
+				<if test="branchName != null and branchName != ''">
+	  				and b.BRANCH_NAME like CONCAT('%',#{branchName},'%')
+	  			</if>
+				<!-- 申请时间区间 -->
+				<if test="applyDateMin != null">
+	  				and t.APPLY_DATE >=  #{applyDateMin}
+	  			</if>
+				<if test="applyDateMax != null">
+	  				and t.APPLY_DATE &lt;  #{applyDateMax}
+	  			</if>
+				<!-- 注册时间区间 -->
+				<if test="regDateMin != null">
+	  				and t.REG_DATE >=  #{regDateMin}
+	  			</if>
+				<if test="regDateMax != null">
+	  				and t.REG_DATE &lt;  #{regDateMax}
+	  			</if>
+				<!-- 放款时间区间 -->
+				<if test="distrDateMin != null">
+	  				and t.DISTR_DATE >=  #{distrDateMin}
+	  			</if>
+				<if test="distrDateMax != null">
+	  				and t.DISTR_DATE &lt;  #{distrDateMax}
+	  			</if>
+				<!-- 审批时间区间 -->
+				<if test="aprvDateMin != null">
+	  				and t.APRV_DATE >=  #{aprvDateMin}
+	  			</if>
+				<if test="aprvDateMax != null">
+	  				and t.APRV_DATE &lt;  #{aprvDateMax}
+	  			</if>
+			<if test="instNum != null and ''!=instNum">
+				and t.INST_NUM = #{instNum}
+			</if>
+			<if test="phoneNum != null and ''!=phoneNum">
+				and m.PHONE_NO = #{phoneNum}
+			</if>
+			<if test="terminalChannel != null and ''!=terminalChannel">
+				and t.SALE_CHANL = #{terminalChannel}
+			</if>
+			<if test="loanState != null and loanState != ''">
+					and t.LOAN_STAT = #{loanState}
+			</if>
+			<if test="PROD_NO != null and ''!=PROD_NO">
+				and p.PROD_NO in
+				<foreach collection="prodNoArray" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+    	</trim>
+		order by t.APPLY_DATE desc
+	</select>
+	
+	<select id="queryLoanListTwo" resultMap="LoanListOutRetMap2" parameterType="java.util.Map">
+		select	
+			 t.LOAN_NO
+  			,t.CUST_NO
+  			,t.CUST_NAME
+  			,t.FST_PAY_AMT
+  			,t.INTER_RATE
+  			,t.LOAN_AMT
+  			,t.LOAN_TYP
+  			,t.INST_NUM
+  			,t.FST_REPAY_AMT
+  			,t.FST_REPAY_DATE
+  			,t.MTH_REPAY_DATE
+  			,t.MTH_REPAY_AMT
+  			,t.APPLY_DATE
+  			,t.APRV_DATE
+  			,t.REG_DATE
+  			,t.DISTR_DATE
+  			,t.FILE_NO
+  			,t.STAT
+  			,t.AFTER_STAT
+  			,t.FIV_CLS
+  			,t.APPLY_PROV
+  			,t.APPLY_AREA
+  			,t.APPLY_CITY
+  			,t.LOAN_REMARK
+  			,s.STAFF_NO 
+			,s.STAFF_NAME SALER_NAME,
+			s.ORG_NAME,
+			b.BRANCH_NAME,
+			m.CUST_TYPE,
+			m.CERT_NO,
+		    mt.CHAN_NO AS chanNo,
+		    t.ENTR_FLAG,
+	       (SELECT IT.SETL_AMT AS SETL_AMT
+	          FROM ACC_LOAN_ACCT_INST IT
+	         WHERE IT.LOAN_NO = T.LOAN_NO limit 1)
+	          AS SETL_AMT,
+	       (SELECT IFNULL(SUM(INST.RCV_TOTL_AMT),0)
+	          FROM acc_loan_inst INST
+	         WHERE     INST.loan_no = t.LOAN_NO
+	               AND OVDU_FLAG = '1'
+	               AND ACT_TOTL_AMT &lt; RCV_TOTL_AMT)
+	          AS overdue_Amt,
+	        t.LOAN_STAT,
+	        gds.goods_type
+		from app_loan_acct t
+			left join app_cust_info m on t.cust_no=m.cust_no
+			left join app_loan_saler s on t.LOAN_NO = s.LOAN_NO
+			left join app_loan_branch b on t.LOAN_NO = b.LOAN_NO
+			left join APP_LOAN_FUND_CHAN mt on mt.loan_no=t.loan_No
+			LEFT JOIN app_loan_prod p ON t.LOAN_NO=p.LOAN_NO
+            join sys_org org on s.org_no = org.org_no
+            LEFT JOIN APP_CUST_WORK cw ON t.CUST_NO = cw.CUST_NO
+            left join app_loan_goods gds on t.loan_no = gds.loan_no  
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<include refid="functionSearchCond"></include>
+	  			<if test="authority != null and authority == '_SELF_AND_SUB'.toString()">  
+				    and org.org_cod_path like CONCAT('%',#{orgCodPath},'%') 
+				</if>  
+				<if test="appointorgCodPath !=null and appointorgCodPath.size()>0">  
+				    or  org.org_no in
+				  <foreach collection="appointorgCodPath" item="item" index="index" open="(" close=")" separator="," >
+			      #{item}
+		        </foreach>
+				</if> 
+	  			<if test="authority != null and authority == '_SELF'.toString()">  
+				     and s.STAFF_NO=#{staffNo}
+				</if> 
+				<if test="certNo != null and certNo != ''">
+	  				and m.CERT_NO=#{certNo}
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and mt.chan_No=#{chanNo}
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and m.CUST_TYPE=#{custType}
+	  			</if>
+				<if test="salerName != null and salerName != ''">
+	  				and s.STAFF_NAME like CONCAT('%',#{salerName},'%')
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and  org.org_cod_path like CONCAT('%',#{orgNo},'%')
+	  			</if>
+				<if test="branchName != null and branchName != ''">
+	  				and b.BRANCH_NAME like CONCAT('%',#{branchName},'%')
+	  			</if>
+				<!-- 申请时间区间 -->
+				<if test="applyDateMin != null">
+	  				and t.APPLY_DATE >=  #{applyDateMin}
+	  			</if>
+				<if test="applyDateMax != null">
+	  				and t.APPLY_DATE &lt;  #{applyDateMax}
+	  			</if>
+				<!-- 注册时间区间 -->
+				<if test="regDateMin != null">
+	  				and t.REG_DATE >=  #{regDateMin}
+	  			</if>
+				<if test="regDateMax != null">
+	  				and t.REG_DATE &lt;  #{regDateMax}
+	  			</if>
+				<!-- 放款时间区间 -->
+				<if test="distrDateMin != null">
+	  				and t.DISTR_DATE >=  #{distrDateMin}
+	  			</if>
+				<if test="distrDateMax != null">
+	  				and t.DISTR_DATE &lt;  #{distrDateMax}
+	  			</if>
+				<!-- 审批时间区间 -->
+				<if test="aprvDateMin != null">
+	  				and t.APRV_DATE >=  #{aprvDateMin}
+	  			</if>
+				<if test="aprvDateMax != null">
+	  				and t.APRV_DATE &lt;  #{aprvDateMax}
+	  			</if>
+			<if test="instNum != null and ''!=instNum">
+				and t.INST_NUM = #{instNum}
+			</if>
+			<if test="phoneNum != null and ''!=phoneNum">
+				and m.PHONE_NO = #{phoneNum}
+			</if>
+			<if test="terminalChannel != null and ''!=terminalChannel">
+				and t.SALE_CHANL = #{terminalChannel}
+			</if>
+			<if test="workUnit != null and workUnit != ''">
+					and cw.WORK_UNIT LIKE '%${workUnit}%'
+			</if>
+			<if test="unitTel != null and unitTel != ''">
+					and cw.UNIT_TEL = #{unitTel}
+			</if>
+			<if test="loanState != null and loanState != ''">
+					and t.LOAN_STAT = #{loanState}
+			</if>
+			<if test="PROD_NO != null and ''!=PROD_NO">
+				and p.PROD_NO in
+				<foreach collection="prodNoArray" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+    	</trim>
+		order by t.APPLY_DATE desc
+	</select>
+	
+	<!-- 通过用户编号查询用户指定权限 -->
+	<select id="appointInfo" resultMap="SysPrivInfoRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_priv_info t
+		where
+		t.APPOINT_STAFF_NO = #{staffNo}
+	</select>
+	<!--根据机构ID查询本级及下级ID  -->
+		<select id="belongToOrgNo" parameterType="java.lang.String" 
+		resultType="java.lang.String">
+		select org.ORG_NO  from  sys_org org WHERE org_cod_path like CONCAT('%',#{orgNo},'%') 
+	</select>
+		<!-- 返回 Bean -->
+	<resultMap id="SysPrivInfoRetMap" type="com.hs.loan.sale.entity.SysPrivInfo">
+		<result column="ID" property="id" />
+		<result column="BUSI_TYP_COD" property="busiTypCod" />
+		<result column="ORG_PATH" property="orgPath" />
+		<result column="ORG_PATH_NAME" property="orgPathName" />
+		<result column="ORG_MATCH_TYP" property="orgMatchTyp" />
+		<result column="ROLE_NO" property="roleNo" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="AUT_TYP_COD" property="autTypCod" />
+		<result column="APPOINT_ORG_NO" property="appointOrgNo" />
+		<result column="APPOINT_ORG_NAME" property="appointOrgName" />
+		<result column="APPOINT_ROLE_NO" property="appointRoleNo" />
+		<result column="APPOINT_ROLE_NAME" property="appointRoleName" />
+		<result column="APPOINT_STAFF_NO" property="appointStaffNo" />
+		<result column="APPOINT_STAFF_NAME" property="appointStaffName" />
+		<result column="APPOINT_ORG_CLASS" property="appointOrgClass" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+	
+	<!-- 查询 APP_分期历史信息 列表 -->
+	<select id="queryLoanHistoryList" resultMap="LoanHistoryListOutRetMap" parameterType="java.lang.String">
+    	select * from(
+			select	t.loan_no,
+					t.apply_date,
+					t.stat,
+					m.CERT_NO,
+					m.cust_no,
+					m.cust_name
+				from app_loan_acct t
+				left join app_cust_info m on t.cust_no=m.cust_no
+				where m.CERT_NO=#{certNo}
+				union all
+				select h.loan_no,h.apply_date,h.aprov_result stat,h.cert_no,h.cust_no,h.cust_name from APP_LOAN_DATA_H h
+				where h.cert_no = #{certNo} 
+		)a order by a.apply_date desc
+	</select>
+	<!-- 查询贷款 -->
+	<select id="queryLoan" resultMap="AppLoanAcctRetMap" parameterType="java.util.Map">
+  		select 
+			d.*
+	  	from app_loan_acct d, app_cust_info c where  d.cust_no=c.cust_no
+	 		<if test="loanNo != null and loanNo != ''">
+	 			AND d.loan_no = #{loanNo}
+	 		</if>
+	 		<if test="custName != null and custName != ''">
+	 			AND c.cust_name like CONCAT('%',#{custName},'%')
+	 		</if>
+	 		<if test="certNo != null and certNo != ''">
+	 			AND c.CERT_NO = #{certNo}
+	 		</if>
+	 		<if test="stat != null and stat != ''">
+	 			AND d.STAT = #{stat}		 
+	 		</if>
+  	</select>
+  	<select id="loanFundMatch" parameterType="java.util.Map"   statementType="CALLABLE">  
+		<![CDATA[  
+		    {call PROC_FUND_MATCH (#{I_LOAN_NO,mode=IN,jdbcType=VARCHAR},
+			    				 #{O_STATUS,mode=OUT,jdbcType=VARCHAR})}
+		 ]]>  
+	</select>
+	<select id="findCustSettleAmt" parameterType="java.util.Map"  resultType="java.util.Map"  statementType="CALLABLE">
+		<![CDATA[  
+		    {call PROC_ACC_SETL_ADVAN_AMT_CAL ( #{I_DATE,mode=IN,jdbcType=VARCHAR},#{I_LOAN_NO,mode=IN,jdbcType=VARCHAR})}
+		 ]]>  
+	</select>
+		<!-- 查询通话记录 -->
+	<select id="getCallList" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT * FROM app_cap_call_info WHERE CUST_NO=#{custNo}
+	</select>
+</mapper>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccInnAcctMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccInnAcctRetMap" type="com.hs.loan.finance.entity.AccInnAcct">
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="ACCT_TYP" property="acctTyp"/>
+			<result column="OPEN_ORG" property="openOrg"/>
+			<result column="OPEN_DATE" property="openDate"/>
+			<result column="SUBJ_NO" property="subjNo"/>
+			<result column="BAL" property="bal"/>
+			<result column="AVAL_BAL" property="avalBal"/>
+			<result column="FRZ_AMT" property="frzAmt"/>
+			<result column="ACCT_STAT" property="acctStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_内部账户 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccInnAcct">
+		insert into ACC_INN_ACCT
+		(
+  			ACCT_NO
+  			,ACCT_NAME
+  			,CUST_NO
+  			,ACCT_TYP
+  			,OPEN_ORG
+  			,OPEN_DATE
+  			,SUBJ_NO
+  			,BAL
+  			,AVAL_BAL
+  			,FRZ_AMT
+  			,ACCT_STAT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{acctNo}
+  			, #{acctName}
+  			, #{custNo}
+  			, #{acctTyp}
+  			, #{openOrg}
+  			, #{openDate}
+  			, #{subjNo}
+  			, #{bal}
+  			, #{avalBal}
+  			, #{frzAmt}
+  			, #{acctStat}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_内部账户 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_INN_ACCT
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctTyp')">  
+	  					ACCT_TYP = #{acctTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openOrg')">  
+	  					OPEN_ORG = #{openOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openDate')">  
+	  					OPEN_DATE = #{openDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('subjNo')">  
+	  					SUBJ_NO = #{subjNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bal')">  
+	  					BAL = #{bal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('avalBal')">  
+	  					AVAL_BAL = #{avalBal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('frzAmt')">  
+	  					FRZ_AMT = #{frzAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctStat')">  
+	  					ACCT_STAT = #{acctStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ACCT_NO = #{acctNo}				
+	</update>
+	
+	<!-- 删除 ACC_内部账户 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_INN_ACCT
+		where 
+  			ACCT_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_内部账户 -->
+	<select id="getByPrimaryKey" resultMap="AccInnAcctRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_INN_ACCT t
+		where 
+  				t.ACCT_NO = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_内部账户 列表 -->
+	<select id="queryForList" resultMap="AccInnAcctRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_INN_ACCT t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="acctTyp != null and acctTyp != ''">
+	  				and t.ACCT_TYP = #{acctTyp}				
+	  			</if>
+				<if test="openOrg != null and openOrg != ''">
+	  				and t.OPEN_ORG = #{openOrg}				
+	  			</if>
+				<if test="openDate != null">
+	  				and t.OPEN_DATE = #{openDate}				
+	  			</if>
+				<if test="subjNo != null and subjNo != ''">
+	  				and t.SUBJ_NO = #{subjNo}				
+	  			</if>
+				<if test="bal != null">
+	  				and t.BAL = #{bal}				
+	  			</if>
+				<if test="avalBal != null">
+	  				and t.AVAL_BAL = #{avalBal}				
+	  			</if>
+				<if test="frzAmt != null">
+	  				and t.FRZ_AMT = #{frzAmt}				
+	  			</if>
+				<if test="acctStat != null and acctStat != ''">
+	  				and t.ACCT_STAT = #{acctStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustBankAcctMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustBankAcctRetMap" type="com.hs.loan.cust.entity.AppCustBankAcct">
+			<result column="ID" property="id"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="OPEN_ORG" property="openOrg"/>
+			<result column="OPEN_PROV" property="openProv"/>
+			<result column="OPEN_CITY" property="openCity"/>
+			<result column="STAT" property="stat"/>
+			<result column="INST_PERSON" property="instPerson"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="BANK_NAME" property="bankName"/>
+	</resultMap>
+
+	<select id="selectExistsBankNoByCus" parameterType="com.hs.loan.cust.entity.AppCustBankAcct" resultType="java.lang.Integer">
+     SELECT Count(1) FROM app_cust_bank_acct AS b
+     WHERE
+     b.CUST_NO = #{custNo} AND
+     b.ACCT_NO = #{acctNo} AND b.STAT='10002001'
+	</select>
+
+	<!-- 新增 APP_客户银行账户信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustBankAcct">
+		insert into app_cust_bank_acct
+		(
+  			ID
+  			,ACCT_NO
+  			,ACCT_NAME
+  			,CUST_NO
+  			,OPEN_ORG
+  			,OPEN_PROV
+  			,OPEN_CITY
+  			,STAT
+  			,INST_PERSON
+  			,INST_DATE
+  			,BANK_NAME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{acctNo}
+  			, #{acctName}
+  			, #{custNo}
+  			, #{openOrg}
+  			, #{openProv}
+  			, #{openCity}
+  			, #{stat}
+  			, #{instPerson}
+  			, #{instDate}
+  			, #{bankName}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户银行账户信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_bank_acct
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openOrg')">  
+	  					OPEN_ORG = #{openOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openProv')">  
+	  					OPEN_PROV = #{openProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openCity')">  
+	  					OPEN_CITY = #{openCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instPerson')">  
+	  					INST_PERSON = #{instPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>	
+	  				<if test="_parameter.containsKey('bankName')">  
+	  					BANK_NAME = #{bankName},  
+	  				</if>	
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+		<!-- 修改 APP_客户银行账户信息 -->
+	<update id="updateByCustNo" parameterType="java.util.Map">
+		update app_cust_bank_acct
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>			
+	  				<if test="_parameter.containsKey('openOrg')">  
+	  					OPEN_ORG = #{openOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openProv')">  
+	  					OPEN_PROV = #{openProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openCity')">  
+	  					OPEN_CITY = #{openCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instPerson')">  
+	  					INST_PERSON = #{instPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>	
+	  				<if test="_parameter.containsKey('bankName')">  
+	  					BANK_NAME = #{bankName},  
+	  				</if>	
+    	</trim>
+		where 
+  			CUST_NO = #{custNo}				
+	</update>
+	
+	
+	<!-- 删除 APP_客户银行账户信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_bank_acct
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户银行账户信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustBankAcctRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_bank_acct t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户银行账户信息 列表 -->
+	<select id="queryForList" resultMap="AppCustBankAcctRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_bank_acct t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="openOrg != null and openOrg != ''">
+	  				and t.OPEN_ORG = #{openOrg}				
+	  			</if>
+				<if test="openProv != null and openProv != ''">
+	  				and t.OPEN_PROV = #{openProv}				
+	  			</if>
+				<if test="openCity != null and openCity != ''">
+	  				and t.OPEN_CITY = #{openCity}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="instPerson != null and instPerson != ''">
+	  				and t.INST_PERSON = #{instPerson}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+	  			<if test="bankName != null">
+	  				and t.BANK_NAME = #{bankName}				
+	  			</if>
+    	</trim>
+    	ORDER BY INST_DATE DESC
+	</select>
+</mapper>

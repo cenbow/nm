@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.PubRepayKindConfMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubRepayKindConfRetMap" type="com.hs.loan.acct.entity.PubRepayKindConf">
+			<result column="REPAY_NO" property="repayNo"/>
+			<result column="REPAY_NAME" property="repayName"/>
+			<result column="REPAY_DESC" property="repayDesc"/>
+			<result column="RULE_CALC" property="ruleCalc"/>
+			<result column="REPAY_REMARK" property="repayRemark"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_还款方式配置表 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.PubRepayKindConf">
+		insert into PUB_REPAY_KIND_CONF
+		(
+  			REPAY_NO
+  			,REPAY_NAME
+  			,REPAY_DESC
+  			,RULE_CALC
+  			,REPAY_REMARK
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{repayNo}
+  			, #{repayName}
+  			, #{repayDesc}
+  			, #{ruleCalc}
+  			, #{repayRemark}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_还款方式配置表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_REPAY_KIND_CONF
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('repayName')">  
+	  					REPAY_NAME = #{repayName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDesc')">  
+	  					REPAY_DESC = #{repayDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('ruleCalc')">  
+	  					RULE_CALC = #{ruleCalc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayRemark')">  
+	  					REPAY_REMARK = #{repayRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			REPAY_NO = #{repayNo}				
+	</update>
+	
+	<!-- 删除 PUB_还款方式配置表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_REPAY_KIND_CONF
+		where 
+  			REPAY_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_还款方式配置表 -->
+	<select id="getByPrimaryKey" resultMap="PubRepayKindConfRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_REPAY_KIND_CONF t
+		where 
+  				t.REPAY_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_还款方式配置表 列表 -->
+	<select id="queryForList" resultMap="PubRepayKindConfRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_REPAY_KIND_CONF t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="repayNo != null and repayNo != ''">
+	  				and t.REPAY_NO = #{repayNo}				
+	  			</if>
+				<if test="repayName != null and repayName != ''">
+	  				and t.REPAY_NAME = #{repayName}				
+	  			</if>
+				<if test="repayDesc != null and repayDesc != ''">
+	  				and t.REPAY_DESC = #{repayDesc}				
+	  			</if>
+				<if test="ruleCalc != null and ruleCalc != ''">
+	  				and t.RULE_CALC = #{ruleCalc}				
+	  			</if>
+				<if test="repayRemark != null and repayRemark != ''">
+	  				and t.REPAY_REMARK = #{repayRemark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

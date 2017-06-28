@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustHisRepayMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustHisRepayRetMap" type="com.hs.loan.cust.entity.AppCustHisRepay">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_AMT" property="repayAmt"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="REPAY_CHAN" property="repayChan"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户历史还款情况 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustHisRepay">
+		insert into app_cust_his_repay
+		(
+  			ID
+  			,CUST_NO
+  			,LOAN_NO
+  			,REPAY_AMT
+  			,REPAY_DATE
+  			,REPAY_CHAN
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{loanNo}
+  			, #{repayAmt}
+  			, #{repayDate}
+  			, #{repayChan}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户历史还款情况 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_his_repay
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayAmt')">  
+	  					REPAY_AMT = #{repayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayChan')">  
+	  					REPAY_CHAN = #{repayChan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户历史还款情况 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_his_repay
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户历史还款情况 -->
+	<select id="getByPrimaryKey" resultMap="AppCustHisRepayRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_his_repay t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户历史还款情况 列表 -->
+	<select id="queryForList" resultMap="AppCustHisRepayRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_his_repay t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayAmt != null and repayAmt != ''">
+	  				and t.REPAY_AMT = #{repayAmt}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="repayChan != null and repayChan != ''">
+	  				and t.REPAY_CHAN = #{repayChan}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.AcctFeeCalMapper" >
+
+<!-- 产品试算 -->
+	<resultMap id="BaseResultMap" type="com.hs.loan.acct.entity.PubProdFeeCalc" >  
+		<id column="ID" property="id" jdbcType="VARCHAR" />                     
+		<result column="PROD_NO" property="prodNo" jdbcType="VARCHAR" />     
+		<result column="FEE_NO" property="feeNo" jdbcType="VARCHAR" />         
+		<result column="FEE_RAT" property="feeRat" jdbcType="DECIMAL" />       
+		<result column="FEE_NAME" property="feeName" jdbcType="VARCHAR" />     
+		<result column="SETL_PRIOR" property="setlPrior" jdbcType="VARCHAR" /> 
+		<result column="LOAN_AMT" property="loanAmt" jdbcType="DECIMAL" />     
+		<result column="INST_NUM" property="instNum" jdbcType="INTEGER" />     
+		<result column="FEE_AMT" property="feeAmt" jdbcType="DECIMAL" />       
+  </resultMap>  
+	<select id="calFee" parameterType="java.util.Map"  resultMap="BaseResultMap" statementType="CALLABLE">  
+		<![CDATA[  
+		    {call PROC_PUB_PROD_CALC (#{I_PROD_NO,mode=IN,jdbcType=VARCHAR},
+								 #{I_INST_NUM,mode=IN,jdbcType=INTEGER},
+								 #{I_LOAN_AMT,mode=IN,jdbcType=DECIMAL},
+			    				 #{O_RET,mode=OUT,jdbcType=VARCHAR})}  
+		 ]]>  
+</select>
+
+<!-- 分期试算 -->
+	<resultMap id="loanCalFeeResultMap" type="com.hs.loan.acct.entity.PubLoanProdCalc" >  
+		<id column="ID" property="id" jdbcType="VARCHAR" />                     
+		<result column="LOAN_NO" property="loanNo" jdbcType="VARCHAR" />     
+		<result column="REPAY_DATE" property="repayDate" jdbcType="VARCHAR" />         
+		<result column="INST_NUM" property="instNum" jdbcType="INTEGER" />       
+		<result column="REPAY_KIND" property="repayKind" jdbcType="VARCHAR" />     
+		<result column="PROD_NO" property="prodNo" jdbcType="VARCHAR" /> 
+		<result column="LOAN_AMT" property="loanAmt" jdbcType="DECIMAL" />     
+		<result column="FEE_AMT" property="feeAmt" jdbcType="DECIMAL" />       
+		<result column="CHARGE_FEE" property="chargeAmt" jdbcType="DECIMAL" />       
+  </resultMap>    
+	<select id="loanCalFee" parameterType="java.util.Map"  resultMap="loanCalFeeResultMap" statementType="CALLABLE">  
+		<![CDATA[  
+		    {call PROC_APP_LOAN_PROD_CALC (#{I_PROD_NO,mode=IN,jdbcType=VARCHAR},
+								 #{I_INST_NUM,mode=IN,jdbcType=INTEGER},
+								 #{I_LOAN_AMT,mode=IN,jdbcType=DECIMAL},
+								 #{I_FEE_INFO,mode=IN,jdbcType=VARCHAR},
+			    				 #{O_RET,mode=OUT,jdbcType=VARCHAR})}  
+		 ]]>  
+</select>
+	
+</mapper>

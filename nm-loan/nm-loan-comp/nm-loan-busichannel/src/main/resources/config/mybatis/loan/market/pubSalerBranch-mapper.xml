@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.market.mapper.PubSalerBranchMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubSalerBranchRetMap" type="com.hs.loan.market.entity.PubSalerBranch">
+			<result column="ID" property="id"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="BRANCH_NO" property="branchNo"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_销售网点关联信息 -->
+	<insert id="insert" parameterType="com.hs.loan.market.entity.PubSalerBranch">
+		insert into PUB_SALER_BRANCH
+		(
+  			ID
+  			,STAFF_NO
+  			,BRANCH_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{staffNo}
+  			, #{branchNo}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_销售网点关联信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_SALER_BRANCH
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchNo')">  
+	  					BRANCH_NO = #{branchNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_销售网点关联信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_SALER_BRANCH
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_销售网点关联信息 -->
+	<select id="getByPrimaryKey" resultMap="PubSalerBranchRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_SALER_BRANCH t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_销售网点关联信息 列表 -->
+	<select id="queryForList" resultMap="PubSalerBranchRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_SALER_BRANCH t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="branchNo != null and branchNo != ''">
+	  				and t.BRANCH_NO = #{branchNo}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!--删除网点与销售的关系  -->
+	<delete id="rmvBrhSalerRel" parameterType="java.util.Map">
+		delete from PUB_SALER_BRANCH
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="branchNo != null and branchNo != ''">
+	  				and BRANCH_NO = #{branchNo}
+	  			</if>
+    	</trim>
+	</delete>
+	
+</mapper>

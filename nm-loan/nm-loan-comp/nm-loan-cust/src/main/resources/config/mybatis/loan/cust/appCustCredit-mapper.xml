@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustCreditMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustCreditRetMap" type="com.hs.loan.cust.entity.AppCustCredit">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CREDIT_LIMIT" property="creditLimit"/>
+			<result column="REMAIN_LIMIT" property="remainLimit"/>
+			<result column="CREDIT_TYP" property="creditTyp"/>
+			<result column="CREDIT_DATE" property="creditDate"/>
+			<result column="CREDIT_VALID" property="creditValid"/>
+			<result column="CREDIT_USER" property="creditUser"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户授信额度 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustCredit">
+		insert into app_cust_credit
+		(
+  			ID
+  			,CUST_NO
+  			,CREDIT_LIMIT
+  			,REMAIN_LIMIT
+  			,CREDIT_TYP
+  			,CREDIT_DATE
+  			,CREDIT_VALID
+  			,CREDIT_USER
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{creditLimit}
+  			, #{remainLimit}
+  			, #{creditTyp}
+  			, #{creditDate}
+  			, #{creditValid}
+  			, #{creditUser}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户授信额度 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_credit
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('creditLimit')">  
+	  					CREDIT_LIMIT = #{creditLimit},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remainLimit')">  
+	  					REMAIN_LIMIT = #{remainLimit},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('creditTyp')">  
+	  					CREDIT_TYP = #{creditTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('creditDate')">  
+	  					CREDIT_DATE = #{creditDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('creditValid')">  
+	  					CREDIT_VALID = #{creditValid},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('creditUser')">  
+	  					CREDIT_USER = #{creditUser},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户授信额度 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_credit
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户授信额度 -->
+	<select id="getByPrimaryKey" resultMap="AppCustCreditRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_credit t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户授信额度 列表 -->
+	<select id="queryForList" resultMap="AppCustCreditRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_credit t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="creditLimit != null and creditLimit != ''">
+	  				and t.CREDIT_LIMIT = #{creditLimit}				
+	  			</if>
+				<if test="remainLimit != null and remainLimit != ''">
+	  				and t.REMAIN_LIMIT = #{remainLimit}				
+	  			</if>
+				<if test="creditTyp != null and creditTyp != ''">
+	  				and t.CREDIT_TYP = #{creditTyp}				
+	  			</if>
+				<if test="creditDate != null and creditDate != ''">
+	  				and t.CREDIT_DATE = #{creditDate}				
+	  			</if>
+				<if test="creditValid != null and creditValid != ''">
+	  				and t.CREDIT_VALID = #{creditValid}				
+	  			</if>
+				<if test="creditUser != null and creditUser != ''">
+	  				and t.CREDIT_USER = #{creditUser}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

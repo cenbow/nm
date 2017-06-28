@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approvecheck.mapper.AppLoanApprCheckMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanApprCheckRetMap" type="com.hs.loan.approvecheck.entity.AppLoanApprCheck">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="CHECK_CNT" property="checkCnt"/>
+			<result column="CHECK_RESULT" property="checkResult"/>
+			<result column="BEG_DATE" property="begDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="CHECK_NO" property="checkNo"/>
+			<result column="CHECK_NAME" property="checkName"/>
+			<result column="IS_FORCE_CHECK" property="isForceCheck"/>
+			<result column="GROUP_ID" property="groupId"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="APPR_TYP" property="apprTyp"/>
+			<result column="APPR_DESC" property="apprDesc"/>
+			<result column="CHECK_REMARK" property="checkRemark"/>
+			<result column="FST_APPR_RESULT" property="fstApprResult"/>
+			<result column="FST_APPR_REMARK" property="fstApprRemark"/>
+			<result column="APPR_ID" property="apprId"/>
+			<result column="FST_CHECK_NO" property="fstCheckNo"/>
+			<result column="FST_CHECK_NAME" property="fstCheckName"/>
+	</resultMap>
+	
+	<!-- 新增 APP_分期案件复核 -->
+	<insert id="insert" parameterType="com.hs.loan.approvecheck.entity.AppLoanApprCheck">
+		insert into APP_LOAN_APPR_CHECK
+		(
+  			ID
+  			,LOAN_NO
+  			,CUST_NO
+  			,CUST_NAME
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,CHECK_CNT
+  			,CHECK_RESULT
+  			,BEG_DATE
+  			,END_DATE
+  			,CHECK_NO
+  			,CHECK_NAME
+  			,IS_FORCE_CHECK
+  			,GROUP_ID
+  			,GROUP_NAME
+  			,APPR_TYP
+  			,APPR_DESC
+  			,CHECK_REMARK
+  			,FST_APPR_RESULT
+  			,FST_APPR_REMARK
+  			,APPR_ID
+  			,FST_CHECK_NO
+  			,FST_CHECK_NAME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{custNo}
+  			, #{custName}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{checkCnt}
+  			, #{checkResult}
+  			, #{begDate}
+  			, #{endDate}
+  			, #{checkNo}
+  			, #{checkName}
+  			, #{isForceCheck}
+  			, #{groupId}
+  			, #{groupName}
+  			, #{apprTyp}
+  			, #{apprDesc}
+  			, #{checkRemark}
+  			, #{fstApprResult}
+  			, #{fstApprRemark}
+  			, #{apprId}
+  			, #{fstCheckNo}
+  			, #{fstCheckName}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期案件复核 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_APPR_CHECK
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('checkCnt')">  
+	  					CHECK_CNT = #{checkCnt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('checkResult')">  
+	  					CHECK_RESULT = #{checkResult},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('begDate')">  
+	  					BEG_DATE = #{begDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('checkNo')">  
+	  					CHECK_NO = #{checkNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('checkName')">  
+	  					CHECK_NAME = #{checkName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isForceCheck')">  
+	  					IS_FORCE_CHECK = #{isForceCheck},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupId')">  
+	  					GROUP_ID = #{groupId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprTyp')">  
+	  					APPR_TYP = #{apprTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprDesc')">  
+	  					APPR_DESC = #{apprDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('checkRemark')">  
+	  					CHECK_REMARK = #{checkRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstApprResult')">  
+	  					FST_APPR_RESULT = #{fstApprResult},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstApprRemark')">  
+	  					FST_APPR_REMARK = #{fstApprRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprId')">  
+	  					APPR_ID = #{apprId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstCheckNo')">  
+	  					FST_CHECK_NO = #{fstCheckNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstCheckName')">  
+	  					FST_CHECK_NAME = #{fstCheckName},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期案件复核 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR_CHECK
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期案件复核 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanApprCheckRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_APPR_CHECK t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<resultMap id="AppLoanApprCheckBoRetMap" type="com.hs.loan.approvecheck.bo.AppLoanApprCheckBo">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="CHECK_CNT" property="checkCnt"/>
+			<result column="CHECK_RESULT" property="checkResult"/>
+			<result column="BEG_DATE" property="begDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="CHECK_NO" property="checkNo"/>
+			<result column="CHECK_NAME" property="checkName"/>
+			<result column="IS_FORCE_CHECK" property="isForceCheck"/>
+			<result column="GROUP_ID" property="groupId"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="APPR_TYP" property="apprTyp"/>
+			<result column="APPR_DESC" property="apprDesc"/>
+			<result column="CHECK_REMARK" property="checkRemark"/>
+			<result column="FST_APPR_RESULT" property="fstApprResult"/>
+			<result column="FST_APPR_REMARK" property="fstApprRemark"/>
+			<result column="APPR_ID" property="apprId"/>
+			<result column="FST_CHECK_NO" property="fstCheckNo"/>
+			<result column="FST_CHECK_NAME" property="fstCheckName"/>
+			<result column="INST_NUM" property="instNum"/>
+			<result column="MANU_START_DATE" property="manuStartDate"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="REMARK2" property="codeRmark"/>
+	</resultMap>
+	
+	<!-- 查询 APP_分期案件复核 列表 -->
+	<select id="queryForList" resultMap="AppLoanApprCheckRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_APPR_CHECK t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="checkCnt != null">
+	  				and t.CHECK_CNT = #{checkCnt}				
+	  			</if>
+				<if test="checkResult != null and checkResult != ''">
+	  				and t.CHECK_RESULT = #{checkResult}				
+	  			</if>
+				<if test="begDate != null">
+	  				and t.BEG_DATE = #{begDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+				<if test="checkNo != null and checkNo != ''">
+	  				and t.CHECK_NO = #{checkNo}				
+	  			</if>
+				<if test="checkName != null and checkName != ''">
+	  				and t.CHECK_NAME = #{checkName}				
+	  			</if>
+				<if test="isForceCheck != null and isForceCheck != ''">
+	  				and t.IS_FORCE_CHECK = #{isForceCheck}				
+	  			</if>
+				<if test="groupId != null and groupId != ''">
+	  				and t.GROUP_ID = #{groupId}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME = #{groupName}				
+	  			</if>
+				<if test="apprTyp != null and apprTyp != ''">
+	  				and t.APPR_TYP = #{apprTyp}				
+	  			</if>
+				<if test="apprDesc != null and apprDesc != ''">
+	  				and t.APPR_DESC = #{apprDesc}				
+	  			</if>
+				<if test="checkRemark != null and checkRemark != ''">
+	  				and t.CHECK_REMARK = #{checkRemark}				
+	  			</if>
+				<if test="fstApprResult != null and fstApprResult != ''">
+	  				and t.FST_APPR_RESULT = #{fstApprResult}				
+	  			</if>
+				<if test="fstApprRemark != null and fstApprRemark != ''">
+	  				and t.FST_APPR_REMARK = #{fstApprRemark}				
+	  			</if>
+				<if test="apprId != null and apprId != ''">
+	  				and t.APPR_ID = #{apprId}				
+	  			</if>
+				<if test="fstCheckNo != null and fstCheckNo != ''">
+	  				and t.FST_CHECK_NO = #{fstCheckNo}				
+	  			</if>
+				<if test="fstCheckName != null and fstCheckName != ''">
+	  				and t.FST_CHECK_NAME = #{fstCheckName}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<select id="queryForListTwo" resultMap="AppLoanApprCheckBoRetMap" parameterType="java.util.Map">
+		select	
+			t.*,a.INST_NUM,a.MANU_START_DATE,a.INST_DATE,a.REMARK2
+		from APP_LOAN_APPR_CHECK t,APP_LOAN_APPR a
+		where t.APPR_ID = a.APPR_ID
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="checkCnt != null">
+	  				and t.CHECK_CNT = #{checkCnt}				
+	  			</if>
+				<if test="checkResult != null and checkResult != ''">
+	  				and t.CHECK_RESULT = #{checkResult}				
+	  			</if>
+				<if test="begDate != null">
+	  				and t.BEG_DATE = #{begDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+				<if test="checkNo != null and checkNo != ''">
+	  				and t.CHECK_NO = #{checkNo}				
+	  			</if>
+				<if test="checkName != null and checkName != ''">
+	  				and t.CHECK_NAME = #{checkName}				
+	  			</if>
+				<if test="isForceCheck != null and isForceCheck != ''">
+	  				and t.IS_FORCE_CHECK = #{isForceCheck}				
+	  			</if>
+				<if test="groupId != null and groupId != ''">
+	  				and t.GROUP_ID = #{groupId}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME = #{groupName}				
+	  			</if>
+				<if test="apprTyp != null and apprTyp != ''">
+	  				and t.APPR_TYP = #{apprTyp}				
+	  			</if>
+				<if test="apprDesc != null and apprDesc != ''">
+	  				and t.APPR_DESC = #{apprDesc}				
+	  			</if>
+				<if test="checkRemark != null and checkRemark != ''">
+	  				and t.CHECK_REMARK = #{checkRemark}				
+	  			</if>
+				<if test="fstApprResult != null and fstApprResult != ''">
+	  				and t.FST_APPR_RESULT = #{fstApprResult}				
+	  			</if>
+				<if test="fstApprRemark != null and fstApprRemark != ''">
+	  				and t.FST_APPR_REMARK = #{fstApprRemark}				
+	  			</if>
+				<if test="apprId != null and apprId != ''">
+	  				and t.APPR_ID = #{apprId}				
+	  			</if>
+				<if test="fstCheckNo != null and fstCheckNo != ''">
+	  				and t.FST_CHECK_NO = #{fstCheckNo}				
+	  			</if>
+				<if test="fstCheckName != null and fstCheckName != ''">
+	  				and t.FST_CHECK_NAME = #{fstCheckName}				
+	  			</if>
+	</select>
+	
+		<!-- 根据审批编号查询主管编号 -->
+	<select id="getManagerNoByStaffNo" resultType="java.util.Map" parameterType="java.lang.String">
+		SELECT t1.STAFF_NO staffNo,t1.STAFF_NAME staffName,t2.GROUP_ID groupId,t2.GROUP_NAME groupName FROM APP_APPRSTAFF_GROUPDETAL t1,
+		 (SELECT GROUP_ID,GROUP_NAME FROM APP_APPRSTAFF_GROUPDETAL WHERE STAFF_NO=#{staffNo}) t2 
+		  WHERE t1.GROUP_ID=t2.GROUP_ID AND t1.STAFF_LEVL='40201004' LIMIT 1		
+	</select>
+	
+	<!-- 根据主管编号查询是否在线 -->
+	<select id="getGroupTypeByStaffNo" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT t3.SIGN_TYP 
+		FROM APP_APPR_STAFF_SIGN t3
+		WHERE t3.STAFF_NO=#{staffNo} ORDER BY t3.SIGN_DATE DESC LIMIT 1			
+	</select>
+	
+	<!-- 查询主管的复核单子或抢单的总数 -->
+	<select id="getCountByManagerNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+      	SELECT SUM(t1) FROM 
+      	(
+			SELECT COUNT(1) t1 FROM APP_LOAN_APPR_CHECK 
+			WHERE CHECK_RESULT='60021001' AND CHECK_NO=#{staffNo}
+			UNION ALL
+			SELECT COUNT(1) t1 FROM APP_LOAN_APPR a LEFT JOIN APP_LOAN_APPR_CHECK b ON a.APPR_ID = b.APPR_ID 
+			WHERE a.STAT='40002006' AND a.APPR_NO=#{staffNo} AND b.APPR_ID IS NULL 
+		) tt 
+	</select>
+	
+	<!-- 查询非主管审批中单子数-->
+	<select id="getCountByStaffNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(1) FROM APP_LOAN_APPR WHERE APPR_NO=#{staffNo} AND STAT='40002006'
+	</select>
+	
+	<select id="getCountByStaffNoTwo" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(1) FROM APP_LOAN_APPR a LEFT JOIN APP_LOAN_APPR_CHECK b ON a.APPR_ID = b.APPR_ID 
+		WHERE a.STAT='40002006' AND a.APPR_NO=#{staffNo} AND b.APPR_ID IS NULL
+	</select>
+	
+	<delete id="deleteByApprId" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR_CHECK
+		where 
+  			APPR_ID = #{apprId}				
+	</delete>
+	
+	<select id="getCheckCntByApprId" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT CHECK_CNT checkCnt FROM APP_LOAN_APPR_CHECK WHERE APPR_ID = #{apprId}
+	</select>
+	
+	<!-- 修改 APP_分期基本信息 -->
+	<update id="updateAppLoanAcctByLoanNo" parameterType="java.util.Map">
+		update app_loan_acct
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstPayAmt')">  
+	  					FST_PAY_AMT = #{fstPayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('interRate')">  
+	  					INTER_RATE = #{interRate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanAmt')">  
+	  					LOAN_AMT = #{loanAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanTyp')">  
+	  					LOAN_TYP = #{loanTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instNum')">  
+	  					INST_NUM = #{instNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstRepayAmt')">  
+	  					FST_REPAY_AMT = #{fstRepayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstRepayDate')">  
+	  					FST_REPAY_DATE = #{fstRepayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthRepayDate')">  
+	  					MTH_REPAY_DATE = #{mthRepayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthRepayAmt')">  
+	  					MTH_REPAY_AMT = #{mthRepayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyDate')">  
+	  					APPLY_DATE = #{applyDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('aprvDate')">  
+	  					APRV_DATE = #{aprvDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regDate')">  
+	  					REG_DATE = #{regDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('distrDate')">  
+	  					DISTR_DATE = #{distrDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fileNo')">  
+	  					FILE_NO = #{fileNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('afterStat')">  
+	  					AFTER_STAT = #{afterStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fivCls')">  
+	  					FIV_CLS = #{fivCls},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyProv')">  
+	  					APPLY_PROV = #{applyProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyArea')">  
+	  					APPLY_AREA = #{applyArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyCity')">  
+	  					APPLY_CITY = #{applyCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanRemark')">  
+	  					LOAN_REMARK = #{loanRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('entrFlag')">  
+	  					entr_Flag = #{entrFlag},  
+	  				</if>
+					<if test="_parameter.containsKey('applyAddr')">
+						APPLY_ADDR = #{applyAddr},
+					</if>
+					<if test="_parameter.containsKey('contactAddr')">
+						CONTACT_ADDR = #{contactAddr},
+					</if>
+					<if test="_parameter.containsKey('loanState')">
+						LOAN_STAT = #{loanState},
+					</if>
+		</trim>
+		where 
+  			LOAN_NO = #{loanNo}				
+	</update>
+</mapper>

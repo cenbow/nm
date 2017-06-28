@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.outsource.mapper.PlLoanOutsourceRelationMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlLoanOutsourceRelationRetMap" type="com.hs.loan.outsource.entity.PlLoanOutsourceRelation">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="UNIT_NO" property="unitNo"/>
+			<result column="UNIT_NAME" property="unitName"/>
+			<result column="STAT" property="stat"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	<!-- 返回 Bean-->
+	<resultMap id="LoanOutsourceRelationRetMap" type="com.hs.loan.outsource.bo.LoanOutsourceRelationBo">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="UNIT_NO" property="unitNo"/>
+			<result column="UNIT_NAME" property="unitName"/>
+			<result column="STAT" property="stat"/>
+			<result column="RETAMT" property="retAmt"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 PL_委外单位与分期合同对应关系表 -->
+	<insert id="insert" parameterType="com.hs.loan.outsource.entity.PlLoanOutsourceRelation">
+		insert into PL_LOAN_OUTSOURCE_RELATION
+		(
+  			ID
+  			,LOAN_NO
+  			,UNIT_NO
+  			,UNIT_NAME
+  			,STAT
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{unitNo}
+  			, #{unitName}
+  			, #{stat}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_委外单位与分期合同对应关系表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE_RELATION
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitNo')">  
+	  					UNIT_NO = #{unitNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitName')">  
+	  					UNIT_NAME = #{unitName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	<!-- 修改 PL_委外单位与分期合同对应关系表 -->
+	<update id="updateBySelective" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE_RELATION SET STAT = #{stat} 
+	  	 where LOAN_NO = #{loanNo}		
+  					
+	</update>
+	
+	<!-- 删除 PL_委外单位与分期合同对应关系表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_LOAN_OUTSOURCE_RELATION
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_委外单位与分期合同对应关系表 -->
+	<select id="getByPrimaryKey" resultMap="PlLoanOutsourceRelationRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_RELATION t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PL_委外单位与分期合同对应关系表 列表 -->
+	<select id="queryForList" resultMap="PlLoanOutsourceRelationRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_RELATION t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="unitNo != null and unitNo != ''">
+	  				and t.UNIT_NO = #{unitNo}				
+	  			</if>
+				<if test="unitName != null and unitName != ''">
+	  				and t.UNIT_NAME = #{unitName}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 查询 PL_委外单位与分期合同对应关系表 列表 -->
+	<select id="queryOutsourceRelationForList" resultMap="LoanOutsourceRelationRetMap" parameterType="java.util.Map">
+		SELECT
+			r.LOAN_NO,
+			r.UNIT_NO,
+			r.UNIT_NAME,
+			r.INST_DATE,
+			r.STAT,
+			IFNULL(a.PAY_AMT,0) retAmt
+		FROM
+			PL_LOAN_OUTSOURCE_RELATION r
+		LEFT JOIN PL_LOAN_OUTSOURCE_RETURN a on r.ID = a.REL_ID and  a.LOAN_NO = r.LOAN_NO
+		WHERE 	r.LOAN_NO = #{loanNo}	
+	</select>
+</mapper>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approvecheck.mapper.AppApprstaffGroupdetalMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppApprstaffGroupdetalRetMap" type="com.hs.loan.approvecheck.entity.AppApprstaffGroupdetal">
+			<result column="ID" property="id"/>
+			<result column="GROUP_ID" property="groupId"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="STAFF_LEVL" property="staffLevl"/>
+			<result column="OPERATE_NO" property="operateNo"/>
+			<result column="OPERATE_DATE" property="operateDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_审批内部组人员信息 -->
+	<insert id="insert" parameterType="com.hs.loan.approvecheck.entity.AppApprstaffGroupdetal">
+		insert into APP_APPRSTAFF_GROUPDETAL
+		(
+			ID
+  			,GROUP_ID
+  			,GROUP_NAME
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,STAFF_LEVL
+  			,OPERATE_NO
+  			,OPERATE_DATE
+    	)
+    	values
+    	(
+  			#{id}
+  			,#{groupId}
+  			, #{groupName}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{staffLevl}
+  			, #{operateNo}
+  			, #{operateDate}
+    	)
+	</insert>
+	
+	<!-- 批量新增 APP_审批内部组人员信息 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into APP_APPRSTAFF_GROUPDETAL
+		(
+			ID
+  			,GROUP_ID
+  			,GROUP_NAME
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,STAFF_LEVL
+  			,OPERATE_NO
+  			,OPERATE_DATE
+    	)
+    	values
+    	<foreach collection="list" item="item" index="index" separator=",">
+		    (
+  			#{item.id}
+  			,#{item.groupId}
+  			, #{item.groupName}
+  			, #{item.staffNo}
+  			, #{item.staffName}
+  			, #{item.staffLevl}
+  			, #{item.operateNo}
+  			, #{item.operateDate}
+    	   )
+		</foreach>
+	</insert>
+	
+	<!-- 修改 APP_审批内部组人员信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_APPRSTAFF_GROUPDETAL
+		<trim prefix="SET" suffixOverrides=",">
+					<if test="_parameter.containsKey('groupId')">  
+	  					GROUP_ID = #{groupId},  
+	  				</if>
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffLevl')">  
+	  					STAFF_LEVL = #{staffLevl},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('operateNo')">  
+	  					OPERATE_NO = #{operateNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('operateDate')">  
+	  					OPERATE_DATE = #{operateDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_审批内部组人员信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_APPRSTAFF_GROUPDETAL
+		where 
+  			ID = #{id}					
+	</delete>
+	
+	<!-- 批量删除 APP_审批内部组人员信息 -->
+	<delete id="batchDeleteByPrimaryKey" parameterType="java.util.List">
+		delete from APP_APPRSTAFF_GROUPDETAL
+		where ID IN 
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+  			 #{item}
+  		</foreach>						
+	</delete>
+	
+	<delete id="batchDeleteByGroupId" parameterType="java.util.List">
+		DELETE FROM APP_APPRSTAFF_GROUPDETAL
+		WHERE 
+  			GROUP_ID IN
+  		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+  			 #{item}	
+  		</foreach>					
+	</delete>
+	
+	<!-- 通过主键查询 APP_审批内部组人员信息 -->
+	<select id="getByPrimaryKey" resultMap="AppApprstaffGroupdetalRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_APPRSTAFF_GROUPDETAL t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_审批内部组人员信息 列表 -->
+	<select id="queryForList" resultMap="AppApprstaffGroupdetalRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_APPRSTAFF_GROUPDETAL t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+		        <if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="groupId != null and groupId != ''">
+	  				and t.GROUP_ID = #{groupId}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME = #{groupName}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="staffLevl != null and staffLevl != ''">
+	  				and t.STAFF_LEVL = #{staffLevl}				
+	  			</if>
+				<if test="operateNo != null and operateNo != ''">
+	  				and t.OPERATE_NO = #{operateNo}				
+	  			</if>
+				<if test="operateDate != null">
+	  				and t.OPERATE_DATE = #{operateDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<select id="queryNotApprstaffGroupdetalList" resultMap="AppApprstaffGroupdetalRetMap" parameterType="java.util.Map">
+    	SELECT DISTINCT a.STAFF_NO,a.STAFF_NAME FROM SYS_STAFF a JOIN SYS_STAFF_ROLE c ON a.ID=c.STAFF_ID 
+    	LEFT JOIN APP_APPRSTAFF_GROUPDETAL b ON a.STAFF_NO=b.STAFF_NO  
+		WHERE c.ROLE_ID IN ('role_r_appr_mgr','role_r_appr_staff','role_r_appr_mast') 
+		AND a.STAFF_STAT = #{status} 
+				<if test="staffNo != null and staffNo != ''">
+	  				AND a.STAFF_NO LIKE '%${staffNo}%'				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				AND a.STAFF_NAME LIKE '%${staffName}%'				
+	  			</if>
+				AND b.STAFF_NO IS NULL
+    </select>
+</mapper>

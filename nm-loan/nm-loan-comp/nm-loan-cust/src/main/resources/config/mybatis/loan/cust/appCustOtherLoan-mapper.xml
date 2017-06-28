@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustOtherLoanMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustOtherLoanRetMap" type="com.hs.loan.cust.entity.AppCustOtherLoan">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="OPEN_ORG" property="openOrg"/>
+			<result column="LOAN_AMT" property="loanAmt"/>
+			<result column="LOAN_MTH_DAY" property="loanMthDay"/>
+			<result column="LOAN_MONTH" property="loanMonth"/>
+			<result column="REMARK" property="remark"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="MTH_AMT" property="mthAmt"/>
+			<result column="INST_NUM" property="instNum"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户其他分期信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustOtherLoan">
+		insert into app_cust_other_loan
+		(
+  			ID
+  			,CUST_NO
+  			,OPEN_ORG
+  			,LOAN_AMT
+  			,LOAN_MTH_DAY
+  			,LOAN_MONTH
+  			,REMARK
+  			,BEGIN_DATE
+  			,END_DATE
+  			,MTH_AMT
+  			,INST_NUM
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{openOrg}
+  			, #{loanAmt}
+  			, #{loanMthDay}
+  			, #{loanMonth}
+  			, #{remark}
+  			, #{beginDate}
+  			, #{endDate}
+  			, #{mthAmt}
+  			, #{instNum}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户其他分期信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_other_loan
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openOrg')">  
+	  					OPEN_ORG = #{openOrg},  
+	  				</if>
+	  				<if test="_parameter.containsKey('mthAmt')">  
+	  					MTH_AMT = #{mthAmt},  
+	  				</if>			
+	  				<if test="_parameter.containsKey('loanAmt')">  
+	  					LOAN_AMT = #{loanAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanMthDay')">  
+	  					LOAN_MTH_DAY = #{loanMthDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanMonth')">  
+	  					LOAN_MONTH = #{loanMonth},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>	
+	  				<if test="_parameter.containsKey('instNum')">
+	  					INST_NUM = #{instNum}
+	  				</if>	
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户其他分期信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_other_loan
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户其他分期信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustOtherLoanRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_other_loan t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户其他分期信息 列表 -->
+	<select id="queryForList" resultMap="AppCustOtherLoanRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_other_loan t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+	  			<if test="mthAmt != null and mthAmt != ''">
+	  				and t.MTH_AMT = #{mthAmt}				
+	  			</if>
+				<if test="openOrg != null and openOrg != ''">
+	  				and t.OPEN_ORG = #{openOrg}				
+	  			</if>
+				<if test="loanAmt != null and loanAmt != ''">
+	  				and t.LOAN_AMT = #{loanAmt}				
+	  			</if>
+				<if test="loanMthDay != null and loanMthDay != ''">
+	  				and t.LOAN_MTH_DAY = #{loanMthDay}				
+	  			</if>
+				<if test="loanMonth != null and loanMonth != ''">
+	  				and t.LOAN_MONTH = #{loanMonth}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+	  			<if test="instNum!=null">
+	  				and t.INST_NUM =#{instNum}
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!--获取有效时间段里的有效的 客户其他分期信息  -->
+	<select id="getCustOtherLoanLstByDate" parameterType="map" resultMap="AppCustOtherLoanRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_other_loan t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	<!--  -->
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustOtherLoanRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_other_loan t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}				
+	  	</if>
+		<if test="openOrg != null and openOrg != ''">
+	  		and t.OPEN_ORG = #{openOrg}				
+	  	</if>
+		<if test="loanAmt != null and loanAmt != ''">
+	  		and t.LOAN_AMT = #{loanAmt}				
+	  	</if>
+	  	<if test="mthAmt != null and mthAmt != ''">
+			and t.MTH_AMT = #{mthAmt}				
+		</if>
+		<if test="loanMthDay != null and loanMthDay != ''">
+	  		and t.LOAN_MTH_DAY = #{loanMthDay}				
+	  	</if>
+		<if test="loanMonth != null and loanMonth != ''">
+	  		and t.LOAN_MONTH = #{loanMonth}				
+	  	</if>
+		<if test="remark != null and remark != ''">
+	  		and t.REMARK = #{remark}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>
+	  	<if test="instNum!=null">
+			and t.INST_NUM =#{instNum}
+		</if>
+		order by t.BEGIN_DATE desc
+	</select>
+	
+</mapper>

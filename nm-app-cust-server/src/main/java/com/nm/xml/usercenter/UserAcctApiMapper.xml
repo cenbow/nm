@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nm.mapper.usercenter.UserAcctApiMapper">
+    <insert id="addPayDetail">
+       insert into ACC_WECHAT_CAP_REG
+            (
+            id
+            ,LOAN_NO
+            ,MERCHANT_NO
+            ,PLAN_ID
+            ,OPT_SN
+            ,TRADE_BALANCE
+            ,TRADE_DESC
+            ,BIZ_BACK_PARAMS
+            ,INST_DATE
+            ,OPT_TYPE
+            ,OPT_NUM
+            )
+            values
+            (
+            #{id}
+            , #{loanNo}
+            , #{merchantNo}
+            , #{planId}
+            , #{optSn}
+            , #{tradeBalance}
+            , #{tradeDesc}
+            , #{bizBackParams}
+            , #{instDate}
+            , #{optType}
+            , #{optNum}
+            )
+    </insert>
+    <insert id="addEvaluateInfo">
+      insert into APP_CUST_COMMENT_INFO
+            (
+            id
+            ,LOAN_NO
+            ,CUST_NO
+            ,COMM_LEV
+            ,COMMENT
+            ,INST_DATE
+            )
+            values
+            (
+            #{id}
+            , #{loanNo}
+            , #{custNo}
+            , #{commLev}
+            , #{comment}
+            , #{instDate}
+            )
+    </insert>
+
+    <select id="queryAcctByCustNo" parameterType="java.util.List" resultType="java.util.Map">
+        SELECT
+            t.LOAN_NO,
+            t.INST_NUM,
+            t.APPLY_DATE,
+            m.GOODS_TYPE,
+            f.ACCT_NO,
+            f.OPEN_ORG
+        FROM
+            app_loan_acct t,
+            app_loan_goods m,
+            app_loan_bank_acct n,
+            app_cust_bank_acct f
+        WHERE
+            t.LOAN_NO = m.LOAN_NO
+            AND m.LOAN_NO = n.LOAN_NO
+            AND f.ID = n.BANK_ACCT_ID
+            AND n.STAT = '10002001'
+            AND	t.CUST_NO in
+       <foreach item="custNo" index="index" collection="list"  open="(" separator="," close=")">  
+  	#{custNo}  
+ 	</foreach>
+            AND t.STAT = '30201006'
+            order by t.APPLY_DATE desc
+    </select>
+
+    <select id="queryAcctByLoanNo" resultType="java.util.Map">
+        SELECT
+        t.LOAN_NO,
+        t.INST_NUM,
+        t.APPLY_DATE,
+        m.GOODS_TYPE,
+        f.ACCT_NO,
+        f.OPEN_ORG,
+        t.MTH_REPAY_AMT,
+        t.MTH_REPAY_DATE
+        FROM
+        app_loan_acct t,
+        app_loan_goods m,
+        app_loan_bank_acct n,
+        app_cust_bank_acct f
+        WHERE
+        t.LOAN_NO = m.LOAN_NO
+        AND m.LOAN_NO = n.LOAN_NO
+        AND f.ID = n.BANK_ACCT_ID
+        AND n.STAT = '10002001'
+        and t.LOAN_NO=#{loanNo}
+    </select>
+
+    <select id="queryNoInst" resultType="java.util.Map">
+    SELECT
+            t.REPAY_DATE,
+            t.REPAY_NUM,
+            T.RCV_OVDU_AMT,
+            T.RCV_INSU_AMT,
+            T.RCV_PACK_AMT,
+            T.RCV_FEE_AMT,
+            A.INST_STAT,
+            a.CUR_RCV_AMT as RCV_TOTL_AMT
+    FROM
+        acc_loan_inst t
+    LEFT JOIN
+        ACC_LOAN_ACCT_INST a
+    on
+        t.LOAN_NO=a.LOAN_NO and t.REPAY_NUM = a.repay_num
+    where
+        t.LOAN_NO = #{loanNo}
+    and (t.RCV_TOTL_AMT-t.ACT_TOTL_AMT)>0
+    and a.cur_rcv_amt>0
+    and a.INST_STAT != '20101003'
+    </select>
+
+    <select id="queryYesInst" resultType="java.util.Map">
+        SELECT
+            t.REPAY_DATE,
+            t.REPAY_NUM,
+            t.RCV_TOTL_AMT orcv_totl_amt,
+            t.ACT_TOTL_AMT,
+            T.RCV_OVDU_AMT,
+            T.RCV_INSU_AMT,
+            T.RCV_PACK_AMT,
+            T.RCV_FEE_AMT,
+            A.INST_STAT,
+            F.TRAN_AMT RCV_TOTL_AMT
+        FROM
+            acc_loan_inst t
+        LEFT JOIN ACC_LOAN_ACCT_INST a ON t.LOAN_NO = a.LOAN_NO
+        AND t.REPAY_NUM = a.repay_num
+        LEFT JOIN acc_repay_flow F ON t.LOAN_NO = F.LOAN_NO
+        AND F.REPAY_DATE = t.REPAY_DATE
+        WHERE
+            t.LOAN_NO = #{loanNo}
+        AND F.TRAN_AMT > 0
+        AND (
+            (
+                t.ACT_TOTL_AMT - t.RCV_TOTL_AMT
+            ) >= 0
+            OR A.CUR_RCV_AMT = 0
+        )
+    </select>
+
+
+    <select id="queryLoanDetails" resultType="java.util.Map">
+        SELECT
+        a.FST_PAY_AMT,
+        a.LOAN_AMT,
+        c.BRAND,
+        c.MARQUES,
+        c.PRIC
+        FROM app_loan_acct a,
+        app_loan_goods c
+        WHERE a.loan_no = c.LOAN_NO
+        and a.LOAN_NO=#{loanNo}
+    </select>
+    
+    
+    
+    <select id="queryLoanDetails2" resultType="java.util.Map">
+        SELECT
+      
+        a.LOAN_AMT,
+		a.INST_NUM,
+		a.MTH_REPAY_AMT,
+		a.MTH_REPAY_DATE,
+        c.BRAND,
+        c.GOODS_TYPE,
+		d.BRANCH_NAME,
+		 c.pric
+       
+        FROM app_loan_acct a,
+        app_loan_goods c,
+        app_loan_branch d
+        WHERE a.loan_no = c.LOAN_NO
+        AND   a.loan_no = d.LOAN_NO
+        and a.LOAN_NO=#{loanNo}
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    <select id="queryMyLoan" resultType="java.util.HashMap">
+        SELECT
+            tm.*,
+            ad.stat frtpaystat,
+            ad.PAY_AMT
+        FROM
+            (
+                SELECT
+                    c.GOODS_TYPE,
+                    a.LOAN_NO,
+                    a.STAT,
+                    a.APPLY_DATE,
+                    a.cust_no
+                FROM
+                    app_loan_acct a,
+                    app_loan_goods c
+                WHERE
+                    a.loan_no = c.LOAN_NO
+                    and a.cust_no in
+                      <foreach item="custNo" index="index" collection="list"  open="(" separator="," close=")">  
+  	#{custNo}  
+ 	</foreach>
+                AND a.stat IN (
+                    '30201001',
+                    '30201004',
+                    '30201005',
+                    '30201002',
+                    '30201006',
+                    '30201003',
+                    '30201092'
+                )
+            ) tm
+        LEFT JOIN acc_down_payment_info ad ON tm.LOAN_NO = ad.LOAN_NO ORDER BY
+                    tm.APPLY_DATE DESC
+    </select>
+    <select id="queryLoanNumDetails" resultType="java.util.Map">
+      SELECT
+            t.REPAY_DATE,
+            T.RCV_OVDU_AMT,
+            T.RCV_INSU_AMT,
+            T.RCV_PACK_AMT,
+            T.RCV_FEE_AMT,
+            T.RCV_TOTL_AMT
+        FROM
+            acc_loan_inst t
+        WHERE
+            t.LOAN_NO = #{loanNo}
+        AND t.REPAY_NUM=#{num}
+
+    </select>
+
+
+    <select id="queryRepayByLoanNoAndCurInstNum" resultType="com.nm.cmd.RepayCmd" parameterType="java.util.Map">
+        select a.loan_no as loanNo,c.cur_rcv_amt as mthRepayAmt,a.repay_num as curInstNum,
+        b.LOAN_AMT as loanAmt,b.INST_NUM as instNum,date_format(a.REPAY_DATE,'%Y-%m-%d') as repayDate,
+        a.RCV_OVDU_AMT as ovduAmt
+        from acc_loan_acct_inst c , acc_loan_inst a,app_loan_acct b
+        where  a.loan_no=#{loanNo} and a.repay_num=#{repayNum} and a.loan_no=b.loan_no and b.loan_no=c.loan_no and a.repay_num=c.repay_num and
+        (a.RCV_TOTL_AMT-a.ACT_TOTL_AMT)>0 and c.cur_rcv_amt>0
+    </select>
+
+    <select id="querySingleRepay" resultType="com.hs.loan.finance.dto.SingleRepayDto" parameterType="java.util.Map">
+        SELECT
+            h.LOAN_NO AS loanNo,
+            a.REPAY_DATE AS repayDate,
+            a.REPAY_NUM AS repayNum,
+            a.BUSN_DATE AS busnDate,
+            b.CHAN_NO AS chanNo,
+            t.OPEN_ORG AS bankNo,
+            t.ACCT_NAME AS acctName,
+            t.ACCT_NO AS acctNo,
+            c.CERT_NO AS certNo,
+            a.TOTL_AMT AS totlAmt,
+            a.DAY_RCV_AMT AS dayRcvAmt,
+            a.CUR_RCV_AMT AS curRcvAmt,
+            a.FUND_TOTL_AMT AS fundTotlAmt,
+            a.FUND_DAY_RCV_AMT AS fundDayRcvAmt,
+            a.FUND_CUR_RCV_AMT AS fundCurRcvAmt
+        FROM
+            app_cust_bank_acct t
+        RIGHT JOIN app_loan_bank_acct ba ON ba.BANK_ACCT_ID = t.id
+        AND ba.STAT = '10002001'
+        LEFT JOIN app_loan_acct h ON h.loan_no = ba.loan_no
+        AND t.stat = '10002001'
+        LEFT JOIN APP_CUST_INFO c ON c.cust_no = t.cust_no
+        LEFT JOIN acc_loan_acct_inst a ON a.loan_no = h.loan_no
+        LEFT JOIN app_loan_fund_match b ON b.loan_no = h.loan_no
+        AND b.match_result = '40103001'
+        AND b.stat = '40003003'
+        WHERE
+            NOT EXISTS (
+                SELECT
+                    loan_no
+                FROM
+                    acc_loan_acct_inst i
+                WHERE
+                    h.loan_No = i.loan_no
+                AND i.inst_stat = '20101003'
+            )
+        AND h.LOAN_NO = #{loanNo}
+        AND a.REPAY_NUM = #{repayNum}
+    </select>
+    <select id="queryGoodsType" resultType="java.lang.String">
+        select GOODS_TYPE from app_loan_goods where LOAN_NO=#{loanNo}
+    </select>
+    <select id="queryLoanList" resultType="java.lang.String">
+         select loan_no from app_loan_acct where cust_no=#{custNo} and stat='30201005'
+    </select>
+    <select id="selectOverdueInst" resultType="java.lang.Integer">
+        <![CDATA[
+          SELECT
+                count(*)
+            FROM
+                acc_loan_acct_inst
+            WHERE
+                repay_date <= busn_date
+            AND LOAN_NO=#{loanNo}
+            AND inst_stat = '20101001'
+        ]]>
+    </select>
+    <select id="queryFirstAmt" resultType="java.util.Map">
+        select * from acc_down_payment_info where loan_no=#{loanNo}
+    </select>
+
+
+    <select id="queryIsPay" resultType="java.util.Map">
+        SELECT
+        t.REPAY_DATE,
+        t.REPAY_NUM,
+        T.RCV_OVDU_AMT,
+        T.RCV_INSU_AMT,
+        T.RCV_PACK_AMT,
+        T.RCV_FEE_AMT,
+        A.INST_STAT,
+        a.CUR_RCV_AMT as RCV_TOTL_AMT
+        FROM
+        acc_loan_inst t
+        LEFT JOIN
+        ACC_LOAN_ACCT_INST a
+        on
+        t.LOAN_NO=a.LOAN_NO and t.REPAY_NUM = a.repay_num
+        where
+        t.LOAN_NO = #{loanNo}
+        and t.REPAY_NUM=#{num}
+        and (t.RCV_TOTL_AMT-t.ACT_TOTL_AMT)>0
+        and a.cur_rcv_amt>0
+        and a.INST_STAT != '20101003'
+        and a.INST_STAT != '20101002'
+    </select>
+    <select id="queryOptSn" resultType="java.util.Map">
+        select * from ACC_WECHAT_CAP_REG where LOAN_NO=#{loanNo} and opt_type='isfirstPay' order by INST_DATE desc limit 1
+    </select>
+    <select id="queryIsOptSn" resultType="java.util.Map">
+        select * from ACC_WECHAT_CAP_REG where LOAN_NO=#{loanNo} and opt_type='dkAmtPay' and opt_num=#{optNum} order by INST_DATE desc limit 1
+    </select>
+    <select id="queryBankInfo" resultType="java.util.Map">
+        SELECT
+            b.ACCT_NO,
+            b.ACCT_NAME
+        FROM
+            app_loan_bank_acct a,
+            app_cust_bank_acct b
+        WHERE
+            a.BANK_ACCT_ID = b.id
+        AND a.LOAN_NO = #{loanNo}
+        limit 1
+    </select>
+    <select id="getEvaluateInfo" resultType="java.util.Map">
+        select * from APP_CUST_COMMENT_INFO where loan_no=#{loanNo}
+    </select>
+    <select id="queryLoanAttInfo" resultType="java.util.Map">
+        select * from app_loan_att where LOAN_NO= #{loanNo} and ATT_TYP IN
+        <foreach collection="attType" item="attType" index="index" open="(" close=")" separator=",">
+            #{attType}
+        </foreach>
+
+    </select>
+
+    
+
+</mapper>

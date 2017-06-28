@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccLoanPlanInitMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="AccLoanPlanInitRetMap" type="com.hs.loan.finance.entity.AccLoanPlanInit">
+		<result column="ID" property="id" />
+		<result column="LOAN_NO" property="loanNo" />
+		<result column="REPAY_DATE" property="repayDate" />
+		<result column="BUSI_DATE" property="busiDate" />
+		<result column="REPAY_NUM" property="repayNum" />
+		<result column="REPAY_AMT" property="repayAmt" />
+		<result column="PRIN_AMT" property="prinAmt" />
+		<result column="INT_AMT" property="intAmt" />
+		<result column="OVDU_AMT" property="ovduAmt" />
+		<result column="SVC_AMT" property="svcAmt" />
+		<result column="MNG_AMT" property="mngAmt" />
+		<result column="INSU_AMT" property="insuAmt" />
+		<result column="FEE_AMT" property="feeAmt" />
+		<result column="FUN_AMT" property="funAmt" />
+		<result column="OUT_AMT" property="outAmt" />
+		<result column="PACK_AMT" property="packAmt" />
+		<result column="OVDU_FLAG" property="ovduFlag" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 新增 ACC_还款计划（初始） -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccLoanPlanInit">
+		insert into ACC_LOAN_PLAN_INIT
+		(
+		ID
+		,LOAN_NO
+		,REPAY_DATE
+		,BUSI_DATE
+		,REPAY_NUM
+		,REPAY_AMT
+		,PRIN_AMT
+		,INT_AMT
+		,OVDU_AMT
+		,SVC_AMT
+		,MNG_AMT
+		,INSU_AMT
+		,FEE_AMT
+		,FUN_AMT
+		,OUT_AMT
+		,PACK_AMT
+		,OVDU_FLAG
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{loanNo}
+		, #{repayDate}
+		,
+		#{busiDate}
+		, #{repayNum}
+		, #{repayAmt}
+		, #{prinAmt}
+		, #{intAmt}
+		,
+		#{ovduAmt}
+		, #{svcAmt}
+		, #{mngAmt}
+		, #{insuAmt}
+		, #{feeAmt}
+		, #{funAmt}
+		,
+		#{outAmt}
+		, #{packAmt}
+		, #{ovduFlag}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 ACC_还款计划（初始） -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_LOAN_PLAN_INIT
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('loanNo')">
+				LOAN_NO = #{loanNo},
+			</if>
+			<if test="_parameter.containsKey('repayDate')">
+				REPAY_DATE = #{repayDate},
+			</if>
+			<if test="_parameter.containsKey('busiDate')">
+				BUSI_DATE = #{busiDate},
+			</if>
+			<if test="_parameter.containsKey('repayNum')">
+				REPAY_NUM = #{repayNum},
+			</if>
+			<if test="_parameter.containsKey('repayAmt')">
+				REPAY_AMT = #{repayAmt},
+			</if>
+			<if test="_parameter.containsKey('prinAmt')">
+				PRIN_AMT = #{prinAmt},
+			</if>
+			<if test="_parameter.containsKey('intAmt')">
+				INT_AMT = #{intAmt},
+			</if>
+			<if test="_parameter.containsKey('ovduAmt')">
+				OVDU_AMT = #{ovduAmt},
+			</if>
+			<if test="_parameter.containsKey('svcAmt')">
+				SVC_AMT = #{svcAmt},
+			</if>
+			<if test="_parameter.containsKey('mngAmt')">
+				MNG_AMT = #{mngAmt},
+			</if>
+			<if test="_parameter.containsKey('insuAmt')">
+				INSU_AMT = #{insuAmt},
+			</if>
+			<if test="_parameter.containsKey('feeAmt')">
+				FEE_AMT = #{feeAmt},
+			</if>
+			<if test="_parameter.containsKey('funAmt')">
+				FUN_AMT = #{funAmt},
+			</if>
+			<if test="_parameter.containsKey('outAmt')">
+				OUT_AMT = #{outAmt},
+			</if>
+			<if test="_parameter.containsKey('packAmt')">
+				PACK_AMT = #{packAmt},
+			</if>
+			<if test="_parameter.containsKey('ovduFlag')">
+				OVDU_FLAG = #{ovduFlag},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 ACC_还款计划（初始） -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		ACC_LOAN_PLAN_INIT
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 ACC_还款计划（初始） -->
+	<select id="getByPrimaryKey" resultMap="AccLoanPlanInitRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from ACC_LOAN_PLAN_INIT t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 ACC_还款计划（初始） 列表 -->
+	<select id="queryForList" resultMap="AccLoanPlanInitRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from ACC_LOAN_PLAN_INIT t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loanNo != null and loanNo != ''">
+				and t.LOAN_NO = #{loanNo}
+			</if>
+			<if test="repayDate != null and repayDate != ''">
+				and t.REPAY_DATE = #{repayDate}
+			</if>
+			<if test="busiDate != null and busiDate != ''">
+				and t.BUSI_DATE = #{busiDate}
+			</if>
+			<if test="repayNum != null">
+				and t.REPAY_NUM = #{repayNum}
+			</if>
+			<if test="repayAmt != null">
+				and t.REPAY_AMT = #{repayAmt}
+			</if>
+			<if test="prinAmt != null">
+				and t.PRIN_AMT = #{prinAmt}
+			</if>
+			<if test="intAmt != null">
+				and t.INT_AMT = #{intAmt}
+			</if>
+			<if test="ovduAmt != null">
+				and t.OVDU_AMT = #{ovduAmt}
+			</if>
+			<if test="svcAmt != null">
+				and t.SVC_AMT = #{svcAmt}
+			</if>
+			<if test="mngAmt != null">
+				and t.MNG_AMT = #{mngAmt}
+			</if>
+			<if test="insuAmt != null">
+				and t.INSU_AMT = #{insuAmt}
+			</if>
+			<if test="feeAmt != null">
+				and t.FEE_AMT = #{feeAmt}
+			</if>
+			<if test="funAmt != null">
+				and t.FUN_AMT = #{funAmt}
+			</if>
+			<if test="outAmt != null">
+				and t.OUT_AMT = #{outAmt}
+			</if>
+			<if test="packAmt != null">
+				and t.PACK_AMT = #{packAmt}
+			</if>
+			<if test="ovduFlag != null and ovduFlag != ''">
+				and t.OVDU_FLAG = #{ovduFlag}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+</mapper>

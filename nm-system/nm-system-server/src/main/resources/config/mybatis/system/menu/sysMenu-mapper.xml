@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.menu.mapper.SysMenuMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysMenuRetMap" type="com.hs.system.entity.SysMenu">
+		<result column="ID" property="id" />
+		<result column="MENU_NAME" property="menuName" />
+		<result column="PAR_MENU_ID" property="parMenuId" />
+		<result column="MENU_TYP" property="menuTyp" />
+		<result column="URL" property="url" />
+		<result column="IMG" property="img" />
+		<result column="MENU_TARGT" property="menuTargt" />
+		<result column="MENU_LAYER" property="menuLayer" />
+		<result column="MENU_ORDER" property="menuOrder" />
+		<result column="MENU_STAT" property="menuStat" />
+		<result column="SYS_ID" property="sysId" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 新增 菜单 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysMenu">
+		insert into sys_menu
+		(
+		ID
+		,MENU_NAME
+		,PAR_MENU_ID
+		,MENU_TYP
+		,URL
+		,IMG
+		,MENU_TARGT
+		,MENU_LAYER
+		,MENU_ORDER
+		,MENU_STAT
+		,SYS_ID
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{menuName}
+		, #{parMenuId}
+		, #{menuTyp}
+		, #{url}
+		, #{img}
+		, #{menuTargt}
+		, #{menuLayer}
+		, #{menuOrder}
+		, #{menuStat}
+		, #{sysId}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 菜单 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_menu
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('menuName')">
+				MENU_NAME = #{menuName},
+			</if>
+			<if test="_parameter.containsKey('parMenuId')">
+				PAR_MENU_ID = #{parMenuId},
+			</if>
+			<if test="_parameter.containsKey('menuTyp')">
+				MENU_TYP = #{menuTyp},
+			</if>
+			<if test="_parameter.containsKey('url')">
+				URL = #{url},
+			</if>
+			<if test="_parameter.containsKey('img')">
+				IMG = #{img},
+			</if>
+			<if test="_parameter.containsKey('menuTargt')">
+				MENU_TARGT = #{menuTargt},
+			</if>
+			<if test="_parameter.containsKey('menuLayer')">
+				MENU_LAYER = #{menuLayer},
+			</if>
+			<if test="_parameter.containsKey('menuOrder')">
+				MENU_ORDER = #{menuOrder},
+			</if>
+			<if test="_parameter.containsKey('menuStat')">
+				MENU_STAT = #{menuStat},
+			</if>
+			<if test="_parameter.containsKey('sysId')">
+				SYS_ID = #{sysId},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 菜单 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_menu
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 菜单 -->
+	<select id="getByPrimaryKey" resultMap="SysMenuRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_menu t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 菜单 列表 -->
+	<select id="queryForList" resultMap="SysMenuRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_menu t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="menuName != null and menuName != ''">
+				and t.MENU_NAME = #{menuName}
+			</if>
+			<if test="parMenuId != null and parMenuId != ''">
+				and t.PAR_MENU_ID = #{parMenuId}
+			</if>
+			<if test="menuTyp != null and menuTyp != ''">
+				and t.MENU_TYP = #{menuTyp}
+			</if>
+			<if test="url != null and url != ''">
+				and t.URL = #{url}
+			</if>
+			<if test="img != null and img != ''">
+				and t.IMG = #{img}
+			</if>
+			<if test="menuTargt != null and menuTargt != ''">
+				and t.MENU_TARGT = #{menuTargt}
+			</if>
+			<if test="menuLayer != null">
+				and t.MENU_LAYER = #{menuLayer}
+			</if>
+			<if test="menuOrder != null">
+				and t.MENU_ORDER = #{menuOrder}
+			</if>
+			<if test="menuStat != null and menuStat != ''">
+				and t.MENU_STAT = #{menuStat}
+			</if>
+			<if test="sysId != null and sysId != ''">
+				and t.SYS_ID = #{sysId}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+		order by t.MENU_ORDER asc , t.INST_DATE asc
+	</select>
+</mapper>

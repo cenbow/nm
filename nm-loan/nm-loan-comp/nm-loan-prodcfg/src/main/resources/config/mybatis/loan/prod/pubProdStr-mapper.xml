@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdStrMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdStrRetMap" type="com.hs.loan.prod.entity.PubProdStr">
+			<result column="ID" property="id"/>
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="BRANCH_NO" property="branchNo"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与网点的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdStr">
+		insert into PUB_PROD_STR
+		(
+  			ID
+  			,PROD_NO
+  			,BRANCH_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{prodNo}
+  			, #{branchNo}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与网点的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD_STR
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchNo')">  
+	  					BRANCH_NO = #{branchNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与网点的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD_STR
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 删除 PUB_产品与网点的关系 -->
+	<delete id="deleteByProdNo" parameterType="java.lang.String">
+		delete from PUB_PROD_STR
+		where 
+  			PROD_NO = #{prodNo}				
+	</delete>
+	<!-- 删除 PUB_产品与网点的关系 -->
+	<delete id="deleteBybranchNo" parameterType="java.lang.String">
+		delete from PUB_PROD_STR
+		where 
+  			BRANCH_NO = #{branchNo}			
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与网点的关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdStrRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD_STR t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品与网点的关系 列表 -->
+	<select id="queryForList" resultMap="PubProdStrRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_STR t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="branchNo != null and branchNo != ''">
+	  				and t.BRANCH_NO = #{branchNo}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.homepage-container {
+    background-size: cover;
+    min-width: 500px;
+    min-height: 300px;
+    margin: -15px -15px;
+    text-align: left;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+.homepage-container > img {}

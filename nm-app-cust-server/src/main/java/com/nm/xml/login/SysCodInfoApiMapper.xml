@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nm.mapper.login.SysCodInfoApiMapper">
+
+    <select id="selectCodeGroupInfo" parameterType="java.util.Map" resultType="java.util.Map">
+    	SELECT
+			CI.COD_TYP,
+			G.GROUP_COD,
+			CI.COD_VAL,
+			CI.COD_NAME,
+			CI.STAT
+		FROM
+			SYS_COD_INFO CI
+		INNER JOIN SYS_COD_GROUP CG ON CG.COD_ID = CI.ID
+		INNER JOIN SYS_GROUP G ON G.ID = CG.GROUP_ID
+		WHERE
+			CI.COD_TYP IN (
+				<foreach collection="types" item="type" open="" close="" separator=",">
+            	#{type}
+        		</foreach>
+			)
+		ORDER BY
+			CI.COD_VAL,
+			G.GROUP_COD,
+			CI.COD_VAL
+    	
+    </select>
+    <select id="selectCodeByNameType" resultType="java.lang.String">
+		select COD_VAL from sys_cod_info where COD_TYP=#{type} and COD_NAME like CONCAT('%',#{name},'%')
+	</select>
+	<select id="getCodeNameByTypeAndNum" resultType="java.lang.String">
+		select COD_NAME from sys_cod_info where COD_TYP=#{type} and COD_VAL=#{codValue}
+	</select>
+
+</mapper>

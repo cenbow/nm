@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustWorkMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustWorkRetMap" type="com.hs.loan.cust.entity.AppCustWork">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="WORK_UNIT" property="workUnit"/>
+			<result column="INDUSTRY" property="industry"/>
+			<result column="UNIT_SCALE" property="unitScale"/>
+			<result column="UNIT_TYPE" property="unitType"/>
+			<result column="UNIT_TEL" property="unitTel"/>
+			<result column="WORK_DEPT" property="workDept"/>
+			<result column="WORK_JOB" property="workJob"/>
+			<result column="WORK_TIME" property="workTime"/>
+			<result column="UNIT_PROV" property="unitProv"/>
+			<result column="UNIT_CITY" property="unitCity"/>
+			<result column="UNIT_AREA" property="unitArea"/>
+			<result column="UNIT_ADDR" property="unitAddr"/>
+			<result column="LINK_MAN" property="linkMan"/>
+			<result column="LINK_TEL" property="linkTel"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="IS_TOURISM_LABOR" property="isTourismLabor"/>
+		<result column="JOB" property="job"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户工作信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustWork">
+		insert into app_cust_work
+		(
+  			ID
+  			,CUST_NO
+  			,WORK_UNIT
+  			,INDUSTRY
+  			,UNIT_SCALE
+  			,UNIT_TYPE
+  			,UNIT_TEL
+  			,WORK_DEPT
+  			,WORK_JOB
+  			,WORK_TIME
+  			,UNIT_PROV
+  			,UNIT_CITY
+  			,UNIT_AREA
+  			,UNIT_ADDR
+  			,LINK_MAN
+  			,LINK_TEL
+  			,IS_TOURISM_LABOR
+  			,BEGIN_DATE
+  			,END_DATE
+  			,JOB
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{workUnit}
+  			, #{industry}
+  			, #{unitScale}
+  			, #{unitType}
+  			, #{unitTel}
+  			, #{workDept}
+  			, #{workJob}
+  			, #{workTime}
+  			, #{unitProv}
+  			, #{unitCity}
+  			, #{unitArea}
+  			, #{unitAddr}
+  			, #{linkMan}
+  			, #{linkTel}
+  			, #{isTourismLabor}
+  			, #{beginDate}
+  			, #{endDate}
+  			, #{job}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户工作信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_work
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('workUnit')">  
+	  					WORK_UNIT = #{workUnit},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('industry')">  
+	  					INDUSTRY = #{industry},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitScale')">  
+	  					UNIT_SCALE = #{unitScale},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitType')">  
+	  					UNIT_TYPE = #{unitType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitTel')">  
+	  					UNIT_TEL = #{unitTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('workDept')">  
+	  					WORK_DEPT = #{workDept},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('workJob')">  
+	  					WORK_JOB = #{workJob},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('workTime')">  
+	  					WORK_TIME = #{workTime},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitProv')">  
+	  					UNIT_PROV = #{unitProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitCity')">  
+	  					UNIT_CITY = #{unitCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitArea')">  
+	  					UNIT_AREA = #{unitArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitAddr')">  
+	  					UNIT_ADDR = #{unitAddr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('linkMan')">  
+	  					LINK_MAN = #{linkMan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('linkTel')">  
+	  					LINK_TEL = #{linkTel},  
+	  				</if>
+	  				<if test="_parameter.containsKey('isTourismLabor')">  
+	  					IS_TOURISM_LABOR = #{isTourismLabor},  
+	  				</if>			
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>
+					<if test="_parameter.containsKey('job')">
+						JOB = #{job},
+					</if>
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户工作信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_work
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户工作信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustWorkRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_work t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户工作信息 列表 -->
+	<select id="queryForList" resultMap="AppCustWorkRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_work t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="workUnit != null and workUnit != ''">
+	  				and t.WORK_UNIT = #{workUnit}				
+	  			</if>
+				<if test="industry != null and industry != ''">
+	  				and t.INDUSTRY = #{industry}				
+	  			</if>
+				<if test="unitScale != null and unitScale != ''">
+	  				and t.UNIT_SCALE = #{unitScale}				
+	  			</if>
+				<if test="unitType != null and unitType != ''">
+	  				and t.UNIT_TYPE = #{unitType}				
+	  			</if>
+				<if test="unitTel != null and unitTel != ''">
+	  				and t.UNIT_TEL = #{unitTel}				
+	  			</if>
+				<if test="workDept != null and workDept != ''">
+	  				and t.WORK_DEPT = #{workDept}				
+	  			</if>
+				<if test="workJob != null and workJob != ''">
+	  				and t.WORK_JOB = #{workJob}				
+	  			</if>
+				<if test="workTime != null and workTime != ''">
+	  				and t.WORK_TIME = #{workTime}				
+	  			</if>
+				<if test="unitProv != null and unitProv != ''">
+	  				and t.UNIT_PROV = #{unitProv}				
+	  			</if>
+				<if test="unitCity != null and unitCity != ''">
+	  				and t.UNIT_CITY = #{unitCity}				
+	  			</if>
+				<if test="unitArea != null and unitArea != ''">
+	  				and t.UNIT_AREA = #{unitArea}				
+	  			</if>
+				<if test="unitAddr != null and unitAddr != ''">
+	  				and t.UNIT_ADDR = #{unitAddr}				
+	  			</if>
+				<if test="linkMan != null and linkMan != ''">
+	  				and t.LINK_MAN = #{linkMan}				
+	  			</if>
+				<if test="linkTel != null and linkTel != ''">
+	  				and t.LINK_TEL = #{linkTel}				
+	  			</if>
+	  			<if test="isTourismLabor != null and isTourismLabor != ''">
+  					and t.IS_TOURISM_LABOR = #{isTourismLabor}				
+  				</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<select id="getCustWorkLstByDate" parameterType="map" resultMap="AppCustWorkRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_work t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		ORDER BY t.BEGIN_DATE desc
+	</select>
+	
+	
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustWorkRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_work t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+  			and t.ID = #{id}				
+  		</if>
+		<if test="workUnit != null and workUnit != ''">
+  			and t.WORK_UNIT = #{workUnit}				
+  		</if>
+		<if test="industry != null and industry != ''">
+  			and t.INDUSTRY = #{industry}				
+  		</if>
+		<if test="unitScale != null and unitScale != ''">
+  			and t.UNIT_SCALE = #{unitScale}				
+  		</if>
+		<if test="unitType != null and unitType != ''">
+  			and t.UNIT_TYPE = #{unitType}				
+  		</if>
+		<if test="unitTel != null and unitTel != ''">
+  			and t.UNIT_TEL = #{unitTel}				
+  		</if>
+		<if test="workDept != null and workDept != ''">
+  			and t.WORK_DEPT = #{workDept}				
+  		</if>
+		<if test="workJob != null and workJob != ''">
+  			and t.WORK_JOB = #{workJob}				
+  		</if>
+		<if test="workTime != null and workTime != ''">
+  			and t.WORK_TIME = #{workTime}				
+  		</if>
+		<if test="unitProv != null and unitProv != ''">
+  			and t.UNIT_PROV = #{unitProv}				
+  		</if>
+		<if test="unitCity != null and unitCity != ''">
+  			and t.UNIT_CITY = #{unitCity}				
+  		</if>
+		<if test="unitArea != null and unitArea != ''">
+  			and t.UNIT_AREA = #{unitArea}				
+  		</if>
+		<if test="unitAddr != null and unitAddr != ''">
+  			and t.UNIT_ADDR = #{unitAddr}				
+  		</if>
+		<if test="linkMan != null and linkMan != ''">
+  			and t.LINK_MAN = #{linkMan}				
+  		</if>
+		<if test="linkTel != null and linkTel != ''">
+  			and t.LINK_TEL = #{linkTel}				
+  		</if>
+  		<if test="isTourismLabor != null and isTourismLabor != ''">
+  			and t.IS_TOURISM_LABOR = #{isTourismLabor}				
+  		</if>
+		<if test="beginDate != null">
+  			and t.BEGIN_DATE = #{beginDate}				
+  		</if>
+		<if test="endDate != null">
+  			and t.END_DATE = #{endDate}				
+  		</if>
+		ORDER BY t.BEGIN_DATE desc
+	</select>
+	
+</mapper>

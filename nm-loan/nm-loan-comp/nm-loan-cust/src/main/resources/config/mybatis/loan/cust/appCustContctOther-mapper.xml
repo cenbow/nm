@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustContctOtherMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustContctOtherRetMap" type="com.hs.loan.cust.entity.AppCustContctOther">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CONTACT_NAME" property="contactName"/>
+			<result column="CONTACT_REL" property="contactRel"/>
+			<result column="CONTACT_TEL" property="contactTel"/>
+			<result column="IS_CON_KNOW" property="isConKnow"/>
+			<result column="IS_VALID" property="isValid"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户其他联系人信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustContctOther">
+		insert into app_cust_contct_other
+		(
+  			ID
+  			,CUST_NO
+  			,CONTACT_NAME
+  			,CONTACT_REL
+  			,CONTACT_TEL
+  			,IS_CON_KNOW
+  			,IS_VALID
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{contactName}
+  			, #{contactRel}
+  			, #{contactTel}
+  			, #{isConKnow}
+  			, #{isValid}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户其他联系人信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_contct_other
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactName')">  
+	  					CONTACT_NAME = #{contactName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactRel')">  
+	  					CONTACT_REL = #{contactRel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactTel')">  
+	  					CONTACT_TEL = #{contactTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isConKnow')">  
+	  					IS_CON_KNOW = #{isConKnow},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isValid')">  
+	  					IS_VALID = #{isValid},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户其他联系人信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_contct_other
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户其他联系人信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustContctOtherRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_contct_other t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户其他联系人信息 列表 -->
+	<select id="queryForList" resultMap="AppCustContctOtherRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_contct_other t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="contactName != null and contactName != ''">
+	  				and t.CONTACT_NAME = #{contactName}				
+	  			</if>
+				<if test="contactRel != null and contactRel != ''">
+	  				and t.CONTACT_REL = #{contactRel}				
+	  			</if>
+				<if test="contactTel != null and contactTel != ''">
+	  				and t.CONTACT_TEL = #{contactTel}				
+	  			</if>
+				<if test="isConKnow != null and isConKnow != ''">
+	  				and t.IS_CON_KNOW = #{isConKnow}				
+	  			</if>
+				<if test="isValid != null and isValid != ''">
+	  				and t.IS_VALID = #{isValid}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 根据客户号和有效时间段 获取 客户其他联系人信息 -->
+	<select id="getCustContctOtherLstByDate" parameterType="map" resultMap="AppCustContctOtherRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_contct_other t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustContctOtherRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_contct_other t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}				
+	  	</if>
+		<if test="contactName != null and contactName != ''">
+	  		and t.CONTACT_NAME = #{contactName}				
+	  	</if>
+		<if test="contactRel != null and contactRel != ''">
+	  		and t.CONTACT_REL = #{contactRel}				
+	  	</if>
+		<if test="contactTel != null and contactTel != ''">
+	  		and t.CONTACT_TEL = #{contactTel}				
+	  	</if>
+		<if test="isConKnow != null and isConKnow != ''">
+	  		and t.IS_CON_KNOW = #{isConKnow}				
+	  	</if>
+		<if test="isValid != null and isValid != ''">
+	  		and t.IS_VALID = #{isValid}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	
+</mapper>

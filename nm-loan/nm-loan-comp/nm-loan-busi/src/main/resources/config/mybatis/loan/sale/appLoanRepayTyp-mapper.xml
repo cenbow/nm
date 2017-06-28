@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanRepayTypMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanRepayTypRetMap" type="com.hs.loan.sale.entity.AppLoanRepayTyp">
+			<result column="ID" property="id"/>
+			<result column="CONF_NO" property="confNo"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CONF_NAME" property="confName"/>
+	</resultMap>
+	
+	<!-- 新增 APP_分期与还款类型的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanRepayTyp">
+		insert into app_loan_repay_typ
+		(
+  			ID
+  			,CONF_NO
+  			,LOAN_NO
+  			,CONF_NAME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{confNo}
+  			, #{loanNo}
+  			, #{confName}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期与还款类型的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_loan_repay_typ
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('confNo')">  
+	  					CONF_NO = #{confNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('confName')">  
+	  					CONF_NAME = #{confName},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期与还款类型的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_loan_repay_typ
+		where 
+  			ID = #{id}				
+	</delete>
+	<!-- 删除 APP_分期与还款类型的关系 -->
+	<delete id="deleteByLoanNo" parameterType="java.lang.String">
+		delete from app_loan_repay_typ
+		where  LOAN_NO = #{loanNo}			
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期与还款类型的关系 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanRepayTypRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_loan_repay_typ t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期与还款类型的关系 列表 -->
+	<select id="queryForList" resultMap="AppLoanRepayTypRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_loan_repay_typ t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="confNo != null and confNo != ''">
+	  				and t.CONF_NO = #{confNo}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="confName != null and confName != ''">
+	  				and t.CONF_NAME = #{confName}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

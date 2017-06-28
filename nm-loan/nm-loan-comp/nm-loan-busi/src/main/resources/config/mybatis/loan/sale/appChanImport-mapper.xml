@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppChanImportMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppChanImportRetMap" type="com.hs.loan.sale.entity.AppChanImport">
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="BIDDING_NUM" property="biddingNum"/>
+			<result column="INST_NUM" property="instNum"/>
+			<result column="RAT" property="rat"/>
+			<result column="CONTRACT_AMT" property="contractAmt"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppChanImport">
+		insert into app_chan_import
+		(
+  			LOAN_NO
+  			,CHAN_NO
+  			,BIDDING_NUM
+  			,INST_NUM
+  			,RAT
+  			,CONTRACT_AMT
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{loanNo}
+  			, #{chanNo}
+  			, #{biddingNum}
+  			, #{instNum}
+  			, #{rat}
+  			, #{contractAmt}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_chan_import
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chanNo')">  
+	  					CHAN_NO = #{chanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('biddingNum')">  
+	  					BIDDING_NUM = #{biddingNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instNum')">  
+	  					INST_NUM = #{instNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rat')">  
+	  					RAT = #{rat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contractAmt')">  
+	  					CONTRACT_AMT = #{contractAmt},  
+	  				</if>		
+    	</trim>
+		where 
+	</update>
+	
+	<!-- 删除  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_chan_import
+		where loan_no = #{loanNo}
+	</delete>
+	
+	<!-- 通过主键查询  -->
+	<select id="getByPrimaryKey" resultMap="AppChanImportRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_chan_import t
+		where 
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="AppChanImportRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_chan_import t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and t.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="biddingNum != null">
+	  				and t.BIDDING_NUM = #{biddingNum}				
+	  			</if>
+				<if test="instNum != null">
+	  				and t.INST_NUM = #{instNum}				
+	  			</if>
+				<if test="rat != null">
+	  				and t.RAT = #{rat}				
+	  			</if>
+				<if test="contractAmt != null">
+	  				and t.CONTRACT_AMT = #{contractAmt}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

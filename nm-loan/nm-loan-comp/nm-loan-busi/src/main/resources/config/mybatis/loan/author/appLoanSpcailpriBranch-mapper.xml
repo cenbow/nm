@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.author.mapper.AppLoanSpcailpriBranchMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanSpcailpriBranchRetMap" type="com.hs.loan.author.entity.AppLoanSpcailpriBranch">
+			<result column="BRANCH_NO" property="branchNo"/>
+			<result column="BRANCH_NAME" property="branchName"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="HAND_PERSON" property="handPerson"/>
+			<result column="ORG_NO" property="orgNo"/>
+	</resultMap>
+	
+	<!-- 新增 APP_商户直通车权限 -->
+	<insert id="insert" parameterType="com.hs.loan.author.entity.AppLoanSpcailpriBranch">
+		insert into APP_LOAN_SPCAILPRI_BRANCH
+		(
+  			BRANCH_NO
+  			,BRANCH_NAME
+  			,INST_DATE
+  			,HAND_PERSON
+  			,ORG_NO
+    	)
+    	values
+    	(
+  			 #{branchNo}
+  			, #{branchName}
+  			, #{instDate}
+  			, #{handPerson}
+  			, #{orgNo}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_商户直通车权限 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_SPCAILPRI_BRANCH
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('branchName')">  
+	  					BRANCH_NAME = #{branchName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handPerson')">  
+	  					HAND_PERSON = #{handPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgNo')">  
+	  					ORG_NO = #{orgNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			BRANCH_NO = #{branchNo}				
+	</update>
+	
+	<!-- 删除 APP_商户直通车权限 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_SPCAILPRI_BRANCH
+		where 
+  			BRANCH_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_商户直通车权限 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanSpcailpriBranchRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_BRANCH t
+		where 
+  				t.BRANCH_NO = #{id}				
+	</select>
+	
+	<!-- 查询 APP_商户直通车权限 列表 -->
+	<select id="queryForList" resultMap="AppLoanSpcailpriBranchRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_BRANCH t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="branchNo != null and branchNo != ''">
+	  				and t.BRANCH_NO = #{branchNo}				
+	  			</if>
+				<if test="branchName != null and branchName != ''">
+	  				and t.BRANCH_NAME = #{branchName}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="handPerson != null and handPerson != ''">
+	  				and t.HAND_PERSON = #{handPerson}				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and t.ORG_NO = #{orgNo}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	
+	<resultMap id="PubBranchSimpleRetMap" type="com.hs.loan.author.entity.AppLoanSpcailpriBranch">
+        <result column="BRANCH_NO" property="branchNo"/>
+        <result column="BRANCH_NAME" property="branchName"/>
+    </resultMap>
+    
+    <select id="queryNotSpcailpriBranchList" resultMap="PubBranchSimpleRetMap" parameterType="java.util.Map">
+    	SELECT a.BRANCH_NO,a.BRANCH_NAME FROM PUB_BRANCH a LEFT JOIN APP_LOAN_SPCAILPRI_BRANCH b 
+		ON a.BRANCH_NO=b.BRANCH_NO WHERE a.stat = #{status}
+			<if test="branchNo != null and branchNo != ''">
+	  			AND a.BRANCH_NO = #{branchNo}				
+	  		</if>
+			<if test="branchName != null and branchName != ''">
+	  			AND a.BRANCH_NAME like '%${branchName}%'				
+	  		</if>
+		    AND b.BRANCH_NO IS NULL
+    </select>
+    
+    	<!-- 新增 APP_商户直通车权限 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into APP_LOAN_SPCAILPRI_BRANCH
+		(
+  			BRANCH_NO
+  			,BRANCH_NAME
+  			,INST_DATE
+  			,HAND_PERSON
+  			,ORG_NO
+    	)
+    	values
+    	<foreach collection="list" item="item" index="index" separator=",">
+		    (#{item.branchNo}, #{item.branchName}, #{item.instDate}, #{item.handPerson}, #{item.orgNo}
+    	)
+		</foreach>
+	</insert>
+</mapper>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustRevisitInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustRevisitInfoRetMap" type="com.hs.loan.cust.entity.AppCustRevisitInfo">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="REVISIT_OBJ" property="revisitObj"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="REVISIT_FLAG" property="revisitFlag"/>
+			<result column="TYP" property="typ"/>
+			<result column="REVISIT_DESC" property="revisitDesc"/>
+			<result column="STAFF_ID" property="staffId"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="REVISIT_DATE" property="revisitDate"/>
+		    <result column="STARTDATE" property="startDate"/>
+		    <result column="ENDDATE" property="endDate"/>
+		    <result column="PHONE" property="phone"/>
+			<result column="REMARK" property="remark"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户回访信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustRevisitInfo">
+		insert into app_cust_revisit_info
+		(
+  			ID
+  			,LOAN_NO
+  			,CUST_NO
+  			,REVISIT_OBJ
+  			,CUST_NAME
+  			,REVISIT_FLAG
+  			,TYP
+  			,REVISIT_DESC
+  			,STAFF_ID
+  			,STAFF_NAME
+  			,REVISIT_DATE
+  			,STARTDATE
+  			,ENDDATE
+  			,PHONE
+  			,REMARK
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{custNo}
+  			, #{revisitObj}
+  			, #{custName}
+  			, #{revisitFlag}
+  			, #{typ}
+  			, #{revisitDesc}
+  			, #{staffId}
+  			, #{staffName}
+  			, #{revisitDate}
+  			, #{startDate}
+  			, #{endDate}
+  			, #{phone}
+  			, #{remark}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户回访信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_revisit_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('revisitObj')">  
+	  					REVISIT_OBJ = #{revisitObj},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('revisitFlag')">  
+	  					REVISIT_FLAG = #{revisitFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('typ')">  
+	  					TYP = #{typ},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('revisitDesc')">  
+	  					REVISIT_DESC = #{revisitDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffId')">  
+	  					STAFF_ID = #{staffId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('revisitDate')">  
+	  					REVISIT_DATE = #{revisitDate},  
+	  				</if>
+	  					<if test="_parameter.containsKey('remark')">
+	  					REMARK = #{remark},
+	  				</if>
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户回访信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_revisit_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户回访信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustRevisitInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_revisit_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户回访信息 列表 -->
+	<select id="queryForList" resultMap="AppCustRevisitInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_revisit_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="revisitObj != null and revisitObj != ''">
+	  				and t.REVISIT_OBJ = #{revisitObj}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="revisitFlag != null and revisitFlag != ''">
+	  				and t.REVISIT_FLAG = #{revisitFlag}				
+	  			</if>
+				<if test="typ != null and typ != ''">
+	  				and t.TYP = #{typ}				
+	  			</if>
+				<if test="revisitDesc != null and revisitDesc != ''">
+	  				and t.REVISIT_DESC = #{revisitDesc}				
+	  			</if>
+				<if test="staffId != null and staffId != ''">
+	  				and t.STAFF_ID = #{staffId}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="revisitDate != null">
+	  				and t.REVISIT_DATE = #{revisitDate}				
+	  			</if>
+	  			<if test="remark != null">
+	  				and t.REMARK = #{remark}
+	  			</if>
+
+	  			<!--	<if test="bgnDate != null and bgnDate != '' and endDate != null and  endDate!= ''">
+				and t.REVISIT_DATE &gt;= date_format(#{bgnDate},'%Y%m%d')
+				and t.REVISIT_DATE &lt;= date_format(#{endD]]>ate},'%Y%m%d')
+			</if>-->
+			<if test="bgnDate != null and bgnDate != ''">
+				and t.STARTDATE>=#{bgnDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				<![CDATA[
+				and t.ENDDATE<=#{endDate}
+				]]>
+			</if>
+    	</trim>
+	</select>
+</mapper>

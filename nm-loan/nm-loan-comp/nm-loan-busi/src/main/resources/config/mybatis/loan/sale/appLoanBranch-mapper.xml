@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanBranchMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanBranchRetMap" type="com.hs.loan.sale.entity.AppLoanBranch">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="BRANCH_NO" property="branchNo"/>
+			<result column="BRANCH_NAME" property="branchName"/>
+			<result column="CONTCT_PER" property="contctPer"/>
+			<result column="CONTCT_DUTY" property="contctDuty"/>
+			<result column="CONTCT_TEL" property="contctTel"/>
+			<result column="BRANCH_PROV" property="branchProv"/>
+			<result column="BRANCH_CITY" property="branchCity"/>
+			<result column="BRANCH_AREA" property="branchArea"/>
+			<result column="BRANCH_ADD" property="branchAdd"/>
+		    <result column="MAR_NAME" property="marName"/>
+			<result column="MAR_CONTCT_PERSON" property="marContctPerson"/>
+			<result column="MAR_CONTCT_TEL" property="marContctTel"/>
+	</resultMap>
+
+	<select id="getPubBranchByLoanNo" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT a.* FROM pub_branch AS a INNER JOIN app_loan_branch AS b ON a.BRANCH_NO=b.BRANCH_NO
+		<where>
+			b.LOAN_NO=#{loanNo}
+		</where>
+		limit 1
+	</select>
+
+	<!-- 新增 APP_分期与网点关系 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanBranch">
+		insert into APP_LOAN_BRANCH
+		(
+  			ID
+  			,LOAN_NO
+  			,BRANCH_NO
+  			,BRANCH_NAME
+  			,CONTCT_PER
+  			,CONTCT_DUTY
+  			,CONTCT_TEL
+  			,BRANCH_PROV
+  			,BRANCH_CITY
+  			,BRANCH_AREA
+  			,BRANCH_ADD
+  			,MAR_NAME
+		    ,MAR_CONTCT_PERSON
+		    ,MAR_CONTCT_TEL
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{branchNo}
+  			, #{branchName}
+  			, #{contctPer}
+  			, #{contctDuty}
+  			, #{contctTel}
+  			, #{branchProv}
+  			, #{branchCity}
+  			, #{branchArea}
+  			, #{branchAdd}
+  			, #{marName}
+			, #{marContctPerson}
+			, #{marContctTel}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期与网点关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_BRANCH
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchNo')">  
+	  					BRANCH_NO = #{branchNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchName')">  
+	  					BRANCH_NAME = #{branchName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contctPer')">  
+	  					CONTCT_PER = #{contctPer},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contctDuty')">  
+	  					CONTCT_DUTY = #{contctDuty},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contctTel')">  
+	  					CONTCT_TEL = #{contctTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchProv')">  
+	  					BRANCH_PROV = #{branchProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchCity')">  
+	  					BRANCH_CITY = #{branchCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchArea')">  
+	  					BRANCH_AREA = #{branchArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('branchAdd')">  
+	  					BRANCH_ADD = #{branchAdd},  
+	  				</if>
+					<if test="_parameter.containsKey('marName')">
+						MAR_NAME = #{marName},
+					</if>
+		</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期与网点关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_BRANCH
+		where 
+  			ID = #{id}				
+	</delete>
+	<!-- 删除 APP_分期与网点关系 -->
+	<delete id="deleteByLoanNo" parameterType="java.lang.String">
+		delete from APP_LOAN_BRANCH
+		where 
+  			LOAN_NO = #{loanNo}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期与网点关系 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanBranchRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_BRANCH t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期与网点关系 列表 -->
+	<select id="queryForList" resultMap="AppLoanBranchRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_BRANCH t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="branchNo != null and branchNo != ''">
+	  				and t.BRANCH_NO = #{branchNo}				
+	  			</if>
+				<if test="branchName != null and branchName != ''">
+	  				and t.BRANCH_NAME = #{branchName}				
+	  			</if>
+				<if test="contctPer != null and contctPer != ''">
+	  				and t.CONTCT_PER = #{contctPer}				
+	  			</if>
+				<if test="contctDuty != null and contctDuty != ''">
+	  				and t.CONTCT_DUTY = #{contctDuty}				
+	  			</if>
+				<if test="contctTel != null and contctTel != ''">
+	  				and t.CONTCT_TEL = #{contctTel}				
+	  			</if>
+				<if test="branchProv != null and branchProv != ''">
+	  				and t.BRANCH_PROV = #{branchProv}				
+	  			</if>
+				<if test="branchCity != null and branchCity != ''">
+	  				and t.BRANCH_CITY = #{branchCity}				
+	  			</if>
+				<if test="branchArea != null and branchArea != ''">
+	  				and t.BRANCH_AREA = #{branchArea}				
+	  			</if>
+				<if test="branchAdd != null and branchAdd != ''">
+	  				and t.BRANCH_ADD = #{branchAdd}				
+	  			</if>
+				<if test="marName != null and marName != ''">
+					and t.MAR_NAME = #{marName}
+				</if>
+				<if test="marContctPerson != null and marContctPerson != ''">
+					and t.MAR_CONTCT_PERSON = #{marContctPerson}
+				</if>
+				<if test="marContctTel != null and marContctTel != ''">
+					and t.MAR_CONTCT_TEL = #{marContctTel}
+				</if>
+    	</trim>
+	</select>
+</mapper>

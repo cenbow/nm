@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.CrmCustomerOrderMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="CrmCustomerOrderRetMap" type="com.hs.loan.sale.entity.CrmCustomerOrder">
+			<result column="ORDER_ID" property="orderId"/>
+			<result column="TEL_RECORD_ID" property="telRecordId"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="CUST_TYPE" property="custType"/>
+			<result column="SEX" property="sex"/>
+			<result column="CERT_TYPE" property="certType"/>
+			<result column="CERT_NO" property="certNo"/>
+			<result column="PHONE_NO" property="phoneNo"/>
+			<result column="INTENT_PROD_NO" property="intentProdNo"/>
+			<result column="INTENT_FEE_INFO" property="intentFeeInfo"/>
+			<result column="INTENT_AMOUNT" property="intentAmount"/>
+			<result column="INTENT_INST_NUM" property="intentInstNum"/>
+			<result column="SALE_AREA_NO" property="saleAreaNo"/>
+			<result column="DETAIL_ADDRESS" property="detailAddress"/>
+			<result column="INTENT_DEAL_DATE" property="intentDealDate"/>
+			<result column="ORDER_DEAL_STAT" property="orderDealStat"/>
+			<result column="SALE_ORGAN_NO" property="saleOrganNo"/>
+			<result column="SALE_MGR_STAFFNO" property="saleMgrStaffno"/>
+			<result column="SALE_STAFF_NO" property="saleStaffNo"/>
+			<result column="ACTUAL_PROD_NO" property="actualProdNo"/>
+			<result column="ACTUAL_AMOUNT" property="actualAmount"/>
+			<result column="ACTUAL_INST_NUM" property="actualInstNum"/>
+			<result column="ACTUAL_DEAL_TIME" property="actualDealTime"/>
+			<result column="DEAL_RESULT" property="dealResult"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="UPDATE_TIME" property="updateTime"/>
+			<result column="CRM_REMARK" property="crmRemark"/>
+			<result column="BILL_REMARK" property="billRemark"/>
+			<result column="INTENT_PROD_NAME" property="intentProdName"/>
+			<result column="RETURN_REASON" property="returnReason"/>
+	</resultMap>
+	
+	<!-- 新增 CRM_电销意向办理客户工单信息，将与业务系统数据交互 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.CrmCustomerOrder">
+		insert into crm_customer_order
+		(
+  			ORDER_ID
+  			,TEL_RECORD_ID
+  			,CUST_NAME
+  			,CUST_TYPE
+  			,SEX
+  			,CERT_TYPE
+  			,CERT_NO
+  			,PHONE_NO
+  			,INTENT_PROD_NO
+  			,INTENT_FEE_INFO
+  			,INTENT_AMOUNT
+  			,INTENT_INST_NUM
+  			,SALE_AREA_NO
+  			,DETAIL_ADDRESS
+  			,INTENT_DEAL_DATE
+  			,ORDER_DEAL_STAT
+  			,SALE_ORGAN_NO
+  			,SALE_MGR_STAFFNO
+  			,SALE_STAFF_NO
+  			,ACTUAL_PROD_NO
+  			,ACTUAL_AMOUNT
+  			,ACTUAL_INST_NUM
+  			,ACTUAL_DEAL_TIME
+  			,DEAL_RESULT
+  			,LOAN_NO
+  			,UPDATE_TIME
+  			,CRM_REMARK
+  			,BILL_REMARK
+  			,RETURN_REASON
+    	)
+    	values
+    	(
+  			 #{orderId}
+  			, #{telRecordId}
+  			, #{custName}
+  			, #{custType}
+  			, #{sex}
+  			, #{certType}
+  			, #{certNo}
+  			, #{phoneNo}
+  			, #{intentProdNo}
+  			, #{intentFeeInfo}
+  			, #{intentAmount}
+  			, #{intentInstNum}
+  			, #{saleAreaNo}
+  			, #{detailAddress}
+  			, #{intentDealDate}
+  			, #{orderDealStat}
+  			, #{saleOrganNo}
+  			, #{saleMgrStaffno}
+  			, #{saleStaffNo}
+  			, #{actualProdNo}
+  			, #{actualAmount}
+  			, #{actualInstNum}
+  			, #{actualDealTime}
+  			, #{dealResult}
+  			, #{loanNo}
+  			, #{updateTime}
+  			, #{crmRemark}
+  			, #{billRemark}
+  			, #{returnReason}
+    	)
+	</insert>
+	
+	<!-- 修改 CRM_电销意向办理客户工单信息，将与业务系统数据交互 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update crm_customer_order
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('telRecordId')">  
+	  					TEL_RECORD_ID = #{telRecordId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custType')">  
+	  					CUST_TYPE = #{custType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sex')">  
+	  					SEX = #{sex},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('certType')">  
+	  					CERT_TYPE = #{certType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('certNo')">  
+	  					CERT_NO = #{certNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('phoneNo')">  
+	  					PHONE_NO = #{phoneNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('intentProdNo')">  
+	  					INTENT_PROD_NO = #{intentProdNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('intentFeeInfo')">  
+	  					INTENT_FEE_INFO = #{intentFeeInfo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('intentAmount')">  
+	  					INTENT_AMOUNT = #{intentAmount},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('intentInstNum')">  
+	  					INTENT_INST_NUM = #{intentInstNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleAreaNo')">  
+	  					SALE_AREA_NO = #{saleAreaNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('detailAddress')">  
+	  					DETAIL_ADDRESS = #{detailAddress},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('intentDealDate')">  
+	  					INTENT_DEAL_DATE = #{intentDealDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orderDealStat')">  
+	  					ORDER_DEAL_STAT = #{orderDealStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleOrganNo')">  
+	  					SALE_ORGAN_NO = #{saleOrganNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleMgrStaffno')">  
+	  					SALE_MGR_STAFFNO = #{saleMgrStaffno},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleStaffNo')">  
+	  					SALE_STAFF_NO = #{saleStaffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actualProdNo')">  
+	  					ACTUAL_PROD_NO = #{actualProdNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actualAmount')">  
+	  					ACTUAL_AMOUNT = #{actualAmount},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actualInstNum')">  
+	  					ACTUAL_INST_NUM = #{actualInstNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actualDealTime')">  
+	  					ACTUAL_DEAL_TIME = #{actualDealTime},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('dealResult')">  
+	  					DEAL_RESULT = #{dealResult},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updateTime')">  
+	  					UPDATE_TIME = #{updateTime},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('crmRemark')">  
+	  					CRM_REMARK = #{crmRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('billRemark')">  
+	  					BILL_REMARK = #{billRemark},  
+	  				</if>
+	  				<if test="_parameter.containsKey('reaturnReason')">  
+	  					RETURN_REASON = #{reaturnReason},  
+	  				</if>
+    	</trim>
+		where 
+  			ORDER_ID = #{orderId}				
+	</update>
+	
+	<!-- 删除 CRM_电销意向办理客户工单信息，将与业务系统数据交互 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from crm_customer_order
+		where 
+  			ORDER_ID = #{orderId}				
+	</delete>
+	
+	<!-- 通过主键查询 CRM_电销意向办理客户工单信息，将与业务系统数据交互 -->
+	<select id="getByPrimaryKey" resultMap="CrmCustomerOrderRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from crm_customer_order t
+		where 
+  				t.ORDER_ID = #{orderId}				
+	</select>
+	
+	<!-- 查询 CRM_电销意向办理客户工单信息，将与业务系统数据交互 列表 -->
+	<select id="queryForList" resultMap="CrmCustomerOrderRetMap" parameterType="java.util.Map">
+		SELECT t.*,p.PROD_NAME as INTENT_PROD_NAME
+			 FROM crm_customer_order t  left join PUB_PROD p on t.INTENT_PROD_NO = p.PROD_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="orderId != null and orderId != ''">
+	  				and t.ORDER_ID = #{orderId}				
+	  			</if>
+				<if test="telRecordId != null and telRecordId != ''">
+	  				and t.TEL_RECORD_ID = #{telRecordId}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and t.CUST_TYPE = #{custType}				
+	  			</if>
+				<if test="sex != null and sex != ''">
+	  				and t.SEX = #{sex}				
+	  			</if>
+				<if test="certType != null and certType != ''">
+	  				and t.CERT_TYPE = #{certType}				
+	  			</if>
+				<if test="certNo != null and certNo != ''">
+	  				and t.CERT_NO = #{certNo}				
+	  			</if>
+				<if test="phoneNo != null and phoneNo != ''">
+	  				and t.PHONE_NO = #{phoneNo}				
+	  			</if>
+				<if test="intentProdNo != null and intentProdNo != ''">
+	  				and t.INTENT_PROD_NO = #{intentProdNo}				
+	  			</if>
+				<if test="intentFeeInfo != null and intentFeeInfo != ''">
+	  				and t.INTENT_FEE_INFO = #{intentFeeInfo}				
+	  			</if>
+				<if test="intentAmount != null">
+	  				and t.INTENT_AMOUNT = #{intentAmount}				
+	  			</if>
+				<if test="intentInstNum != null">
+	  				and t.INTENT_INST_NUM = #{intentInstNum}				
+	  			</if>
+				<if test="saleAreaNo != null and saleAreaNo != ''">
+	  				and t.SALE_AREA_NO like '${saleAreaNo}%'						
+	  			</if>
+				<if test="detailAddress != null and detailAddress != ''">
+	  				and t.DETAIL_ADDRESS = #{detailAddress}				
+	  			</if>
+				<if test="intentDealDate != null">
+	  				and t.INTENT_DEAL_DATE = #{intentDealDate}				
+	  			</if>
+				<if test="orderDealStat != null and orderDealStat != ''">
+	  				and t.ORDER_DEAL_STAT = #{orderDealStat}				
+	  			</if>
+				<if test="saleOrganNo != null and saleOrganNo != ''">
+	  				and t.SALE_ORGAN_NO  like '${saleOrganNo}%'	 			
+	  			</if>
+				<if test="saleMgrStaffno != null and saleMgrStaffno != ''">
+	  				and t.SALE_MGR_STAFFNO = #{saleMgrStaffno}				
+	  			</if>
+				<if test="saleStaffNo != null and saleStaffNo != ''">
+	  				and t.SALE_STAFF_NO = #{saleStaffNo}				
+	  			</if>
+				<if test="actualProdNo != null and actualProdNo != ''">
+	  				and t.ACTUAL_PROD_NO = #{actualProdNo}				
+	  			</if>
+				<if test="actualAmount != null">
+	  				and t.ACTUAL_AMOUNT = #{actualAmount}				
+	  			</if>
+				<if test="actualInstNum != null">
+	  				and t.ACTUAL_INST_NUM = #{actualInstNum}				
+	  			</if>
+				<if test="actualDealTime != null">
+	  				and t.ACTUAL_DEAL_TIME = #{actualDealTime}				
+	  			</if>
+				<if test="dealResult != null and dealResult != ''">
+	  				and t.DEAL_RESULT = #{dealResult}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="updateTime != null">
+	  				and t.UPDATE_TIME = #{updateTime}				
+	  			</if>
+				<if test="crmRemark != null and crmRemark != ''">
+	  				and t.CRM_REMARK = #{crmRemark}				
+	  			</if>
+				<if test="billRemark != null and billRemark != ''">
+	  				and t.BILL_REMARK = #{billRemark}				
+	  			</if>
+  				<if test="intentDealDateBgn != null">
+	  				and t.INTENT_DEAL_DATE &gt;= #{intentDealDateBgn}				
+	  			</if>
+	  			<if test="intentDealDateEnd != null">
+	  				and t.INTENT_DEAL_DATE &lt;= #{intentDealDateEnd}				
+	  			</if>
+	  			<if test="allotStatYes!=null and allotStatYes!=''">
+	  				and t.sale_Staff_No is not null
+	  			</if>
+	  			<if test="allotStatNo!=null and allotStatNo!=''">
+	  				and t.sale_Staff_No is null
+	  			</if>
+    	</trim>
+    	order by t.INTENT_DEAL_DATE desc
+	</select>
+	<!-- 查询分期状态 -->
+	<select id="queryLoanStat" resultType="java.util.Map" parameterType="java.lang.String">
+		select a.STAT,a.INST_NUM,a.LOAN_AMT,p.PROD_NO from app_loan_acct a join APP_LOAN_PROD p on a.LOAN_NO = p.loan_no  where a.loan_no = #{loanNo}
+	</select>
+	<!-- 查询下辖销售 -->
+	<select id="queryMgrStaff"  resultType="java.util.Map" parameterType="java.lang.String">
+		SELECT m.STAFF_NO,m.STAFF_NAME
+				 FROM sys_staff  m
+					  INNER JOIN
+					  (SELECT a.staff_id
+					   FROM sys_staff_org       a
+							INNER JOIN sys_org b
+							     ON a.org_id = b.id
+							   	AND org_cod_path LIKE '%${_orgNo}%'
+                   				AND org_no &lt;&gt; '${_orgNo}' ) n
+						 ON m.id = n.staff_id
+             and EXISTS (select br.staff_no from PUB_SALER_BRANCH br where br.branch_no = 'INNER_Cashbranch' and br.staff_no = m.staff_no) 
+				 ORDER BY belg_org_no
+	</select>
+	<update id="updateBackOrder" parameterType="java.util.Map">
+		update crm_customer_order set order_Deal_Stat=#{orderDealStat},sale_Staff_No=null,return_reason=#{returnReason}
+		 where order_id=#{orderId}
+	</update>
+</mapper>

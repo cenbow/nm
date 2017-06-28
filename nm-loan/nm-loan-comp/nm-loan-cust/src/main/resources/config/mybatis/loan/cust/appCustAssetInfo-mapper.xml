@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustAssetInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustAssetInfoRetMap" type="com.hs.loan.cust.entity.AppCustAssetInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="INCOME_SRC" property="incomeSrc"/>
+			<result column="INCOME_DAY" property="incomeDay"/>
+			<result column="INCOME_AMT" property="incomeAmt"/>
+			<result column="DIVDND_DAY" property="divdndDay"/>
+			<result column="DIVDND_AMT" property="divdndAmt"/>
+			<result column="INCOME_OTHER" property="incomeOther"/>
+			<result column="INCOME_OTHER_AMT" property="incomeOtherAmt"/>
+			<result column="REMARK" property="remark"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户资产信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustAssetInfo">
+		insert into app_cust_asset_info
+		(
+  			ID
+  			,CUST_NO
+  			,INCOME_SRC
+  			,INCOME_DAY
+  			,INCOME_AMT
+  			,DIVDND_DAY
+  			,DIVDND_AMT
+  			,INCOME_OTHER
+  			,INCOME_OTHER_AMT
+  			,REMARK
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{incomeSrc}
+  			, #{incomeDay}
+  			, #{incomeAmt}
+  			, #{divdndDay}
+  			, #{divdndAmt}
+  			, #{incomeOther}
+  			, #{incomeOtherAmt}
+  			, #{remark}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户资产信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_asset_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('incomeSrc')">  
+	  					INCOME_SRC = #{incomeSrc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('incomeDay')">  
+	  					INCOME_DAY = #{incomeDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('incomeAmt')">  
+	  					INCOME_AMT = #{incomeAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('divdndDay')">  
+	  					DIVDND_DAY = #{divdndDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('divdndAmt')">  
+	  					DIVDND_AMT = #{divdndAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('incomeOther')">  
+	  					INCOME_OTHER = #{incomeOther},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('incomeOtherAmt')">  
+	  					INCOME_OTHER_AMT = #{incomeOtherAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户资产信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_asset_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户资产信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustAssetInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_asset_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户资产信息 列表 -->
+	<select id="queryForList" resultMap="AppCustAssetInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_asset_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="incomeSrc != null and incomeSrc != ''">
+	  				and t.INCOME_SRC = #{incomeSrc}				
+	  			</if>
+				<if test="incomeDay != null and incomeDay != ''">
+	  				and t.INCOME_DAY = #{incomeDay}				
+	  			</if>
+				<if test="incomeAmt != null and incomeAmt != ''">
+	  				and t.INCOME_AMT = #{incomeAmt}				
+	  			</if>
+				<if test="divdndDay != null and divdndDay != ''">
+	  				and t.DIVDND_DAY = #{divdndDay}				
+	  			</if>
+				<if test="divdndAmt != null and divdndAmt != ''">
+	  				and t.DIVDND_AMT = #{divdndAmt}				
+	  			</if>
+				<if test="incomeOther != null and incomeOther != ''">
+	  				and t.INCOME_OTHER = #{incomeOther}				
+	  			</if>
+				<if test="incomeOtherAmt != null and incomeOtherAmt != ''">
+	  				and t.INCOME_OTHER_AMT = #{incomeOtherAmt}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 获取客户 有效时间段的有效的 资产信息  -->
+	<select id="getCustAssetInfoLstByDate" parameterType="map" resultMap="AppCustAssetInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_asset_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustAssetInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_asset_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}				
+	  	</if>
+		<if test="incomeSrc != null and incomeSrc != ''">
+	  		and t.INCOME_SRC = #{incomeSrc}				
+	  	</if>
+		<if test="incomeDay != null and incomeDay != ''">
+	  		and t.INCOME_DAY = #{incomeDay}				
+	  	</if>
+		<if test="incomeAmt != null and incomeAmt != ''">
+	  		and t.INCOME_AMT = #{incomeAmt}				
+	  	</if>
+		<if test="divdndDay != null and divdndDay != ''">
+	  		and t.DIVDND_DAY = #{divdndDay}				
+	  	</if>
+		<if test="divdndAmt != null and divdndAmt != ''">
+	  		and t.DIVDND_AMT = #{divdndAmt}				
+	  	</if>
+		<if test="incomeOther != null and incomeOther != ''">
+	  		and t.INCOME_OTHER = #{incomeOther}				
+	  	</if>
+		<if test="incomeOtherAmt != null and incomeOtherAmt != ''">
+	  		and t.INCOME_OTHER_AMT = #{incomeOtherAmt}				
+	  	</if>
+		<if test="remark != null and remark != ''">
+	  		and t.REMARK = #{remark}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	
+	
+</mapper>

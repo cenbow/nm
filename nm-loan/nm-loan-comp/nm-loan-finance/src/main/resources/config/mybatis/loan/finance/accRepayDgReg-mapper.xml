@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccRepayDgRegMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccRepayDgRegRetMap" type="com.hs.loan.finance.entity.AccRepayDgReg">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="CUST_ACCT" property="custAcct"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="TRAN_TYPE" property="tranType"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="TOTL_AMT" property="totlAmt"/>
+			<result column="TRAN_DATE" property="tranDate"/>
+			<result column="TRAN_AMT" property="tranAmt"/>
+			<result column="STAT" property="stat"/>
+			<result column="TRAN_STAFF" property="tranStaff"/>
+			<result column="TRAN_ORG" property="tranOrg"/>
+			<result column="TRAN_DESC" property="tranDesc"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="DOC_NO" property="docNo"/>
+			<result column="SERL_NO" property="serlNo"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_还款登记（对公） -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccRepayDgReg">
+		insert into ACC_REPAY_DG_REG
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,CUST_ACCT
+  			,ACCT_NAME
+  			,TRAN_TYPE
+  			,REPAY_NUM
+  			,TOTL_AMT
+  			,TRAN_DATE
+  			,TRAN_AMT
+  			,STAT
+  			,TRAN_STAFF
+  			,TRAN_ORG
+  			,TRAN_DESC
+  			,INST_DATE
+  			,DOC_NO
+  			,SERL_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{custAcct}
+  			, #{acctName}
+  			, #{tranType}
+  			, #{repayNum}
+  			, #{totlAmt}
+  			, #{tranDate}
+  			, #{tranAmt}
+  			, #{stat}
+  			, #{tranStaff}
+  			, #{tranOrg}
+  			, #{tranDesc}
+  			, #{instDate}
+  			, #{docNo}
+  			, #{serlNo}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_还款登记（对公） -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_REPAY_DG_REG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custAcct')">  
+	  					CUST_ACCT = #{custAcct},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranType')">  
+	  					TRAN_TYPE = #{tranType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('totlAmt')">  
+	  					TOTL_AMT = #{totlAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDate')">  
+	  					TRAN_DATE = #{tranDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranAmt')">  
+	  					TRAN_AMT = #{tranAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranStaff')">  
+	  					TRAN_STAFF = #{tranStaff},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranOrg')">  
+	  					TRAN_ORG = #{tranOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDesc')">  
+	  					TRAN_DESC = #{tranDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('serlNo')">  
+	  					SERL_NO = #{serlNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('docNo')">  
+	  					DOC_NO = #{docNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_还款登记（对公） -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_REPAY_DG_REG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_还款登记（对公） -->
+	<select id="getByPrimaryKey" resultMap="AccRepayDgRegRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_REPAY_DG_REG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_还款登记（对公） 列表 -->
+	<select id="queryForList" resultMap="AccRepayDgRegRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_REPAY_DG_REG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="custAcct != null and custAcct != ''">
+	  				and t.CUST_ACCT = #{custAcct}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="tranType != null and tranType != ''">
+	  				and t.TRAN_TYPE = #{tranType}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="totlAmt != null">
+	  				and t.TOTL_AMT = #{totlAmt}				
+	  			</if>
+				<if test="tranDate != null">
+	  				and DATE_FORMAT(t.TRAN_DATE,'%Y-%m-%d') = #{tranDate}	
+	  			</if>
+				<if test="tranAmt != null">
+	  				and t.TRAN_AMT = #{tranAmt}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="tranStaff != null and tranStaff != ''">
+	  				and t.TRAN_STAFF = #{tranStaff}				
+	  			</if>
+				<if test="serlNo != null and serlNo != ''">
+	  				and t.serl_No = #{serlNo}				
+	  			</if>
+				<if test="tranOrg != null and tranOrg != ''">
+	  				and t.TRAN_ORG = #{tranOrg}				
+	  			</if>
+				<if test="tranDesc != null and tranDesc != ''">
+	  				and t.TRAN_DESC = #{tranDesc}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+	<select id="selectCountExcel" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select
+		count(0)
+		from ACC_REPAY_DG_REG t,app_loan_acct ac,app_cust_info c where t.loan_no=ac.loan_no and c.cust_no=ac.cust_no
+		<if test="id != null and id != ''">
+			and t.ID = #{id}
+		</if>
+		<if test="certNo != null and certNo != ''">
+			and c.cert_No= #{certNo}
+		</if>
+		<if test="loanNo != null and loanNo != ''">
+			and t.LOAN_NO = #{loanNo}
+		</if>
+		<if test="repayDate != null and repayDate != ''">
+			and t.REPAY_DATE = #{repayDate}
+		</if>
+		<if test="custAcct != null and custAcct != ''">
+			and t.CUST_ACCT = #{custAcct}
+		</if>
+		<if test="acctName != null and acctName != ''">
+			and t.ACCT_NAME = #{acctName}
+		</if>
+		<if test="tranType != null and tranType != ''">
+			and t.TRAN_TYPE = #{tranType}
+		</if>
+		<if test="repayNum != null and ''!=repayNum">
+			and t.REPAY_NUM = #{repayNum}
+		</if>
+		<if test="totlAmt != null and ''!=totlAmt">
+			and t.TOTL_AMT = #{totlAmt}
+		</if>
+		<if test="tranDate != null and ''!=tranDate">
+			and t.TRAN_DATE = #{tranDate}
+		</if>
+		<if test="tranAmt != null and ''!=tranAmt">
+			and t.TRAN_AMT = #{tranAmt}
+		</if>
+		<if test="stat != null and stat != ''">
+			and t.STAT = #{stat}
+		</if>
+		<if test="tranStaff != null and tranStaff != ''">
+			and t.TRAN_STAFF = #{tranStaff}
+		</if>
+		<if test="serlNo != null and serlNo != ''">
+			and t.serl_No = #{serlNo}
+		</if>
+		<if test="tranOrg != null and tranOrg != ''">
+			and t.TRAN_ORG = #{tranOrg}
+		</if>
+		<if test="tranDesc != null and tranDesc != ''">
+			and t.TRAN_DESC = #{tranDesc}
+		</if>
+		<if test="instDate != null and ''!=instDate">
+			and t.INST_DATE = #{instDate}
+		</if>
+	</select>
+	<!-- 查询 ACC_还款登记（对公） 列表 -->
+	<select id="queryForPageList" resultMap="AccRepayDgRegRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_REPAY_DG_REG t,app_loan_acct ac,app_cust_info c where t.loan_no=ac.loan_no and c.cust_no=ac.cust_no 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="certNo != null and certNo != ''">
+	  				and c.cert_No= #{certNo}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="custAcct != null and custAcct != ''">
+	  				and t.CUST_ACCT = #{custAcct}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="tranType != null and tranType != ''">
+	  				and t.TRAN_TYPE = #{tranType}				
+	  			</if>
+				<if test="repayNum != null and ''!=repayNum">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="totlAmt != null and ''!=totlAmt">
+	  				and t.TOTL_AMT = #{totlAmt}				
+	  			</if>
+				<if test="tranDate != null and ''!=tranDate">
+	  				and t.TRAN_DATE = #{tranDate}				
+	  			</if>
+				<if test="tranAmt != null and ''!=tranAmt">
+	  				and t.TRAN_AMT = #{tranAmt}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="tranStaff != null and tranStaff != ''">
+	  				and t.TRAN_STAFF = #{tranStaff}				
+	  			</if>
+				<if test="serlNo != null and serlNo != ''">
+	  				and t.serl_No = #{serlNo}				
+	  			</if>
+				<if test="tranOrg != null and tranOrg != ''">
+	  				and t.TRAN_ORG = #{tranOrg}				
+	  			</if>
+				<if test="tranDesc != null and tranDesc != ''">
+	  				and t.TRAN_DESC = #{tranDesc}				
+	  			</if>
+				<if test="instDate != null and ''!=instDate">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+	  			order by  t.INST_DATE desc
+	</select>
+	<!-- 查询当前贷款是否已经进入委外 -->
+	<select id="selectOutSourceCase" parameterType="java.lang.String" resultType="java.lang.Integer">
+		 select count(1)
+   			from PL_LOAN_OUTSOURCE t
+  		where t.loan_no = #{value}
+	</select>
+</mapper>

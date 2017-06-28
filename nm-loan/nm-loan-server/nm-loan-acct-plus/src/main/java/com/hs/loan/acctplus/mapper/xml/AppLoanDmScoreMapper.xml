@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.loan.acctplus.mapper.AppLoanDmScoreMapper">
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 order_id, create_date, score, result, dm_stat
+	</sql>
+
+	<!-- 通用更新列-->
+	<sql id="Base_Update_Column_List">
+		 order_id, #{createDate}, #{score}, #{result}, #{dmStat}
+	</sql>
+
+</mapper>

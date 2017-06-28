@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppLoanApprTermMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanApprTermRetMap" type="com.hs.loan.approve.entity.AppLoanApprTerm">
+			<result column="TERM_ID" property="termId"/>
+			<result column="TERM_DESC" property="termDesc"/>
+			<result column="STAT" property="stat"/>
+			<result column="JOB_TYP" property="jobTyp"/>
+			<result column="RED_ADD_MAN" property="redAddMan"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_审批术语表 -->
+	<insert id="insert" parameterType="com.hs.loan.approve.entity.AppLoanApprTerm">
+		insert into APP_LOAN_APPR_TERM
+		(
+  			TERM_ID
+  			,TERM_DESC
+  			,STAT
+  			,JOB_TYP
+  			,RED_ADD_MAN
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{termId}
+  			, #{termDesc}
+  			, #{stat}
+  			, #{jobTyp}
+  			, #{redAddMan}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_审批术语表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_APPR_TERM
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('termDesc')">  
+	  					TERM_DESC = #{termDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('jobTyp')">  
+	  					JOB_TYP = #{jobTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('redAddMan')">  
+	  					RED_ADD_MAN = #{redAddMan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			TERM_ID = #{termId}				
+	</update>
+	
+	<!-- 删除 APP_审批术语表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR_TERM
+		where 
+  			TERM_ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_审批术语表 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanApprTermRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_APPR_TERM t
+		where 
+  				t.TERM_ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_审批术语表 列表 -->
+	<select id="queryForList" resultMap="AppLoanApprTermRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_APPR_TERM t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="termId != null and termId != ''">
+	  				and t.TERM_ID = #{termId}				
+	  			</if>
+				<if test="termDesc != null and termDesc != ''">
+	  				and t.TERM_DESC = #{termDesc}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="jobType != null and jobType != ''">
+	  				and t.JOB_TYP = #{jobType}				
+	  			</if>
+				<if test="redAddMan != null and redAddMan != ''">
+	  				and t.RED_ADD_MAN = #{redAddMan}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+        <if test="termdefaultNum != null and termdefaultNum != ''">
+	  		ORDER BY RAND() LIMIT 	${termdefaultNum}				
+	  	</if>
+	</select>
+</mapper>

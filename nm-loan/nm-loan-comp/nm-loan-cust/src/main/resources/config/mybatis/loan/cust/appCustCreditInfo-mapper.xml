@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustCreditInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustCreditInfoRetMap" type="com.hs.loan.cust.entity.AppCustCreditInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="ISSU_CARD_BANK" property="issuCardBank"/>
+			<result column="CARD_NUM" property="cardNum"/>
+			<result column="LIMIT_AMT" property="limitAmt"/>
+			<result column="CREDIT_MTH_DAY" property="creditMthDay"/>
+			<result column="AVG_AMT" property="avgAmt"/>
+			<result column="REMARK" property="remark"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户信用卡信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustCreditInfo">
+		insert into app_cust_credit_info
+		(
+  			ID
+  			,CUST_NO
+  			,ISSU_CARD_BANK
+  			,CARD_NUM
+  			,LIMIT_AMT
+  			,CREDIT_MTH_DAY
+  			,AVG_AMT
+  			,REMARK
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{issuCardBank}
+  			, #{cardNum}
+  			, #{limitAmt}
+  			, #{creditMthDay}
+  			, #{avgAmt}
+  			, #{remark}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户信用卡信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_credit_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('issuCardBank')">  
+	  					ISSU_CARD_BANK = #{issuCardBank},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cardNum')">  
+	  					CARD_NUM = #{cardNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('limitAmt')">  
+	  					LIMIT_AMT = #{limitAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('creditMthDay')">  
+	  					CREDIT_MTH_DAY = #{creditMthDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('avgAmt')">  
+	  					AVG_AMT = #{avgAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户信用卡信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_credit_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户信用卡信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustCreditInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_credit_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户信用卡信息 列表 -->
+	<select id="queryForList" resultMap="AppCustCreditInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_credit_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="issuCardBank != null and issuCardBank != ''">
+	  				and t.ISSU_CARD_BANK = #{issuCardBank}				
+	  			</if>
+				<if test="cardNum != null and cardNum != ''">
+	  				and t.CARD_NUM = #{cardNum}				
+	  			</if>
+				<if test="limitAmt != null and limitAmt != ''">
+	  				and t.LIMIT_AMT = #{limitAmt}				
+	  			</if>
+				<if test="creditMthDay != null and creditMthDay != ''">
+	  				and t.CREDIT_MTH_DAY = #{creditMthDay}				
+	  			</if>
+				<if test="avgAmt != null and avgAmt != ''">
+	  				and t.AVG_AMT = #{avgAmt}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 通过custNo 获取 客户最新（最近）使用的信用卡信息   -->
+	<select id="getLatestByNo" parameterType="string" resultMap="AppCustCreditInfoRetMap">
+		SELECT
+			t.*
+		FROM
+			app_cust_credit_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		ORDER BY
+			t.BEGIN_DATE DESC
+		LIMIT 1
+	</select>
+	
+	<!--更新 信用卡信息的 endDate -->
+	<update id="updateCreditEndDate" parameterType="map">
+		UPDATE app_cust_credit_info SET END_DATE = #{endDate} WHERE ID IN 
+		<foreach collection="ids" item="item" index="index" open="(" close=")" separator="," >
+			#{item}
+		</foreach>
+	</update>
+	
+	<!--批量插入  信用卡信息-->
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into app_cust_credit_info
+		(
+  			ID
+  			,CUST_NO
+  			,ISSU_CARD_BANK
+  			,CARD_NUM
+  			,LIMIT_AMT
+  			,CREDIT_MTH_DAY
+  			,AVG_AMT
+  			,REMARK
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	<foreach collection="list" item="item" index="index" separator=",">
+    		(
+		    	  #{item.id}
+	  			, #{item.custNo}
+	  			, #{item.issuCardBank}
+	  			, #{item.cardNum}
+	  			, #{item.limitAmt}
+	  			, #{item.creditMthDay}
+	  			, #{item.avgAmt}
+	  			, #{item.remark}
+	  			, #{item.beginDate}
+	  			, #{item.endDate}
+  			)
+    	</foreach>
+	</insert>
+	
+	<!-- 通过有效日期获取 客户信用卡信息 -->
+	<select id="getCustCreditLstByDate" parameterType="map" resultMap="AppCustCreditInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_credit_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustCreditInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_credit_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}				
+	  	</if>
+		<if test="issuCardBank != null and issuCardBank != ''">
+	  		and t.ISSU_CARD_BANK = #{issuCardBank}				
+	  	</if>
+		<if test="cardNum != null and cardNum != ''">
+	  		and t.CARD_NUM = #{cardNum}				
+	  	</if>
+		<if test="limitAmt != null and limitAmt != ''">
+	  		and t.LIMIT_AMT = #{limitAmt}				
+	  	</if>
+		<if test="creditMthDay != null and creditMthDay != ''">
+	  		and t.CREDIT_MTH_DAY = #{creditMthDay}				
+	  	</if>
+		<if test="avgAmt != null and avgAmt != ''">
+	  		and t.AVG_AMT = #{avgAmt}				
+	  	</if>
+		<if test="remark != null and remark != ''">
+	  		and t.REMARK = #{remark}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>
+		order by t.BEGIN_DATE desc
+	</select>
+	
+</mapper>

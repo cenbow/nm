@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdFundChanMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdFundChanRetMap" type="com.hs.loan.prod.entity.PubProdFundChan">
+			<result column="ID" property="id"/>
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="CHAN_NAME" property="chanName"/>
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="SETL_PRIOR" property="setlPrior"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与资金渠道的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdFundChan">
+		insert into PUB_PROD_FUND_CHAN
+		(
+  			ID
+  			,CHAN_NO
+  			,CHAN_NAME
+  			,PROD_NO
+  			,SETL_PRIOR
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{chanNo}
+  			, #{chanName}
+  			, #{prodNo}
+  			, #{setlPrior}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与资金渠道的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD_FUND_CHAN
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('chanNo')">  
+	  					CHAN_NO = #{chanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chanName')">  
+	  					CHAN_NAME = #{chanName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与资金渠道的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD_FUND_CHAN
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与资金渠道的关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdFundChanRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD_FUND_CHAN t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品与资金渠道的关系 列表 -->
+	<select id="queryForList" resultMap="PubProdFundChanRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_FUND_CHAN t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and t.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="chanName != null and chanName != ''">
+	  				and t.CHAN_NAME = #{chanName}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+    	</trim>
+    	order by SETL_PRIOR ASC
+	</select>
+		<!-- 删除 PUB_产品与资金渠道关系 -->
+	<delete id="deletePubPrdoFunChanByprodNo" parameterType="java.lang.String">
+		delete from PUB_PROD_FUND_CHAN
+		where 
+  			prod_no = #{prodNo}				
+	</delete>
+		<!-- 删除 PUB_产品与资金渠道关系 -->
+	<delete id="deletePubPrdoFunChanBychanNo" parameterType="java.lang.String">
+		delete from PUB_PROD_FUND_CHAN
+		where 
+  			CHAN_NO = #{chanNo}				
+	</delete>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<portable-config>
+	<config-file path="dubbo.properties">
+  		<replace key="dubbo.registry.address">N/A</replace>
+  		<replace key="dubbo.registry.refReg.address">zookeeper://192.168.3.208:2181</replace>
+  		<replace key="dubbo.registry.svReg.address">N/A</replace>
+  		<replace key="dubbo.protocol.port">40061</replace>
+  		<replace key="dubbo.service.loadbalance">leastactive</replace>
+  		<replace key="dubbo.log4j.level">INFO</replace>
+  		<replace key="dubbo.log4j.file">c:/logs/dubbo-hs-loan-prod-provider.log</replace>
+	</config-file>
+	<config-file path="application.properties">
+  		<replace key="jdbc.driver">com.mysql.jdbc.Driver</replace>
+  		<replace key="jdbc.url">jdbc:mysql://nmsgcomp.mysql.rds.aliyuncs.com:3306/nmtest-db?useUnicode=true&amp;characterEncoding=utf-8</replace>
+  		<replace key="jdbc.username">nmtest</replace>
+  		<replace key="jdbc.password">nmtest</replace>
+  		<replace key="jdbc.pool.minIdle">2</replace>
+  		<replace key="jdbc.pool.maxActive">4</replace>
+  		<replace key="web.maxUploadSize">10485760</replace>
+  		
+  		<replace key="jdbc.driverRead">com.mysql.jdbc.Driver</replace>
+  		<replace key="jdbc.urlRead">jdbc:mysql://nmsgcomp.mysql.rds.aliyuncs.com:3306/nmtest-db?useUnicode=true&amp;characterEncoding=utf-8</replace>
+  		<replace key="jdbc.usernameRead">nmtest</replace>
+  		<replace key="jdbc.passwordRead">nmtest</replace>
+  		<replace key="jdbc.pool.minIdleRead">2</replace>
+  		<replace key="jdbc.pool.maxActiveRead">4</replace>
+  		<replace key="web.maxUploadSizeRead">10485760</replace>
+	</config-file>
+	
+	<config-file path="logback.xml">
+  		<replace xpath="/configuration/property[@name='LOG_HOME']/@value">c:/logs</replace>
+  		<replace xpath="/configuration/logger[@name='com.hs']/@level">TRACE</replace>
+  		<replace xpath="/configuration/root/@level">INFO</replace>
+	</config-file>
+
+	<config-file path="env/sys.properties">
+		<replace key="sys.run.env">dev</replace>
+		<replace key="sys.redis.enable">true</replace>
+	</config-file>
+	
+	<!-- 
+	<config-file path="WEB-INF/classes/logback.xml">
+  		<replace xpath="/configuration/appender[@name='rollingFile']/file">c:/logs/otod.log</replace>
+  		<replace xpath="/configuration/appender[@name='rollingFile']/rollingPolicy/fileNamePattern">c:/logs/otod.%d{yyyy-MM-dd}.log</replace>
+  		<replace xpath="/configuration/root/@level">DEBUG</replace>
+	</config-file>
+	
+	<config-file path="WEB-INF/classes/applicationContext-solr.xml">
+  		<replace xpath="/beans/bean/constructor-arg/@value">http://192.168.1.123:8083/solr</replace>
+	</config-file>
+	 -->
+</portable-config>

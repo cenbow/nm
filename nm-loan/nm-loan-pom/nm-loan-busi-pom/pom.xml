@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.hs.loan</groupId>
+	<artifactId>nm-loan-busi-pom</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>../../nm-loan-comp/nm-loan-busi</module>
+		<module>../../nm-loan-api/nm-loan-busi-api</module>
+		<module>../../nm-loan-dto/nm-loan-busi-dto</module>
+		<module>../../nm-loan-server/nm-loan-busi-server</module>
+	</modules>
+</project>

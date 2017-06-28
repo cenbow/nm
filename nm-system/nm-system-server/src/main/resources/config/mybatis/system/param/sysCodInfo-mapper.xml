@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.param.mapper.SysCodInfoMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysCodInfoRetMap" type="com.hs.system.entity.SysCodInfo">
+		<result column="ID" property="id" />
+		<result column="COD_VAL" property="codVal" />
+		<result column="COD_TYP" property="codTyp" />
+		<result column="COD_NAME" property="codName" />
+		<result column="COD_TYP_NAME" property="codTypName" />
+		<result column="STAT" property="stat" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 新增 编码信息 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysCodInfo">
+		insert into sys_cod_info
+		(
+		ID
+		,COD_VAL
+		,COD_TYP
+		,COD_NAME
+		,STAT
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{codVal}
+		, #{codTyp}
+		, #{codName}
+		, #{stat}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 编码信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_cod_info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('codVal')">
+				COD_VAL = #{codVal},
+			</if>
+			<if test="_parameter.containsKey('codTyp')">
+				COD_TYP = #{codTyp},
+			</if>
+			<if test="_parameter.containsKey('codName')">
+				COD_NAME = #{codName},
+			</if>
+			<if test="_parameter.containsKey('stat')">
+				STAT = #{stat},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 修改 编码信息 (实体) -->
+	<update id="updateSysCodInfo" parameterType="com.hs.system.entity.SysCodInfo">
+		update sys_cod_info
+		set
+		COD_VAL = #{codVal},
+		COD_TYP = #{codTyp},
+		COD_NAME = #{codName},
+		STAT = #{stat},
+		UPDT_DATE = #{updtDate}
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 编码信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_cod_info
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 编码信息 -->
+	<select id="getByPrimaryKey" resultMap="SysCodInfoRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_cod_info t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 编码信息 列表 -->
+	<select id="queryForList" resultMap="SysCodInfoRetMap"
+		parameterType="java.util.Map">
+		select
+		DISTINCT
+		t.*,
+		p.COD_TYP_NAME
+		from sys_cod_info t left join sys_cod_typ p on t.COD_TYP = p.COD_TYP
+		left join sys_cod_group g on t.id = g.cod_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="codVal != null and codVal != ''">
+				and t.COD_VAL = #{codVal}
+			</if>
+			<if test="codTyp != null and codTyp != ''">
+				and t.COD_TYP = #{codTyp}
+			</if>
+			<if test="codName != null and codName != ''">
+				and t.COD_NAME = #{codName}
+			</if>
+			<if test="stat != null and stat != ''">
+				and t.STAT = #{stat}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+			<if test="groupId != null and groupId != ''">
+				and g.GROUP_ID = #{groupId}
+			</if>
+		</trim>
+		order by t.COD_VAL asc 
+	</select>
+
+</mapper>

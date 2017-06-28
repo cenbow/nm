@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.PubFundChanInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubFundChanInfoRetMap" type="com.hs.loan.finance.entity.PubFundChanInfo">
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="CHAN_NAME" property="chanName"/>
+			<result column="CHINAPAY_MERID" property="chinapayMerid"/>
+			<result column="CHINAPAY_MERKEY" property="chinapayMerkey"/>
+			<result column="CHINAPAY_USERNAME" property="chinapayUsername"/>
+			<result column="CHINAPAY_PW" property="chinapayPw"/>
+			<result column="COMP_ORG" property="compOrg"/>
+			<result column="COMP_ACC" property="compAcc"/>
+			<result column="OPEN_ORG" property="openOrg"/>
+			<result column="CAP_RAT" property="capRat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="CHECK_FLAG" property="checkFlag"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_资金渠道信息 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.PubFundChanInfo">
+		insert into PUB_FUND_CHAN_INFO
+		(
+  			CHAN_NO
+  			,CHAN_NAME
+  			,CHINAPAY_MERID
+  			,CHINAPAY_MERKEY
+  			,CHINAPAY_USERNAME
+  			,CHINAPAY_PW
+  			,COMP_ORG
+  			,COMP_ACC
+  			,OPEN_ORG
+  			,CAP_RAT
+  			,INST_DATE
+  			,UPDT_DATE
+  			,CHECK_FLAG
+    	)
+    	values
+    	(
+  			 #{chanNo}
+  			, #{chanName}
+  			, #{chinapayMerid}
+  			, #{chinapayMerkey}
+  			, #{chinapayUsername}
+  			, #{chinapayPw}
+  			, #{compOrg}
+  			, #{compAcc}
+  			, #{openOrg}
+  			, #{capRat}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{checkFlag}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_资金渠道信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_FUND_CHAN_INFO
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('chanName')">  
+	  					CHAN_NAME = #{chanName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chinapayMerid')">  
+	  					CHINAPAY_MERID = #{chinapayMerid},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chinapayMerkey')">  
+	  					CHINAPAY_MERKEY = #{chinapayMerkey},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chinapayUsername')">  
+	  					CHINAPAY_USERNAME = #{chinapayUsername},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chinapayPw')">  
+	  					CHINAPAY_PW = #{chinapayPw},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('compOrg')">  
+	  					COMP_ORG = #{compOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('compAcc')">  
+	  					COMP_ACC = #{compAcc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openOrg')">  
+	  					OPEN_ORG = #{openOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('capRat')">  
+	  					CAP_RAT = #{capRat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('checkFlag')">  
+	  					CHECK_FLAG = #{checkFlag}  
+	  				</if>		
+    	</trim>
+		where 
+  			CHAN_NO = #{chanNo}				
+	</update>
+	
+	<!-- 删除 PUB_资金渠道信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_FUND_CHAN_INFO
+		where 
+  			CHAN_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_资金渠道信息 -->
+	<select id="getByPrimaryKey" resultMap="PubFundChanInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_FUND_CHAN_INFO t
+		where 
+  				t.CHAN_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_资金渠道信息 列表 -->
+	<select id="queryForList" resultMap="PubFundChanInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_FUND_CHAN_INFO t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="chanNo != null and chanNo != ''">
+	  				and t.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="chanName != null and chanName != ''">
+	  				and t.CHAN_NAME like CONCAT('%',#{chanName},'%')
+	  			</if>
+				<if test="chinapayMerid != null and chinapayMerid != ''">
+	  				and t.CHINAPAY_MERID = #{chinapayMerid}				
+	  			</if>
+				<if test="chinapayMerkey != null and chinapayMerkey != ''">
+	  				and t.CHINAPAY_MERKEY = #{chinapayMerkey}				
+	  			</if>
+				<if test="chinapayUsername != null and chinapayUsername != ''">
+	  				and t.CHINAPAY_USERNAME = #{chinapayUsername}				
+	  			</if>
+				<if test="chinapayPw != null and chinapayPw != ''">
+	  				and t.CHINAPAY_PW = #{chinapayPw}				
+	  			</if>
+				<if test="compOrg != null and compOrg != ''">
+	  				and t.COMP_ORG = #{compOrg}				
+	  			</if>
+				<if test="compAcc != null and compAcc != ''">
+	  				and t.COMP_ACC = #{compAcc}				
+	  			</if>
+				<if test="openOrg != null and openOrg != ''">
+	  				and t.OPEN_ORG = #{openOrg}				
+	  			</if>
+				<if test="capRat != null">
+	  				and t.CAP_RAT = #{capRat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="checkFlag != null and checkFlag != ''">
+	  				and t.CHECK_FLAG = #{checkFlag} 			
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 查询 PUB_资金渠道信息 列表 -->
+	<select id="querySaleContractList" resultType="com.hs.loan.finance.bo.SaleContractBO" parameterType="java.util.HashMap">
+		select	
+			date_format(t.reg_date,'yyyy-MM-dd') regDate,
+  			t.loan_no loanNo,
+  			b.branch_no branchNo,
+  			b.branch_name branchName,
+  			c.cust_name custName,
+  			c.cert_no certNo,
+  			s.staff_name salerName,
+  			p.prod_no prodCode,
+  			g.goods_type goodsType,
+  			g.brand,
+  			g.marques,
+  			t.FST_PAY_AMT fstPayAmt,
+  			t.loan_amt loanAmt,
+  			g.pric totalPrice
+		from app_loan_acct t left join app_loan_saler s on t.loan_no=s.loan_no
+		left join app_cust_info c on t.cust_no = c.cust_no
+		left join app_loan_goods g on t.loan_no = g.loan_no
+		left join app_loan_branch b on t.loan_no = b.loan_no
+		left join app_loan_prod p on t.loan_no = p.loan_no
+		left join app_loan_fund_chan f on t.LOAN_NO = f.loan_no
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+			 <if test="chanNo != null and chanNo != ''">
+		 		f.CHAN_NO = #{chanNo}
+		 	 </if>
+		 	 <if test="strNo != null and strNo != ''">
+		 		f.branch_no = #{strNo}
+		 	 </if>
+		 	 <if test="regDate != null">
+				date_format(t.reg_date,'yyyy-MM-dd') = #{regDate}
+			 </if>
+    	</trim>
+		order by t.reg_date desc
+	</select>
+	
+	<!--查询 没在 chanNos里的资金渠道信息  -->
+	<select id="queryNotUseFundChanInfo" parameterType="string" resultMap="PubFundChanInfoRetMap">
+		select	
+			t.*
+		from PUB_FUND_CHAN_INFO t
+		where 1=1
+		<if test="chanNos !=null and chanNos != ''">
+			and t.CHAN_NO not in (${chanNos})
+		</if>
+	</select>
+	
+</mapper>

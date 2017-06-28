@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccCapWithMapper" >
+    
+    <!-- 返回 Bean-->
+	<resultMap id="AccCapWithMap" type="com.hs.loan.finance.entity.AccCapWith">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="BUSN_DATE" property="busnDate"/>
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="BANK_NO" property="bankNo"/>
+			<result column="BANK_NAME" property="bankName"/>
+			<result column="IN_ACCT_NO" property="inAcctNo"/>
+			<result column="IN_ACCT_NAME" property="inAcctName"/>
+			<result column="TRAN_OBJ" property="tranObj"/>
+			<result column="WITH_STAT" property="withStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	<!-- 根据贷款编号查扣款日志 -->
+	<select id="findTranLog" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT * FROM acc_cap_tran_log
+		 WHERE loan_no = #{loanNo} AND REPAY_DATE = #{repayDate}
+		ORDER BY SEND_DATE DESC limit 1;
+	</select>
+	<!--根据贷款编号查询交易方-->
+	<select id="selectTranObjByLoanNo" parameterType="java.lang.String" resultType="java.lang.String">
+     SELECT TRAN_OBJ FROM acc_cap_with WHERE LOAN_NO=#{loanNo} LIMIT 1;
+	</select>
+	
+	<!-- 新增 ACC_银联代扣登记 -->
+	
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccCapWith">
+		insert into acc_cap_with
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_NUM
+  			,REPAY_DATE
+  			,BUSN_DATE
+  			,CHAN_NO
+  			,CUST_NO
+  			,ACCT_NO
+  			,ACCT_NAME
+  			,BANK_NO
+  			,BANK_NAME
+  			,IN_ACCT_NO
+  			,IN_ACCT_NAME
+  			,WITH_STAT
+  			,INST_DATE
+  			,UPDT_DATE
+  			,TRAN_OBJ
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayNum}
+  			, #{repayDate}
+  			, #{busnDate}
+  			, #{chanNo}
+  			, #{custNo}
+  			, #{acctNo}
+  			, #{acctName}
+  			, #{bankNo}
+  			, #{bankName}
+  			, #{inAcctNo}
+  			, #{inAcctName}
+  			, #{withStat}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{tranObj}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update acc_cap_with
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('id')">  
+	  					ID = #{id},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busnDate')">  
+	  					BUSN_DATE = #{busnDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chanNo')">  
+	  					CHAN_NO = #{chanNo},  
+	  				</if>	
+	  				<if test="_parameter.containsKey('tranObj')">  
+	  					TRAN_OBJ = #{tranObj},  
+	  				</if>	
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bankNo')">  
+	  					BANK_NO = #{bankNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bankName')">  
+	  					BANK_NAME = #{bankName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('inAcctNo')">  
+	  					IN_ACCT_NO = #{inAcctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('inAcctName')">  
+	  					IN_ACCT_NAME = #{inAcctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('withStat')">  
+	  					WITH_STAT = #{withStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where ID = #{id}
+	</update>
+	
+	<!-- 删除 ACC_银联代扣登记 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_CAP_WITH
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_银联代扣登记 -->
+	<select id="getByPrimaryKey" resultMap="AccCapWithMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_CAP_WITH t
+		where 
+  			t.ID = #{id}				
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="AccCapWithMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from acc_cap_with t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="busnDate != null and busnDate != ''">
+	  				and t.BUSN_DATE = #{busnDate}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and t.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and t.BANK_NO = #{bankNo}				
+	  			</if>
+				<if test="bankName != null and bankName != ''">
+	  				and t.BANK_NAME = #{bankName}				
+	  			</if>
+				<if test="inAcctNo != null and inAcctNo != ''">
+	  				and t.IN_ACCT_NO = #{inAcctNo}				
+	  			</if>
+	  			<if test="tranObj != null and tranObj != ''">
+	  				and t.IN_ACCT_NO = #{tranObj}				
+	  			</if>
+				<if test="inAcctName != null and inAcctName != ''">
+	  				and t.IN_ACCT_NAME = #{inAcctName}				
+	  			</if>
+				<if test="withStat != null and withStat != ''">
+	  				and t.WITH_STAT = #{withStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+	  			<if test="bgRepayNum != null and bgRepayNum != '' and enRepayNum != null and enRepayNum != ''">
+	  				and t.REPAY_NUM between #{bgRepayNum} and 	#{enRepayNum} and t.WITH_STAT in ('20109001','20109004')
+	  			</if>
+  				<if test ="ovduStatNo!=null and ovduStatNo !=''">
+	  				  AND NOT EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001')
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='1'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev=1)
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='2'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev>1)
+	  			</if>
+	  			<if test ="lastStat!=null and lastStat !='' ">
+	 				 AND  WITH_STAT &lt;&gt; #{lastStat}
+	  			</if>
+	  			<if test="lianlianpay!=null and lianlianpay!='' ">
+	  				AND EXISTS
+			              (SELECT acs.user_id, acs.card_no
+			                 FROM acc_cap_lian_sign AS acs
+			                WHERE acs.result_sign='SUCCESS' and acs.user_id = t.LOAN_NO AND acs.card_no = t.ACCT_NO and acs.state='10002001')
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 根据贷款编号更新扣款状态 -->
+	<update id="updateWithStat" parameterType="java.util.HashMap">
+		UPDATE acc_cap_with SET WITH_STAT=#{withStat}
+		<where>
+			<if test="null!=loanNo and ''!=loanNo">
+				AND LOAN_NO=#{loanNo}
+			</if>
+			<if test="null!=repayNum and ''!=repayNum">
+				AND  REPAY_NUM=#{repayNum}
+			</if>
+		</where>
+	</update>
+	<!-- 修改 ACC_银联代扣登记 -->
+	<update id="updateByDkReturn" parameterType="java.util.Map">
+		update ACC_CAP_WITH set WITH_STAT = #{withStat},
+							    UPDT_DATE = #{updt}
+			<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and ID = #{id}				
+	  			</if>
+	  			<if test="withIds != null and withIds != ''">
+	  				and ID in (${withIds})				
+	  			</if>
+  			</trim>
+	</update>
+	
+	
+	<update id="updateAccCapWithStatById" parameterType="java.util.Map">
+		update ACC_CAP_WITH set WITH_STAT = #{withStat},  
+	  				UPDT_DATE = #{updtDate}	
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 查询 ACC_银联代扣登记 列表 -->
+	<select id="queryCapWith" resultMap="AccCapWithMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_CAP_WITH t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+	  			<if test="repayNum != null and repayNum != ''">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 返回 代扣数据组装-->
+	<resultMap id="singleRepayBo" type="com.hs.loan.finance.bo.SingleRepayBo">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CERT_NO" property="certNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="BUSN_DATE" property="busiDate"/>
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="BANK_NO" property="bankNo"/>
+			<result column="BANK_NAME" property="bankName"/>
+			<result column="WITH_STAT" property="withStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="TOTL_AMT"  property="totlAmt"/>
+			<result column="DAY_RCV_AMT" property="dayRcvAmt"/>
+			<result column="CUR_RCV_AMT" property="curRcvAmt"/>
+			<result column="FUND_TOTL_AMT" property="fundTotlAmt"/>
+			<result column="FUND_DAY_RCV_AMT" property="fundDayRcvAmt"/>
+			<result column="FUND_CUR_RCV_AMT" property="fundCurRcvAmt"/>
+			<result column="tran_amt" property="tranAmt"/>
+			<result column="tran_time" property="tranTime"/>
+			<result column="IN_ACCT_NO" property="inAcctNo"/>
+			<result column="IN_ACCT_NAME" property="inAcctName"/>
+			<result column="TRAN_OBJ" property="tranObj"/>
+			<result column="NO_AGREE" property="noAgree"/>
+			<result column="tran_chan" property="tranChan"/>
+			<result column="PHONE_NO" property="phoneNo"/>
+	</resultMap>
+
+	<!-- 查询快付通专用代扣登记 列表 -->
+	<select id="querySingleRepayBoForListOnKFT" resultMap="singleRepayBo" parameterType="java.util.Map">
+		select 
+					t.ID,
+					t.LOAN_NO,
+					t.REPAY_DATE,
+					t.REPAY_NUM,
+					t.BUSN_DATE,
+					b.CHAN_NO,
+					t.BANK_NO,
+					t.ACCT_NAME,
+					t.ACCT_NO,
+					t.BANK_NAME,
+					t.WITH_STAT,
+					t.INST_DATE,
+					t.UPDT_DATE,
+					c.CERT_NO,
+					a.TOTL_AMT,
+					a.DAY_RCV_AMT,
+					a.CUR_RCV_AMT,
+					a.FUND_TOTL_AMT,
+					a.FUND_DAY_RCV_AMT,
+					a.FUND_CUR_RCV_AMT,
+					ifnull(sum(r.TRAN_AMT), 0) tran_amt,
+					max(r.INST_DATE) tran_time,
+					t.IN_ACCT_NO inAcctNo,
+					t.IN_ACCT_NAME inAcctName,
+					t.TRAN_OBJ tranObj,
+					d.no_agree,
+					r.tran_chan,
+       				c.PHONE_NO
+				from ACC_CAP_WITH t 
+				LEFT JOIN APP_CUST_INFO c ON c.cust_no = t.cust_no
+				LEFT JOIN acc_loan_acct_inst a ON a.loan_no = t.loan_no AND a.repay_num = t.repay_num and a.inst_stat &lt;&gt;'20101003'
+				LEFT JOIN app_loan_fund_match b ON b.loan_no = t.loan_no AND b.match_result = '40103001' AND b.stat = '40003003'
+				LEFT JOIN acc_repay_flow r ON r.loan_no = t.loan_no AND r.REPAY_DATE = t.REPAY_DATE
+				left join ACC_AGREE_NO d on t.LOAN_NO = d.LOAN_NO
+				where  1=1
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+	  			<if test="repayNum != null and repayNum != ''">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+	  			<if test="startTime != null and startTime != ''">
+	  				and t.REPAY_DATE &gt;= #{startTime}				
+	  			</if>
+	  			<if test="endTime != null and endTime != ''">
+	  				and t.REPAY_DATE &lt;= #{endTime}				
+	  			</if>
+				<if test="busnDate != null and busnDate != ''">
+	  				and t.BUSN_DATE = #{busnDate}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and b.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME LIKE CONCAT('%',#{acctName},'%')			
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and t.BANK_NO = #{bankNo}
+	  			</if>
+				<if test="bankName != null and bankName != ''">
+	  				and t.BANK_NAME  LIKE CONCAT('%',#{bankName},'%')			
+	  			</if>
+				<if test="withStat != null and withStat != ''">
+	  				and t.WITH_STAT = #{withStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+	  			<if test ="companyType!=null and companyType!=''">
+	  				and t.COMPANY_TYP = #{companyType}
+	  			</if>
+		  		<if test ="ovduStatNo!=null and ovduStatNo !=''">
+	  				  AND NOT EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001')
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='1'.toString()">
+					 AND  EXISTS
+	              (SELECT PC.LOAN_NO
+	                 FROM pl_loan_ovdu_case PC
+	                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev=1)
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='2'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev>1)
+	  			</if>
+	  			<if test="lianlianpay!=null and lianlianpay!='' ">
+	  				AND EXISTS
+			              (SELECT acs.user_id, acs.card_no
+			                 FROM acc_cap_lian_sign AS acs
+			                WHERE acs.result_sign='SUCCESS' and acs.user_id = t.LOAN_NO AND acs.card_no = t.ACCT_NO and acs.state='10002001')
+	  			</if>
+	    	group by t.ID
+	    	ORDER BY t.repay_date
+	</select>
+	
+	<!-- 查询 ACC_银联代扣登记 列表 -->
+	<select id="querySingleRepayBoForList" resultMap="singleRepayBo" parameterType="java.util.Map">
+		select 
+					t.ID,
+					t.LOAN_NO,
+					t.REPAY_DATE,
+					t.REPAY_NUM,
+					t.BUSN_DATE,
+					b.CHAN_NO,
+					t.BANK_NO,
+					t.ACCT_NAME,
+					t.ACCT_NO,
+					t.BANK_NAME,
+					t.WITH_STAT,
+					t.INST_DATE,
+					t.UPDT_DATE,
+					c.CERT_NO,
+					a.TOTL_AMT,
+					a.DAY_RCV_AMT,
+					a.CUR_RCV_AMT,
+					a.FUND_TOTL_AMT,
+					a.FUND_DAY_RCV_AMT,
+					a.FUND_CUR_RCV_AMT,
+					ifnull(sum(r.TRAN_AMT), 0) tran_amt,
+					max(r.INST_DATE) tran_time,
+					t.IN_ACCT_NO inAcctNo,
+					t.IN_ACCT_NAME inAcctName,
+					t.TRAN_OBJ tranObj,
+					null as no_agree,
+					r.tran_chan
+				from ACC_CAP_WITH t 
+				LEFT JOIN APP_CUST_INFO c ON c.cust_no = t.cust_no
+				LEFT JOIN acc_loan_acct_inst a ON a.loan_no = t.loan_no AND a.repay_num = t.repay_num and  a.inst_stat &lt;&gt;'20101003'
+				LEFT JOIN app_loan_fund_match b ON b.loan_no = t.loan_no AND b.match_result = '40103001' AND b.stat = '40003003'
+				LEFT JOIN acc_repay_flow r ON r.loan_no = t.loan_no AND r.REPAY_DATE = t.REPAY_DATE
+				where 1=1
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+	  			<if test="repayNum != null and repayNum != ''">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+	  			<if test="startTime != null and startTime != ''">
+	  				and t.REPAY_DATE &gt;= #{startTime}				
+	  			</if>
+	  			<if test="endTime != null and endTime != ''">
+	  				and t.REPAY_DATE &lt;= #{endTime}				
+	  			</if>
+				<if test="busnDate != null and busnDate != ''">
+	  				and t.BUSN_DATE = #{busnDate}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and b.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME LIKE CONCAT('%',#{acctName},'%')			
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and t.BANK_NO = #{bankNo}
+	  			</if>
+				<if test="bankName != null and bankName != ''">
+	  				and t.BANK_NAME  LIKE CONCAT('%',#{bankName},'%')			
+	  			</if>
+				<if test="withStat != null and withStat != ''">
+	  				and t.WITH_STAT = #{withStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+	  			<if test ="companyType!=null and companyType!=''">
+	  				and t.COMPANY_TYP = #{companyType}
+	  			</if>
+		  		<if test ="ovduStatNo!=null and ovduStatNo !=''">
+	  				  AND NOT EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001')
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='1'.toString()">
+					 AND  EXISTS
+	              (SELECT PC.LOAN_NO
+	                 FROM pl_loan_ovdu_case PC
+	                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev=1)
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='2'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev>1)
+	  			</if>
+	  			<if test="lianlianpay!=null and lianlianpay!='' ">
+	  				AND EXISTS
+			              (SELECT acs.user_id, acs.card_no
+			                 FROM acc_cap_lian_sign AS acs
+			                WHERE acs.result_sign='SUCCESS' and acs.user_id = t.LOAN_NO AND acs.card_no = t.ACCT_NO and acs.state='10002001')
+	  			</if>
+	    	group by t.ID
+	    	ORDER BY t.repay_date
+	</select>
+	
+	<!-- 根据批量代扣查询条件批量锁定预处理表并更新预处理表更新时间 -->
+	<update id="batchUpdateAccCapWithByBatckDk" parameterType="java.util.Map">
+		update ACC_CAP_WITH w set w.WITH_STAT = #{withStatForUpdate},w.UPDT_DATE = #{updtDate}	
+		where w.WITH_STAT = #{withStat}	
+		and not EXISTS(select loan_no from acc_loan_acct_inst i where w.loan_No = i.loan_no and i.inst_stat ='20101003' )
+			<if test="repayNum != null and repayNum != ''">
+	  				and w.REPAY_NUM = #{repayNum}				
+	  			</if>
+	  			<if test="loanNo != null and loanNo != ''">
+	  				and w.loan_no = #{loanNo}				
+	  			</if>
+	  			<if test="startTime != null and startTime != ''">
+	  				and w.REPAY_DATE &gt;= #{startTime}				
+	  			</if>
+	  			<if test="endTime != null and endTime != ''">
+	  				and w.REPAY_DATE &lt;= #{endTime}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and w.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and w.BANK_NO = #{bankNo}				
+	  			</if>
+				<if test="withStat != null and withStat != ''">
+	  				and w.WITH_STAT = #{withStat}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and w.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and w.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="bankName != null and bankName != ''">
+	  				and w.BANK_NAME = #{bankName}				
+	  			</if>
+	</update>
+	<!-- 根据批量代扣查询条件批量锁定预处理表并更新预处理表更新时间 -->
+	<update id="updateAccCapWithByStatByLoanNo" parameterType="java.util.Map">
+		update ACC_CAP_WITH w set w.WITH_STAT = #{withStat},w.UPDT_DATE = #{updtDate},w.IN_ACCT_NAME = #{_desc}		
+		where w.loan_no = #{loanNo}
+			<if test="repayNum != null and repayNum != ''">
+	  				and w.REPAY_NUM = #{repayNum}				
+	  	    </if>
+	</update>
+	
+	<!-- 查询 贷款的 资金渠道 -->
+	<select id="getChanNoByMap" resultType="java.lang.String" parameterType="java.util.Map">
+			SELECT CHAN_NO FROM APP_LOAN_FUND_MATCH t
+ 				where t.match_result = '40103001' AND t.stat = '40003003'
+			<if test="loanNo != null and loanNo != ''">
+ 				and t.LOAN_NO = #{loanNo}				
+ 			</if>
+	</select>
+		<!--判断该条贷款编号所扣期数 之前是否有未还款记录 -->
+	<select id="queryWithNStat" resultMap="AccCapWithMap" parameterType="java.util.Map">
+     SELECT * FROM acc_cap_with WHERE LOAN_NO=#{loanNo} and REPAY_NUM &lt; #{repayNum} and With_Stat &lt;&gt; '20109003'; 
+	</select>
+	<!-- 中金单扣次数 -->
+	<select id="queryCapSize" resultType ="java.lang.Integer" parameterType="java.lang.String">
+	select count(1) from acc_withhold_reg where tran_bgn_date&gt;=curdate() and with_stat &lt;&gt;'20109003' and tran_chan ='20101337'
+	 and LOAN_NO=#{loanNo}
+	</select>
+	<!-- 快付通单扣次数 -->
+	<select id="queryPaySize" resultType ="java.lang.Integer" parameterType="java.lang.String">
+	select count(1) from acc_pay_with where inst_date&gt;=curdate() and stat &lt;&gt;'20109003'
+	 and LOAN_NO=#{loanNo}
+	</select>
+	<!-- 连连单扣次数 -->
+	<select id="queryLianLianPayCapSize" resultType ="java.lang.Integer" parameterType="java.lang.String">
+	select count(1) from acc_withhold_reg where tran_bgn_date&gt;=curdate() and with_stat &lt;&gt;'20109003' and tran_chan ='20101343'
+	 and LOAN_NO=#{loanNo}
+	</select>
+	
+	<select id="getNextKftBatchNo" resultType="java.lang.String">
+		select val as valStr from sys_param where id='kftBatchNo'
+	</select>
+	
+	<update id="updateKftNo" parameterType="java.lang.String">
+		update sys_param set val=#{kftBatchNo} where id = 'kftBatchNo'
+	</update>
+</mapper>

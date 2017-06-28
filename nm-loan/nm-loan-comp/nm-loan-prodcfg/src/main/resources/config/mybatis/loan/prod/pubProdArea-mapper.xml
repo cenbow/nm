@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdAreaMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdAreaRetMap" type="com.hs.loan.prod.entity.PubProdArea">
+			<result column="ID" property="id"/>
+			<result column="PROV_NO" property="provNo"/>
+			<result column="PROV_NAME" property="provName"/>
+			<result column="CITY_NO" property="cityNo"/>
+			<result column="CITY_NAME" property="cityName"/>
+			<result column="CNTY_NO" property="cntyNo"/>
+			<result column="CNTY_NAME" property="cntyName"/>
+			<result column="PROD_NO" property="prodNo"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与区域的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdArea">
+		insert into PUB_PROD_AREA
+		(
+  			ID
+  			,PROV_NO
+  			,PROV_NAME
+  			,CITY_NO
+  			,CITY_NAME
+  			,CNTY_NO
+  			,CNTY_NAME
+  			,PROD_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{provNo}
+  			, #{provName}
+  			, #{cityNo}
+  			, #{cityName}
+  			, #{cntyNo}
+  			, #{cntyName}
+  			, #{prodNo}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与区域的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD_AREA
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('provNo')">  
+	  					PROV_NO = #{provNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('provName')">  
+	  					PROV_NAME = #{provName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cityNo')">  
+	  					CITY_NO = #{cityNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cityName')">  
+	  					CITY_NAME = #{cityName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntyNo')">  
+	  					CNTY_NO = #{cntyNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntyName')">  
+	  					CNTY_NAME = #{cntyName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与区域的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD_AREA
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与区域的关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdAreaRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD_AREA t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品与区域的关系 列表 -->
+	<select id="queryForList" resultMap="PubProdAreaRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_AREA t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="provNo != null and provNo != ''">
+	  				and t.PROV_NO = #{provNo}				
+	  			</if>
+				<if test="provName != null and provName != ''">
+	  				and t.PROV_NAME = #{provName}				
+	  			</if>
+				<if test="cityNo != null and cityNo != ''">
+	  				and t.CITY_NO = #{cityNo}				
+	  			</if>
+				<if test="cityName != null and cityName != ''">
+	  				and t.CITY_NAME = #{cityName}				
+	  			</if>
+				<if test="cntyNo != null and cntyNo != ''">
+	  				and t.CNTY_NO = #{cntyNo}				
+	  			</if>
+				<if test="cntyName != null and cntyName != ''">
+	  				and t.CNTY_NAME = #{cntyName}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 删除 PUB_产品与区域的关系 -->
+	<delete id="deleteProdAreaByBusi" parameterType="java.util.Map">
+		delete from PUB_PROD_AREA  
+		where  	 PROV_NO = #{provNo}	 AND CITY_NO = #{cityNo} and  CNTY_NO = #{cntyNo} and PROD_NO = #{prodNo}			
+	</delete>
+</mapper>

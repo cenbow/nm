@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.PubRepayTypConfMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubRepayTypConfRetMap" type="com.hs.loan.acct.entity.PubRepayTypConf">
+			<result column="CONF_NO" property="confNo"/>
+			<result column="CONF_NAME" property="confName"/>
+			<result column="REPAY_COND" property="repayCond"/>
+			<result column="REPAY_CALC" property="repayCalc"/>
+			<result column="CONF_REMARK" property="confRemark"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_还款类型配置信息 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.PubRepayTypConf">
+		insert into PUB_REPAY_TYP_CONF
+		(
+  			CONF_NO
+  			,CONF_NAME
+  			,REPAY_COND
+  			,REPAY_CALC
+  			,CONF_REMARK
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{confNo}
+  			, #{confName}
+  			, #{repayCond}
+  			, #{repayCalc}
+  			, #{confRemark}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_还款类型配置信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_REPAY_TYP_CONF
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('confName')">  
+	  					CONF_NAME = #{confName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayCond')">  
+	  					REPAY_COND = #{repayCond},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayCalc')">  
+	  					REPAY_CALC = #{repayCalc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('confRemark')">  
+	  					CONF_REMARK = #{confRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			CONF_NO = #{confNo}				
+	</update>
+	
+	<!-- 删除 PUB_还款类型配置信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_REPAY_TYP_CONF
+		where 
+  			CONF_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_还款类型配置信息 -->
+	<select id="getByPrimaryKey" resultMap="PubRepayTypConfRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_REPAY_TYP_CONF t
+		where 
+  				t.CONF_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_还款类型配置信息 列表 -->
+	<select id="queryForList" resultMap="PubRepayTypConfRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_REPAY_TYP_CONF t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="confNo != null and confNo != ''">
+	  				and t.CONF_NO = #{confNo}				
+	  			</if>
+				<if test="confName != null and confName != ''">
+	  				and t.CONF_NAME = #{confName}				
+	  			</if>
+				<if test="repayCond != null and repayCond != ''">
+	  				and t.REPAY_COND = #{repayCond}				
+	  			</if>
+				<if test="repayCalc != null and repayCalc != ''">
+	  				and t.REPAY_CALC = #{repayCalc}				
+	  			</if>
+				<if test="confRemark != null and confRemark != ''">
+	  				and t.CONF_REMARK = #{confRemark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

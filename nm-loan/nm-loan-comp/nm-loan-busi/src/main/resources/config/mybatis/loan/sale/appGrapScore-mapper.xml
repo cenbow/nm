@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppGrapScoreMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppGrapScoreRetMap" type="com.hs.loan.sale.entity.AppGrapScore">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="GRAP_CHAN" property="grapChan"/>
+			<result column="GRAP_SESA_SEED" property="grapSesaSeed"/>
+			<result column="GRAP_DATE" property="grapDate"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_芝麻分抓取表 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppGrapScore">
+		insert into APP_GRAP_SCORE
+		(
+  			ID
+  			,CUST_NO
+  			,LOAN_NO
+  			,GRAP_CHAN
+  			,GRAP_SESA_SEED
+  			,GRAP_DATE
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{loanNo}
+  			, #{grapChan}
+  			, #{grapSesaSeed}
+  			, #{grapDate}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_芝麻分抓取表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_GRAP_SCORE
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('grapChan')">  
+	  					GRAP_CHAN = #{grapChan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('grapSesaSeed')">  
+	  					GRAP_SESA_SEED = #{grapSesaSeed},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('grapDate')">  
+	  					GRAP_DATE = #{grapDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_芝麻分抓取表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_GRAP_SCORE
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_芝麻分抓取表 -->
+	<select id="getByPrimaryKey" resultMap="AppGrapScoreRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_GRAP_SCORE t
+		where 
+  				t.ID = #{id}				
+	</select>
+	<!-- 通过custNo查询 APP_芝麻分抓取表 -->
+	<select id="getByCustNo" resultMap="AppGrapScoreRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_GRAP_SCORE t
+		where t.LOAN_NO = #{loanNo}
+			  and t.CUST_NO = #{custNo}
+			  and t.GRAP_CHAN = #{grapChan} 
+			  order by t.inst_date desc
+			  limit 1
+	</select>
+	
+	
+	<!-- 查询 APP_芝麻分抓取表 列表 -->
+	<select id="queryForList" resultMap="AppGrapScoreRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_GRAP_SCORE t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="grapChan != null and grapChan != ''">
+	  				and t.GRAP_CHAN = #{grapChan}				
+	  			</if>
+				<if test="grapSesaSeed != null">
+	  				and t.GRAP_SESA_SEED = #{grapSesaSeed}				
+	  			</if>
+				<if test="grapDate != null">
+	  				and t.GRAP_DATE = #{grapDate}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

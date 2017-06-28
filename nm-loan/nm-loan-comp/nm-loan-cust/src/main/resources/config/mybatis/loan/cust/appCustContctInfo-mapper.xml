@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustContctInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustContctInfoRetMap" type="com.hs.loan.cust.entity.AppCustContctInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="IMEI" property="imei"/>
+			<result column="PHONE_NO" property="phoneNo"/>
+			<result column="PHONE_YEARS" property="phoneYears"/>
+			<result column="IS_REAL_NAME" property="isRealName"/>
+			<result column="MTH_TEL_FEE" property="mthTelFee"/>
+			<result column="HOME_TEL" property="homeTel"/>
+			<result column="HOME_TEL_OWNER" property="homeTelOwner"/>
+			<result column="EMAIL" property="email"/>
+			<result column="QQ" property="qq"/>
+			<result column="WECHAT" property="wechat"/>
+			<result column="SINA" property="sina"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户联系信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustContctInfo">
+		insert into app_cust_contct_info
+		(
+  			ID
+  			,CUST_NO
+  			,IMEI
+  			,PHONE_NO
+  			,PHONE_YEARS
+  			,IS_REAL_NAME
+  			,MTH_TEL_FEE
+  			,HOME_TEL
+  			,HOME_TEL_OWNER
+  			,EMAIL
+  			,QQ
+  			,WECHAT
+  			,SINA
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{imei}
+  			, #{phoneNo}
+  			, #{phoneYears}
+  			, #{isRealName}
+  			, #{mthTelFee}
+  			, #{homeTel}
+  			, #{homeTelOwner}
+  			, #{email}
+  			, #{qq}
+  			, #{wechat}
+  			, #{sina}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户联系信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_contct_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('imei')">  
+	  					IMEI = #{imei},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('phoneNo')">  
+	  					PHONE_NO = #{phoneNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('phoneYears')">  
+	  					PHONE_YEARS = #{phoneYears},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isRealName')">  
+	  					IS_REAL_NAME = #{isRealName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthTelFee')">  
+	  					MTH_TEL_FEE = #{mthTelFee},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('homeTel')">  
+	  					HOME_TEL = #{homeTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('homeTelOwner')">  
+	  					HOME_TEL_OWNER = #{homeTelOwner},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('email')">  
+	  					EMAIL = #{email},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('qq')">  
+	  					QQ = #{qq},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('wechat')">  
+	  					WECHAT = #{wechat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sina')">  
+	  					SINA = #{sina},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户联系信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_contct_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户联系信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustContctInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_contct_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户联系信息 列表 -->
+	<select id="queryForList" resultMap="AppCustContctInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_contct_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="imei != null and imei != ''">
+	  				and t.IMEI = #{imei}				
+	  			</if>
+				<if test="phoneNo != null and phoneNo != ''">
+	  				and t.PHONE_NO = #{phoneNo}				
+	  			</if>
+				<if test="phoneYears != null and phoneYears != ''">
+	  				and t.PHONE_YEARS = #{phoneYears}				
+	  			</if>
+				<if test="isRealName != null and isRealName != ''">
+	  				and t.IS_REAL_NAME = #{isRealName}				
+	  			</if>
+				<if test="mthTelFee != null and mthTelFee != ''">
+	  				and t.MTH_TEL_FEE = #{mthTelFee}				
+	  			</if>
+				<if test="homeTel != null and homeTel != ''">
+	  				and t.HOME_TEL = #{homeTel}				
+	  			</if>
+				<if test="homeTelOwner != null and homeTelOwner != ''">
+	  				and t.HOME_TEL_OWNER = #{homeTelOwner}				
+	  			</if>
+				<if test="email != null and email != ''">
+	  				and t.EMAIL = #{email}				
+	  			</if>
+				<if test="qq != null and qq != ''">
+	  				and t.QQ = #{qq}				
+	  			</if>
+				<if test="wechat != null and wechat != ''">
+	  				and t.WECHAT = #{wechat}				
+	  			</if>
+				<if test="sina != null and sina != ''">
+	  				and t.SINA = #{sina}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!--通过客户号获取客户当前使用的联系信息  -->
+	<select id="getCustCurrentContactInfoByNo" parameterType="string" resultMap="AppCustContctInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_contct_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		ORDER BY
+			t.BEGIN_DATE DESC
+		LIMIT 1
+	</select>
+	
+	<!-- 根据客户号和有效时间段 获取 客户联系信息 -->
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustContctInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_contct_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}				
+	  	</if>
+		<if test="imei != null and imei != ''">
+	  		and t.IMEI = #{imei}				
+	  	</if>
+		<if test="phoneNo != null and phoneNo != ''">
+	  		and t.PHONE_NO = #{phoneNo}				
+	  	</if>
+		<if test="phoneYears != null and phoneYears != ''">
+	  		and t.PHONE_YEARS = #{phoneYears}				
+	  	</if>
+		<if test="isRealName != null and isRealName != ''">
+	  		and t.IS_REAL_NAME = #{isRealName}				
+	  	</if>
+		<if test="mthTelFee != null and mthTelFee != ''">
+	  		and t.MTH_TEL_FEE = #{mthTelFee}				
+	  	</if>
+		<if test="homeTel != null and homeTel != ''">
+	  		and t.HOME_TEL = #{homeTel}				
+	  	</if>
+		<if test="homeTelOwner != null and homeTelOwner != ''">
+	  		and t.HOME_TEL_OWNER = #{homeTelOwner}				
+	  	</if>
+		<if test="email != null and email != ''">
+	  		and t.EMAIL = #{email}				
+	  	</if>
+		<if test="qq != null and qq != ''">
+	  		and t.QQ = #{qq}				
+	  	</if>
+		<if test="wechat != null and wechat != ''">
+	  		and t.WECHAT = #{wechat}				
+	  	</if>
+		<if test="sina != null and sina != ''">
+	  		and t.SINA = #{sina}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>	
+		order by t.BEGIN_DATE desc
+	</select>
+	
+</mapper>

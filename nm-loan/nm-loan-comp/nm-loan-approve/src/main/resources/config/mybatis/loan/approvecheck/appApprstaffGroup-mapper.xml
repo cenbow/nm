@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approvecheck.mapper.AppApprstaffGroupMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppApprstaffGroupRetMap" type="com.hs.loan.approvecheck.entity.AppApprstaffGroup">
+			<result column="GROUP_ID" property="groupId"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="STAT" property="stat"/>
+			<result column="OPERATE_DATE" property="operateDate"/>
+			<result column="OPERATE_NO" property="operateNo"/>
+	</resultMap>
+	
+	<!-- 新增 APP_审批内部组信息 -->
+	<insert id="insert" parameterType="com.hs.loan.approvecheck.entity.AppApprstaffGroup">
+		insert into APP_APPRSTAFF_GROUP
+		(
+  			GROUP_ID
+  			,GROUP_NAME
+  			,STAT
+  			,OPERATE_DATE
+  			,OPERATE_NO
+    	)
+    	values
+    	(
+  			#{groupId}
+  			, #{groupName}
+  			, #{stat}
+  			, #{operateDate}
+  			, #{operateNo}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_审批内部组信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_APPRSTAFF_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('operateDate')">  
+	  					OPERATE_DATE = #{operateDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('operateNo')">  
+	  					OPERATE_NO = #{operateNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			GROUP_ID = #{groupId}				
+	</update>
+	
+	<!-- 删除 APP_审批内部组信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_APPRSTAFF_GROUP
+		where 
+  			GROUP_ID = #{groupId}				
+	</delete>
+	
+	<!-- 批量删除 APP_审批内部组信息 -->
+	<delete id="batchDeleteByPrimaryKey" parameterType="java.util.List">
+		delete from APP_APPRSTAFF_GROUP
+		where GROUP_ID IN 
+  	    <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}		
+  		</foreach>				
+	</delete>
+	
+	<!-- 通过主键查询 APP_审批内部组信息 -->
+	<select id="getByPrimaryKey" resultMap="AppApprstaffGroupRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_APPRSTAFF_GROUP t
+		where 
+  				t.GROUP_ID = #{groupId}				
+	</select>
+	
+	<!-- 查询 APP_审批内部组信息 列表 -->
+	<select id="queryForList" resultMap="AppApprstaffGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_APPRSTAFF_GROUP t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="groupId != null and groupId != ''">
+	  				and t.GROUP_ID = #{groupId}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME = #{groupName}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="operateDate != null">
+	  				and t.OPERATE_DATE = #{operateDate}				
+	  			</if>
+				<if test="operateNo != null and operateNo != ''">
+	  				and t.OPERATE_NO = #{operateNo}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

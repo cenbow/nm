@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdOrgMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdOrgRetMap" type="com.hs.loan.prod.entity.PubProdOrg">
+			<result column="ID" property="id"/>
+			<result column="ORG_NO" property="orgNo"/>
+			<result column="ORG_NAME" property="orgName"/>
+			<result column="PROV_NO" property="provNo"/>
+			<result column="CITY_NO" property="cityNo"/>
+			<result column="CNTY_NO" property="cntyNo"/>
+			<result column="AREA_NO" property="areaNo"/>
+			<result column="PROD_NO" property="prodNo"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与机构的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdOrg">
+		insert into PUB_PROD_ORG
+		(
+  			ID
+  			,ORG_NO
+  			,ORG_NAME
+  			,PROV_NO
+  			,CITY_NO
+  			,CNTY_NO
+  			,AREA_NO
+  			,PROD_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{orgNo}
+  			, #{orgName}
+  			, #{provNo}
+  			, #{cityNo}
+  			, #{cntyNo}
+  			, #{areaNo}
+  			, #{prodNo}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与机构的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD_ORG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('orgNo')">  
+	  					ORG_NO = #{orgNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgName')">  
+	  					ORG_NAME = #{orgName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('provNo')">  
+	  					PROV_NO = #{provNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cityNo')">  
+	  					CITY_NO = #{cityNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntyNo')">  
+	  					CNTY_NO = #{cntyNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaNo')">  
+	  					AREA_NO = #{areaNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与机构的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD_ORG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与机构的关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdOrgRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD_ORG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品与机构的关系 列表 -->
+	<select id="queryForList" resultMap="PubProdOrgRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_ORG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and t.ORG_NO = #{orgNo}				
+	  			</if>
+				<if test="orgName != null and orgName != ''">
+	  				and t.ORG_NAME = #{orgName}				
+	  			</if>
+				<if test="provNo != null and provNo != ''">
+	  				and t.PROV_NO = #{provNo}				
+	  			</if>
+				<if test="cityNo != null and cityNo != ''">
+	  				and t.CITY_NO = #{cityNo}				
+	  			</if>
+				<if test="cntyNo != null and cntyNo != ''">
+	  				and t.CNTY_NO = #{cntyNo}				
+	  			</if>
+				<if test="areaNo != null and areaNo != ''">
+	  				and t.AREA_NO = #{areaNo}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+    	</trim>
+	</select>
+		<!-- 删除 PUB_产品与机构关系 -->
+	<delete id="deletePubProdOrgByprodNo" parameterType="java.lang.String">
+		delete from PUB_PROD_ORG
+		where 
+  			prod_no = #{prodNo}				
+	</delete>
+</mapper>

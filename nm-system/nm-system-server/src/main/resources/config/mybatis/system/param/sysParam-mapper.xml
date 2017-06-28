@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.param.mapper.SysParamMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysParamRetMap" type="com.hs.system.entity.SysParam">
+		<result column="ID" property="id" />
+		<result column="COD" property="cod" />
+		<result column="NAME" property="name" />
+		<result column="VAL" property="val" />
+		<result column="STAT" property="stat" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 新增 系统参数 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysParam">
+		insert into sys_param
+		(
+		ID
+		,COD
+		,NAME
+		,VAL
+		,STAT
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{cod}
+		, #{name}
+		, #{val}
+		, #{stat}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 系统参数 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_param
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('cod')">
+				COD = #{cod},
+			</if>
+			<if test="_parameter.containsKey('name')">
+				NAME = #{name},
+			</if>
+			<if test="_parameter.containsKey('val')">
+				VAL = #{val},
+			</if>
+			<if test="_parameter.containsKey('stat')">
+				STAT = #{stat},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 系统参数 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_param
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 系统参数 -->
+	<select id="getByPrimaryKey" resultMap="SysParamRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_param t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 系统参数 列表 -->
+	<select id="queryForList" resultMap="SysParamRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_param t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="cod != null and cod != ''">
+				and t.COD = #{cod}
+			</if>
+			<if test="name != null and name != ''">
+				and t.NAME LIKE CONCAT('%',#{name},'%') 
+			</if>
+			<if test="val != null and val != ''">
+				and t.VAL = #{val}
+			</if>
+			<if test="stat != null and stat != ''">
+				and t.STAT = #{stat}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+</mapper>

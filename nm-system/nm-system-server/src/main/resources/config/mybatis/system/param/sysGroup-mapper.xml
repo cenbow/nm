@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.param.mapper.SysGroupMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysGroupRetMap" type="com.hs.system.entity.SysGroup">
+		<result column="ID" property="id" />
+		<result column="TYP_ID" property="typId" />
+		<result column="GROUP_COD" property="groupCod" />
+		<result column="REMARK" property="remark" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+		<collection property="infoList" column="infoId"
+			ofType="com.hs.system.entity.SysCodInfo">
+			<id column="infoId" property="id" />
+			<result column="COD_VAL" property="codVal" />
+			<result column="COD_NAME" property="codName" />
+			<result column="codStat" property="stat" />
+		</collection>
+	</resultMap>
+
+	<!-- 新增 编码组 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysGroup">
+		insert into sys_group
+		(
+		ID
+		,TYP_ID
+		,GROUP_COD
+		,REMARK
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{typId}
+		, #{groupCod}
+		, #{remark}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 编码组 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_group
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('typId')">
+				TYP_ID = #{typId},
+			</if>
+			<if test="_parameter.containsKey('groupCod')">
+				GROUP_COD = #{groupCod},
+			</if>
+			<if test="_parameter.containsKey('remark')">
+				REMARK = #{remark},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 编码组 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_group
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 编码组 -->
+	<select id="getByPrimaryKey" resultMap="SysGroupRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		,i.ID as infoId
+		,i.COD_VAL
+		,i.COD_NAME
+		,i.STAT as codStat
+		from sys_group t
+		left join sys_cod_group r on t.ID = r.GROUP_ID
+		left join sys_cod_info i on r.COD_ID = i.ID
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 编码组 列表 -->
+	<select id="queryForList" resultMap="SysGroupRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		,i.ID as infoId
+		,i.COD_VAL
+		,i.COD_NAME
+		,i.STAT as codStat
+		from sys_group t
+		<if test="typCod != null and typCod != ''">
+			left join sys_cod_typ p on t.TYP_ID = p.ID
+		</if>
+		left join sys_cod_group r on t.ID = r.GROUP_ID
+		left join sys_cod_info i on r.COD_ID = i.ID
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="typId != null and typId != ''">
+				and t.TYP_ID = #{typId}
+			</if>
+			<if test="typCod != null and typCod != ''">
+				and p.COD_TYP = #{typCod}
+			</if>
+			<if test="groupCod != null and groupCod != ''">
+				and t.GROUP_COD = #{groupCod}
+			</if>
+			<if test="remark != null and remark != ''">
+				and t.REMARK = #{remark}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+	<!--通过grpid删除关联表sys_cod_group中关联的信息 -->
+	<delete id="deleteSysCodGrpByGrpId" parameterType="java.lang.String">
+		DELETE FROM
+		sys_cod_group WHERE GROUP_ID = #{id}
+	</delete>
+
+	<!--保存codinfo和grp的关系 -->
+	<insert id="saveCodeGrpRelation" parameterType="map">
+		INSERT INTO
+		sys_cod_group (ID,COD_ID, GROUP_ID) VALUES ( #{id} , #{codId} ,
+		#{grpId})
+	</insert>
+
+	<!--查询sysgrp基本信息 -->
+	<select id="querySysGrpBaseInfo" resultMap="SysGroupRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_group t
+		where
+		t.GROUP_ID = #{id}
+	</select>
+
+	<!--查询码表组中的codeinfo列表,cheked的表示是这个组的 -->
+	<select id="queryGrpCodeInfoLst" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		SELECT
+		i.ID AS "id",
+		i.COD_VAL AS "codVal",
+		i.COD_NAME AS "codName",
+		i.COD_TYP AS "codTyp",
+		CASE WHEN cg.cod_id is NOT NULL THEN '1'
+		ELSE '0'
+		END AS "checked"
+		FROM sys_cod_info i
+		INNER JOIN
+		sys_cod_typ t ON t.COD_TYP = i.COD_TYP
+		INNER JOIN
+		sys_group g ON g.TYP_ID = t.ID
+		LEFT JOIN
+		(SELECT ID,COD_ID,GROUP_ID FROM sys_cod_group WHERE GROUP_ID = #{groupId} )
+		cg ON i.ID = cg.COD_ID
+		WHERE
+		g.ID = #{groupId}
+	</select>
+
+</mapper>

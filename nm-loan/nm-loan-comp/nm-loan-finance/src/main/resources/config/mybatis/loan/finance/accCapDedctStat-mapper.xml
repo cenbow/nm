@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccCapDedctStatMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccCapDedctStatRetMap" type="com.hs.loan.finance.entity.AccCapDedctStat">
+			<result column="BUSN_DATE" property="busnDate"/>
+			<result column="DEDCT_NUM" property="dedctNum"/>
+			<result column="SUCC_CNT" property="succCnt"/>
+			<result column="FAIL_CNT" property="failCnt"/>
+			<result column="SUCC_AMT" property="succAmt"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_银联代扣统计 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccCapDedctStat">
+		insert into ACC_CAP_DEDCT_STAT
+		(
+  			BUSN_DATE
+  			,DEDCT_NUM
+  			,SUCC_CNT
+  			,FAIL_CNT
+  			,SUCC_AMT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{busnDate}
+  			, #{dedctNum}
+  			, #{succCnt}
+  			, #{failCnt}
+  			, #{succAmt}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_银联代扣统计 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_CAP_DEDCT_STAT
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('busnDate')">  
+	  					BUSN_DATE = #{busnDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('dedctNum')">  
+	  					DEDCT_NUM = #{dedctNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('succCnt')">  
+	  					SUCC_CNT = #{succCnt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('failCnt')">  
+	  					FAIL_CNT = #{failCnt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('succAmt')">  
+	  					SUCC_AMT = #{succAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+	</update>
+	
+	<!-- 删除 ACC_银联代扣统计 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_CAP_DEDCT_STAT
+		where 
+	</delete>
+	
+	<!-- 通过主键查询 ACC_银联代扣统计 -->
+	<select id="getByPrimaryKey" resultMap="AccCapDedctStatRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_CAP_DEDCT_STAT t
+		where 
+	</select>
+	
+	<!-- 查询 ACC_银联代扣统计 列表 -->
+	<select id="queryForList" resultMap="AccCapDedctStatRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_CAP_DEDCT_STAT t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="busnDate != null and busnDate != ''">
+	  				and t.BUSN_DATE = #{busnDate}				
+	  			</if>
+				<if test="dedctNum != null">
+	  				and t.DEDCT_NUM = #{dedctNum}				
+	  			</if>
+				<if test="succCnt != null">
+	  				and t.SUCC_CNT = #{succCnt}				
+	  			</if>
+				<if test="failCnt != null">
+	  				and t.FAIL_CNT = #{failCnt}				
+	  			</if>
+				<if test="succAmt != null">
+	  				and t.SUCC_AMT = #{succAmt}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

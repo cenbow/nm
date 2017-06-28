@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdCrowdMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdCrowdRetMap" type="com.hs.loan.prod.entity.PubProdCrowd">
+			<result column="ID" property="id"/>
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="CROWD_NO" property="crowdNo"/>
+			<result column="CROWD_NAME" property="crowdName"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与销售组关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdCrowd">
+		insert into PUB_PROD_CROWD
+		(
+  			ID
+  			,PROD_NO
+  			,CROWD_NO
+  			,CROWD_NAME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{prodNo}
+  			, #{crowdNo}
+  			, #{crowdName}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与销售组关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD_Crowd
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('crowdNo')">  
+	  					crowd_NO = #{crowdNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('crowdName')">  
+	  					crowd_NAME = #{crowdName},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与销售组关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD_Crowd
+		where 
+  			ID = #{id}				
+	</delete>
+	<!-- 删除 PUB_产品与销售组关系 -->
+	<delete id="deleteByCrowdNo" parameterType="java.lang.String">
+		delete from PUB_PROD_Crowd
+		where 
+  		crowd_NO = #{crowdNo}			
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与销售组关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdCrowdRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD_Crowd t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品与销售组关系 列表 -->
+	<select id="queryForList" resultMap="PubProdCrowdRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_Crowd t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="crowdNo != null and crowdNo != ''">
+	  				and t.crowd_NO = #{crowdNo}				
+	  			</if>
+				<if test="crowdName != null and crowdName != ''">
+	  				and t.crowd_NAME like CONCAT(CONCAT('%', #{crowdName}), '%')		
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

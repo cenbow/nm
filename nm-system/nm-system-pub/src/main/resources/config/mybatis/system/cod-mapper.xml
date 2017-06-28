@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.CodMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="codeRetMap" type="com.hs.system.entity.SysCodInfo">
+		<result column="ID" property="id" />
+		<result column="COD_VAL" property="codVal" />
+		<result column="COD_TYP" property="codTyp" />
+		<result column="COD_NAME" property="codName" />
+		<result column="COD_TYP_NAME" property="codTypName" />
+		<result column="STAT" property="stat" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+
+	<!-- 查询 编码信息 列表 -->
+	<select id="queryForList" resultMap="codeRetMap" parameterType="java.util.Map">
+		select
+		t.*,
+		p.COD_TYP_NAME
+		from sys_cod_info t left join sys_cod_typ p on t.COD_TYP = p.COD_TYP
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="codVal != null and codVal != ''">
+				and t.COD_VAL = #{codVal}
+			</if>
+			<if test="codTyp != null and codTyp != ''">
+				and t.COD_TYP = #{codTyp}
+			</if>
+			<if test="codName != null and codName != ''">
+				and t.COD_NAME = #{codName}
+			</if>
+			<if test="stat != null and stat != ''">
+				and t.STAT = #{stat}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+
+
+
+	<!-- 返回 Bean -->
+	<resultMap id="codeGroupRetMap" type="com.hs.system.entity.SysGroup">
+		<result column="ID" property="id" />
+		<result column="TYP_ID" property="typId" />
+		<result column="GROUP_COD" property="groupCod" />
+		<result column="REMARK" property="remark" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+		<collection property="infoList" column="COD_VAL"
+			ofType="com.hs.system.entity.SysCodInfo">
+			<id column="infoId" property="id" />
+			<result column="COD_VAL" property="codVal" />
+			<result column="COD_NAME" property="codName" />
+			<result column="codStat" property="stat" />
+		</collection>
+	</resultMap>
+
+	<!-- 查询 编码组 列表 -->
+	<select id="queryGroupListByType" resultMap="codeGroupRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		,i.ID as infoId
+		,i.COD_VAL
+		,i.COD_NAME
+		,i.STAT as codStat
+		from sys_group t
+		left join sys_cod_group r on t.ID = r.GROUP_ID
+		left join sys_cod_info i on r.COD_ID = i.ID
+		where i.COD_TYP = #{typCod}
+	</select>
+</mapper>

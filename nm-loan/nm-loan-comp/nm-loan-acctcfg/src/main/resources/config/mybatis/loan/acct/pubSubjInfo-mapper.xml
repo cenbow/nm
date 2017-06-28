@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.PubSubjInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubSubjInfoRetMap" type="com.hs.loan.acct.entity.PubSubjInfo">
+			<result column="SUBJ_ID" property="subjId"/>
+			<result column="SUBJ_NAME" property="subjName"/>
+			<result column="SUBJ_LEVEL" property="subjLevel"/>
+			<result column="PAR_SUBJ_ID" property="parSubjId"/>
+			<result column="SUBJ_DIRECTION" property="subjDirection"/>
+			<result column="IS_USE" property="isUse"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_科目信息 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.PubSubjInfo">
+		insert into PUB_SUBJ_INFO
+		(
+  			SUBJ_ID
+  			,SUBJ_NAME
+  			,SUBJ_LEVEL
+  			,PAR_SUBJ_ID
+  			,SUBJ_DIRECTION
+  			,IS_USE
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{subjId}
+  			, #{subjName}
+  			, #{subjLevel}
+  			, #{parSubjId}
+  			, #{subjDirection}
+  			, #{isUse}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_科目信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_SUBJ_INFO
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('subjName')">  
+	  					SUBJ_NAME = #{subjName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('subjLevel')">  
+	  					SUBJ_LEVEL = #{subjLevel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('parSubjId')">  
+	  					PAR_SUBJ_ID = #{parSubjId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('subjDirection')">  
+	  					SUBJ_DIRECTION = #{subjDirection},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isUse')">  
+	  					IS_USE = #{isUse},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			SUBJ_ID = #{subjId}				
+	</update>
+	
+	<!-- 删除 PUB_科目信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_SUBJ_INFO
+		where 
+  			SUBJ_ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_科目信息 -->
+	<select id="getByPrimaryKey" resultMap="PubSubjInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_SUBJ_INFO t
+		where 
+  				t.SUBJ_ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_科目信息 列表 -->
+	<select id="queryForList" resultMap="PubSubjInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_SUBJ_INFO t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="subjId != null and subjId != ''">
+	  				and t.SUBJ_ID = #{subjId}				
+	  			</if>
+				<if test="subjName != null and subjName != ''">
+	  				and t.SUBJ_NAME = #{subjName}				
+	  			</if>
+				<if test="subjLevel != null">
+	  				and t.SUBJ_LEVEL = #{subjLevel}				
+	  			</if>
+				<if test="parSubjId != null and parSubjId != ''">
+	  				and t.PAR_SUBJ_ID = #{parSubjId}				
+	  			</if>
+				<if test="subjDirection != null and subjDirection != ''">
+	  				and t.SUBJ_DIRECTION = #{subjDirection}				
+	  			</if>
+				<if test="isUse != null and isUse != ''">
+	  				and t.IS_USE = #{isUse}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

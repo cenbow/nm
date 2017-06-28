@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.role.mapper.SysRoleMenuMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysRoleMenuRetMap" type="com.hs.system.entity.SysRoleMenu">
+		<result column="ID" property="id" />
+		<result column="ROLE_ID" property="roleId" />
+		<result column="MENU_ID" property="menuId" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 返回 Bean -->
+	<resultMap id="SysMenuRetMap" type="com.hs.system.dto.SysRoleMenuBo">
+		<result column="ID" property="id" />
+		<result column="MENU_NAME" property="menuName" />
+		<result column="PAR_MENU_ID" property="parMenuId" />
+		<result column="MENU_TYP" property="menuTyp" />
+		<result column="URL" property="url" />
+		<result column="IMG" property="img" />
+		<result column="MENU_TARGT" property="menuTargt" />
+		<result column="MENU_LAYER" property="menuLayer" />
+		<result column="MENU_ORDER" property="menuOrder" />
+		<result column="MENU_STAT" property="menuStat" />
+		<result column="SYS_ID" property="sysId" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+		<result column="ROLE_ID" property="roleId" />
+		<result column="IS_CHECKED" property="isChecked" />
+	</resultMap>
+
+	<!-- 新增 角色菜单关系 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysRoleMenu">
+		insert into sys_role_menu
+		(
+		ID
+		,ROLE_ID
+		,MENU_ID
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{roleId}
+		, #{menuId}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 角色菜单关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_role_menu
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('roleId')">
+				ROLE_ID = #{roleId},
+			</if>
+			<if test="_parameter.containsKey('menuId')">
+				MENU_ID = #{menuId},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 角色菜单关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_role_menu
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 角色菜单关系 -->
+	<select id="getByPrimaryKey" resultMap="SysRoleMenuRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_role_menu t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 角色菜单关系 列表 -->
+	<select id="queryForList" resultMap="SysRoleMenuRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_role_menu t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				and t.ROLE_ID = #{roleId}
+			</if>
+			<if test="menuId != null and menuId != ''">
+				and t.MENU_ID = #{menuId}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 查询 菜单 树 -->
+	<select id="querySysRoleMenuList" resultMap="SysMenuRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*,
+		'0' IS_CHECKED
+		from sys_menu t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="menuName != null and menuName != ''">
+				and t.MENU_NAME = #{menuName}
+			</if>
+			<if test="parMenuId != null and parMenuId != ''">
+				and t.PAR_MENU_ID = #{parMenuId}
+			</if>
+			<if test="menuTyp != null and menuTyp != ''">
+				and t.MENU_TYP = #{menuTyp}
+			</if>
+			<if test="url != null and url != ''">
+				and t.URL = #{url}
+			</if>
+			<if test="img != null and img != ''">
+				and t.IMG = #{img}
+			</if>
+			<if test="menuTargt != null and menuTargt != ''">
+				and t.MENU_TARGT = #{menuTargt}
+			</if>
+			<if test="menuLayer != null">
+				and t.MENU_LAYER = #{menuLayer}
+			</if>
+			<if test="menuOrder != null">
+				and t.MENU_ORDER = #{menuOrder}
+			</if>
+			<if test="menuStat != null and menuStat != ''">
+				and t.MENU_STAT = #{menuStat}
+			</if>
+			<if test="sysId != null and sysId != ''">
+				and t.SYS_ID = #{sysId}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 查询 角色菜单关系 -->
+	<select id="querySysRoleMenuCheckedList" resultMap="SysMenuRetMap"
+		parameterType="java.util.Map">
+		select
+		s.*,
+		t.ROLE_ID,
+		'1' IS_CHECKED
+		from sys_role_menu t
+		right join sys_menu s on s.ID =
+		t.MENU_ID
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				and t.ROLE_ID = #{roleId}
+			</if>
+			<if test="menuId != null and menuId != ''">
+				and t.MENU_ID = #{menuId}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+			<if test="sysId != null and sysId != ''">
+				and s.SYS_ID = #{sysId}
+			</if>
+		</trim>
+		order by s.MENU_ORDER ASC
+	</select>
+
+	<!-- 根据角色ID 删除 角色菜单关系 -->
+	<delete id="deleteByRoleId" parameterType="map">
+		DELETE
+		FROM
+			SYS_ROLE_MENU
+		WHERE
+			MENU_ID IN (
+				SELECT
+					s.ID
+				FROM
+					SYS_MENU s
+				WHERE
+					s.SYS_ID = #{sysId}
+			)
+		AND ROLE_ID = #{roleId}
+	</delete>
+
+	<!--查询改角色在子系统下菜单中的菜单， -->
+	<select id="querySubSysRoleHadMenu" parameterType="map"
+		resultMap="SysMenuRetMap">
+		SELECT
+		m.ID
+		FROM
+		sys_menu m
+		INNER JOIN
+		sys_role_menu s ON s.MENU_ID = m.ID
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				m.SYS_ID = #{sysId}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				AND s.ROLE_ID =${roleId}
+			</if>
+		</trim>
+	</select>
+
+
+</mapper>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccRepayFlowMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccRepayFlowRetMap" type="com.hs.loan.finance.entity.AccRepayFlow">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="TRAN_TYPE" property="tranType"/>
+			<result column="TRAN_CHAN" property="tranChan"/>
+			<result column="TRAN_OBJ" property="tranObj"/>
+			<result column="TRAN_DATE" property="tranDate"/>
+			<result column="TRAN_AMT" property="tranAmt"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="LOAN_STAT" property="loanStat"/>
+			<result column="CNT_ACCT_NO" property="cntAcctNo"/>
+			<result column="CNT_ACCT_NAME" property="cntAcctName"/>
+			<result column="TRAN_ORG" property="tranOrg"/>
+			<result column="TRAN_STAFF" property="tranStaff"/>
+			<result column="SETL_FLAG" property="setlFlag"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_还款流水 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccRepayFlow">
+		insert into ACC_REPAY_FLOW
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,TRAN_TYPE
+  			,TRAN_CHAN
+  			,TRAN_OBJ
+  			,TRAN_DATE
+  			,TRAN_AMT
+  			,ACCT_NO
+  			,ACCT_NAME
+  			,LOAN_STAT
+  			,CNT_ACCT_NO
+  			,CNT_ACCT_NAME
+  			,TRAN_ORG
+  			,TRAN_STAFF
+  			,SETL_FLAG
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{tranType}
+  			, #{tranChan}
+  			, #{tranObj}
+  			, #{tranDate}
+  			, #{tranAmt}
+  			, #{acctNo}
+  			, #{acctName}
+  			, #{loanStat}
+  			, #{cntAcctNo}
+  			, #{cntAcctName}
+  			, #{tranOrg}
+  			, #{tranStaff}
+  			, #{setlFlag}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 新增 批量插入还款流水 -->
+	<!-- 新增 ACC_分期预处理 -->
+	<insert id="batchInsertRepayFlow" parameterType="java.util.List">
+		insert into ACC_REPAY_FLOW
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,TRAN_TYPE
+  			,TRAN_CHAN
+  			,TRAN_OBJ
+  			,TRAN_DATE
+  			,TRAN_AMT
+  			,ACCT_NO
+  			,ACCT_NAME
+  			,LOAN_STAT
+  			,CNT_ACCT_NO
+  			,CNT_ACCT_NAME
+  			,TRAN_ORG
+  			,TRAN_STAFF
+  			,SETL_FLAG
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	<foreach collection="list" item="item" index="index" separator=",">
+  			 (
+  			 #{item.id}
+  			, #{item.loanNo}
+  			, #{item.repayDate}
+  			, #{item.tranType}
+  			, #{item.tranChan}
+  			, #{item.tranObj}
+  			, #{item.tranDate}
+  			, #{item.tranAmt}
+  			, #{item.acctNo}
+  			, #{item.acctName}
+  			, #{item.loanStat}
+  			, #{item.cntAcctNo}
+  			, #{item.cntAcctName}
+  			, #{item.tranOrg}
+  			, #{item.tranStaff}
+  			, #{item.setlFlag}
+  			, #{item.instDate}
+  			, #{item.updtDate}
+    		)
+    	</foreach>
+	</insert>
+	
+	<!-- 修改 ACC_还款流水 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_REPAY_FLOW
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranType')">  
+	  					TRAN_TYPE = #{tranType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranChan')">  
+	  					TRAN_CHAN = #{tranChan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranObj')">  
+	  					TRAN_OBJ = #{tranObj},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDate')">  
+	  					TRAN_DATE = #{tranDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranAmt')">  
+	  					TRAN_AMT = #{tranAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanStat')">  
+	  					LOAN_STAT = #{loanStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntAcctNo')">  
+	  					CNT_ACCT_NO = #{cntAcctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntAcctName')">  
+	  					CNT_ACCT_NAME = #{cntAcctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranOrg')">  
+	  					TRAN_ORG = #{tranOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranStaff')">  
+	  					TRAN_STAFF = #{tranStaff},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('setlFlag')">  
+	  					SETL_FLAG = #{setlFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_还款流水 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_REPAY_FLOW
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 根据参数删除重复数据 -->
+	<delete id="deleteByparam" parameterType="java.util.Map">
+		delete from ACC_REPAY_FLOW
+		where 
+  				 loan_no = #{loanNo} and tran_date=#{tranDate} and  tran_amt=#{tranAmt} and  tran_chan = #{tranChan} and  repay_date =#{repayDate}			
+	</delete>
+	<!-- 通过主键查询 ACC_还款流水 -->
+	<select id="getByPrimaryKey" resultMap="AccRepayFlowRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_REPAY_FLOW t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_还款流水 列表 -->
+	<select id="queryForList" resultMap="AccRepayFlowRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_REPAY_FLOW t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="tranType != null and tranType != ''">
+	  				and t.TRAN_TYPE = #{tranType}				
+	  			</if>
+				<if test="tranChan != null and tranChan != ''">
+	  				and t.TRAN_CHAN = #{tranChan}				
+	  			</if>
+				<if test="tranObj != null and tranObj != ''">
+	  				and t.TRAN_OBJ = #{tranObj}				
+	  			</if>
+				<if test="tranDate != null and tranDate != ''">
+	  				and t.TRAN_DATE = #{tranDate}				
+	  			</if>
+				<if test="tranAmt != null">
+	  				and t.TRAN_AMT = #{tranAmt}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="loanStat != null and loanStat != ''">
+	  				and t.LOAN_STAT = #{loanStat}				
+	  			</if>
+				<if test="cntAcctNo != null and cntAcctNo != ''">
+	  				and t.CNT_ACCT_NO = #{cntAcctNo}				
+	  			</if>
+				<if test="cntAcctName != null and cntAcctName != ''">
+	  				and t.CNT_ACCT_NAME = #{cntAcctName}				
+	  			</if>
+				<if test="tranOrg != null and tranOrg != ''">
+	  				and t.TRAN_ORG = #{tranOrg}				
+	  			</if>
+				<if test="tranStaff != null and tranStaff != ''">
+	  				and t.TRAN_STAFF = #{tranStaff}				
+	  			</if>
+				<if test="setlFlag != null and setlFlag != ''">
+	  				and t.SETL_FLAG = #{setlFlag}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 调账功能Mapper开始 -->
+	<select id="findOpenBankOrg" parameterType="java.lang.String" resultType="java.util.Map">
+		select A.BANK_ACCT_ID,B.* from app_loan_bank_acct A INNER JOIN APP_CUST_BANK_ACCT B ON A.BANK_ACCT_ID =B.ID where A.LOAN_NO = #{loanNo} and A.STAT = '10002001' limit 1
+	</select>
+	<update id="updateOpenBankOrg" parameterType="java.util.Map">
+		update APP_CUST_BANK_ACCT set open_org = #{openOrg} where id =#{bankAcctId}
+	</update>
+	<select id="findInstMap" parameterType="java.lang.String" resultType="java.util.Map">
+		select max(inst_stat) as inst_stat,max(busn_date) as busn_date from acc_loan_acct_inst where loan_no = #{loanNo} limit 1
+	</select>
+	<update id="updateInstBusnDate" parameterType="java.util.Map">
+		update acc_loan_acct_inst set busn_date=#{busnDate} where loan_no = #{loanNo}
+	</update>
+	<select id="findDgReg" parameterType="java.lang.String" resultType="java.util.Map">
+		select ID,LOAN_NO,REPAY_DATE,TRAN_TYPE,REPAY_NUM,TRAN_AMT,DATE_FORMAT(inst_date, '%Y%m%d') AS INST_DATE from acc_repay_dg_reg where id=#{id}
+	</select>
+	<select id="findRepayFlow" parameterType="java.util.Map" resultType="java.util.Map">
+		 SELECT *  FROM acc_repay_flow WHERE loan_no = #{loanNo} AND repay_date = #{repayDate}
+      		 AND tran_date = #{tranDate}  AND TRAN_CHAN = #{tranChan} and TRAN_AMT=#{tranAmt} and setl_flag = '10001002' limit  1
+	</select>
+	<update id="updateDgReg" parameterType="java.util.Map">
+		update acc_repay_dg_reg set tran_type=#{tranType},tran_amt=#{tranAmt} where id = #{dgId}
+	</update>
+	<update id="updateRepayFlow" parameterType="java.util.Map">
+		update acc_repay_flow set tran_chan=#{tranType},tran_amt=#{tranAmt} where id = #{flId}
+	</update>
+	<!-- 调账功能结束 -->
+</mapper>

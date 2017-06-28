@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.author.mapper.AppLoanSpcailpriInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanSpcailpriInfoRetMap" type="com.hs.loan.author.entity.AppLoanSpcailpriInfo">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="ORG_NO" property="orgNo"/>
+			<result column="ORG_NAME" property="orgName"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="APPR_NO" property="apprNo"/>
+			<result column="APPR_NAME" property="apprName"/>
+			<result column="APPR_RESULT" property="apprResult"/>
+			<result column="APPR_REMARK" property="apprRemark"/>
+			<result column="APPLY_DATE" property="applyDate"/>
+			<result column="APPR_DATE" property="apprDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_销售直通车信息 -->
+	<insert id="insert" parameterType="com.hs.loan.author.entity.AppLoanSpcailpriInfo">
+		insert into APP_LOAN_SPCAILPRI_INFO
+		(
+  			ID
+  			,LOAN_NO
+  			,CUST_NAME
+  			,ORG_NO
+  			,ORG_NAME
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,APPR_NO
+  			,APPR_NAME
+  			,APPR_RESULT
+  			,APPR_REMARK
+  			,APPLY_DATE
+  			,APPR_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{custName}
+  			, #{orgNo}
+  			, #{orgName}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{apprNo}
+  			, #{apprName}
+  			, #{apprResult}
+  			, #{apprRemark}
+  			, #{applyDate}
+  			, #{apprDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_销售直通车信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_SPCAILPRI_INFO
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgNo')">  
+	  					ORG_NO = #{orgNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgName')">  
+	  					ORG_NAME = #{orgName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprNo')">  
+	  					APPR_NO = #{apprNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprName')">  
+	  					APPR_NAME = #{apprName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprResult')">  
+	  					APPR_RESULT = #{apprResult},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprRemark')">  
+	  					APPR_REMARK = #{apprRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyDate')">  
+	  					APPLY_DATE = #{applyDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprDate')">  
+	  					APPR_DATE = #{apprDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_销售直通车信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_SPCAILPRI_INFO
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_销售直通车信息 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanSpcailpriInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_INFO t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_销售直通车信息 列表 -->
+	<select id="queryForList" resultMap="AppLoanSpcailpriInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_INFO t,SYS_ORG org  where t.ORG_NO = org.org_no
+				<if test="authority != null and authority == '_SELF_AND_SUB'.toString()">  
+				    and org.org_cod_path like CONCAT('%',#{orgCodPath},'%') 
+				</if>
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and t.ORG_NO = #{orgNo}				
+	  			</if>
+				<if test="orgName != null and orgName != ''">
+	  				and t.ORG_NAME = #{orgName}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="apprNo != null and apprNo != ''">
+	  				and t.APPR_NO = #{apprNo}				
+	  			</if>
+				<if test="apprName != null and apprName != ''">
+	  				and t.APPR_NAME = #{apprName}				
+	  			</if>
+				<if test="apprResult != null and apprResult != ''">
+	  				and t.APPR_RESULT = #{apprResult}				
+	  			</if>
+				<if test="apprRemark != null and apprRemark != ''">
+	  				and t.APPR_REMARK = #{apprRemark}				
+	  			</if>
+	  			<!-- 申请时间区间 -->
+				<if test="applyDateMin != null">
+	  				and t.APPLY_DATE >=  #{applyDateMin}
+	  			</if>
+				<if test="applyDateMax != null">
+	  				and t.APPLY_DATE &lt;  #{applyDateMax}
+	  			</if>
+	  			<!-- 审批时间区间 -->
+				<if test="apprDateMin != null">
+	  				and t.APPR_DATE >=  #{apprDateMin}
+	  			</if>
+				<if test="apprDateMax != null">
+	  				and t.APPR_DATE &lt;  #{apprDateMax}
+	  			</if>
+	</select>
+</mapper>

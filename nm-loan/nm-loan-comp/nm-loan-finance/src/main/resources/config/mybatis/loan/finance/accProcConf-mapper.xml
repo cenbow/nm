@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccProcConfMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccProcConfRetMap" type="com.hs.loan.finance.entity.AccProcConf">
+			<result column="TX_COD" property="txCod"/>
+			<result column="TX_TYP" property="txTyp"/>
+			<result column="TX_TYP_NAME" property="txTypName"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="DR_CR_FLAG" property="drCrFlag"/>
+			<result column="PROC_NAME" property="procName"/>
+			<result column="USE_FLAG" property="useFlag"/>
+			<result column="REMARK" property="remark"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_交易配置 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccProcConf">
+		insert into ACC_PROC_CONF
+		(
+  			TX_COD
+  			,TX_TYP
+  			,TX_TYP_NAME
+  			,ACCT_NO
+  			,ACCT_NAME
+  			,DR_CR_FLAG
+  			,PROC_NAME
+  			,USE_FLAG
+  			,REMARK
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{txCod}
+  			, #{txTyp}
+  			, #{txTypName}
+  			, #{acctNo}
+  			, #{acctName}
+  			, #{drCrFlag}
+  			, #{procName}
+  			, #{useFlag}
+  			, #{remark}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_交易配置 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_PROC_CONF
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('txTyp')">  
+	  					TX_TYP = #{txTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txTypName')">  
+	  					TX_TYP_NAME = #{txTypName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('drCrFlag')">  
+	  					DR_CR_FLAG = #{drCrFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('procName')">  
+	  					PROC_NAME = #{procName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('useFlag')">  
+	  					USE_FLAG = #{useFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			TX_COD = #{txCod}				
+	</update>
+	
+	<!-- 删除 ACC_交易配置 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_PROC_CONF
+		where 
+  			TX_COD = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_交易配置 -->
+	<select id="getByPrimaryKey" resultMap="AccProcConfRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_PROC_CONF t
+		where 
+  				t.TX_COD = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_交易配置 列表 -->
+	<select id="queryForList" resultMap="AccProcConfRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_PROC_CONF t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="txCod != null and txCod != ''">
+	  				and t.TX_COD = #{txCod}				
+	  			</if>
+				<if test="txTyp != null and txTyp != ''">
+	  				and t.TX_TYP = #{txTyp}				
+	  			</if>
+				<if test="txTypName != null and txTypName != ''">
+	  				and t.TX_TYP_NAME = #{txTypName}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="drCrFlag != null and drCrFlag != ''">
+	  				and t.DR_CR_FLAG = #{drCrFlag}				
+	  			</if>
+				<if test="procName != null and procName != ''">
+	  				and t.PROC_NAME = #{procName}				
+	  			</if>
+				<if test="useFlag != null and useFlag != ''">
+	  				and t.USE_FLAG = #{useFlag}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

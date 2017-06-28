@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccCapTranDtlMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccCapTranDtlRetMap" type="com.hs.loan.finance.entity.AccCapTranDtl">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="LOG_ID" property="logId"/>
+			<result column="WITH_ID" property="withId"/>
+			<result column="BAT_FLAG" property="batFlag"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="WITH_DATE" property="withDate"/>
+			<result column="SHD_WITH_AMT" property="shdWithAmt"/>
+			<result column="ACT_WITH_AMT" property="actWithAmt"/>
+			<result column="FUND_ACCT_NO" property="fundAcctNo"/>
+			<result column="FUND_ACCT_NAME" property="fundAcctName"/>
+			<result column="RET_STAT" property="retStat"/>
+			<result column="RET_MSG" property="retMsg"/>
+			<result column="REMARK" property="remark"/>
+	</resultMap>
+	
+	<!-- 删除  -->
+	<delete id="deleteByLogIdKey" parameterType="java.lang.String">
+		delete from ACC_CAP_TRAN_DTL
+		where 
+  			LOG_ID = #{logId}				
+	</delete>
+	
+	<select id="queryBatchRepayCallBackInfo" parameterType="java.lang.String" resultType="com.hs.loan.finance.bo.BatchRepayCallBackBo">
+		select 
+  			t.WITH_ID dkId,
+  			t.SHD_WITH_AMT amount,
+  			t.RET_STAT retCode,
+  			t.RET_MSG retMsg,
+  			i.CHAN_NO chalCode,
+			w.LOAN_NO loanNo,
+			w.REPAY_NUM repayNum,
+			w.repay_date repayDate,
+			w.acct_no acctNo,
+			w.acct_name acctName,
+			w.bank_no bankNo,
+			w.in_acct_no inAcctNo,
+			w.in_acct_name inAcctName,
+			w.tran_obj tranObj
+		from ACC_CAP_TRAN_DTL t 
+		LEFT JOIN ACC_CAP_TRAN_LOG_BAT i ON t.LOG_ID = i.id
+		left join acc_cap_with w on w.ID = t.WITH_ID
+		WHERE i.FILE_NAME = #{fileName}
+	</select>
+	
+	<select id="queryBatchRepayDkFile" parameterType="java.lang.String" resultType="com.hs.loan.finance.bo.BatchRepayCallBackBo">
+		select 
+  			t.WITH_ID dkId,
+  			t.SHD_WITH_AMT amount,
+  			t.RET_STAT retCode,
+  			t.RET_MSG retMsg,
+			w.LOAN_NO loanNo,
+			w.REPAY_NUM repayNum,
+			w.repay_date repayDate,
+			w.acct_no acctNo,
+			w.acct_name acctName,
+			w.bank_no bankNo,
+			w.in_acct_no inAcctNo,
+			w.in_acct_name inAcctName,
+			w.tran_obj tranObj
+		from ACC_CAP_TRAN_DTL t 
+		left join acc_cap_with w on w.ID = t.WITH_ID
+		WHERE t.log_id = #{logId}
+	</select>
+	
+	<select id="queryBatchRepayDkFileForPay" parameterType="java.lang.String" resultType="com.hs.loan.finance.bo.BatchRepayDKFileBo">
+		SELECT T.WITH_ID DKID,
+		       T.SHD_WITH_AMT AMOUNT,
+		       T.RET_STAT RETCODE,
+		       T.RET_MSG RETMSG,
+		       W.LOAN_NO LOANNO,
+		       W.BGN_REPAY_NUM BGNREPAYNUM,
+		       W.END_REPAY_NUM ENDREPAYNUM,
+		       W.ACCT_NO ACCTNO,
+		       W.ACCT_NAME ACCTNAME,
+		       W.OPEN_BANK BANKNO,
+		       W.WITH_AMT WITHAMT,
+		       W.REPAY_TYPE REPAYTYPE,
+		       W.ACCT_NO INACCTNO,
+		       W.ACCT_NAME INACCTNAME,
+		       T1.TRAN_OBJ TRANOBJ,
+		       T1.REPAY_DATE AS repayDate,
+		       T1.REPAY_NUM as repayNum
+		  FROM ACC_CAP_TRAN_DTL T
+		       LEFT JOIN ACC_PAY_WITH W ON W.ID = T.WITH_ID
+		       LEFT JOIN ACC_CAP_WITH T1 ON T1.LOAN_NO = W.LOAN_NO AND T1.REPAY_NUM=W.BGN_REPAY_NUM 
+		 WHERE T.LOG_ID = #{logId}
+	</select>
+	
+	<insert id="batckInsertAccCapTranDtl" parameterType="java.util.List">
+	    INSERT INTO ACC_CAP_TRAN_DTL(ID,LOG_ID,WITH_ID,BAT_FLAG,WITH_DATE,SHD_WITH_AMT,RET_STAT,RET_MSG,ACCT_NAME,ACCT_NO)
+	    values
+		<foreach collection="list" item="item" index="index" separator=",">
+		    (#{item.id},#{item.logId},#{item.withId},#{item.batFlag},#{item.withDate},
+		    #{item.shdWithAmt},#{item.retStat},#{item.retMsg},#{item.acctName},#{item.acctNo})
+		</foreach>
+	</insert>
+	
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccCapTranDtl">
+		insert into ACC_CAP_TRAN_DTL
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_NUM
+  			,LOG_ID
+  			,WITH_ID
+  			,BAT_FLAG
+  			,ACCT_NO
+  			,ACCT_NAME
+  			,WITH_DATE
+  			,SHD_WITH_AMT
+  			,ACT_WITH_AMT
+  			,FUND_ACCT_NO
+  			,FUND_ACCT_NAME
+  			,RET_STAT
+  			,RET_MSG
+  			,REMARK
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayNum}
+  			, #{logId}
+  			, #{withId}
+  			, #{batFlag}
+  			, #{acctNo}
+  			, #{acctName}
+  			, #{withDate}
+  			, #{shdWithAmt}
+  			, #{actWithAmt}
+  			, #{fundAcctNo}
+  			, #{fundAcctName}
+  			, #{retStat}
+  			, #{retMsg}
+  			, #{remark}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_CAP_TRAN_DTL
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('logId')">  
+	  					LOG_ID = #{logId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('withId')">  
+	  					WITH_ID = #{withId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('batFlag')">  
+	  					BAT_FLAG = #{batFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('withDate')">  
+	  					WITH_DATE = #{withDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('shdWithAmt')">  
+	  					SHD_WITH_AMT = #{shdWithAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actWithAmt')">  
+	  					ACT_WITH_AMT = #{actWithAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fundAcctNo')">  
+	  					FUND_ACCT_NO = #{fundAcctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fundAcctName')">  
+	  					FUND_ACCT_NAME = #{fundAcctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('retStat')">  
+	  					RET_STAT = #{retStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('retMsg')">  
+	  					RET_MSG = #{retMsg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_CAP_TRAN_DTL
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询  -->
+	<select id="getByPrimaryKey" resultMap="AccCapTranDtlRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_CAP_TRAN_DTL t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="AccCapTranDtlRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_CAP_TRAN_DTL t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayNum != null and repayNum != ''">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="logId != null and logId != ''">
+	  				and t.LOG_ID = #{logId}				
+	  			</if>
+				<if test="withId != null and withId != ''">
+	  				and t.WITH_ID = #{withId}				
+	  			</if>
+				<if test="batFlag != null and batFlag != ''">
+	  				and t.BAT_FLAG = #{batFlag}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="withDate != null">
+	  				and t.WITH_DATE = #{withDate}				
+	  			</if>
+				<if test="shdWithAmt != null">
+	  				and t.SHD_WITH_AMT = #{shdWithAmt}				
+	  			</if>
+				<if test="actWithAmt != null">
+	  				and t.ACT_WITH_AMT = #{actWithAmt}				
+	  			</if>
+				<if test="fundAcctNo != null and fundAcctNo != ''">
+	  				and t.FUND_ACCT_NO = #{fundAcctNo}				
+	  			</if>
+				<if test="fundAcctName != null and fundAcctName != ''">
+	  				and t.FUND_ACCT_NAME = #{fundAcctName}				
+	  			</if>
+				<if test="retStat != null and retStat != ''">
+	  				and t.RET_STAT = #{retStat}				
+	  			</if>
+				<if test="retMsg != null and retMsg != ''">
+	  				and t.RET_MSG = #{retMsg}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.staff.mapper.SysStaffOrgMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysStaffOrgRetMap" type="com.hs.system.entity.SysStaffOrg">
+		<result column="ID" property="id" />
+		<result column="STAFF_ID" property="staffId" />
+		<result column="ORG_ID" property="orgId" />
+	</resultMap>
+
+	<!-- 新增 机构人员关系 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysStaffOrg">
+		insert into sys_staff_org
+		(
+		ID
+		,STAFF_ID
+		,ORG_ID
+		)
+		values
+		(
+		#{id}
+		, #{staffId}
+		, #{orgId}
+		)
+	</insert>
+
+	<!-- 修改 机构人员关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_staff_org
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('staffId')">
+				STAFF_ID = #{staffId},
+			</if>
+			<if test="_parameter.containsKey('orgId')">
+				ORG_ID = #{orgId},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 机构人员关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_staff_org
+		where
+		ID = #{id}
+	</delete>
+	<!-- 删除 机构人员关系 -->
+	<delete id="deleteStaffOrgByStaffId" parameterType="java.lang.String">
+		delete from
+		sys_staff_org
+		where
+		STAFF_ID = #{staffId}
+	</delete>
+
+	<!-- 通过主键查询 机构人员关系 -->
+	<select id="getByPrimaryKey" resultMap="SysStaffOrgRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_staff_org t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 机构人员关系 列表 -->
+	<select id="queryForList" resultMap="SysStaffOrgRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_staff_org t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="staffId != null and staffId != ''">
+				and t.STAFF_ID = #{staffId}
+			</if>
+			<if test="orgId != null and orgId != ''">
+				and t.ORG_ID = #{orgId}
+			</if>
+		</trim>
+	</select>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.collection.mapper.PlRecallStaffGroupMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlRecallStaffGroupRetMap" type="com.hs.loan.collection.entity.PlRecallStaffGroup">
+			<result column="ID" property="id"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="GROUP_NO" property="groupNo"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="STAT" property="stat"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 PL_催收人员与组关联信息 -->
+	<insert id="insert" parameterType="com.hs.loan.collection.entity.PlRecallStaffGroup">
+		insert into PL_RECALL_STAFF_GROUP
+		(
+  			ID
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,GROUP_NO
+  			,GROUP_NAME
+  			,STAT
+  			,UPDT_DATE
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{groupNo}
+  			, #{groupName}
+  			, #{stat}
+  			, #{updtDate}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_催收人员与组关联信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_RECALL_STAFF_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupNo')">  
+	  					GROUP_NO = #{groupNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PL_催收人员与组关联信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_RECALL_STAFF_GROUP
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 删除 PL_催收人员与组关联信息 -->
+	<delete id="deleteByCont" parameterType="java.util.Map">
+		delete from PL_RECALL_STAFF_GROUP
+		where 
+  			STAFF_NO = #{staffNo} and GROUP_NO = #{groupNo}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_催收人员与组关联信息 -->
+	<select id="getByPrimaryKey" resultMap="PlRecallStaffGroupRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_RECALL_STAFF_GROUP t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PL_催收人员与组关联信息 列表 -->
+	<select id="queryForList" resultMap="PlRecallStaffGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_RECALL_STAFF_GROUP t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME like '%${staffName}%'				
+	  			</if>
+				<if test="groupNo != null and groupNo != ''">
+	  				and t.GROUP_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME like '%${groupName}%'			
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

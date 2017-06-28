@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+	<dubbo:consumer timeout="15000" />
+	<!-- 生成远程服务代理，可以像使用本地bean一样使用Service -->
+	<dubbo:reference registry="refReg" check="false"  id="approveProdFundChanService" interface="com.hs.loan.prod.api.ProdFundChanApi" />
+	<dubbo:reference registry="refReg" check="false"  id="approveLoanViewService" interface="com.hs.loan.sale.api.LoanViewApi" />
+	<dubbo:reference registry="refReg" check="false"  id="approveFundChanInfoService" interface="com.hs.loan.finance.api.FundChanInfoApi" />
+	<dubbo:reference registry="refReg" check="false"  id="approveLoanAcctService" interface="com.hs.loan.sale.api.LoanAcctApi" />
+	<!-- 
+	qiuji20160220 注释  (未使用)
+	<dubbo:reference registry="refReg" check="false"  id="loanAttService" interface="com.hs.loan.cust.api.CustInfoApi" />
+	<dubbo:reference registry="refReg" check="false"  id="custInfoService" interface="com.hs.loan.sale.api.LoanAttApi" />
+	<dubbo:reference registry="refReg" check="false"  id="custWorkService" interface="com.hs.loan.cust.api.CustWorkApi" />
+	<dubbo:reference registry="refReg" check="false"  id="custContctInfoService" interface="com.hs.loan.cust.api.CustContctInfoApi" />
+	<dubbo:reference registry="refReg" check="false"  id="custOtherLoanService" interface="com.hs.loan.cust.api.CustOtherLoanApi" />
+	<dubbo:reference registry="refReg" check="false"  id="loanContractService" interface="com.hs.loan.operation.api.LoanContractApi" />
+	<dubbo:reference registry="refReg" check="false"  id="custViewService" interface="com.hs.loan.cust.api.CustViewApi" />
+	 -->
+	<dubbo:reference registry="refReg" check="false"  id="approveLoanContractSignService" interface="com.hs.loan.contract.api.LoanContractSignApi" >
+		<dubbo:method name="buidContant" retries="3" timeout="20000"/>
+	</dubbo:reference>
+</beans>

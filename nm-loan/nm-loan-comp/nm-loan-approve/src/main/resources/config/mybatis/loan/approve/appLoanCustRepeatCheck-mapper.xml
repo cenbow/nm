@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppLoanCustRepeatCheckMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanCustRetMap" type="com.hs.loan.approve.bo.AppLoanCustRepeatCheckBo">
+			<result property="reLoanNo" column="LOAN_NO" />
+			<result property="reTxt" column="TEL" />
+			<result property="reName" column="REMARK" />
+			<result property="applyDate" column="APPLY_DATE" />
+			<result property="custAccountName" column="CUST_NAME" />
+			<result property="aprovResult" column="APROV_RESULT" />
+			<result property="aprovDecision" column="APROV_DECISION" />
+			<result property="installNum" column="INST_NUM" />
+			<result property="repayNum" column="REPAY_NUM" />
+			<result property="isoverdue" column="OVDU_FLAG" />
+			<result property="loanType" column="LOAN_TYPE" />
+			<result property="goodsType" column="GOODS_TYPE"/>
+	</resultMap>
+	<select id="queryCustInfo" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT GROUP_CONCAT(OTHERS) OTHERS
+		  FROM (
+		SELECT CUST_NO,GROUP_CONCAT(IFNULL(CERT_NO,''),',',IFNULL(PHONE_NO,'')) AS OTHERS
+		  FROM APP_CUST_INFO
+		 WHERE CUST_NO = #{custNo}
+		 UNION ALL
+		SELECT CUST_NO,GROUP_CONCAT(ACCT_NO) AS OTHERS
+		  FROM APP_CUST_BANK_ACCT
+		 WHERE CUST_NO = #{custNo}
+		 UNION ALL
+		SELECT CUST_NO,GROUP_CONCAT(IFNULL(WORK_UNIT,''),',',IFNULL(UNIT_TEL,''),',',IFNULL(LINK_TEL,'')) AS OTHERS
+		  FROM APP_CUST_WORK
+		 WHERE CUST_NO = #{custNo}
+		 UNION ALL
+		SELECT CUST_NO,GROUP_CONCAT(IFNULL(SCHOOL_NAME,''),',',IFNULL(SCHOOL_TEL,'')) AS OTHERS
+		  FROM APP_CUST_STUDY
+		 WHERE CUST_NO = #{custNo}
+		 UNION ALL
+		SELECT CUST_NO,GROUP_CONCAT(IFNULL(PHONE_NO,''),',',IFNULL(HOME_TEL,'')) AS OTHERS
+		  FROM APP_CUST_CONTCT_INFO
+		 WHERE CUST_NO = #{custNo}
+		 UNION ALL
+		SELECT CUST_NO,GROUP_CONCAT(CONTACT_TEL) AS OTHERS
+		  FROM APP_CUST_CONTCT_OTHER
+		 WHERE CUST_NO = #{custNo}
+		  ) T
+
+	</select>
+	<select id="queryCustNoCheckLst" parameterType="java.util.Map"  resultMap="AppLoanCustRetMap" statementType="CALLABLE">  
+		<![CDATA[
+		    {call PROC_APP_CUST_RISK (#{I_CUST_NO,mode=IN,jdbcType=VARCHAR},#{I_CUST_INFO,mode=IN,jdbcType=VARCHAR},#{O_RET,mode=OUT,jdbcType=VARCHAR})}  
+		 ]]>  
+	</select>
+	
+	<!-- 查询 客户重复信息列表 列表 -->
+	<select id="queryForList" resultMap="AppLoanCustRetMap" parameterType="java.lang.String">
+		SELECT T1.LOAN_NO,
+		       T1.APPLY_DATE,
+		       T1.CUST_NAME,
+		       T1.STAT AS APROV_RESULT,
+		       T1.STAT AS APROV_DECISION,
+		       T1.INST_NUM,
+		       T1.LOAN_TYP,
+		       T2.TEL,
+		       T2.REMARK,
+					 T3.REPAY_NUM,
+					 T3.OVDU_FLAG
+			FROM APP_LOAN_ACCT T1
+		  JOIN (SELECT TEL,
+		               MIN(CUST_NO) AS CUST_NO,
+		               MIN(RANK) AS RANK,
+		               MAX(REMARK) AS REMARK
+		          FROM (
+		         SELECT 1 AS RANK, CERT_NO AS TEL,CUST_NO, '身份证号' AS REMARK
+					    FROM APP_CUST_INFO T
+					   WHERE CERT_NO IN (SELECT CERT_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo})
+		           AND CUST_NO != #{custNo}
+							 AND CERT_NO != '*'
+				    UNION ALL
+						SELECT 2 AS RANK, ACCT_NO AS TEL,CUST_NO, '扣款帐号' AS REMARK
+		        	FROM APP_CUST_BANK_ACCT 
+		         WHERE ACCT_NO IN (SELECT ACCT_NO FROM APP_CUST_BANK_ACCT WHERE CUST_NO = #{custNo})
+		        	 AND CUST_NO != #{custNo}
+		           AND ACCT_NO != '*'
+		        UNION ALL
+		        SELECT 3 AS RANK, UNIT_TEL AS TEL,CUST_NO, '单位座机' AS REMARK
+		          FROM APP_CUST_WORK
+						 WHERE UNIT_TEL IN (
+		        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		               )
+		        	 AND CUST_NO != #{custNo}
+		           AND UNIT_TEL != '*'
+		        UNION ALL
+		        SELECT 4 AS RANK, WORK_UNIT AS TEL,CUST_NO, '单位名称/学校名称' AS REMARK
+		          FROM APP_CUST_WORK
+				     WHERE WORK_UNIT != '*'
+		           AND WORK_UNIT IS NOT NULL
+		           AND WORK_UNIT IN (SELECT WORK_UNIT FROM APP_CUST_WORK WHERE CUST_NO = #{custNo})
+						   AND CUST_NO != #{custNo}
+						UNION ALL
+						SELECT 5 AS RANK,LINK_TEL AS TEL,CUST_NO,'单位联系人电话' AS REMARK
+		          FROM APP_CUST_WORK
+						 WHERE LINK_TEL != '*'
+		           AND LINK_TEL IS NOT NULL
+		  				 AND CUST_NO != #{custNo}
+		           AND LINK_TEL IN (
+		        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		               )
+		        
+		        UNION ALL
+		        SELECT 6 AS RANK, PHONE_NO AS TEL,CUST_NO, '手机号码' AS REMARK
+		          FROM APP_CUST_CONTCT_INFO
+						 WHERE PHONE_NO IS NOT NULL
+						   AND PHONE_NO != '*'
+		           AND CUST_NO != #{custNo}
+		           AND PHONE_NO IN (
+		        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		               )
+						UNION ALL
+		        SELECT 7 AS RANK, HOME_TEL AS TEL,CUST_NO, '住宅电话' AS REMARK
+		          FROM APP_CUST_CONTCT_INFO
+						 WHERE HOME_TEL IS NOT NULL
+						   AND HOME_TEL != '*'
+						   AND CUST_NO != #{custNo}
+		           AND HOME_TEL IN (
+		        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		               )
+						UNION ALL
+		        SELECT 8 AS RANK, CONTACT_TEL AS TEL,CUST_NO, '配偶电话' AS REMARK
+		          FROM APP_CUST_CONTCT_OTHER
+						 WHERE CONTACT_REL = '40103104'
+		           AND CONTACT_TEL IS NOT NULL
+						   AND CONTACT_TEL != '*'
+						   AND CUST_NO != #{custNo}
+		           AND CONTACT_TEL IN (
+		        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		               )
+						UNION ALL
+		        SELECT 10 AS RANK, CONTACT_TEL AS TEL,CUST_NO, '其他联系电话' AS REMARK
+		          FROM APP_CUST_CONTCT_OTHER
+						 WHERE CONTACT_REL != '40103104'
+		           AND CONTACT_TEL IS NOT NULL
+						   AND CONTACT_TEL != '*'
+						   AND CUST_NO != #{custNo}
+						   AND CONTACT_TEL IN (
+		        			  SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		               )
+		         
+		    	         ) TMP
+		         GROUP BY TEL
+		       ) T2
+		    ON T1.CUST_NO = T2.CUST_NO
+		  LEFT JOIN (SELECT LOAN_NO,
+					             SUM(CASE WHEN ACT_TOTL_AMT >= RCV_TOTL_AMT THEN 1 ELSE 0 END) AS REPAY_NUM,
+					             MAX(CASE WHEN ACT_TOTL_AMT >= RCV_TOTL_AMT AND OVDU_FLAG = '0' THEN 1 ELSE 0 END) AS OVDU_FLAG
+		              FROM ACC_LOAN_INST
+		             GROUP BY LOAN_NO
+		       ) T3
+		    ON T1.LOAN_NO = T3.LOAN_NO
+			union all
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.CERT_NO AS TEL,
+			       '身份证号' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE CERT_NO IN (SELECT CERT_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo})
+				 AND CERT_NO != '*'
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.CUST_ACCT AS TEL,
+			       '扣款帐号' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE CUST_ACCT IN (SELECT ACCT_NO FROM APP_CUST_BANK_ACCT WHERE CUST_NO = #{custNo})
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.UNIT_TEL AS TEL,
+			       '单位座机' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE UNIT_TEL IN (SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo})
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.WORK_UNIT AS TEL,
+			       '单位名称/学校名称' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE WORK_UNIT IN (SELECT WORK_UNIT FROM APP_CUST_WORK WHERE CUST_NO = #{custNo})
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.UNIT_CONTCT_TEL AS TEL,
+			       '单位联系人电话' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE UNIT_CONTCT_TEL IN (
+					        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					               )
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.MOBL_TEL AS TEL,
+			       '手机号码' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE MOBL_TEL IN (
+					        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					               )
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.HOME_TEL AS TEL,
+			       '住宅电话' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE HOME_TEL IN (
+					        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					               )
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.MATE_TEL AS TEL,
+			       '配偶电话' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE MATE_TEL IN (
+					        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					               )
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.FAM_TEL AS TEL,
+			       '家庭电话' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE FAM_TEL IN (
+					        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+					               )
+			UNION ALL
+			select t1.LOAN_NO,
+			       t1.APPLY_DATE,
+			       t1.CUST_NAME,
+			       t1.APROV_RESULT,
+			       t1.APROV_DECISION,
+			       t1.INST_NUM,
+			       t1.LOAN_TYPE,
+			       t1.CONTACT_TEL AS TEL,
+			       '其他联系电话' as REMARK,
+			       t1.REPAY_NUM,
+			       t1.OVDU_FLAG
+			  from APP_LOAN_DATA_H t1
+			 WHERE CONTACT_TEL IN (
+		        				SELECT PHONE_NO FROM APP_CUST_INFO WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT CONTACT_TEL FROM APP_CUST_CONTCT_OTHER WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT SCHOOL_TEL FROM APP_CUST_STUDY WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT UNIT_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		                UNION ALL SELECT LINK_TEL FROM APP_CUST_WORK WHERE CUST_NO = #{custNo}
+		               )
+	</select>
+</mapper>

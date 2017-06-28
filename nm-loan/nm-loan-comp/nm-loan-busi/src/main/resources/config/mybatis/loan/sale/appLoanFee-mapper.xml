@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanFeeMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanFeeRetMap" type="com.hs.loan.sale.entity.AppLoanFee">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="FEE_NO" property="feeNo"/>
+			<result column="FEE_NAME" property="feeName"/>
+			<result column="FEE_VAL" property="feeVal"/>
+			<result column="SETL_PRIOR" property="setlPrior"/>
+			<result column="IS_SEL" property="isSel"/>
+			<result column="IS_CHOICE" property="isChoose"/>
+			<result column="STAT" property="stat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	<delete id="delAppLoanFee" parameterType="java.util.Map">
+		DELETE FROM app_loan_fee WHERE LOAN_NO=#{loanNo} AND FEE_NO=#{feeNo} AND STAT=10002001
+	</delete>
+	<!-- 新增 APP_分期与费用项关系 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanFee">
+		insert into app_loan_fee
+		(
+  			ID
+  			,LOAN_NO
+  			,FEE_NO
+  			,FEE_NAME
+  			,FEE_VAL
+  			,SETL_PRIOR
+  			,IS_SEL
+  			,IS_CHOICE
+  			,STAT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{feeNo}
+  			, #{feeName}
+  			, #{feeVal}
+  			, #{setlPrior}
+  			, #{isSel}
+  			, #{isChoose}
+  			, #{stat}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期与费用项关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_loan_fee
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeNo')">  
+	  					FEE_NO = #{feeNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeName')">  
+	  					FEE_NAME = #{feeName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeVal')">  
+	  					FEE_VAL = #{feeVal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('setlPrior')">  
+	  					SETL_PRIOR = #{setlPrior},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isSel')">  
+	  					IS_SEL = #{isSel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isChoose')">  
+	  					IS_CHOICE = #{isChoose},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期与费用项关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_loan_fee
+		where 
+  			ID = #{id}				
+	</delete>
+	<!-- 删除 APP_分期与费用项关系 -->
+	<delete id="deleteByLoanNo" parameterType="java.lang.String">
+		delete from app_loan_fee
+		where 
+  			LOAN_NO = #{loanNo}		
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期与费用项关系 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanFeeRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_loan_fee t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期与费用项关系 列表 -->
+	<select id="queryForList" resultMap="AppLoanFeeRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_loan_fee t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="feeNo != null and feeNo != ''">
+	  				and t.FEE_NO = #{feeNo}				
+	  			</if>
+				<if test="feeName != null and feeName != ''">
+	  				and t.FEE_NAME = #{feeName}				
+	  			</if>
+				<if test="feeVal != null and feeVal != ''">
+	  				and t.FEE_VAL = #{feeVal}				
+	  			</if>
+				<if test="setlPrior != null and setlPrior != ''">
+	  				and t.SETL_PRIOR = #{setlPrior}				
+	  			</if>
+				<if test="isSel != null and isSel != ''">
+	  				and t.IS_SEL = #{isSel}				
+	  			</if>
+				<if test="isChoose != null and isChoose != ''">
+	  				and t.IS_CHOICE = #{isChoose}		
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

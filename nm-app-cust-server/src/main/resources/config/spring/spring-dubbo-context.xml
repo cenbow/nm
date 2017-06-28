@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:consumer timeout="15000" />
+	
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="appapi_consumer" />
+	
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry id="defRegistry" file="d:/cache" address="${dubbo.registry.address}" />
+	
+	<dubbo:reference registry="defRegistry" id="loanAcctServer" interface="com.hs.loan.sale.api.LoanAcctApi" >
+ 	    <dubbo:method timeout="80000" name="addLoanAcct" retries="1" ></dubbo:method>
+ 	</dubbo:reference>
+ 	
+ 	<!--贷款基本信息维护、贷款信息查询  -->
+ 	<dubbo:reference registry="defRegistry" id="loanContractSignService" interface="com.hs.loan.contract.api.AppContractSignApi" timeout="20000"/> <!--合同  -->
+ 	<dubbo:reference registry="defRegistry" id="sysCodeInfoServer" interface="com.hs.system.api.SysCodeInfoApi" /> 
+
+	<!--<dubbo:reference registry="defRegistry" id="loanHandServer" interface="com.hs.loan.sale.api.LoanHandApi" />-->    <!--贷款经办登记查询-->
+
+	<dubbo:reference registry="defRegistry" id="loanHandServer" interface="com.hs.loan.sale.api.LoanHandApi" /><!--经办信息-->
+	<!--<dubbo:reference url="dubbo://192.168.2.166:40081/com.hs.loan.sale.api.LoanViewApi" id="loanViewServer" interface="com.hs.loan.sale.api.LoanViewApi" />-->
+
+	<dubbo:reference registry="defRegistry" id="loanViewServer" interface="com.hs.loan.sale.api.LoanViewApi" />    <!-- 贷款视图  -->
+	<dubbo:reference registry="defRegistry" id="loanRepaySearchServer" interface="com.hs.loan.sale.api.LoanRepaySearchApi" />    <!-- 贷款还款信息查询  -->
+	<dubbo:reference registry="defRegistry" id="branchServer" interface="com.hs.loan.market.api.BranchApi" />    <!-- 网点  -->
+	
+	<dubbo:reference registry="defRegistry" id="fundChanInfoServer" interface="com.hs.loan.finance.api.FundChanInfoApi" />
+	
+	<dubbo:reference registry="defRegistry" id="custInfoServer" interface="com.hs.loan.cust.api.CustInfoApi" validation="true"/>    <!--客户信息  -->
+<!--
+	<dubbo:reference url="dubbo://192.168.2.201:40022/com.hs.loan.cust.api.CustInfoApi" id="custInfoServer" interface="com.hs.loan.cust.api.CustInfoApi" />
+-->
+
+
+
+	<dubbo:reference registry="defRegistry" id="custStudyServer" interface="com.hs.loan.cust.api.CustStudyApi"/>
+	<dubbo:reference registry="defRegistry" id="custContctOtherServer" interface="com.hs.loan.cust.api.CustContctOtherApi"  validation="true"/> <!-- 其他联系人信息 -->
+	<dubbo:reference registry="defRegistry" id="custContctInfoServer" interface="com.hs.loan.cust.api.CustContctInfoApi"  validation="true"/> <!-- 本人联系方式 -->
+	<dubbo:reference registry="defRegistry" id="prodServer" interface="com.hs.loan.prod.api.ProdApi"  validation="true"/> <!-- 产品信息后端 接口 -->
+	<dubbo:reference registry="defRegistry" id="prodFeeServer" interface="com.hs.loan.prod.api.ProdFeeApi"  validation="true"/> <!-- 产品与费用项关系 接口 -->
+	<dubbo:reference registry="defRegistry" id="custAssetInfoServer" interface="com.hs.loan.cust.api.CustAssetInfoApi"  validation="true"/>   <!-- 客户资产信息  --> 
+	<dubbo:reference registry="defRegistry" id="custEstateInfoServer" interface="com.hs.loan.cust.api.CustEstateInfoApi"  validation="false"/>   <!--  客户房产信息 -->
+	<dubbo:reference registry="defRegistry" id="custCarInfoServer" interface="com.hs.loan.cust.api.CustCarInfoApi"  validation="false"/>	<!-- 客户车辆信息-->
+	<dubbo:reference registry="defRegistry" id="custCreditInfoServer" interface="com.hs.loan.cust.api.CustCreditInfoApi"  validation="false"/>	<!-- 客户信用卡信息-->
+<!-- 	<dubbo:reference url="dubbo://192.168.1.142:40021/com.hs.loan.cust.api.CustOtherLoanApi" id="CustOtherLoanServer" interface="com.hs.loan.cust.api.CustOtherLoanApi" /> -->
+	<dubbo:reference registry="defRegistry" id="custOtherLoanServer" interface="com.hs.loan.cust.api.CustOtherLoanApi"  validation="false"/>	 <!-- 其它贷款信息 -->
+	<dubbo:reference registry="defRegistry" id="custBankAcctServer" interface="com.hs.loan.cust.api.CustBankAcctApi"  validation="true"/>	<!--  银行卡信息 -->
+	<dubbo:reference registry="defRegistry" id="custWorkServer" interface="com.hs.loan.cust.api.CustWorkApi"  validation="false"/> <!-- 客户工作信息 -->
+	<dubbo:reference registry="defRegistry" id="custLiveInfoServer" interface="com.hs.loan.cust.api.CustLiveInfoApi"  validation="false"/>
+	<dubbo:reference registry="defRegistry" id="loanAttServer" interface="com.hs.loan.sale.api.LoanAttApi"  validation="true"/> <!--贷款附件上传  -->
+	<dubbo:reference registry="defRegistry" id="loanApprBookServer" interface="com.hs.loan.approve.api.LoanApprBookApi" validation="true"/> <!--贷款审批批注  -->
+    <dubbo:reference registry="defRegistry" id="sysAttachServer" interface="com.hs.commons.attach.AttachmentApi" validation="true"/> <!--附件上传  -->
+    <dubbo:reference registry="defRegistry" id="sysOrgservice" interface="com.hs.system.api.SysOrgApi" validation="true"/> <!--系统机构  -->
+    <!-- 	生成合同并签约  -->
+	<dubbo:reference registry="defRegistry" id="loanContractSignServer" interface="com.hs.loan.contract.api.LoanContractSignApi" >
+		<dubbo:method timeout="80000" name="buidContant" retries="3" ></dubbo:method>
+	</dubbo:reference>
+	
+	<dubbo:reference registry="defRegistry" id="busiAccCapWithService" interface="com.hs.loan.finance.api.AccCapWithApi" />   <!--扣款接口-->
+</beans>

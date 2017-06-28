@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.PubRepayFeeConfMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubRepayFeeConfRetMap" type="com.hs.loan.acct.entity.PubRepayFeeConf">
+			<result column="FEE_NO" property="feeNo"/>
+			<result column="FEE_NAME" property="feeName"/>
+			<result column="SUBJ_NO" property="subjNo"/>
+			<result column="FEE_TYP" property="feeTyp"/>
+			<result column="FEE_CALC" property="feeCalc"/>
+			<result column="VALID_FLAG" property="validFlag"/>
+			<result column="FEE_REMARK" property="feeRemark"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="FEE_MODE" property="feeMode"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_费用项配置 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.PubRepayFeeConf">
+		insert into PUB_REPAY_FEE_CONF
+		(
+  			FEE_NO
+  			,FEE_NAME
+  			,SUBJ_NO
+  			,FEE_TYP
+  			,FEE_MODE
+  			,FEE_CALC
+  			,VALID_FLAG
+  			,FEE_REMARK
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{feeNo}
+  			, #{feeName}
+  			, #{subjNo}
+  			, #{feeTyp}
+  			, #{feeMode}
+  			, #{feeCalc}
+  			, #{validFlag}
+  			, #{feeRemark}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_费用项配置 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_REPAY_FEE_CONF
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('feeName')">  
+	  					FEE_NAME = #{feeName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('subjNo')">  
+	  					SUBJ_NO = #{subjNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeTyp')">  
+	  					FEE_TYP = #{feeTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeMode')">  
+	  					FEE_MODE = #{feeMode},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeCalc')">  
+	  					FEE_CALC = #{feeCalc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('validFlag')">  
+	  					VALID_FLAG = #{validFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeRemark')">  
+	  					FEE_REMARK = #{feeRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			FEE_NO = #{feeNo}				
+	</update>
+	
+	<!-- 删除 PUB_费用项配置 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_REPAY_FEE_CONF
+		where 
+  			FEE_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_费用项配置 -->
+	<select id="getByPrimaryKey" resultMap="PubRepayFeeConfRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_REPAY_FEE_CONF t
+		where 
+  				t.FEE_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_费用项配置 列表 -->
+	<select id="queryForList" resultMap="PubRepayFeeConfRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_REPAY_FEE_CONF t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="feeNo != null and feeNo != ''">
+	  				and t.FEE_NO = #{feeNo}				
+	  			</if>
+				<if test="feeName != null and feeName != ''">
+	  				and t.FEE_NAME = #{feeName}				
+	  			</if>
+				<if test="subjNo != null and subjNo != ''">
+	  				and t.SUBJ_NO = #{subjNo}				
+	  			</if>
+				<if test="feeTyp != null and feeTyp != ''">
+	  				and t.FEE_TYP = #{feeTyp}				
+	  			</if>
+				<if test="feeMode != null and feeMode != ''">
+	  				and t.FEE_MODE = #{feeMode}				
+	  			</if>
+				<if test="feeCalc != null and feeCalc != ''">
+	  				and t.FEE_CALC = #{feeCalc}				
+	  			</if>
+				<if test="validFlag != null and validFlag != ''">
+	  				and t.VALID_FLAG = #{validFlag}				
+	  			</if>
+				<if test="feeRemark != null and feeRemark != ''">
+	  				and t.FEE_REMARK = #{feeRemark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 查询在指定产品中未与此产品关联的费用项配置 -->
+	<select id="queryProdUnUsedFeeConf" resultMap="PubRepayFeeConfRetMap" parameterType="java.util.Map">
+		SELECT
+			t.*
+		FROM
+			PUB_REPAY_FEE_CONF t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="feeNo != null and feeNo != ''">
+	  				and t.FEE_NO  NOT IN (${feeNo})
+	  			</if>
+	  			<if test="validFlag != null and validFlag != ''">
+	  				and t.VALID_FLAG = #{validFlag}				
+	  			</if>
+    	</trim>
+	</select>
+	
+		<!-- 查询在指定产品中未与此产品关联的费用项配置 -->
+	<select id="queryProdUsedFeeConf" resultMap="PubRepayFeeConfRetMap" parameterType="java.util.Map">
+		SELECT
+			t.*
+		FROM
+			PUB_REPAY_FEE_CONF t
+		WHERE
+			t.FEE_NO  IN (${feeNo})
+		<if test="validFlag != null and validFlag != ''">
+			and t.VALID_FLAG = #{validFlag}				
+		</if>
+    
+	</select>
+	
+</mapper>

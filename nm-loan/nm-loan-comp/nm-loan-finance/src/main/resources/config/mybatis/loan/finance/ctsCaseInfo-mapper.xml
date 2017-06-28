@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.CtsCaseInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="CtsCaseInfoRetMap" type="com.hs.loan.finance.entity.CtsCaseInfo">
+			<result column="ID" property="id"/>
+			<result column="CASE_SOURCE" property="caseSource"/>
+			<result column="CASE_NO" property="caseNo"/>
+			<result column="CASE_TYPE" property="caseType"/>
+			<result column="INCIDENT_DATE" property="incidentDate"/>
+			<result column="CASE_DESC" property="caseDesc"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="CUST_CARD" property="custCard"/>
+			<result column="CUST_TEL" property="custTel"/>
+			<result column="CITY" property="city"/>
+			<result column="POS_NO" property="posNo"/>
+			<result column="PR_TYP" property="prTyp"/>
+			<result column="COM_NAME" property="comName"/>
+			<result column="COM_DATE" property="comDate"/>
+			<result column="COM_PHONE" property="comPhone"/>
+			<result column="COM_OBJ" property="comObj"/>
+			<result column="ARCH_NOTE" property="archNote"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="DEAL_STAT" property="dealStat"/>
+			<result column="CASE_STAT" property="caseStat"/>
+	</resultMap>
+	
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.CtsCaseInfo">
+		insert into cts_case_info
+		(
+  			ID
+  			,CASE_SOURCE
+  			,CASE_NO
+  			,CASE_TYPE
+  			,INCIDENT_DATE
+  			,CASE_DESC
+  			,CUST_NAME
+  			,CUST_CARD
+  			,CUST_TEL
+  			,CITY
+  			,POS_NO
+  			,PR_TYP
+  			,COM_NAME
+  			,COM_DATE
+  			,COM_PHONE
+  			,COM_OBJ
+  			,ARCH_NOTE
+  			,INST_DATE
+  			,UPDT_DATE
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,DEAL_STAT
+  			,CASE_STAT
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{caseSource}
+  			, #{caseNo}
+  			, #{caseType}
+  			, #{incidentDate}
+  			, #{caseDesc}
+  			, #{custName}
+  			, #{custCard}
+  			, #{custTel}
+  			, #{city}
+  			, #{posNo}
+  			, #{prTyp}
+  			, #{comName}
+  			, #{comDate}
+  			, #{comPhone}
+  			, #{comObj}
+  			, #{archNote}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{dealStat}
+  			, #{caseStat}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update cts_case_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('caseSource')">  
+	  					CASE_SOURCE = #{caseSource},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('caseNo')">  
+	  					CASE_NO = #{caseNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('caseType')">  
+	  					CASE_TYPE = #{caseType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('incidentDate')">  
+	  					INCIDENT_DATE = #{incidentDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('caseDesc')">  
+	  					CASE_DESC = #{caseDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custCard')">  
+	  					CUST_CARD = #{custCard},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custTel')">  
+	  					CUST_TEL = #{custTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('city')">  
+	  					CITY = #{city},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('posNo')">  
+	  					POS_NO = #{posNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prTyp')">  
+	  					PR_TYP = #{prTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('comName')">  
+	  					COM_NAME = #{comName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('comDate')">  
+	  					COM_DATE = #{comDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('comPhone')">  
+	  					COM_PHONE = #{comPhone},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('comObj')">  
+	  					COM_OBJ = #{comObj},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('archNote')">  
+	  					ARCH_NOTE = #{archNote},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('dealStat')">  
+	  					DEAL_STAT = #{dealStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('caseStat')">  
+	  					CASE_STAT = #{caseStat},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from cts_case_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询  -->
+	<select id="getByPrimaryKey" resultMap="CtsCaseInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from cts_case_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="CtsCaseInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from cts_case_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="caseSource != null and caseSource != ''">
+	  				and t.CASE_SOURCE = #{caseSource}				
+	  			</if>
+				<if test="caseNo != null and caseNo != ''">
+	  				and t.CASE_NO = #{caseNo}				
+	  			</if>
+				<if test="caseType != null and caseType != ''">
+	  				and t.CASE_TYPE = #{caseType}				
+	  			</if>
+				<if test="incidentDate != null">
+	  				and t.INCIDENT_DATE = #{incidentDate}				
+	  			</if>
+				<if test="caseDesc != null">
+	  				and t.CASE_DESC = #{caseDesc}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="custCard != null and custCard != ''">
+	  				and t.CUST_CARD = #{custCard}				
+	  			</if>
+				<if test="custTel != null and custTel != ''">
+	  				and t.CUST_TEL = #{custTel}				
+	  			</if>
+				<if test="city != null and city != ''">
+	  				and t.CITY = #{city}				
+	  			</if>
+				<if test="posNo != null and posNo != ''">
+	  				and t.POS_NO = #{posNo}				
+	  			</if>
+				<if test="prTyp != null and prTyp != ''">
+	  				and t.PR_TYP = #{prTyp}				
+	  			</if>
+				<if test="comName != null and comName != ''">
+	  				and t.COM_NAME = #{comName}				
+	  			</if>
+				<if test="comDate != null">
+	  				and t.COM_DATE = #{comDate}				
+	  			</if>
+				<if test="comPhone != null and comPhone != ''">
+	  				and t.COM_PHONE = #{comPhone}				
+	  			</if>
+				<if test="comObj != null and comObj != ''">
+	  				and t.COM_OBJ = #{comObj}				
+	  			</if>
+				<if test="archNote != null">
+	  				and t.ARCH_NOTE = #{archNote}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="dealStat != null and dealStat != ''">
+	  				and t.DEAL_STAT = #{dealStat}				
+	  			</if>
+				<if test="caseStat != null and caseStat != ''">
+	  				and t.CASE_STAT = #{caseStat}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 查询  列表 -->
+	<select id="queryParam" resultType="java.util.Map" parameterType="java.lang.String">
+		select	
+			t.*
+		from cts_case_info t where t.case_No=#{loanNo}
+	</select>
+	
+</mapper>

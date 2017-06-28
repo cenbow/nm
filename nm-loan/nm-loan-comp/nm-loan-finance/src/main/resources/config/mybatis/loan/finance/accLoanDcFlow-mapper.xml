@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccLoanDcFlowMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccLoanDcFlowRetMap" type="com.hs.loan.finance.entity.AccLoanDcFlow">
+			<result column="FLOW_ID" property="flowId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="SUBJ_NO" property="subjNo"/>
+			<result column="BUSI_DATE" property="busiDate"/>
+			<result column="HIS_BUSI_DATE" property="hisBusiDate"/>
+			<result column="TX_DATE" property="txDate"/>
+			<result column="TX_AMT" property="txAmt"/>
+			<result column="REMARK" property="remark"/>
+			<result column="AGILI_DATE" property="agiliDate"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_借贷流水 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccLoanDcFlow">
+		insert into ACC_LOAN_DC_FLOW
+		(
+  			FLOW_ID
+  			,LOAN_NO
+  			,SUBJ_NO
+  			,BUSI_DATE
+  			,HIS_BUSI_DATE
+  			,TX_DATE
+  			,TX_AMT
+  			,REMARK
+  			,AGILI_DATE
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{flowId}
+  			, #{loanNo}
+  			, #{subjNo}
+  			, #{busiDate}
+  			, #{hisBusiDate}
+  			, #{txDate}
+  			, #{txAmt}
+  			, #{remark}
+  			, #{agiliDate}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_借贷流水 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_LOAN_DC_FLOW
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('subjNo')">  
+	  					SUBJ_NO = #{subjNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busiDate')">  
+	  					BUSI_DATE = #{busiDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('hisBusiDate')">  
+	  					HIS_BUSI_DATE = #{hisBusiDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txDate')">  
+	  					TX_DATE = #{txDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txAmt')">  
+	  					TX_AMT = #{txAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('agiliDate')">  
+	  					AGILI_DATE = #{agiliDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			FLOW_ID = #{flowId}				
+	</update>
+	
+	<!-- 删除 ACC_借贷流水 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_LOAN_DC_FLOW
+		where 
+  			FLOW_ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_借贷流水 -->
+	<select id="getByPrimaryKey" resultMap="AccLoanDcFlowRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_LOAN_DC_FLOW t
+		where 
+  				t.FLOW_ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_借贷流水 列表 -->
+	<select id="queryForList" resultMap="AccLoanDcFlowRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_LOAN_DC_FLOW t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="flowId != null and flowId != ''">
+	  				and t.FLOW_ID = #{flowId}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="subjNo != null and subjNo != ''">
+	  				and t.SUBJ_NO = #{subjNo}				
+	  			</if>
+				<if test="busiDate != null and busiDate != ''">
+	  				and t.BUSI_DATE = #{busiDate}				
+	  			</if>
+				<if test="hisBusiDate != null and hisBusiDate != ''">
+	  				and t.HIS_BUSI_DATE = #{hisBusiDate}				
+	  			</if>
+				<if test="txDate != null and txDate != ''">
+	  				and t.TX_DATE = #{txDate}				
+	  			</if>
+				<if test="txAmt != null">
+	  				and t.TX_AMT = #{txAmt}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="agiliDate != null">
+	  				and t.AGILI_DATE = #{agiliDate}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

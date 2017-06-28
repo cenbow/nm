@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustEstateInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustEstateInfoRetMap" type="com.hs.loan.cust.entity.AppCustEstateInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="ESTATE_TYPE" property="estateType"/>
+			<result column="ESTATE_PROV" property="estateProv"/>
+			<result column="ESTATE_CITY" property="estateCity"/>
+			<result column="ESTATE_AREA" property="estateArea"/>
+			<result column="ESTATE_ADDR" property="estateAddr"/>
+			<result column="ESTATE_BUY_YEAR" property="estateBuyYear"/>
+			<result column="ESTATE_MTH_AMT" property="estateMthAmt"/>
+			<result column="ESTATE_MTH_DAY" property="estateMthDay"/>
+			<result column="ESTATE_MONTH" property="estateMonth"/>
+			<result column="REMARK" property="remark"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户房产信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustEstateInfo">
+		insert into app_cust_estate_info
+		(
+  			ID
+  			,CUST_NO
+  			,ESTATE_TYPE
+  			,ESTATE_PROV
+  			,ESTATE_CITY
+  			,ESTATE_AREA
+  			,ESTATE_ADDR
+  			,ESTATE_BUY_YEAR
+  			,ESTATE_MTH_AMT
+  			,ESTATE_MTH_DAY
+  			,ESTATE_MONTH
+  			,REMARK
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{estateType}
+  			, #{estateProv}
+  			, #{estateCity}
+  			, #{estateArea}
+  			, #{estateAddr}
+  			, #{estateBuyYear}
+  			, #{estateMthAmt}
+  			, #{estateMthDay}
+  			, #{estateMonth}
+  			, #{remark}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户房产信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_estate_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateType')">  
+	  					ESTATE_TYPE = #{estateType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateProv')">  
+	  					ESTATE_PROV = #{estateProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateCity')">  
+	  					ESTATE_CITY = #{estateCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateArea')">  
+	  					ESTATE_AREA = #{estateArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateAddr')">  
+	  					ESTATE_ADDR = #{estateAddr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateBuyYear')">  
+	  					ESTATE_BUY_YEAR = #{estateBuyYear},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateMthAmt')">  
+	  					ESTATE_MTH_AMT = #{estateMthAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateMthDay')">  
+	  					ESTATE_MTH_DAY = #{estateMthDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('estateMonth')">  
+	  					ESTATE_MONTH = #{estateMonth},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户房产信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_estate_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户房产信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustEstateInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_estate_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户房产信息 列表 -->
+	<select id="queryForList" resultMap="AppCustEstateInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_estate_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="estateType != null and estateType != ''">
+	  				and t.ESTATE_TYPE = #{estateType}				
+	  			</if>
+				<if test="estateProv != null and estateProv != ''">
+	  				and t.ESTATE_PROV = #{estateProv}				
+	  			</if>
+				<if test="estateCity != null and estateCity != ''">
+	  				and t.ESTATE_CITY = #{estateCity}				
+	  			</if>
+				<if test="estateArea != null and estateArea != ''">
+	  				and t.ESTATE_AREA = #{estateArea}				
+	  			</if>
+				<if test="estateAddr != null and estateAddr != ''">
+	  				and t.ESTATE_ADDR = #{estateAddr}				
+	  			</if>
+				<if test="estateBuyYear != null and estateBuyYear != ''">
+	  				and t.ESTATE_BUY_YEAR = #{estateBuyYear}				
+	  			</if>
+				<if test="estateMthAmt != null and estateMthAmt != ''">
+	  				and t.ESTATE_MTH_AMT = #{estateMthAmt}				
+	  			</if>
+				<if test="estateMthDay != null and estateMthDay != ''">
+	  				and t.ESTATE_MTH_DAY = #{estateMthDay}				
+	  			</if>
+				<if test="estateMonth != null and estateMonth != ''">
+	  				and t.ESTATE_MONTH = #{estateMonth}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 获取有效时间段的 有效的 客户房产信息  -->
+	<select id="getCustEstateInfoLstByDate" parameterType="map" resultMap="AppCustEstateInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_estate_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustEstateInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_estate_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}	
+	  	</if>
+		<if test="estateType != null and estateType != ''">
+	  		and t.ESTATE_TYPE = #{estateType}				
+	  	</if>
+		<if test="estateProv != null and estateProv != ''">
+	  		and t.ESTATE_PROV = #{estateProv}				
+	  	</if>
+		<if test="estateCity != null and estateCity != ''">
+	  		and t.ESTATE_CITY = #{estateCity}				
+	  	</if>
+		<if test="estateArea != null and estateArea != ''">
+	  		and t.ESTATE_AREA = #{estateArea}				
+	  	</if>
+		<if test="estateAddr != null and estateAddr != ''">
+	  		and t.ESTATE_ADDR = #{estateAddr}				
+	  	</if>
+		<if test="estateBuyYear != null and estateBuyYear != ''">
+	  		and t.ESTATE_BUY_YEAR = #{estateBuyYear}				
+	  	</if>
+		<if test="estateMthAmt != null and estateMthAmt != ''">
+	  		and t.ESTATE_MTH_AMT = #{estateMthAmt}				
+	  	</if>
+		<if test="estateMthDay != null and estateMthDay != ''">
+	  		and t.ESTATE_MTH_DAY = #{estateMthDay}				
+	  	</if>
+		<if test="estateMonth != null and estateMonth != ''">
+	  		and t.ESTATE_MONTH = #{estateMonth}				
+	  	</if>
+		<if test="remark != null and remark != ''">
+	  		and t.REMARK = #{remark}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>
+		order by t.BEGIN_DATE desc
+	</select>
+	
+</mapper>

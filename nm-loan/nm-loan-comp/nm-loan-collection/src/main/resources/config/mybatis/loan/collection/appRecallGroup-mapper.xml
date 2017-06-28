@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.collection.mapper.AppRecallGroupMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppRecallGroupRetMap" type="com.hs.loan.collection.entity.AppRecallGroup">
+			<result column="GROUP_NO" property="groupNo"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="STAT" property="stat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	<!-- 根据催收组名称查询该催收组是否已经存在 -->
+	<select id="selectExistsByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+     SELECT count(1) from APP_RECALL_GROUP AS r WHERE r.GROUP_NAME=#{groupName}
+	</select>
+
+	<!-- 新增 PL_催收组信息 -->
+	<insert id="insert" parameterType="com.hs.loan.collection.entity.AppRecallGroup">
+		insert into APP_RECALL_GROUP
+		(
+  			GROUP_NO
+  			,GROUP_NAME
+  			,STAT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{groupNo}
+  			, #{groupName}
+  			, #{stat}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_催收组信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_RECALL_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			GROUP_NO = #{groupNo}				
+	</update>
+	
+	<!-- 删除 PL_催收组信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_RECALL_GROUP
+		where 
+  			GROUP_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_催收组信息 -->
+	<select id="getByPrimaryKey" resultMap="AppRecallGroupRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_RECALL_GROUP t
+		where 
+  				t.GROUP_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PL_催收组信息 列表 -->
+	<select id="queryForList" resultMap="AppRecallGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_RECALL_GROUP t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="groupNo != null and groupNo != ''">
+	  				and t.GROUP_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME like '%${groupName}%'				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

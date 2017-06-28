@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<portable-config>
+	<config-file path="WEB-INF/classes/dubbo.properties">
+  		<replace key="dubbo.registry.address">zookeeper://192.168.3.208:2181</replace>
+  		<replace key="dubbo.log4j.level">INFO</replace>
+  		<replace key="dubbo.log4j.file">/data/webdploy/logs/dubbo-nm-mobile-sale-serverr-provider.log</replace>
+	</config-file>
+	 <config-file path="WEB-INF/classes/env/fileTransfer.properties">
+  		<replace key="oss.bucket">applyfiletest</replace>
+  		<replace key="oss.accessKeyId">PCb7MIzt7hpNse4H</replace>
+  		<replace key="oss.accessKeySecret">2tAkEgEVSUY1R3iuY2qRLWagE9XUDv</replace>
+  		<replace key="oss.endpoint">http://oss-cn-hangzhou.aliyuncs.com</replace>
+  		<replace key="basePhysicalAddressDir">applyfiletest|</replace>
+  		<replace key="baseNetworkAddressDir">http://applyfiletest.oss-cn-hangzhou.aliyuncs.com/</replace>
+	</config-file>
+	<config-file path="WEB-INF/classes/config/prop/qrcode.properties">
+  		<replace key="qrcode.branner.addr">d:/branner/</replace>
+	</config-file>
+	
+	<config-file path="WEB-INF/config/prop/jdbc.properties">
+  		<replace key="jdbc.driver">com.mysql.jdbc.Driver</replace>
+  		<replace key="jdbc.url">jdbc:mysql://nmsgcomp.mysql.rds.aliyuncs.com:3306/nmtest-db?useUnicode=true&amp;characterEncoding=utf-8</replace>
+  		<replace key="jdbc.username">nmtest</replace>
+  		<replace key="jdbc.password">nmtest</replace>
+  		<replace key="jdbc.pool.minIdle">2</replace>
+  		<replace key="jdbc.pool.maxActive">4</replace>
+  		<replace key="web.maxUploadSize">10485760</replace>
+  		
+  		<replace key="jdbc.driverRead">com.mysql.jdbc.Driver</replace>
+  		<replace key="jdbc.urlRead">jdbc:mysql://nmsgcomp.mysql.rds.aliyuncs.com:3306/nmtest-db?useUnicode=true&amp;characterEncoding=utf-8</replace>
+  		<replace key="jdbc.usernameRead">nmtest</replace>
+  		<replace key="jdbc.passwordRead">nmtest</replace>
+  		<replace key="jdbc.pool.minIdleRead">2</replace>
+  		<replace key="jdbc.pool.maxActiveRead">4</replace>
+  		<replace key="web.maxUploadSizeRead">10485760</replace>
+	</config-file>
+	
+	<config-file path="WEB-INF/classes/logback.xml">
+  		<replace xpath="/configuration/property[@name='LOG_HOME']/@value">/data/webdeploy/logs</replace>
+  		<replace xpath="/configuration/logger[@name='com.hs']/@level">TRACE</replace>
+  		<replace xpath="/configuration/root/@level">INFO</replace>
+	</config-file>
+	
+	<config-file path="WEB-INF/classes/config/cache/ehcache-configuration.xml">
+  		<replace xpath="/ehcache/diskStore/@path">/data/cache</replace>
+	</config-file>
+	
+	<config-file path="WEB-INF/classes/config/spring/spring-dubbo-context.xml">
+  		<replace xpath="/beans/dubbo:registry[@id='defRegistry']/@address">zookeeper://192.168.3.208:2181</replace>
+  		<replace xpath="/beans/dubbo:registry[@id='defRegistry']/@file">/data/cache/sale</replace>
+	</config-file>
+	<config-file path="WEB-INF/classes/env/sys.properties">
+		<replace key="sys.run.env">test</replace>
+		<replace key="sys.redis.enable">true</replace>
+	</config-file>
+	 
+</portable-config>

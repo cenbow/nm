@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.org.mapper.SysOrgMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysOrgRetMap" type="com.hs.system.entity.SysOrg">
+		<result column="ID" property="id" />
+		<result column="ORG_NO" property="orgNo" />
+		<result column="ORG_NAME" property="orgName" />
+		<result column="ORG_LEV" property="orgLev" />
+		<result column="PAR_ORG_NO" property="parOrgNo" />
+		<result column="ORG_COD_PATH" property="orgCodPath" />
+		<result column="STAT" property="stat" />
+		<result column="PROV_NO" property="provNo" />
+		<result column="CITY_NO" property="cityNo" />
+		<result column="CNTY_NO" property="cntyNo" />
+		<result column="AREA_NO" property="areaNo" />
+		<result column="ORG_ATTR" property="orgAttr" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 新增 机构信息 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysOrg">
+		insert into sys_org
+		(
+		ID
+		,ORG_NO
+		,ORG_NAME
+		,ORG_LEV
+		,PAR_ORG_NO
+		,ORG_COD_PATH
+		,STAT
+		,PROV_NO
+		,CITY_NO
+		,CNTY_NO
+		,AREA_NO
+		,ORG_ATTR
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{orgNo}
+		, #{orgName}
+		, #{orgLev}
+		, #{parOrgNo}
+		, #{orgCodPath}
+		, #{stat}
+		, #{provNo}
+		, #{cityNo}
+		, #{cntyNo}
+		, #{areaNo}
+		, #{orgAttr}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 机构信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_org
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('orgNo')">
+				ORG_NO = #{orgNo},
+			</if>
+			<if test="_parameter.containsKey('orgName')">
+				ORG_NAME = #{orgName},
+			</if>
+			<if test="_parameter.containsKey('orgLev')">
+				ORG_LEV = #{orgLev},
+			</if>
+			<if test="_parameter.containsKey('parOrgNo')">
+				PAR_ORG_NO = #{parOrgNo},
+			</if>
+			<if test="_parameter.containsKey('orgCodPath')">
+				ORG_COD_PATH = #{orgCodPath},
+			</if>
+			<if test="_parameter.containsKey('stat')">
+				STAT = #{stat},
+			</if>
+			<if test="_parameter.containsKey('provNo')">
+				PROV_NO = #{provNo},
+			</if>
+			<if test="_parameter.containsKey('cityNo')">
+				CITY_NO = #{cityNo},
+			</if>
+			<if test="_parameter.containsKey('cntyNo')">
+				CNTY_NO = #{cntyNo},
+			</if>
+			<if test="_parameter.containsKey('areaNo')">
+				AREA_NO = #{areaNo},
+			</if>
+			<if test="_parameter.containsKey('orgAttr')">
+				ORG_ATTR = #{orgAttr},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 机构信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_org
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 机构信息 -->
+	<select id="getByPrimaryKey" resultMap="SysOrgRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_org t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 机构信息 列表 -->
+	<select id="queryForList" resultMap="SysOrgRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_org t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="orgNo != null and orgNo != ''">
+				and t.ORG_NO = #{orgNo}
+			</if>
+			<if test="orgName != null and orgName != ''">
+				and t.ORG_NAME = #{orgName}
+			</if>
+			<if test="orgLev != null">
+				and t.ORG_LEV = #{orgLev}
+			</if>
+			<if test="parOrgNo != null and parOrgNo != ''">
+				and t.PAR_ORG_NO = #{parOrgNo}
+			</if>
+			<if test="orgCodPath != null and orgCodPath != ''">
+				and t.ORG_COD_PATH = #{orgCodPath}
+			</if>
+			<if test="stat != null and stat != ''">
+				and t.STAT = #{stat}
+			</if>
+			<if test="provNo != null and provNo != ''">
+				and t.PROV_NO = #{provNo}
+			</if>
+			<if test="cityNo != null and cityNo != ''">
+				and t.CITY_NO = #{cityNo}
+			</if>
+			<if test="cntyNo != null and cntyNo != ''">
+				and t.CNTY_NO = #{cntyNo}
+			</if>
+			<if test="areaNo != null and areaNo != ''">
+				and t.AREA_NO = #{areaNo}
+			</if>
+			<if test="orgAttr != null and orgAttr != ''">
+				and t.ORG_ATTR = #{orgAttr}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 通过主键查询 机构信息 -->
+	<select id="queryStaffBelongOrg" resultMap="SysOrgRetMap"
+		parameterType="java.lang.String">
+
+		select
+		t.*
+		from sys_org t,sys_staff f
+		where t.ORG_NO = f.belgOrgNo
+		and f.STAFF_NO = #{staffNo}
+	</select>
+	<!-- 查询 机构信息 列表 -->
+	<select id="queryOrgForList" resultMap="SysOrgRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_org t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="orgNo != null and orgNo != ''">
+				and t.org_cod_path like '%${orgNo}%'
+			</if>
+		</trim>
+		order by t.org_no
+	</select>
+
+</mapper>

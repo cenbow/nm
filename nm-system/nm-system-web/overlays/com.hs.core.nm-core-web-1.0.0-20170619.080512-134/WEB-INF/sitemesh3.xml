@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+	<!-- 将被排除，不被装饰 -->
+	<mapping path="/static/*" exclue="true" />
+	<mapping path="/404" exclue="true" />
+	<mapping path="/500*" exclue="true" />
+	<mapping path="*" decorator="/WEB-INF/decorators/default.jsp"/>
+	<mapping>
+    	<path>*</path>
+    	<decorator>/WEB-INF/decorators/default.jsp</decorator>
+    	<decorator>/WEB-INF/decorators/common.jsp</decorator>
+    </mapping>
+	<mapping>
+    	<path>*.htm</path>
+    	<decorator>/WEB-INF/decorators/default.htm.jsp</decorator>
+    	<decorator>/WEB-INF/decorators/common.jsp</decorator>
+    </mapping>
+	<mapping>
+		<path>*.tpl</path>
+		<decorator>/WEB-INF/decorators/default.tpl.jsp</decorator>
+	</mapping>
+</sitemesh>

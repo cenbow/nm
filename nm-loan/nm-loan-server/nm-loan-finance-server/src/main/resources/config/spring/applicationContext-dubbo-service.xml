@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 声明需要暴露的服务接口 
+	<dubbo:service registry="svReg" interface="com.hs.system.api.SysMenuApi" ref="sysMenuService" />
+	-->
+	<!-- 提前结清登记 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.RepayAdvanRegApi"  ref="repayAdvanRegServer" />
+	<!-- 银联代扣明细 日志 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.CapTranDtlApi" ref="capTranDtlServer" />
+	<!-- 银联代扣单笔 日志 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.CapTranLogApi" ref="capTranLogServer" />
+	<!-- 银联代扣批量 日志 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.CapTranLogBatApi" ref="capTranLogBatServer" />
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.AccCapWithApi" ref="accCapWithServer" />
+	<!-- 	对公还款登记 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.RepayDgRegApi" ref="repayDgRegServer" >
+		<dubbo:method name="saveLoanRepayDg" retries="0" />
+	</dubbo:service>
+	<!-- 	费用减免 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.RepayDiscRegApi" ref="repayDiscRegServer" >
+		<dubbo:method name="insert" retries="0" />
+	</dubbo:service>
+	<!-- 	三方支付 代扣文件-->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.AccPayWithApi" ref="accPayWithServer" />
+<!-- 	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.LoanPlanInitApi" ref="accLoanPlanInitServer" />
+-->	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.FundChanInfoApi" ref="fundChanInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<!-- 	三方支付 代扣文件-->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.AccPayWithApi" ref="accPayWithServer" />
+	<!-- 	资方首次还款日导入 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.ChanFstdateImportApi" ref="appChanFstdateImportServer" >
+	</dubbo:service>
+	<!-- 	积分兑换 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.SalescoreInfoApi" ref="salescoreInfoServer" >
+	</dubbo:service>
+	<!-- 	合规案件 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.CaseInfoApi" ref="ctsCaseInfoServer" >
+	</dubbo:service>
+	<!-- 	日常调账 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.finance.api.AccLoanReviseApi" ref="accLoanReviseServer" >
+	</dubbo:service>
+	
+</beans>

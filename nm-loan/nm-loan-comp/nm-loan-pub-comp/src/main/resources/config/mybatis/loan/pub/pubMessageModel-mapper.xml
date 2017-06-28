@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.pub.hand.mapper.PubMessageModelMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubMessageModelRetMap" type="com.hs.loan.pub.hand.entity.PubMessageModel">
+			<result column="ID" property="id"/>
+			<result column="MESSAGE_CODE" property="messageCode"/>
+			<result column="MESSAGE_NAME" property="messageName"/>
+			<result column="MESSAGE_TYP" property="messageTyp"/>
+			<result column="MESSAGE_STAT" property="messageStat"/>
+			<result column="MSG" property="msg"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="MGBZ" property="mgbz"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_消息模版 -->
+	<insert id="insert" parameterType="com.hs.loan.pub.hand.entity.PubMessageModel">
+		insert into PUB_MESSAGE_MODEL
+		(
+  			ID
+  			,MESSAGE_CODE
+  			,MESSAGE_NAME
+  			,MESSAGE_TYP
+  			,MESSAGE_STAT
+  			,MSG
+  			,INST_DATE
+  			,MGBZ
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{messageCode}
+  			, #{messageName}
+  			, #{messageTyp}
+  			, #{messageStat}
+  			, #{msg}
+  			, #{instDate}
+  			, #{mgbz}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_消息模版 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_MESSAGE_MODEL
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('messageCode')">  
+	  					MESSAGE_CODE = #{messageCode},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('messageName')">  
+	  					MESSAGE_NAME = #{messageName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('messageTyp')">  
+	  					MESSAGE_TYP = #{messageTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('messageStat')">  
+	  					MESSAGE_STAT = #{messageStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('msg')">  
+	  					MSG = #{msg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mgbz')">  
+	  					MGBZ = #{mgbz},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_消息模版 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_MESSAGE_MODEL
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_消息模版 -->
+	<select id="getByPrimaryKey" resultMap="PubMessageModelRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_MESSAGE_MODEL t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_消息模版 列表 -->
+	<select id="queryForList" resultMap="PubMessageModelRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_MESSAGE_MODEL t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="messageCode != null and messageCode != ''">
+	  				and t.MESSAGE_CODE = #{messageCode}				
+	  			</if>
+				<if test="messageName != null and messageName != ''">
+	  				and t.MESSAGE_NAME = #{messageName}				
+	  			</if>
+				<if test="messageTyp != null and messageTyp != ''">
+	  				and t.MESSAGE_TYP = #{messageTyp}				
+	  			</if>
+				<if test="messageStat != null and messageStat != ''">
+	  				and t.MESSAGE_STAT = #{messageStat}				
+	  			</if>
+				<if test="msg != null and msg != ''">
+	  				and t.MSG = #{msg}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="mgbz != null and mgbz != ''">
+	  				and t.MGBZ = #{mgbz}				
+	  			</if>
+				<if test="msgTyp != null and msgTyp != ''">
+	  				and t.MESSAGE_TYP = #{msgTyp}				
+	  			</if>
+	  			
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 声明需要暴露的服务接口 
+	<dubbo:service interface="com.hs.system.api.SysMenuApi" ref="sysMenuService" />
+	-->
+	<dubbo:service  registry="svReg" interface="com.hs.loan.cust.api.CustInfoApi" ref="custInfoServer" >
+		<dubbo:method name="save" retries="0" />
+		<dubbo:method name="saveCustBaseInfo" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustBankAcctApi" ref="custBankAcctServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustViewApi" ref="custViewServer" />
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustGroupInfoApi" ref="custGroupInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustTeamInfoApi" ref="custTeamInfoServer" >
+		<dubbo:method name="save" retries="0" />
+		<dubbo:method name="saveGrpCustRel" retries="0" />
+		<dubbo:method name="saveGrpCust" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustCreditInfoApi" ref="custCreditInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustContctInfoApi" ref="custContctInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustContctOtherApi" ref="custContctOtherServer" >
+		<dubbo:method name="save" retries="0" />
+		<dubbo:method name="saveContctPerson" retries="0" />
+	</dubbo:service>	
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustStudyApi" ref="custStudyServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>	
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustLiveInfoApi" ref="custLiveInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>	
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustWorkApi" ref="custWorkServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustEstateInfoApi" ref="custEstateInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustAssetInfoApi" ref="custAssetInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustCarInfoApi" ref="custCarInfoServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustOtherLoanApi" ref="custOtherLoanServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service> 
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustOtherInfoApi" ref="custOtherInfoServer" />
+	 <dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustRevisitInfoApi" ref="custRevisitInfoServer" >
+	 <dubbo:method name="save" retries="0" />
+	</dubbo:service>	 
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.CustInfoExteApi" ref="custInfoExteServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.AppCustTravelApi" ref="appCustTravelServer" >
+	</dubbo:service>
+	<dubbo:service registry="svReg" interface="com.hs.loan.cust.api.AppCustPeerApi" ref="appCustPeerServer" >
+	</dubbo:service>
+</beans>

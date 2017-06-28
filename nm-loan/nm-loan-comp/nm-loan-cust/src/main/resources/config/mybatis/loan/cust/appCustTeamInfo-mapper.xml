@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustTeamInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustTeamInfoRetMap" type="com.hs.loan.cust.entity.AppCustTeamInfo">
+			<result column="CUST_TEAM" property="custTeam"/>
+			<result column="CUST_TEAM_NAME" property="custTeamName"/>
+			<result column="CUST_CALC" property="custCalc"/>
+			<result column="INST_PERSON" property="instPerson"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="STAT" property="stat"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户分组 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustTeamInfo">
+		insert into app_cust_team_info
+		(
+  			CUST_TEAM
+  			,CUST_TEAM_NAME
+  			,CUST_CALC
+  			,INST_PERSON
+  			,INST_DATE
+  			,STAT
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{custTeam}
+  			, #{custTeamName}
+  			, #{custCalc}
+  			, #{instPerson}
+  			, #{instDate}
+  			, #{stat}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户分组 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_team_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custTeamName')">  
+	  					CUST_TEAM_NAME = #{custTeamName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custCalc')">  
+	  					CUST_CALC = #{custCalc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instPerson')">  
+	  					INST_PERSON = #{instPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			CUST_TEAM = #{custTeam}				
+	</update>
+	
+	<!-- 删除 APP_客户分组 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_team_info
+		where 
+  			CUST_TEAM = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户分组 -->
+	<select id="getByPrimaryKey" resultMap="AppCustTeamInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_team_info t
+		where 
+  				t.CUST_TEAM = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户分组 列表 -->
+	<select id="queryForList" resultMap="AppCustTeamInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_team_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="custTeam != null and custTeam != ''">
+	  				and t.CUST_TEAM = #{custTeam}				
+	  			</if>
+				<if test="custTeamName != null and custTeamName != ''">
+	  				and t.CUST_TEAM_NAME like CONCAT('%',#{custTeamName},'%') 				
+	  			</if>
+				<if test="custCalc != null and custCalc != ''">
+	  				and t.CUST_CALC = #{custCalc}				
+	  			</if>
+				<if test="instPerson != null and instPerson != ''">
+	  				and t.INST_PERSON LIKE CONCAT('%',#{instPerson},'%') 				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and #{beginDate} >= t.BEGIN_DATE 		
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE  >= #{beginDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

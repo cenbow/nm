@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd" >
+         
+	<!-- 引用ehCache的配置 -->     
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">     
+	   	<property name="configLocation">     
+			<value>classpath:config/cache/cache.xml</value>     
+	   	</property>     
+	</bean>     
+   
+	<!-- 定义ehCache的工厂，并设置所使用的Cache name -->     
+	<bean id="ehCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">     
+	   	<property name="cacheManager">     
+	  		<ref local="cacheManager"/>     
+	   	</property>    
+	   	<property name="cacheName">     
+      		<value>DEFAULT_CACHE</value>     
+   		</property> 
+	</bean>     
+   
+	<!-- find/create cache拦截器  
+	<bean id="cacheInterceptor" class="com.hs.framework.cache.CacheInterceptor">     
+	   	<property name="cache">     
+	   		<ref local="ehCache" />     
+	   	</property>     
+	</bean>     
+	-->    
+   	<!-- 查询时把结果加入缓存  -->
+	<!-- <bean id="cachePointCutInterceptor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">     
+	   	<property name="advice">     
+	   		<ref local="cacheInterceptor"/>   
+	   	</property>     
+	   	<property name="patterns">     
+		   	<list>     
+		      	<value>com.system.code.service.CodeService.*init.*</value>     
+		      	<value>com.system.code.service.CodeUtilService.*get.*</value>     
+		   	</list>     
+	  	 </property>     
+	</bean>      -->
+</beans>  

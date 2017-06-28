@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.outsource.mapper.PlLoanOutsourceAmountMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlLoanOutsourceAmountRetMap" type="com.hs.loan.outsource.entity.PlLoanOutsourceAmount">
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="FEE_TYP" property="feeTyp"/>
+			<result column="FEE_AMT" property="feeAmt"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 PL_委外金额明细 -->
+	<insert id="insert" parameterType="com.hs.loan.outsource.entity.PlLoanOutsourceAmount">
+		insert into PL_LOAN_OUTSOURCE_AMOUNT
+		(
+  			LOAN_NO
+  			,FEE_TYP
+  			,FEE_AMT
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{loanNo}
+  			, #{feeTyp}
+  			, #{feeAmt}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_委外金额明细 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE_AMOUNT
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('feeTyp')">  
+	  					FEE_TYP = #{feeTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeAmt')">  
+	  					FEE_AMT = #{feeAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			LOAN_NO = #{loanNo}				
+	</update>
+	
+	<!-- 删除 PL_委外金额明细 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_LOAN_OUTSOURCE_AMOUNT
+		where 
+  			LOAN_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_委外金额明细 -->
+	<select id="getByPrimaryKey" resultMap="PlLoanOutsourceAmountRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_AMOUNT t
+		where 
+  				t.LOAN_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PL_委外金额明细 列表 -->
+	<select id="queryForList" resultMap="PlLoanOutsourceAmountRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_AMOUNT t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="feeTyp != null and feeTyp != ''">
+	  				and t.FEE_TYP = #{feeTyp}				
+	  			</if>
+				<if test="feeAmt != null">
+	  				and t.FEE_AMT = #{feeAmt}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 查询 PL_委外金额明细 列表 -->
+	<select id="queryOutSourceFeeList" resultMap="PlLoanOutsourceAmountRetMap" parameterType="java.util.Map">
+		select	
+			t.LOAN_NO
+  			,f.FEE_NAME as FEE_TYP
+  			,t.FEE_AMT
+  			,t.INST_DATE
+		from PL_LOAN_OUTSOURCE_AMOUNT t,PUB_REPAY_FEE_CONF f
+ 		where t.FEE_TYP = f.FEE_NO
+		 and t.LOAN_NO = #{loanNo}				
+	</select>
+</mapper>

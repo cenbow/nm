@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nm.mapper.mb.DmMapper">
+	<insert id="insertReferrerInfo" parameterType="com.nm.cmd.ReferrerInfoCmd">
+		insert into app_referrer_info
+		(
+  			ID
+  			,REFERRER_NAME
+  			,REFERRER_PHONE_NO
+  			,REFERRER_NO
+  			,REFERRER_DATE
+  			,CUST_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{referrerName}
+  			, #{referrerPhoneNo}
+  			, #{referrerNo}
+  			, #{referrerDate}
+  			, #{custNo}
+    	)
+	</insert>
+	<insert id="submitOrderIdInfo" parameterType="com.nm.cmd.WeichatOrderId">
+		insert into app_weichat_orderid
+		(
+  			ID
+  			,ORDER_ID
+  			,ERROR_COD
+  			,ERROR_MSG
+  			,TYPE
+  			,STAT
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{orderId}
+  			, #{errorCode}
+  			, #{errorMsg}
+  			, #{type}
+  			, #{stat}
+    	)
+	</insert>
+	<insert id="insertApplyAddr">
+		insert into app_cust_reg_info
+        (
+        ID
+        ,CUST_NO
+        ,AREA
+        )
+        values
+        (
+        #{id}
+        , #{custNo}
+        , #{applyAddr}
+        )
+	</insert>
+	<delete id="deleteDmOrderInfo" parameterType="java.lang.String">
+		delete from Dm_order_info
+		where 
+  			loan_no = #{loanNo}				
+	</delete>
+	
+	<select id="queryProdLisForLoanCal" parameterType="java.util.Map"  resultMap="PubProdRetMap" statementType="CALLABLE">  
+		<![CDATA[  
+		    {call PROC_PUB_PROD_V5 (#{I_SALE_CHAN,mode=IN,jdbcType=VARCHAR},
+								 #{I_PROD_TYP,mode=IN,jdbcType=VARCHAR},
+								 #{I_STAFF_NO,mode=IN,jdbcType=VARCHAR},
+								 #{I_ORG_NO,mode=IN,jdbcType=VARCHAR},
+								 #{I_BRANCH_NO,mode=IN,jdbcType=VARCHAR},
+								 #{I_CUST_TYP,mode=IN,jdbcType=VARCHAR},
+								 #{I_GOODS_ID,mode=IN,jdbcType=VARCHAR},
+			    				 #{O_RET,mode=OUT,jdbcType=VARCHAR})}  
+		 ]]>  
+</select>
+
+	<select id="salerqueryProdForLoan" parameterType="java.util.Map"  resultMap="PubProdRetMap" statementType="CALLABLE">  
+		<![CDATA[  
+		    {call PROC_PUB_PROD_V3 (#{I_SALE_CHAN,mode=IN,jdbcType=VARCHAR},
+								 #{I_PROD_TYP,mode=IN,jdbcType=VARCHAR},
+								 #{I_STAFF_NO,mode=IN,jdbcType=VARCHAR},
+								 #{I_ORG_NO,mode=IN,jdbcType=VARCHAR},
+								 #{I_GOODS_TYP,mode=IN,jdbcType=VARCHAR},
+			    				 #{O_RET,mode=OUT,jdbcType=VARCHAR})}  
+		 ]]>  
+   </select>
+	<resultMap id="PubProdRetMap" type="com.nm.cmd.PubProd">
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="PROD_NAME" property="prodName"/>
+			<result column="PROD_TYP" property="prodTyp"/>
+			<result column="RAT" property="rat"/>
+			<result column="IS_PREPOST" property="isPrepost"/>
+			<result column="PREPOST_RAT" property="prepostRat"/>
+			<result column="FST_PAY_TYP" property="fstPayTyp"/>
+			<result column="FST_PAY_VAL" property="fstPayVal"/>
+			<result column="MIN_AMT" property="minAmt"/>
+			<result column="MAX_AMT" property="maxAmt"/>
+			<result column="REPAY_KIND" property="repayKind"/>
+			<result column="COMM_AMT" property="commAmt"/>
+			<result column="PROD_REMARK" property="prodRemark"/>
+			<result column="SALE_CHAN" property="saleChan"/>
+			<result column="START_DATE" property="startDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="PROD_STAT" property="prodStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="cust_Type" property="custType"/>
+		<!--<result column="FEE_RAT" property="feeRat"/>-->
+	<!--	<result column="FEE_NUM" property="feeNum"/>-->
+	</resultMap>
+		  	<select id="querySucceed" resultType="com.nm.cmd.WeichatOrderId" parameterType="java.util.Map">
+	  	select t.ID as id,t.ORDER_ID as orderId,t.ERROR_COD as errorCode,t.ERROR_MSG as errorMsg,
+	  	t.TYPE as type,t.STAT as stat
+	  	from app_weichat_orderid t where t.type in ('1','2')
+				<if test="orderId != null and orderId != ''">
+	  				and t.ORDER_ID = #{orderId}				
+	  			</if>
+	  			<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+	  			limit 1
+  	</select>
+  	
+  	
+  	<select id="queryProdFeeinStNums" resultType="com.nm.model.InstNumInfoModel" parameterType="java.lang.String">
+	  	select t.FEE_NUM as instNum,t.FST_PAY_TYP as fstPayTyp, t.FST_PAY_VAL as fstPayVal from 
+         pub_prod_prefee t where t.PROD_NO=#{prodNo}  order by instnum+0
+  	</select>
+  	 <select id="querySaler" resultType="com.nm.model.SalerInfo" parameterType="java.lang.String">
+	  	SELECT
+		t.id AS id,
+		t.SALER_NO AS salerNo,
+		t.SALER_NAME AS salerName,
+	    t.PHONE AS phone,
+	    a.ORG_NO AS orgNo,
+	    a.LOGO_ADDR AS logoAddr from app_cosmetic_saler t
+	    left join app_cosmetic_org a on t.ORG_NO = a.ORG_NO
+	    where t.SALER_NO=#{salerNo} and t.STAT='10002001' and a.STAT='10002001'
+  	</select>
+  	  <select id="queryInFirmaryInfo" resultType="com.nm.model.InFirmaryInfo" parameterType="java.lang.String">
+	  	SELECT
+	          t.BRANCH_NAME AS branchName,
+	          t.BRANCH_NO AS branchNo
+              FROM
+	          app_cosmetic_saler_branch t
+              where t.SALER_NO=#{salerNo}
+  	</select>
+    <select id="getAppCustInfoByLoanNo" resultType="map">
+		select b.* from app_loan_acct a,app_cust_info b where a.CUST_NO=b.CUST_NO and a.LOAN_NO=#{loanNo}
+	</select>
+    <select id="getLoanNoByCustNo" resultType="com.hs.loan.busi.dto.LoanAcctInDto">
+		select * from app_loan_acct where cust_no=#{custNo} order by APPLY_DATE desc limit 1
+	</select>
+    <select id="getBranchNameByLoanNo" resultType="map">
+		select BRANCH_NAME,BRANCH_NO from app_loan_branch where LOAN_NO=#{loanNo}
+	</select>
+	<select id="getStudyByCustNo" resultType="java.lang.Integer">
+		select count(*) from app_cust_study where cust_no=#{custNo}
+	</select>
+	<select id="getWorkByCustNo" resultType="java.lang.Integer">
+		select count(*) from app_cust_work where cust_no=#{custNo}
+	</select>
+	<select id="getOtherContctByCustNo" resultType="java.lang.Integer">
+		select count(*) from app_cust_contct_other where cust_no=#{custNo}
+	</select>
+	<select id="getDianShang" resultType="java.lang.Integer">
+		select  count(*) from app_loan_att where loan_no=#{loanNo} and att_typ BETWEEN 40105001 AND 40105060
+
+	</select>
+	<!--<select id="getDianShang" resultType="java.lang.Integer">
+		select  count(*) from app_loan_att where loan_no=#{loanNo} and att_typ in
+		<foreach item="item" index="index" collection="list"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>-->
+	<select id="getCertNoByMobileNo" resultType="java.lang.String">
+		select cert_no from app_user_info where MOBL_NO=#{moblNo}
+	</select>
+	<select id="getApplyAddr" resultType="map">
+		select * from app_cust_reg_info where cust_no=#{custNo} limit 1
+	</select>
+
+
+	<select id="getStaffNo" resultType="java.util.Map">
+		select b.ORG_NO orgNo,c.STAFF_NAME staffName,c.staff_no staffNo ,b.ORG_NAME as orgName from sys_staff_org a,sys_org b,sys_staff c where a.ORG_ID=b.ID and c.STAFF_STAT='10002001' and a.STAFF_ID=c.ID and c.STAFF_NO=#{staffNo} AND b.ORG_COD_PATH like '%33000001%' AND b.stat='10002001' limit 1
+	</select>
+    <select id="getCustType" resultType="java.lang.String">
+		select cust_type from app_cust_info where cust_no=#{custNo}
+	</select>
+
+    <update id="updateAppUserInfo">
+		UPDATE app_user_info set cert_no=#{certNo} where mobl_no=#{phone}
+	</update>
+	<update id="updateApplyAddr">
+		UPDATE app_cust_reg_info set AREA=#{applyAddr} where ID=#{id}
+	</update>
+
+</mapper>

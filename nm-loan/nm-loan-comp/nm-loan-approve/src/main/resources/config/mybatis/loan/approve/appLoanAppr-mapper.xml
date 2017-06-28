@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppLoanApprMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanApprRetMap" type="com.hs.loan.approve.entity.AppLoanAppr">
+			<result column="APPR_ID" property="apprId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="SALE_NO" property="saleNo"/>
+			<result column="SALE_NAME" property="saleName"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="INST_NUM" property="instNum"/>
+			<result column="STAT" property="stat"/>
+			<result column="AUTO_START_DATE" property="autoStartDate"/>
+			<result column="AUTO_END_DATE" property="autoEndDate"/>
+			<result column="MANU_START_DATE" property="manuStartDate"/>
+			<result column="MANU_END_DATE" property="manuEndDate"/>
+			<result column="APPR_NO" property="apprNo"/>
+			<result column="APPR_NAME" property="apprName"/>
+			<result column="MANU_FLAG" property="manuFlag"/>
+			<result column="APPR_GROUP_NO" property="apprGroupNo"/>
+			<result column="APPR_GROUP_NAME" property="apprGroupName"/>
+			<result column="APPR_DESC" property="apprDesc"/>
+			<result column="REMARK" property="remark"/>
+			<result column="APPR_TYP" property="apprType"/>
+	</resultMap>
+	<select id="getAppLoanAppr" resultType="com.hs.loan.approve.entity.AppLoanAppr" parameterType="java.util.Map">
+	SELECT * from app_loan_appr WHERE LOAN_NO=#{loanNo} ORDER BY INST_DATE DESC;
+	</select>
+	<!-- 更新根据进入时间的第一条未被未被分配的任务 
+	<update id="updateFirstOrderByInstDate" parameterType="java.util.HashMap">
+		UPDATE app_loan_appr AS l SET l.MANU_START_DATE=#{maunStartDate},l.STAT='40002006',l.APPR_NO=#{apprNo},l.APPR_NAME=#{apprName}
+		WHERE l.APPR_ID=
+        (SELECT  app_loan_appr.APPR_ID
+         from ( SELECT a.APPR_ID FROM app_loan_appr AS a WHERE (a.STAT='40002005'
+          AND EXISTS(
+           SELECT l.LOAN_NO FROM app_loan_branch AS l WHERE EXISTS(
+           SELECT b.BRANCH_PROV FROM APP_APPR_GROUP AS b
+           INNER JOIN app_appr_staff_group AS s ON b.GROUP_NO=s.GROUP_NO INNER JOIN APP_APPR_GROUP_GOODS AS gs ON 
+           gs.GROUP_NO = b.GROUP_NO INNER JOIN APP_LOAN_GOODS AS ds ON ds.GOODS_TYPE = gs.GOODS_TYPE 
+           WHERE s.STAFF_NO=#{apprNo} AND l.BRANCH_PROV=b.BRANCH_PROV  AND l.BRANCH_CITY=b.BRANCH_CITY AND l.LOAN_NO = ds.LOAN_NO)
+           AND a.LOAN_NO=l.LOAN_NO
+          )
+          AND(a.APPR_NO IS NULL OR a.APPR_NO=#{apprNo})) ORDER BY a.INST_NUM DESC,a.INST_DATE ASC LIMIT 1)
+         app_loan_appr);
+	</update> -->
+	<!-- 更新根据进入时间的第一条未被未被分配的任务 -->
+	<update id="updateFirstOrderByInstDate" parameterType="java.util.HashMap">
+		UPDATE app_loan_appr AS l 
+		   inner join (
+				SELECT a.APPR_ID 
+			     FROM APP_LOAN_APPR AS a 
+						INNER JOIN APP_LOAN_BRANCH AS l ON a.LOAN_NO=l.LOAN_NO 
+						INNER JOIN APP_LOAN_GOODS AS ds ON ds.LOAN_NO=a.LOAN_NO 
+						INNER JOIN APP_APPR_GROUP_GOODS AS gs ON gs.GOODS_TYPE=ds.GOODS_TYPE 
+						INNER JOIN APP_APPR_GROUP AS b ON gs.GROUP_NO=b.GROUP_NO 
+						INNER JOIN APP_APPR_STAFF_GROUP AS s ON b.GROUP_NO=s.GROUP_NO
+						WHERE a.STAT='40002005' AND s.STAFF_NO=#{apprNo} AND (a.APPR_NO IS NULL OR a.APPR_NO=#{apprNo}) 
+						AND ((b.BRANCH_PROV=l.BRANCH_PROV AND b.BRANCH_CITY=l.BRANCH_CITY) OR (b.BRANCH_PROV=l.BRANCH_PROV AND b.BRANCH_CITY IS NULL) OR (b.BRANCH_PROV IS NULL)) 
+						ORDER BY a.INST_NUM DESC,a.INST_DATE ASC LIMIT 1	
+		   ) t1
+		   on l.appr_id = t1.appr_id
+		 SET l.MANU_START_DATE=#{maunStartDate},l.STAT='40002006',l.APPR_NO=#{apprNo},l.APPR_NAME=#{apprName}
+	</update>
+	
+	 
+	
+	<!-- 查询是否存在带分配的贷款审批案件-->
+	<select id="selectWaitAllot" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+			SELECT COUNT(1) 
+			FROM APP_LOAN_APPR AS a 
+			INNER JOIN APP_LOAN_BRANCH AS l ON a.LOAN_NO=l.LOAN_NO 
+			INNER JOIN APP_LOAN_GOODS AS ds ON ds.LOAN_NO=a.LOAN_NO 
+			INNER JOIN APP_APPR_GROUP_GOODS AS gs ON gs.GOODS_TYPE=ds.GOODS_TYPE 
+			INNER JOIN APP_APPR_GROUP AS b ON gs.GROUP_NO=b.GROUP_NO 
+			INNER JOIN APP_APPR_STAFF_GROUP AS s ON b.GROUP_NO=s.GROUP_NO
+			WHERE a.STAT='40002005' AND s.STAFF_NO=#{apprNo} AND (a.APPR_NO IS NULL OR a.APPR_NO=#{apprNo}) 
+			AND ((b.BRANCH_PROV=l.BRANCH_PROV AND b.BRANCH_CITY=l.BRANCH_CITY) OR (b.BRANCH_PROV=l.BRANCH_PROV AND b.BRANCH_CITY IS NULL) OR (b.BRANCH_PROV IS NULL))
+	</select>
+	<!-- 查询是否存在带分配的贷款审批案件
+	<select id="selectWaitAllot" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+       SELECT count(1) FROM app_loan_appr AS a WHERE (a.STAT='40002005'
+       AND EXISTS(
+           SELECT l.LOAN_NO FROM app_loan_branch AS l WHERE EXISTS(
+           SELECT b.BRANCH_PROV FROM APP_APPR_GROUP AS b
+           INNER JOIN app_appr_staff_group AS s ON b.GROUP_NO=s.GROUP_NO INNER JOIN APP_APPR_GROUP_GOODS AS gs ON 
+           gs.GROUP_NO = b.GROUP_NO INNER JOIN APP_LOAN_GOODS AS ds ON ds.GOODS_TYPE = gs.GOODS_TYPE 
+           WHERE s.STAFF_NO=#{apprNo} AND l.BRANCH_PROV=b.BRANCH_PROV   AND l.BRANCH_CITY=b.BRANCH_CITY AND l.LOAN_NO = ds.LOAN_NO)
+           AND a.LOAN_NO=l.LOAN_NO
+          )
+       AND(a.APPR_NO IS NULL OR a.APPR_NO=#{apprNo}))
+	</select> -->
+	<!-- 查询是否存在带分配的贷款审批案件 
+	<select id="queryForListcnt" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+       SELECT count(1) FROM app_loan_appr AS a WHERE a.STAT='40002005'
+	       AND EXISTS(
+	           SELECT l.LOAN_NO FROM app_loan_branch AS l WHERE EXISTS(
+	           SELECT b.BRANCH_PROV FROM APP_APPR_GROUP AS b
+	           INNER JOIN app_appr_staff_group AS s ON b.GROUP_NO=s.GROUP_NO INNER JOIN APP_APPR_GROUP_GOODS AS gs ON 
+	           gs.GROUP_NO = b.GROUP_NO INNER JOIN APP_LOAN_GOODS AS ds ON ds.GOODS_TYPE = gs.GOODS_TYPE
+	           WHERE s.STAFF_NO=#{apprNo} AND l.BRANCH_PROV=b.BRANCH_PROV  AND l.BRANCH_CITY=b.BRANCH_CITY AND l.LOAN_NO = ds.LOAN_NO)
+	           AND a.LOAN_NO=l.LOAN_NO
+	          )
+	       AND (a.APPR_NO IS NULL OR a.APPR_NO=#{apprNo})
+	</select>-->
+	<!-- 查询是否存在带分配的贷款审批案件 -->
+	<select id="queryForListcnt" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		SELECT COUNT(1) 
+			FROM APP_LOAN_APPR AS a 
+			INNER JOIN APP_LOAN_BRANCH AS l ON a.LOAN_NO=l.LOAN_NO 
+			INNER JOIN APP_LOAN_GOODS AS ds ON ds.LOAN_NO=a.LOAN_NO 
+			INNER JOIN APP_APPR_GROUP_GOODS AS gs ON gs.GOODS_TYPE=ds.GOODS_TYPE 
+			INNER JOIN APP_APPR_GROUP AS b ON gs.GROUP_NO=b.GROUP_NO 
+			INNER JOIN APP_APPR_STAFF_GROUP AS s ON b.GROUP_NO=s.GROUP_NO
+			WHERE a.STAT='40002005' AND s.STAFF_NO=#{apprNo} AND (a.APPR_NO IS NULL OR a.APPR_NO=#{apprNo}) 
+			AND ((b.BRANCH_PROV=l.BRANCH_PROV AND b.BRANCH_CITY=l.BRANCH_CITY) OR (b.BRANCH_PROV=l.BRANCH_PROV AND b.BRANCH_CITY IS NULL) OR (b.BRANCH_PROV IS NULL))
+	</select>
+	
+	<!-- 新增 APP_分期审批信息 -->
+	<insert id="insert" parameterType="com.hs.loan.approve.entity.AppLoanAppr">
+		insert into APP_LOAN_APPR
+		(
+  			APPR_ID
+  			,LOAN_NO
+  			,CUST_NO
+  			,CUST_NAME
+  			,SALE_NO
+  			,SALE_NAME
+  			,INST_DATE
+  			,INST_NUM
+  			,STAT
+  			,AUTO_START_DATE
+  			,AUTO_END_DATE
+  			,MANU_START_DATE
+  			,MANU_END_DATE
+  			,APPR_NO
+  			,APPR_NAME
+  			,MANU_FLAG
+  			,APPR_GROUP_NO
+  			,APPR_GROUP_NAME
+  			,APPR_DESC
+  			,REMARK
+  			,appr_Typ
+    	)
+    	values
+    	(
+  			 #{apprId}
+  			, #{loanNo}
+  			, #{custNo}
+  			, #{custName}
+  			, #{saleNo}
+  			, #{saleName}
+  			, #{instDate}
+  			, #{instNum}
+  			, #{stat}
+  			, #{autoStartDate}
+  			, #{autoEndDate}
+  			, #{manuStartDate}
+  			, #{manuEndDate}
+  			, #{apprNo}
+  			, #{apprName}
+  			, #{manuFlag}
+  			, #{apprGroupNo}
+  			, #{apprGroupName}
+  			, #{apprDesc}
+  			, #{remark}
+  			, #{apprType}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期审批信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_APPR
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleNo')">  
+	  					SALE_NO = #{saleNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleName')">  
+	  					SALE_NAME = #{saleName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instNum')">  
+	  					INST_NUM = #{instNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('autoStartDate')">  
+	  					AUTO_START_DATE = #{autoStartDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('autoEndDate')">  
+	  					AUTO_END_DATE = #{autoEndDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('manuStartDate')">  
+	  					MANU_START_DATE = #{manuStartDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('manuEndDate')">  
+	  					MANU_END_DATE = #{manuEndDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprNo')">  
+	  					APPR_NO = #{apprNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprName')">  
+	  					APPR_NAME = #{apprName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('manuFlag')">  
+	  					MANU_FLAG = #{manuFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprGroupNo')">  
+	  					APPR_GROUP_NO = #{apprGroupNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprGroupName')">  
+	  					APPR_GROUP_NAME = #{apprGroupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprDesc')">  
+	  					APPR_DESC = #{apprDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprType')">  
+	  					appr_Typ = #{apprType},
+	  				</if>
+			<if test="_parameter.containsKey('codeRmark')">
+				REMARK2 = #{codeRmark}
+			</if>
+    	</trim>
+		where 
+  			APPR_ID = #{apprId}				
+	</update>
+	
+	<!-- 删除 APP_分期审批信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR
+		where 
+  			APPR_ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期审批信息 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanApprRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_APPR t
+		where 
+  				t.APPR_ID = #{id}				
+	</select>
+	
+	<resultMap id="AppLoanApprBoRetMap" type="com.hs.loan.approve.bo.AppLoanApprBo">
+			<result column="APPR_ID" property="apprId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="SALE_NO" property="saleNo"/>
+			<result column="SALE_NAME" property="saleName"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="INST_NUM" property="instNum"/>
+			<result column="STAT" property="stat"/>
+			<result column="AUTO_START_DATE" property="autoStartDate"/>
+			<result column="AUTO_END_DATE" property="autoEndDate"/>
+			<result column="MANU_START_DATE" property="manuStartDate"/>
+			<result column="MANU_END_DATE" property="manuEndDate"/>
+			<result column="APPR_NO" property="apprNo"/>
+			<result column="APPR_NAME" property="apprName"/>
+			<result column="MANU_FLAG" property="manuFlag"/>
+			<result column="APPR_GROUP_NO" property="apprGroupNo"/>
+			<result column="APPR_GROUP_NAME" property="apprGroupName"/>
+			<result column="APPR_DESC" property="apprDesc"/>
+			<result column="REMARK" property="remark"/>
+			<result column="APPR_TYP" property="apprType"/>
+			<result column="CHECK_RESULT" property="checkResult"/>
+		   <result column="GOODS_TYPE" property="goodsType"/>
+	</resultMap>
+	
+	<!-- 查询 APP_分期审批信息 列表 -->
+	<select id="queryForListTwo" resultMap="AppLoanApprBoRetMap" parameterType="java.util.Map">
+		select	
+			t.*,a.CHECK_RESULT,b.GOODS_TYPE
+		from APP_LOAN_APPR t LEFT JOIN APP_LOAN_APPR_CHECK a ON t.APPR_ID=a.APPR_ID
+		INNER JOIN app_loan_goods as b ON t.LOAN_NO=b.LOAN_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				and t.STAT != #{waitAppr}
+				<if test="apprId != null and apprId != ''">
+	  				and t.APPR_ID = #{apprId}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="saleNo != null and saleNo != ''">
+	  				and t.SALE_NO = #{saleNo}				
+	  			</if>
+				<if test="saleName != null and saleName != ''">
+	  				and t.SALE_NAME = #{saleName}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="instNum != null">
+	  				and t.INST_NUM = #{instNum}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="autoStartDate != null">
+	  				and t.AUTO_START_DATE = #{autoStartDate}				
+	  			</if>
+				<if test="autoEndDate != null">
+	  				and t.AUTO_END_DATE = #{autoEndDate}				
+	  			</if>
+				<if test="manuStartDate != null">
+	  				and t.MANU_START_DATE = #{manuStartDate}				
+	  			</if>
+				<if test="manuEndDate != null">
+	  				and t.MANU_END_DATE = #{manuEndDate}				
+	  			</if>
+				<if test="apprNo != null and apprNo != ''">
+	  				and t.APPR_NO = #{apprNo}				
+	  			</if>
+				<if test="apprName != null and apprName != ''">
+	  				and t.APPR_NAME = #{apprName}				
+	  			</if>
+				<if test="manuFlag != null and manuFlag != ''">
+	  				and t.MANU_FLAG = #{manuFlag}				
+	  			</if>
+				<if test="apprGroupNo != null and apprGroupNo != ''">
+	  				and t.APPR_GROUP_NO = #{apprGroupNo}				
+	  			</if>
+				<if test="apprGroupName != null and apprGroupName != ''">
+	  				and t.APPR_GROUP_NAME = #{apprGroupName}				
+	  			</if>
+				<if test="apprDesc != null and apprDesc != ''">
+	  				and t.APPR_DESC = #{apprDesc}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+    	</trim>
+    	ORDER BY t.MANU_START_DATE DESC
+	</select>
+	
+	<!-- 根据贷款编号更新imei -->
+	<update id="updateGoodsPric" parameterType="java.util.HashMap">
+		UPDATE app_loan_goods SET pric = #{pric} WHERE LOAN_NO = #{loanNo}
+	</update>
+	<select id="getGoodsType" resultType="java.util.Map" parameterType="java.util.Map">
+		select * from app_loan_goods where loan_no = '${_loanNo}' and GOODS_TYPE = '20200004'
+	</select>
+	<select id="querySendPhoneNo" resultType="java.util.Map" parameterType="java.util.Map">
+		select PHONE_NO from app_cust_info where cust_no =	'${_custNo}'
+	</select>
+	
+</mapper>

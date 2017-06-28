@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.loan.acctplus.mapper.AppLoanAcctMapper">
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 LOAN_NO, CUST_NO, FST_PAY_AMT, INTER_RATE, LOAN_AMT, LOAN_TYP, INST_NUM, FST_REPAY_AMT, FST_REPAY_DATE, MTH_REPAY_DATE, MTH_REPAY_AMT, APPLY_DATE, APRV_DATE, REG_DATE, DISTR_DATE, FILE_NO, STAT, AFTER_STAT, FIV_CLS, APPLY_PROV, APPLY_AREA, APPLY_CITY, CUST_NAME, LOAN_REMARK, ENTR_FLAG, APPLY_ADDR, LOAN_USE, CONTACT_ADDR, FEE_AMT, SALE_CHANL, LOAN_STAT
+	</sql>
+
+	<!-- 通用更新列-->
+	<sql id="Base_Update_Column_List">
+		 LOAN_NO, #{custNo}, #{fstPayAmt}, #{interRate}, #{loanAmt}, #{loanTyp}, #{instNum}, #{fstRepayAmt}, #{fstRepayDate}, #{mthRepayDate}, #{mthRepayAmt}, #{applyDate}, #{aprvDate}, #{regDate}, #{distrDate}, #{fileNo}, #{stat}, #{afterStat}, #{fivCls}, #{applyProv}, #{applyArea}, #{applyCity}, #{custName}, #{loanRemark}, #{entrFlag}, #{applyAddr}, #{loanUse}, #{contactAddr}, #{feeAmt}, #{saleChanl}, #{loanStat}
+	</sql>
+	
+	<select id="procFundMatch" parameterType="java.util.Map">
+		{call PROC_FUND_MATCH(#{loanNo},#{stat})}
+	</select>
+	<select id="multipleEnter" parameterType="java.util.Map">
+		INSERT INTO APP_LOAN_APPR(APPR_ID,LOAN_NO,CUST_NO,CUST_NAME,SALE_NO,
+		SALE_NAME,INST_DATE,INST_NUM,STAT,MANU_FLAG,ENTR_DATE,   
+		APPR_NO,APPR_NAME,MANU_START_DATE,APPR_GROUP_NO,APPR_GROUP_NAME)
+		SELECT SUBSTRING(REPLACE(UUID(), '-', ''), 1, 32) APPR_ID,
+		           A.LOAN_NO,
+		           A.CUST_NO,
+		           A.CUST_NAME,
+		           A.SALE_NO,
+							 A.SALE_NAME,
+		           A.APPLY_DATE AS INST_DATE,
+		           A.INST_NUM2+1 AS INST_NUM,
+		           '40002006' AS STAT,-- 因为审核人员没变 所以直接变为审核中
+		           '10001001' AS MANU_FLAG,
+		           SYSDATE() AS ENTR_DATE,
+							 A.APPR_NO,
+							 A.APPR_NAME,
+		           SYSDATE() AS MANU_START_DATE,
+							 A.APPR_GROUP_NO,
+							 A.APPR_GROUP_NAME
+		      FROM (
+		
+						SELECT a.*,b.APPR_NO,b.APPR_NAME,b.APPR_GROUP_NO,b.APPR_GROUP_NAME,b.SALE_NO,b.SALE_NAME,b.INST_NUM AS INST_NUM2 
+						FROM app_loan_acct a INNER JOIN APP_LOAN_APPR b ON a.LOAN_NO=b.LOAN_NO
+						WHERE a.STAT = '30201002' AND a.FILE_NO IS NOT NULL AND 
+						a.FILE_NO !='' AND b.STAT = '40002009'                -- 人工审批驳回
+						AND (b.LOAN_NO,b.ENTR_DATE) IN (                     -- 找出最后一次审批的状态为驳回的记录
+						SELECT LOAN_NO,MAX(ENTR_DATE) FROM APP_LOAN_APPR
+						 WHERE DATE_FORMAT(ENTR_DATE,'%Y%m%d') >= DATE_FORMAT(DATE_ADD(SYSDATE(),INTERVAL -2 DAY),'%Y%m%d')
+						AND LOAN_NO =#{loanNo})
+		
+		           ) A;
+	</select>
+	
+	<select id="isBlacklistBranchNo" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM PUB_BRANCH WHERE BRANCH_NO=#{branchNo} AND BLCK_LIST_FLAG='10001001';
+	</select>
+
+</mapper>

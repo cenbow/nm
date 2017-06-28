@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<portable-config>
+	<config-file path="dubbo.properties">
+  		<replace key="dubbo.registry.address">zookeeper://prodzookeeper:2181</replace>
+  		<replace key="dubbo.registry.refReg.address">zookeeper://prodzookeeper:2181</replace>
+  		<replace key="dubbo.registry.svReg.address">zookeeper://prodzookeeper:2181</replace>
+  		<replace key="dubbo.protocol.port">40082</replace>
+  		<replace key="dubbo.service.loadbalance">random</replace>
+  		<replace key="dubbo.log4j.level">INFO</replace>
+  		<replace key="dubbo.log4j.file">/data/deploy/logs/dubbo-hs-loan-acct-provider.log</replace>
+	</config-file>
+	<config-file path="application.properties">
+  		<replace key="jdbc.driver">com.mysql.jdbc.Driver</replace>
+  		<replace key="jdbc.url">jdbc:mysql://rdsa98b8bsx5b9u1hpl0.mysql.rds.aliyuncs.com:3306/nmloan-db?useUnicode=true&amp;characterEncoding=utf-8</replace>
+		<replace key="jdbc.username">dbproduser</replace>
+		<replace key="jdbc.password">prodmm_</replace>
+		<replace key="jdbc.pool.minIdle">5</replace>
+		<replace key="jdbc.pool.maxActive">100</replace>
+		<replace key="web.maxUploadSize">10485760</replace>
+		
+		<replace key="jdbc.driverRead">com.mysql.jdbc.Driver</replace>
+		<replace key="jdbc.urlRead">jdbc:mysql://rr-wz9r2n5r8v7htp804.mysql.rds.aliyuncs.com:3306/nmloan-db?seUnicode=true&amp;characterEncoding=utf-8</replace>
+  		<replace key="jdbc.usernameRead">dbproduser</replace>
+		<replace key="jdbc.passwordRead">prodmm_</replace>
+  		<replace key="jdbc.pool.minIdleRead">2</replace>
+  		<replace key="jdbc.pool.maxActiveRead">50</replace>
+  		<replace key="web.maxUploadSizeRead">10485760</replace>
+	</config-file>
+	
+	<config-file path="logback.xml">
+  		<replace xpath="/configuration/property[@name='LOG_HOME']/@value">/data/deploy/logs</replace>
+  		<replace xpath="/configuration/logger[@name='com.hs']/@level">TRACE</replace>
+  		<replace xpath="/configuration/root/@level">INFO</replace>
+	</config-file>
+	<config-file path="env/sys.properties">
+		<replace key="sys.run.env">prod</replace>
+		<replace key="sys.redis.enable">true</replace>
+	</config-file>
+</portable-config>

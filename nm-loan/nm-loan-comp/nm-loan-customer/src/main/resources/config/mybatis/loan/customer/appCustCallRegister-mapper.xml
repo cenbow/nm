@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.customer.mapper.AppCustomerCallRegisterMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustCallRegisterRetMap" type="com.hs.loan.customer.entity.AppCustCallRegister">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="CALL_NO" property="callNo"/>
+			<result column="CALL_TIME" property="callTime"/>
+			<result column="CALL_CONTENT" property="callContent"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="QUERY_TYPE" property="queryType"/>
+			<result column="QUERY_TEMP" property="queryTemp"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户来电记录 -->
+	<insert id="insert" parameterType="com.hs.loan.customer.entity.AppCustCallRegister">
+		insert into app_cust_call_Register
+		(
+  			ID
+  			,CUST_NO
+  			,CUST_NAME
+  			,CALL_NO
+  			,CALL_TIME
+  			,CALL_CONTENT
+  			,BEGIN_DATE
+  			,END_DATE
+  			,QUERY_TYPE
+  			,QUERY_TEMP
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{custName}
+  			, #{callNo}
+  			, #{callTime}
+  			, #{callContent}
+  			, #{beginDate}
+  			, #{endDate}
+  			, #{queryType}
+  			, #{queryTemp}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户来电记录 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_call_Register
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('callNo')">  
+	  					CALL_NO = #{callNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('callTime')">  
+	  					CALL_TIME = #{callTime},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('callContent')">  
+	  					CALL_CONTENT = #{callContent},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>	
+  					<if test="_parameter.containsKey('queryType')">  
+	  					QUERY_TYPE = #{queryType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('queryTemp')">  
+	  					QUERY_TEMP = #{queryTemp},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户来电记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_call_Register
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户来电记录 -->
+	<select id="getByPrimaryKey" resultMap="AppCustCallRegisterRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_call_Register t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户来电记录 列表 -->
+	<select id="queryForList" resultMap="AppCustCallRegisterRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_call_Register t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="callNo != null and callNo != ''">
+	  				and t.CALL_NO = #{callNo}				
+	  			</if>
+				<if test="callTime != null">
+	  				and t.CALL_TIME = #{callTime}				
+	  			</if>
+				<if test="callContent != null and callContent != ''">
+	  				and t.CALL_CONTENT = #{callContent}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+  				<if test="queryType != null">  
+  					and t.QUERY_TYPE = #{queryType},  
+  				</if>		
+  				<if test="queryTemp != null">  
+  					and t.QUERY_TEMP = #{queryTemp},  
+  				</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppWithdrawInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppWithdrawInfoRetMap" type="com.hs.loan.sale.entity.AppWithdrawInfo">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="WITHDRAW_AMT" property="withdrawAmt"/>
+			<result column="WITHDRAW_STAT" property="withdrawStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="OPEN_BANK" property="openBank"/>
+			<result column="FEE_AMT" property="feeAmt"/>
+	</resultMap>
+	
+	
+	<!-- 修改 ACC_提现记录 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_WITHDRAW_INFO
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('withdrawAmt')">  
+	  					WITHDRAW_AMT = #{withdrawAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('withdrawStat')">  
+	  					WITHDRAW_STAT = #{withdrawStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openBank')">  
+	  					OPEN_BANK = #{openBank},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeAmt')">  
+	  					FEE_AMT = #{feeAmt},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+
+	
+	<!-- 查询 ACC_提现记录 列表 -->
+	<select id="queryForList" resultMap="AppWithdrawInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_WITHDRAW_INFO t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME  like CONCAT(CONCAT('%', #{custName}), '%')						
+	  			</if>
+				<if test="withdrawAmt != null">
+	  				and t.WITHDRAW_AMT = #{withdrawAmt}				
+	  			</if>
+				<if test="withdrawStat != null and withdrawStat != ''">
+	  				and t.WITHDRAW_STAT = #{withdrawStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="openBank != null and openBank != ''">
+	  				and t.OPEN_BANK = #{openBank}				
+	  			</if>
+				<if test="feeAmt != null">
+	  				and t.FEE_AMT = #{feeAmt}				
+	  			</if>
+	  				<if test="bgnDate != null and bgnDate != ''">
+				and t.INST_DATE &gt;= date_format(#{bgnDate},'%Y%m%d')
+			</if>
+				  				<if test="endDate != null and  endDate!= ''">
+				
+				and t.INST_DATE &lt;= date_format(#{endDate},'%Y%m%d')
+			</if>
+    	</trim>
+	</select>
+</mapper>

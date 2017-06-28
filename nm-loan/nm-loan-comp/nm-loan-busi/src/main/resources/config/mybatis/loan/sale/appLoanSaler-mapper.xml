@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanSalerMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanSalerRetMap" type="com.hs.loan.sale.entity.AppLoanSaler">
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="MOBL_NO" property="moblNo"/>
+			<result column="AREA_MGER_NO" property="areaMgerNo"/>
+			<result column="AREA_MGER_NAME" property="areaMgerName"/>
+			<result column="AREA_STAFF_NO" property="areaStaffNo"/>
+			<result column="ORG_NO" property="orgNo"/>
+			<result column="ORG_NAME" property="orgName"/>
+			<result column="PROV_NO" property="provNo"/>
+			<result column="CITY_NO" property="cityNo"/>
+			<result column="CNTY_NO" property="cntyNo"/>
+			<result column="AREA_NO" property="areaNo"/>
+			<result column="AREA_NAME" property="areaName"/>
+	</resultMap>
+	
+	<!-- 新增 APP_分期与销售关系 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanSaler">
+		insert into app_loan_saler
+		(
+  			LOAN_NO
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,MOBL_NO
+  			,AREA_MGER_NO
+  			,AREA_MGER_NAME
+  			,AREA_STAFF_NO
+  			,ORG_NO
+  			,ORG_NAME
+  			,PROV_NO
+  			,CITY_NO
+  			,CNTY_NO
+  			,AREA_NO
+  			,AREA_NAME
+    	)
+    	values
+    	(
+  			 #{loanNo}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{moblNo}
+  			, #{areaMgerNo}
+  			, #{areaMgerName}
+  			, #{areaStaffNo}
+  			, #{orgNo}
+  			, #{orgName}
+  			, #{provNo}
+  			, #{cityNo}
+  			, #{cntyNo}
+  			, #{areaNo}
+  			, #{areaName}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期与销售关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_loan_saler
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('moblNo')">  
+	  					MOBL_NO = #{moblNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaMgerNo')">  
+	  					AREA_MGER_NO = #{areaMgerNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaMgerName')">  
+	  					AREA_MGER_NAME = #{areaMgerName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaStaffNo')">  
+	  					AREA_STAFF_NO = #{areaStaffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgNo')">  
+	  					ORG_NO = #{orgNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgName')">  
+	  					ORG_NAME = #{orgName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('provNo')">  
+	  					PROV_NO = #{provNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cityNo')">  
+	  					CITY_NO = #{cityNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntyNo')">  
+	  					CNTY_NO = #{cntyNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaNo')">  
+	  					AREA_NO = #{areaNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaName')">  
+	  					AREA_NAME = #{areaName},  
+	  				</if>		
+    	</trim>
+		where 
+  			LOAN_NO = #{loanNo}				
+	</update>
+	
+	<!-- 删除 APP_分期与销售关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_loan_saler
+		where 
+  			LOAN_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期与销售关系 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanSalerRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_loan_saler t
+		where 
+  				t.LOAN_NO = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期与销售关系 列表 -->
+	<select id="queryForList" resultMap="AppLoanSalerRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_loan_saler t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="moblNo != null and moblNo != ''">
+	  				and t.MOBL_NO = #{moblNo}				
+	  			</if>
+				<if test="areaMgerNo != null and areaMgerNo != ''">
+	  				and t.AREA_MGER_NO = #{areaMgerNo}				
+	  			</if>
+				<if test="areaMgerName != null and areaMgerName != ''">
+	  				and t.AREA_MGER_NAME = #{areaMgerName}				
+	  			</if>
+				<if test="areaStaffNo != null and areaStaffNo != ''">
+	  				and t.AREA_STAFF_NO = #{areaStaffNo}				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and t.ORG_NO = #{orgNo}				
+	  			</if>
+				<if test="orgName != null and orgName != ''">
+	  				and t.ORG_NAME = #{orgName}				
+	  			</if>
+				<if test="provNo != null and provNo != ''">
+	  				and t.PROV_NO = #{provNo}				
+	  			</if>
+				<if test="cityNo != null and cityNo != ''">
+	  				and t.CITY_NO = #{cityNo}				
+	  			</if>
+				<if test="cntyNo != null and cntyNo != ''">
+	  				and t.CNTY_NO = #{cntyNo}				
+	  			</if>
+				<if test="areaNo != null and areaNo != ''">
+	  				and t.AREA_NO = #{areaNo}				
+	  			</if>
+				<if test="areaName != null and areaName != ''">
+	  				and t.AREA_NAME = #{areaName}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

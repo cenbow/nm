@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.PubGroupCrowdMapper">
+
+	<select id="getGrpCrowdList" parameterType="java.util.Map"
+		resultType="com.hs.system.group.bo.PubCrowdGroupBO">
+		SELECT
+		r.crowdNo groupNo,
+		r.crowdName groupName,
+		r.property
+		FROM
+		(
+		SELECT
+		t.GROUP_NAME as crowdName,
+		t.GROUP_NO as crowdNo,
+		'11006001' AS property
+		FROM
+		PUB_SALER_GROUP t
+		UNION ALL
+		SELECT
+		a.crowd_NAME AS crowdName,
+		a.crowd_NO AS crowdNo,
+		'11006002' AS property
+		FROM
+		PUB_SALE_crowd a
+		) r
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="crowdName!=null and crowdName!=''">
+				r.crowdName LIKE CONCAT('%',#{crowdName},'%')
+			</if>
+			<if test="judgeCont!=null and judgeCont!=''">
+				and not exists (select 1 from pub_prod_crowd where crowd_NO = r.crowdNo and prod_no = #{prodNo})
+				and not exists (select 1 from pub_prod_group where group_NO = r.crowdNo and prod_no = #{prodNo})
+			</if>
+		</trim>
+	</select>
+
+	<delete id="deleteGrp" parameterType="map">
+		delete from
+		PUB_SALER_GROUP where GROUP_NO = #{groupNo}
+	</delete>
+
+	<delete id="deleteCrowd" parameterType="map">
+		delete from
+		PUB_SALE_Crowd where TEAM_NO = #{crowdNo}
+	</delete>
+
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.PubCardBinMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubCardBinRetMap" type="com.hs.system.entity.PubCardBin">
+			<result column="CARD_BIN" property="cardBin"/>
+			<result column="BANK_NO" property="bankNo"/>
+			<result column="BANK_NAME" property="bankName"/>
+			<result column="BANK_ABBR" property="bankAbbr"/>
+			<result column="REMARK" property="remark"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 银行卡卡BIN -->
+	<insert id="insert" parameterType="com.hs.system.entity.PubCardBin">
+		insert into PUB_CARD_BIN
+		(
+  			CARD_BIN
+  			,BANK_NO
+  			,BANK_NAME
+  			,BANK_ABBR
+  			,REMARK
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{cardBin}
+  			, #{bankNo}
+  			, #{bankName}
+  			, #{bankAbbr}
+  			, #{remark}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 银行卡卡BIN -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_CARD_BIN
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('bankNo')">  
+	  					BANK_NO = #{bankNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bankName')">  
+	  					BANK_NAME = #{bankName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bankAbbr')">  
+	  					BANK_ABBR = #{bankAbbr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			CARD_BIN = #{cardBin}				
+	</update>
+	
+	<!-- 删除 银行卡卡BIN -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_CARD_BIN
+		where 
+  			CARD_BIN = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 银行卡卡BIN -->
+	<select id="getByPrimaryKey" resultMap="PubCardBinRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_CARD_BIN t
+		where 
+  				t.CARD_BIN = #{id}				
+	</select>
+	
+	<!-- 查询 银行卡卡BIN 列表 -->
+	<select id="queryForList" resultMap="PubCardBinRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_CARD_BIN t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="cardBin != null and cardBin != ''">
+	  				and t.CARD_BIN = #{cardBin}				
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and t.BANK_NO = #{bankNo}				
+	  			</if>
+				<if test="bankName != null and bankName != ''">
+	  				and t.BANK_NAME = #{bankName}				
+	  			</if>
+				<if test="bankAbbr != null and bankAbbr != ''">
+	  				and t.BANK_ABBR = #{bankAbbr}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

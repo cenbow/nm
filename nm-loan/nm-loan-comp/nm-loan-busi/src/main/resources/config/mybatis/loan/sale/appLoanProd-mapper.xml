@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanProdMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanProdRetMap" type="com.hs.loan.sale.entity.AppLoanProd">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="PROD_NAME" property="prodName"/>
+			<result column="PROD_TYP" property="prodTyp"/>
+			<result column="RAT" property="rat"/>
+			<result column="CUST_TYPE" property="custType"/>
+			<result column="FIRST_NO" property="firstNo"/>
+			<result column="IS_PREPOST" property="isPrepost"/>
+			<result column="PREPOST_RAT" property="prepostRat"/>
+			<result column="FST_PAY_TYP" property="fstPayTyp"/>
+			<result column="FST_PAY_VAL" property="fstPayVal"/>
+			<result column="MIN_AMT" property="minAmt"/>
+			<result column="MAX_AMT" property="maxAmt"/>
+			<result column="REPAY_KIND" property="repayKind"/>
+			<result column="COMM_AMT" property="commAmt"/>
+			<result column="PROD_REMARK" property="prodRemark"/>
+			<result column="SALE_CHAN" property="saleChan"/>
+			<result column="START_DATE" property="startDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="PROD_STAT" property="prodStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_分期与产品关系 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanProd">
+		insert into APP_LOAN_PROD
+		(
+  			ID
+  			,LOAN_NO
+  			,PROD_NO
+  			,PROD_NAME
+  			,PROD_TYP
+  			,RAT
+  			,CUST_TYPE
+  			,FIRST_NO
+  			,IS_PREPOST
+  			,PREPOST_RAT
+  			,FST_PAY_TYP
+  			,FST_PAY_VAL
+  			,MIN_AMT
+  			,MAX_AMT
+  			,REPAY_KIND
+  			,COMM_AMT
+  			,PROD_REMARK
+  			,SALE_CHAN
+  			,START_DATE
+  			,END_DATE
+  			,PROD_STAT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{prodNo}
+  			, #{prodName}
+  			, #{prodTyp}
+  			, #{rat}
+  			, #{custType}
+  			, #{firstNo}
+  			, #{isPrepost}
+  			, #{prepostRat}
+  			, #{fstPayTyp}
+  			, #{fstPayVal}
+  			, #{minAmt}
+  			, #{maxAmt}
+  			, #{repayKind}
+  			, #{commAmt}
+  			, #{prodRemark}
+  			, #{saleChan}
+  			, #{startDate}
+  			, #{endDate}
+  			, #{prodStat}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期与产品关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_PROD
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodName')">  
+	  					PROD_NAME = #{prodName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodTyp')">  
+	  					PROD_TYP = #{prodTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rat')">  
+	  					RAT = #{rat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custType')">  
+	  					CUST_TYPE = #{custType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('firstNo')">  
+	  					FIRST_NO = #{firstNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isPrepost')">  
+	  					IS_PREPOST = #{isPrepost},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prepostRat')">  
+	  					PREPOST_RAT = #{prepostRat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstPayTyp')">  
+	  					FST_PAY_TYP = #{fstPayTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstPayVal')">  
+	  					FST_PAY_VAL = #{fstPayVal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('minAmt')">  
+	  					MIN_AMT = #{minAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('maxAmt')">  
+	  					MAX_AMT = #{maxAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayKind')">  
+	  					REPAY_KIND = #{repayKind},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('commAmt')">  
+	  					COMM_AMT = #{commAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodRemark')">  
+	  					PROD_REMARK = #{prodRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleChan')">  
+	  					SALE_CHAN = #{saleChan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('startDate')">  
+	  					START_DATE = #{startDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodStat')">  
+	  					PROD_STAT = #{prodStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期与产品关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_PROD
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期与产品关系 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanProdRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_PROD t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期与产品关系 列表 -->
+	<select id="queryForList" resultMap="AppLoanProdRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_PROD t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="prodName != null and prodName != ''">
+	  				and t.PROD_NAME = #{prodName}				
+	  			</if>
+				<if test="prodTyp != null and prodTyp != ''">
+	  				and t.PROD_TYP = #{prodTyp}				
+	  			</if>
+				<if test="rat != null">
+	  				and t.RAT = #{rat}				
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and t.CUST_TYPE = #{custType}				
+	  			</if>
+				<if test="firstNo != null and firstNo != ''">
+	  				and t.FIRST_NO = #{firstNo}				
+	  			</if>
+				<if test="isPrepost != null and isPrepost != ''">
+	  				and t.IS_PREPOST = #{isPrepost}				
+	  			</if>
+				<if test="prepostRat != null">
+	  				and t.PREPOST_RAT = #{prepostRat}				
+	  			</if>
+				<if test="fstPayTyp != null and fstPayTyp != ''">
+	  				and t.FST_PAY_TYP = #{fstPayTyp}				
+	  			</if>
+				<if test="fstPayVal != null">
+	  				and t.FST_PAY_VAL = #{fstPayVal}				
+	  			</if>
+				<if test="minAmt != null">
+	  				and t.MIN_AMT = #{minAmt}				
+	  			</if>
+				<if test="maxAmt != null">
+	  				and t.MAX_AMT = #{maxAmt}				
+	  			</if>
+				<if test="repayKind != null and repayKind != ''">
+	  				and t.REPAY_KIND = #{repayKind}				
+	  			</if>
+				<if test="commAmt != null">
+	  				and t.COMM_AMT = #{commAmt}				
+	  			</if>
+				<if test="prodRemark != null and prodRemark != ''">
+	  				and t.PROD_REMARK = #{prodRemark}				
+	  			</if>
+				<if test="saleChan != null and saleChan != ''">
+	  				and t.SALE_CHAN = #{saleChan}				
+	  			</if>
+				<if test="startDate != null">
+	  				and t.START_DATE = #{startDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+				<if test="prodStat != null and prodStat != ''">
+	  				and t.PROD_STAT = #{prodStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 删除 APP_分期与产品关系 -->
+	<delete id="deleteByLoanNo" parameterType="java.lang.String">
+		delete from app_loan_prod
+		where 
+  			LOAN_NO = #{loanNo}			
+	</delete>
+	<select id="getPreFee" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * from pub_prod_prefee where PROD_NO=#{prodNo} and FEE_NUM=#{feeNum}
+	</select>
+</mapper>

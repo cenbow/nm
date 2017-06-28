@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustLiveInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustLiveInfoRetMap" type="com.hs.loan.cust.entity.AppCustLiveInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="IS_REG_LIVE" property="isRegLive"/>
+			<result column="LIVE_TIME_SPAN" property="liveTimeSpan"/>
+			<result column="LIVE_PROV" property="liveProv"/>
+			<result column="LIVE_CITY" property="liveCity"/>
+			<result column="LIVE_AREA" property="liveArea"/>
+			<result column="LIVE_ADDR" property="liveAddr"/>
+			<result column="LIVE_BUILD_TYPE" property="liveBuildType"/>
+			<result column="MTH_AMT" property="mthAmt"/>
+			<result column="CONTR_END_DATE" property="contrEndDate"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户居住信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustLiveInfo">
+		insert into app_cust_live_info
+		(
+  			ID
+  			,CUST_NO
+  			,IS_REG_LIVE
+  			,LIVE_TIME_SPAN
+  			,LIVE_PROV
+  			,LIVE_CITY
+  			,LIVE_AREA
+  			,LIVE_ADDR
+  			,LIVE_BUILD_TYPE
+  			,MTH_AMT
+  			,CONTR_END_DATE
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{isRegLive}
+  			, #{liveTimeSpan}
+  			, #{liveProv}
+  			, #{liveCity}
+  			, #{liveArea}
+  			, #{liveAddr}
+  			, #{liveBuildType}
+  			, #{mthAmt}
+  			, #{contrEndDate}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户居住信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_live_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isRegLive')">  
+	  					IS_REG_LIVE = #{isRegLive},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('liveTimeSpan')">  
+	  					LIVE_TIME_SPAN = #{liveTimeSpan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('liveProv')">  
+	  					LIVE_PROV = #{liveProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('liveCity')">  
+	  					LIVE_CITY = #{liveCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('liveArea')">  
+	  					LIVE_AREA = #{liveArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('liveAddr')">  
+	  					LIVE_ADDR = #{liveAddr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('liveBuildType')">  
+	  					LIVE_BUILD_TYPE = #{liveBuildType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthAmt')">  
+	  					MTH_AMT = #{mthAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contrEndDate')">  
+	  					CONTR_END_DATE = #{contrEndDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户居住信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_live_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户居住信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustLiveInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_live_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户居住信息 列表 -->
+	<select id="queryForList" resultMap="AppCustLiveInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_live_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="isRegLive != null and isRegLive != ''">
+	  				and t.IS_REG_LIVE = #{isRegLive}				
+	  			</if>
+				<if test="liveTimeSpan != null and liveTimeSpan != ''">
+	  				and t.LIVE_TIME_SPAN = #{liveTimeSpan}				
+	  			</if>
+				<if test="liveProv != null and liveProv != ''">
+	  				and t.LIVE_PROV = #{liveProv}				
+	  			</if>
+				<if test="liveCity != null and liveCity != ''">
+	  				and t.LIVE_CITY = #{liveCity}				
+	  			</if>
+				<if test="liveArea != null and liveArea != ''">
+	  				and t.LIVE_AREA = #{liveArea}				
+	  			</if>
+				<if test="liveAddr != null and liveAddr != ''">
+	  				and t.LIVE_ADDR = #{liveAddr}				
+	  			</if>
+				<if test="liveBuildType != null and liveBuildType != ''">
+	  				and t.LIVE_BUILD_TYPE = #{liveBuildType}				
+	  			</if>
+				<if test="mthAmt != null">
+	  				and t.MTH_AMT = #{mthAmt}				
+	  			</if>
+				<if test="contrEndDate != null and contrEndDate != ''">
+	  				and t.CONTR_END_DATE = #{contrEndDate}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!--通过客户号 获取 客户当前最新的 居住信息  -->
+	<select id="getCurrentLiveInfoByCustNo" parameterType="string" resultMap="AppCustLiveInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_live_info l
+		WHERE
+			l.CUST_NO = #{custNo}
+		ORDER BY
+			l.BEGIN_DATE DESC
+		LIMIT 1
+	</select>
+	
+	<!--获取客户有效时间段的的 按beginDate 倒序排序的 额外信息的list  -->
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustLiveInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_live_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+			and t.ID = #{id}				
+		</if>
+		<if test="isRegLive != null and isRegLive != ''">
+			and t.IS_REG_LIVE = #{isRegLive}				
+		</if>
+		<if test="liveTimeSpan != null and liveTimeSpan != ''">
+			and t.LIVE_TIME_SPAN = #{liveTimeSpan}				
+		</if>
+		<if test="liveProv != null and liveProv != ''">
+  			and t.LIVE_PROV = #{liveProv}				
+  		</if>
+		<if test="liveCity != null and liveCity != ''">
+  			and t.LIVE_CITY = #{liveCity}				
+  		</if>
+		<if test="liveArea != null and liveArea != ''">
+  			and t.LIVE_AREA = #{liveArea}				
+  		</if>
+		<if test="liveAddr != null and liveAddr != ''">
+  			and t.LIVE_ADDR = #{liveAddr}				
+  		</if>
+		<if test="liveBuildType != null and liveBuildType != ''">
+  			and t.LIVE_BUILD_TYPE = #{liveBuildType}				
+  		</if>
+		<if test="mthAmt != null">
+  			and t.MTH_AMT = #{mthAmt}				
+  		</if>
+		<if test="contrEndDate != null and contrEndDate != ''">
+  			and t.CONTR_END_DATE = #{contrEndDate}				
+  		</if>
+		<if test="beginDate != null">
+  			and t.BEGIN_DATE = #{beginDate}				
+  		</if>
+		<if test="endDate != null">
+  			and t.END_DATE = #{endDate}				
+  		</if>
+  		ORDER BY t.BEGIN_DATE DESC
+	</select>
+	
+</mapper>

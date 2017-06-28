@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.param.mapper.SysComplexParaMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="SysComplexParaRetMap" type="com.hs.system.entity.SysComplexPara">
+			<result column="ID" property="id"/>
+			<result column="TYPE_NO" property="typeNo"/>
+			<result column="TYPE_NAME" property="typeName"/>
+			<result column="PARA_NO" property="paraNo"/>
+			<result column="PARA_NAME" property="paraName"/>
+			<result column="PARA_VALUE" property="paraValue"/>
+			<result column="PARA_START_VALUE" property="paraStartValue"/>
+			<result column="PARA_START_OPR" property="paraStartOpr"/>
+			<result column="PARA_END_VALUE" property="paraEndValue"/>
+			<result column="PARA_END_OPR" property="paraEndOpr"/>
+			<result column="PARA_PRICE" property="paraPrice"/>
+			<result column="DATA_SOURCE" property="dataSource"/>
+			<result column="EFFECT_DATE" property="effectDate"/>
+			<result column="LOSE_DATE" property="loseDate"/>
+			<result column="REMARK" property="remark"/>
+			<result column="STAT" property="stat"/>
+			<result column="ORDER_NO" property="orderNo"/>
+			<result column="P_NODE" property="pNode"/>
+	</resultMap>
+	
+	<!-- 新增 SYS_复杂参数表 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysComplexPara">
+		insert into sys_complex_para
+		(
+  			ID
+  			,TYPE_NO
+  			,TYPE_NAME
+  			,PARA_NO
+  			,PARA_NAME
+  			,PARA_VALUE
+  			,PARA_START_VALUE
+  			,PARA_START_OPR
+  			,PARA_END_VALUE
+  			,PARA_END_OPR
+  			,PARA_PRICE
+  			,DATA_SOURCE
+  			,EFFECT_DATE
+  			,LOSE_DATE
+  			,REMARK
+  			,STAT
+  			,ORDER_NO
+  			,P_NODE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{typeNo}
+  			, #{typeName}
+  			, #{paraNo}
+  			, #{paraName}
+  			, #{paraValue}
+  			, #{paraStartValue}
+  			, #{paraStartOpr}
+  			, #{paraEndValue}
+  			, #{paraEndOpr}
+  			, #{paraPrice}
+  			, #{dataSource}
+  			, #{effectDate}
+  			, #{loseDate}
+  			, #{remark}
+  			, #{stat}
+  			, #{orderNo}
+  			, #{pNode}
+    	)
+	</insert>
+	
+	<!-- 修改 SYS_复杂参数表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_complex_para
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('typeNo')">  
+	  					TYPE_NO = #{typeNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('typeName')">  
+	  					TYPE_NAME = #{typeName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraNo')">  
+	  					PARA_NO = #{paraNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraName')">  
+	  					PARA_NAME = #{paraName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraValue')">  
+	  					PARA_VALUE = #{paraValue},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraStartValue')">  
+	  					PARA_START_VALUE = #{paraStartValue},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraStartOpr')">  
+	  					PARA_START_OPR = #{paraStartOpr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraEndValue')">  
+	  					PARA_END_VALUE = #{paraEndValue},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraEndOpr')">  
+	  					PARA_END_OPR = #{paraEndOpr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('paraPrice')">  
+	  					PARA_PRICE = #{paraPrice},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('dataSource')">  
+	  					DATA_SOURCE = #{dataSource},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('effectDate')">  
+	  					EFFECT_DATE = #{effectDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loseDate')">  
+	  					LOSE_DATE = #{loseDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orderNo')">  
+	  					ORDER_NO = #{orderNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('pNode')">  
+	  					P_NODE = #{pNode},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 SYS_复杂参数表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_complex_para
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 SYS_复杂参数表 -->
+	<select id="getByPrimaryKey" resultMap="SysComplexParaRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from sys_complex_para t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 SYS_复杂参数表 列表 -->
+	<select id="queryForList" resultMap="SysComplexParaRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from sys_complex_para t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="typeNo != null and typeNo != ''">
+	  				and t.TYPE_NO = #{typeNo}				
+	  			</if>
+				<if test="typeName != null and typeName != ''">
+	  				and t.TYPE_NAME = #{typeName}				
+	  			</if>
+				<if test="paraNo != null and paraNo != ''">
+	  				and t.PARA_NO = #{paraNo}				
+	  			</if>
+				<if test="paraName != null and paraName != ''">
+	  				and t.PARA_NAME = #{paraName}				
+	  			</if>
+				<if test="paraValue != null and paraValue != ''">
+	  				and t.PARA_VALUE = #{paraValue}				
+	  			</if>
+				<if test="paraStartValue != null and paraStartValue != ''">
+	  				and t.PARA_START_VALUE = #{paraStartValue}				
+	  			</if>
+				<if test="paraStartOpr != null and paraStartOpr != ''">
+	  				and t.PARA_START_OPR = #{paraStartOpr}				
+	  			</if>
+				<if test="paraEndValue != null and paraEndValue != ''">
+	  				and t.PARA_END_VALUE = #{paraEndValue}				
+	  			</if>
+				<if test="paraEndOpr != null and paraEndOpr != ''">
+	  				and t.PARA_END_OPR = #{paraEndOpr}				
+	  			</if>
+				<if test="paraPrice != null">
+	  				and t.PARA_PRICE = #{paraPrice}				
+	  			</if>
+				<if test="dataSource != null and dataSource != ''">
+	  				and t.DATA_SOURCE = #{dataSource}				
+	  			</if>
+				<if test="effectDate != null">
+	  				and t.EFFECT_DATE = #{effectDate}				
+	  			</if>
+				<if test="loseDate != null">
+	  				and t.LOSE_DATE = #{loseDate}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="orderNo != null and orderNo != ''">
+	  				and t.ORDER_NO = #{orderNo}				
+	  			</if>
+				<if test="pNode != null and pNode != ''">
+	  				and t.P_NODE = #{pNode}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

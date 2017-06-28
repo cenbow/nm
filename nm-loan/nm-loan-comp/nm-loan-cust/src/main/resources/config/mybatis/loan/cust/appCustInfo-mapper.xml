@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustInfoRetMap" type="com.hs.loan.cust.entity.AppCustInfo">
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_TYPE" property="custType"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="SEX" property="sex"/>
+			<result column="ETHNIC" property="ethnic"/>
+			<result column="PHONE_NO" property="phoneNo"/>
+			<result column="LAST_APPLY_DATE" property="lastApplyDate"/>
+			<result column="MARRIAGE" property="marriage"/>
+			<result column="CERT_TYPE" property="certType"/>
+			<result column="CERT_NO" property="certNo"/>
+			<result column="CERT_VALID_DATE" property="certValidDate"/>
+			<result column="CERT_ISSU_ORG" property="certIssuOrg"/>
+			<result column="REG_TYPE" property="regType"/>
+			<result column="REG_PROV" property="regProv"/>
+			<result column="REG_CITY" property="regCity"/>
+			<result column="REG_AREA" property="regArea"/>
+			<result column="REG_ADDR" property="regAddr"/>
+			<result column="REMARK" property="remark"/>
+			<result column="EDUC" property="educ"/>
+			<result column="INST_PERSON" property="instPerson"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+		<result column="CONTACT_PROV" property="contactProv"/>
+		<result column="CONTACT_CITY" property="contactCity"/>
+		<result column="CONTACT_AREA" property="contactArea"/>
+		<result column="COMMUNICATEADDR" property="communicateAddr"/>
+	</resultMap>
+	
+	
+	
+	<!-- 新增 APP_客户信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustInfo">
+		insert into app_cust_info
+		(
+  			CUST_NO
+  			,CUST_TYPE
+  			,CUST_NAME
+  			,SEX
+  			,ETHNIC
+  			,PHONE_NO
+  			,LAST_APPLY_DATE
+  			,MARRIAGE
+  			,CERT_TYPE
+  			,CERT_NO
+  			,CERT_VALID_DATE
+  			,CERT_ISSU_ORG
+  			,REG_TYPE
+  			,REG_PROV
+  			,REG_CITY
+  			,REG_AREA
+  			,REG_ADDR
+  			,REMARK
+  			,INST_PERSON
+  			,INST_DATE
+  			,UPDT_DATE
+  			,EDUC
+  			,CONTACT_PROV
+  			,CONTACT_CITY
+  			,CONTACT_AREA
+  			,COMMUNICATEADDR
+    	)
+    	values
+    	(
+  			 #{custNo}
+  			, #{custType}
+  			, #{custName}
+  			, #{sex}
+  			, #{ethnic}
+  			, #{phoneNo}
+  			, #{lastApplyDate}
+  			, #{marriage}
+  			, #{certType}
+  			, #{certNo}
+  			, #{certValidDate}
+  			, #{certIssuOrg}
+  			, #{regType}
+  			, #{regProv}
+  			, #{regCity}
+  			, #{regArea}
+  			, #{regAddr}
+  			, #{remark}
+  			, #{instPerson}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{educ}
+  			, #{contactProv}
+  			, #{contactCity}
+  			, #{contactArea}
+  			, #{communicateAddr}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custType')">  
+	  					CUST_TYPE = #{custType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sex')">  
+	  					SEX = #{sex},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('ethnic')">  
+	  					ETHNIC = #{ethnic},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('phoneNo')">  
+	  					PHONE_NO = #{phoneNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('lastApplyDate')">  
+	  					LAST_APPLY_DATE = #{lastApplyDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('marriage')">  
+	  					MARRIAGE = #{marriage},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('certType')">  
+	  					CERT_TYPE = #{certType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('certNo')">  
+	  					CERT_NO = #{certNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('certValidDate')">  
+	  					CERT_VALID_DATE = #{certValidDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('certIssuOrg')">  
+	  					CERT_ISSU_ORG = #{certIssuOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regType')">  
+	  					REG_TYPE = #{regType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regProv')">  
+	  					REG_PROV = #{regProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regCity')">  
+	  					REG_CITY = #{regCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regArea')">  
+	  					REG_AREA = #{regArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regAddr')">  
+	  					REG_ADDR = #{regAddr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instPerson')">  
+	  					INST_PERSON = #{instPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('educ')">  
+	  					EDUC = #{educ},  
+	  				</if>
+			<if test="_parameter.containsKey('contactProv')">
+				CONTACT_PROV = #{contactProv},
+			</if>
+			<if test="_parameter.containsKey('contactCity')">
+				CONTACT_CITY = #{contactCity},
+			</if>
+			<if test="_parameter.containsKey('contactArea')">
+				CONTACT_AREA = #{contactArea},
+			</if>
+			<if test="_parameter.containsKey('communicateAddr')">
+				COMMUNICATEADDR = #{communicateAddr},
+			</if>
+    	</trim>
+		where 
+  			CUST_NO = #{custNo}				
+	</update>
+	
+	<!-- 删除 APP_客户信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_info
+		where 
+  			CUST_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_info t
+		where 
+  				t.CUST_NO = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户信息 列表 -->
+	<select id="queryForList" resultMap="AppCustInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_info t
+		<if test="custTeam != null and custTeam != ''">
+		RIGHT JOIN 
+			app_cust_team c ON c.CUST_NO = t.CUST_NO
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and t.CUST_TYPE = #{custType}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME LIKE CONCAT('%',#{custName},'%') 				
+	  			</if>
+				<if test="sex != null and sex != ''">
+	  				and t.SEX = #{sex}				
+	  			</if>
+				<if test="ethnic != null and ethnic != ''">
+	  				and t.ETHNIC = #{ethnic}				
+	  			</if>
+				<if test="phoneNo != null and phoneNo != ''">
+	  				and t.PHONE_NO = #{phoneNo}				
+	  			</if>
+				<if test="lastApplyDate != null">
+	  				and t.LAST_APPLY_DATE = #{lastApplyDate}				
+	  			</if>
+				<if test="marriage != null and marriage != ''">
+	  				and t.MARRIAGE = #{marriage}				
+	  			</if>
+				<if test="certType != null and certType != ''">
+	  				and t.CERT_TYPE = #{certType}				
+	  			</if>
+				<if test="certNo != null and certNo != ''">
+	  				and t.CERT_NO = #{certNo}				
+	  			</if>
+				<if test="certValidDate != null and certValidDate != ''">
+	  				and t.CERT_VALID_DATE = #{certValidDate}				
+	  			</if>
+				<if test="certIssuOrg != null and certIssuOrg != ''">
+	  				and t.CERT_ISSU_ORG = #{certIssuOrg}				
+	  			</if>
+				<if test="regType != null and regType != ''">
+	  				and t.REG_TYPE = #{regType}				
+	  			</if>
+				<if test="regProv != null and regProv != ''">
+	  				and t.REG_PROV = #{regProv}				
+	  			</if>
+				<if test="regCity != null and regCity != ''">
+	  				and t.REG_CITY = #{regCity}				
+	  			</if>
+				<if test="regArea != null and regArea != ''">
+	  				and t.REG_AREA = #{regArea}				
+	  			</if>
+				<if test="regAddr != null and regAddr != ''">
+	  				and t.REG_ADDR = #{regAddr}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="instPerson != null and instPerson != ''">
+	  				and t.INST_PERSON = #{instPerson}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>	
+	  			<if test="custTeam != null and custTeam != ''">
+	  				and c.CUST_TEAM  = #{custTeam}				
+	  			</if>
+	  			<if test="educ != null and educ != ''">
+	  				and t.educ  = #{educ}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<resultMap id="CustInfoBoRetMap" type="com.hs.loan.cust.bo.CustInfoBo" extends="AppCustInfoRetMap" >
+		<result column="SCORE" property="score"/>
+		<result column="LEVEL" property="level"/>
+		<result column="LOAN_CNT" property="loanCnt"/>
+	</resultMap>
+	
+	<!--分页查询 客户基本信息  -->
+	<select id="queryCustInfo" parameterType="map" resultMap="CustInfoBoRetMap">
+		SELECT
+			t.*,
+			s.SCORE,
+			l.LEVEL,
+			c.LOAN_CNT	
+		FROM
+			app_cust_info t
+		LEFT JOIN
+			app_cust_score s ON s.CUST_NO = t.CUST_NO
+		LEFT JOIN
+			app_cust_level l ON l.CUST_NO = t.CUST_NO
+		LEFT JOIN 
+			app_cust_loan_total c ON c.CUST_NO = t.CUST_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and t.CUST_TYPE = #{custType}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME LIKE CONCAT('%',#{custName},'%') 				
+	  			</if>
+				<if test="sex != null and sex != ''">
+	  				and t.SEX = #{sex}				
+	  			</if>
+				<if test="ethnic != null and ethnic != ''">
+	  				and t.ETHNIC = #{ethnic}				
+	  			</if>
+				<if test="phoneNo != null and phoneNo != ''">
+	  				and t.PHONE_NO = #{phoneNo}				
+	  			</if>
+				<if test="lastApplyDate != null">
+	  				and t.LAST_APPLY_DATE = #{lastApplyDate}				
+	  			</if>
+				<if test="marriage != null and marriage != ''">
+	  				and t.MARRIAGE = #{marriage}				
+	  			</if>
+				<if test="certType != null and certType != ''">
+	  				and t.CERT_TYPE = #{certType}				
+	  			</if>
+				<if test="certNo != null and certNo != ''">
+	  				and t.CERT_NO = #{certNo}				
+	  			</if>
+				<if test="certValidDate != null and certValidDate != ''">
+	  				and t.CERT_VALID_DATE = #{certValidDate}				
+	  			</if>
+				<if test="certIssuOrg != null and certIssuOrg != ''">
+	  				and t.CERT_ISSU_ORG = #{certIssuOrg}				
+	  			</if>
+				<if test="regType != null and regType != ''">
+	  				and t.REG_TYPE = #{regType}				
+	  			</if>
+				<if test="regProv != null and regProv != ''">
+	  				and t.REG_PROV = #{regProv}				
+	  			</if>
+				<if test="regCity != null and regCity != ''">
+	  				and t.REG_CITY = #{regCity}				
+	  			</if>
+				<if test="regArea != null and regArea != ''">
+	  				and t.REG_AREA = #{regArea}				
+	  			</if>
+				<if test="regAddr != null and regAddr != ''">
+	  				and t.REG_ADDR = #{regAddr}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="instPerson != null and instPerson != ''">
+	  				and t.INST_PERSON = #{instPerson}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+	  			<if test="score != null and score != ''">
+	  				and s.SCORE = #{score}
+	  			</if>
+				<if test="level != null and level != ''">
+	  				and l.LEVEL = #{level}
+	  			</if>
+				<if test="loanCnt != null and loanCnt != ''">
+	  				and c.LOAN_CNT = #{loanCnt}
+	  			</if>
+				<if test="educ != null and educ != ''">
+	  				and t.EDUC= #{educ}
+	  			</if>
+	  			<if test="startTime != null or endTime != null">
+	  				and t.CUST_NO in 
+	  				<foreach item="item"  index="index" collection="custNos"   open="(" separator="," close=")">  
+					 	 #{item}  
+					 </foreach> 
+	  			</if>
+	  			
+	  			
+    	</trim>
+	</select>
+	
+	
+	
+	<select id="queryCustScore" resultType="integer" parameterType="java.lang.String">
+		select	
+			IFNULL(c.score,0) as score
+		from app_loan_acct a left join dm_order_info b on a.loan_no=b.loan_no
+		left join app_loan_dm_score c on b.order_id=c.order_id
+		where 
+  				a.CUST_NO = #{custNo}				
+	</select>
+	
+	
+	
+	
+</mapper>

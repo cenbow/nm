@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppLoanFundMatchLogMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanFundMatchLogRetMap" type="com.hs.loan.approve.entity.AppLoanFundMatchLog">
+			<result column="ID" property="id"/>
+			<result column="MATCH_ID" property="matchId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="MATCH_TYP" property="matchTyp"/>
+			<result column="MATCH_PSN" property="matchPsn"/>
+			<result column="MATCH_NAME" property="matchName"/>
+			<result column="MATCH_DATE" property="matchDate"/>
+			<result column="FUND_NO" property="fundNo"/>
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="STAT" property="stat"/>
+			<result column="MATCH_RESULT" property="matchResult"/>
+			<result column="REMARK" property="remark"/>
+			
+	</resultMap>
+	
+	<!-- 新增 APP_分期资金匹配记录 -->
+	<insert id="insert" parameterType="com.hs.loan.approve.entity.AppLoanFundMatchLog">
+		insert into APP_LOAN_FUND_MATCH_LOG
+		(
+  			ID
+  			,MATCH_ID
+  			,LOAN_NO
+  			,INST_DATE
+  			,MATCH_TYP
+  			,MATCH_PSN
+  			,MATCH_NAME
+  			,MATCH_DATE
+  			,FUND_NO
+  			,CHAN_NO
+  			,STAT
+  			,MATCH_RESULT
+  			,REMARK
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{matchId}
+  			, #{loanNo}
+  			, #{instDate}
+  			, #{matchTyp}
+  			, #{matchPsn}
+  			, #{matchName}
+  			, #{matchDate}
+  			, #{fundNo}
+  			, #{chanNo}
+  			, #{stat}
+  			, #{matchResult}
+  			, #{remark}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期资金匹配记录 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_FUND_MATCH_LOG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('matchId')">  
+	  					MATCH_ID = #{matchId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('matchTyp')">  
+	  					MATCH_TYP = #{matchTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('matchPsn')">  
+	  					MATCH_PSN = #{matchPsn},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('matchName')">  
+	  					MATCH_NAME = #{matchName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('matchDate')">  
+	  					MATCH_DATE = #{matchDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fundNo')">  
+	  					FUND_NO = #{fundNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chanNo')">  
+	  					CHAN_NO = #{chanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>	
+	  				<if test="_parameter.containsKey('matchResult')">  
+	  					MATCH_RESULT = #{matchResult},  
+	  				</if>
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>
+	  					
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期资金匹配记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_FUND_MATCH_LOG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期资金匹配记录 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanFundMatchLogRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_FUND_MATCH_LOG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期资金匹配记录 列表 -->
+	<select id="queryForList" resultMap="AppLoanFundMatchLogRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_FUND_MATCH_LOG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="matchId != null and matchId != ''">
+	  				and t.MATCH_ID = #{matchId}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="matchTyp != null and matchTyp != ''">
+	  				and t.MATCH_TYP = #{matchTyp}				
+	  			</if>
+				<if test="matchPsn != null and matchPsn != ''">
+	  				and t.MATCH_PSN = #{matchPsn}				
+	  			</if>
+				<if test="matchName != null and matchName != ''">
+	  				and t.MATCH_NAME = #{matchName}				
+	  			</if>
+				<if test="matchDate != null">
+	  				and t.MATCH_DATE = #{matchDate}				
+	  			</if>
+				<if test="fundNo != null and fundNo != ''">
+	  				and t.FUND_NO = #{fundNo}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and t.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+	  			<if test="matchResult != null and matchResult != ''">
+	  				and t.MATCH_RESULT = #{matchResult}				
+	  			</if>
+	  			<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+	  			
+    	</trim>
+	</select>
+	
+	
+	
+</mapper>

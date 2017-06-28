@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccCapTranLogMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccCapTranLogRetMap" type="com.hs.loan.finance.entity.AccCapTranLog">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="TRAN_CODE" property="tranCode"/>
+			<result column="SEND_DATE" property="sendDate"/>
+			<result column="RECV_DATE" property="recvDate"/>
+			<result column="FILE_NAME" property="fileName"/>
+			<result column="SEND_DATA" property="sendData"/>
+			<result column="RECV_DATA" property="recvData"/>
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="REMARK" property="remark"/>
+	</resultMap>
+	<!-- 新增 ACC_银联交易日志（单笔） -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccCapTranLog">
+		insert into ACC_CAP_TRAN_LOG
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,TRAN_CODE
+  			,SEND_DATE
+  			,RECV_DATE
+  			,FILE_NAME
+  			,SEND_DATA
+  			,RECV_DATA
+  			,CHAN_NO
+  			,REMARK
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{tranCode}
+  			, #{sendDate}
+  			, #{recvDate}
+  			, #{fileName}
+  			, #{sendData,jdbcType=BLOB}
+  			, #{recvData,jdbcType=BLOB}
+  			, #{chanNo}
+  			, #{remark}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_银联交易日志（单笔） -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_CAP_TRAN_LOG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranCode')">  
+	  					TRAN_CODE = #{tranCode},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sendDate')">  
+	  					SEND_DATE = #{sendDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('recvDate')">  
+	  					RECV_DATE = #{recvDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fileName')">  
+	  					FILE_NAME = #{fileName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sendData')">  
+	  					SEND_DATA = #{sendData},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('recvData')">  
+	  					RECV_DATA = #{recvData},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chanNo')">  
+	  					CHAN_NO = #{chanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_银联交易日志（单笔） -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_CAP_TRAN_LOG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_银联交易日志（单笔） -->
+	<select id="getByPrimaryKey" resultMap="AccCapTranLogRetMap" parameterType="java.lang.String">
+		select	
+			t.ID
+  			,t.LOAN_NO
+  			,t.REPAY_DATE
+  			,t.TRAN_CODE
+  			,t.SEND_DATE
+  			,t.RECV_DATE
+  			,t.FILE_NAME
+  			,concat(t.SEND_DATA,'') SEND_DATA
+  			,concat(t.RECV_DATA,'') RECV_DATA
+  			,t.CHAN_NO
+  			,t.REMARK
+		from ACC_CAP_TRAN_LOG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_银联交易日志（单笔） 列表 -->
+	<select id="queryForList" resultMap="AccCapTranLogRetMap" parameterType="java.util.Map">
+		select	
+			t.ID
+  			,t.LOAN_NO
+  			,t.REPAY_DATE
+  			,t.TRAN_CODE
+  			,t.SEND_DATE
+  			,t.RECV_DATE
+  			,t.FILE_NAME
+  			,concat(t.SEND_DATA,'') SEND_DATA
+  			,concat(t.RECV_DATA,'') RECV_DATA
+  			,t.CHAN_NO
+  			,t.REMARK
+		from ACC_CAP_TRAN_LOG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="tranCode != null and tranCode != ''">
+	  				and t.TRAN_CODE = #{tranCode}				
+	  			</if>
+				<if test="sendDate != null">
+	  				and t.SEND_DATE = #{sendDate}				
+	  			</if>
+				<if test="recvDate != null">
+	  				and t.RECV_DATE = #{recvDate}				
+	  			</if>
+				<if test="fileName != null and fileName != ''">
+	  				and t.FILE_NAME = #{fileName}				
+	  			</if>
+				<if test="sendData != null">
+	  				and t.SEND_DATA = #{sendData}				
+	  			</if>
+				<if test="recvData != null">
+	  				and t.RECV_DATA = #{recvData}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and t.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+	  			<if test="exportTxtType != null and exportTxtType  != ''">
+	  				and t.CHAN_NO = #{exportTxtType }				
+	  			</if>
+	  			<if test="startTime != null and startTime != ''">
+	  				and t.SEND_DATE &gt;= #{startTime}				
+	  			</if>
+	  			<if test="endTime != null and endTime != ''">
+	  				and t.RECV_DATE &lt;= #{endTime}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

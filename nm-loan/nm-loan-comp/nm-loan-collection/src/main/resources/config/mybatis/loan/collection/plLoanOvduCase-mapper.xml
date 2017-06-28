@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.collection.mapper.PlLoanOvduCaseMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="PlLoanOvduCaseRetMap" type="com.hs.loan.collection.entity.PlLoanOvduCase">
+		<result column="ID" property="id" />
+		<result column="LOAN_NO" property="loanNo" />
+		<result column="CUST_NO" property="custNo" />
+		<result column="CUST_NAME" property="custName" />
+		<result column="CERT_NO" property="certNo" />
+		<result column="BUSN_DATE" property="busnDate" />
+		<result column="REPAY_DATE" property="repayDate" />
+		<result column="REPAY_NUM" property="repayNum" />
+		<result column="OVDU_LEV" property="ovduLev" />
+		<result column="BGN_NUM" property="bgnNum" />
+		<result column="END_NUM" property="endNum" />
+		<result column="BGN_DATE" property="bgnDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="OVDU_DAYS" property="ovduDays" />
+		<result column="DEAL_STAT" property="dealStat" />
+		<result column="DEAL_TIME" property="dealTime" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="ORG_NO" property="orgNo" />
+		<result column="ORG_NAME" property="orgName" />
+		<result column="DEAL_DESC" property="dealDesc" />
+		<result column="OUT_FLAG" property="outFlag" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+		<result column="WITH_STAT" property="withStat" />
+	</resultMap>
+
+	<!-- 新增 PL_逾期案件 -->
+	<insert id="insert" parameterType="com.hs.loan.collection.entity.PlLoanOvduCase">
+		insert into PL_LOAN_OVDU_CASE
+		(
+		ID
+		,LOAN_NO
+		,CUST_NO
+		,CUST_NAME
+		,CERT_NO
+		,BUSN_DATE
+		,REPAY_DATE
+		,REPAY_NUM
+		,OVDU_LEV
+		,BGN_NUM
+		,END_NUM
+		,BGN_DATE
+		,END_DATE
+		,OVDU_DAYS
+		,DEAL_STAT
+		,DEAL_TIME
+		,STAFF_NO
+		,STAFF_NAME
+		,ORG_NO
+		,ORG_NAME
+		,DEAL_DESC
+		,OUT_FLAG
+		,INST_DATE
+		,UPDT_DATE
+		,WITH_STAT
+		)
+		values
+		(
+		#{id}
+		, #{loanNo}
+		, #{custNo}
+		, #{custName}
+		, #{certNo}
+		, #{busnDate}
+		, #{repayDate}
+		, #{repayNum}
+		, #{ovduLev}
+		, #{bgnNum}
+		, #{endNum}
+		, #{bgnDate}
+		, #{endDate}
+		, #{ovduDays}
+		, #{dealStat}
+		, #{dealTime}
+		, #{staffNo}
+		, #{staffName}
+		, #{orgNo}
+		, #{orgName}
+		, #{dealDesc}
+		, #{outFlag}
+		, #{instDate}
+		, #{updtDate}
+		, #{withStat}
+		)
+	</insert>
+
+	<!-- 修改 PL_逾期案件 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_LOAN_OVDU_CASE
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('loanNo')">
+				LOAN_NO = #{loanNo},
+			</if>
+			<if test="_parameter.containsKey('custNo')">
+				CUST_NO = #{custNo},
+			</if>
+			<if test="_parameter.containsKey('custName')">
+				CUST_NAME = #{custName},
+			</if>
+			<if test="_parameter.containsKey('certNo')">
+				CERT_NO = #{certNo},
+			</if>
+			<if test="_parameter.containsKey('busnDate')">
+				BUSN_DATE = #{busnDate},
+			</if>
+			<if test="_parameter.containsKey('repayDate')">
+				REPAY_DATE = #{repayDate},
+			</if>
+			<if test="_parameter.containsKey('repayNum')">
+				REPAY_NUM = #{repayNum},
+			</if>
+			<if test="_parameter.containsKey('ovduLev')">
+				OVDU_LEV = #{ovduLev},
+			</if>
+			<if test="_parameter.containsKey('bgnNum')">
+				BGN_NUM = #{bgnNum},
+			</if>
+			<if test="_parameter.containsKey('endNum')">
+				END_NUM = #{endNum},
+			</if>
+			<if test="_parameter.containsKey('bgnDate')">
+				BGN_DATE = #{bgnDate},
+			</if>
+			<if test="_parameter.containsKey('endDate')">
+				END_DATE = #{endDate},
+			</if>
+			<if test="_parameter.containsKey('ovduDays')">
+				OVDU_DAYS = #{ovduDays},
+			</if>
+			<if test="_parameter.containsKey('dealStat')">
+				DEAL_STAT = #{dealStat},
+			</if>
+			<if test="_parameter.containsKey('dealTime')">
+				DEAL_TIME = #{dealTime},
+			</if>
+			<if test="_parameter.containsKey('staffNo')">
+				STAFF_NO = #{staffNo},
+			</if>
+			<if test="_parameter.containsKey('staffName')">
+				STAFF_NAME = #{staffName},
+			</if>
+			<if test="_parameter.containsKey('orgNo')">
+				ORG_NO = #{orgNo},
+			</if>
+			<if test="_parameter.containsKey('orgName')">
+				ORG_NAME = #{orgName},
+			</if>
+			<if test="_parameter.containsKey('dealDesc')">
+				DEAL_DESC = #{dealDesc},
+			</if>
+			<if test="_parameter.containsKey('outFlag')">
+				OUT_FLAG = #{outFlag},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+			<if test="_parameter.containsKey('withStat')">
+				WITH_STAT = #{withStat},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 PL_逾期案件 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		PL_LOAN_OVDU_CASE
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 PL_逾期案件 -->
+	<select id="getByPrimaryKey" resultMap="PlLoanOvduCaseRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from PL_LOAN_OVDU_CASE t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 PL_逾期案件 列表 -->
+	<select id="queryForList" resultMap="PlLoanOvduCaseRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from PL_LOAN_OVDU_CASE t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loanNo != null and loanNo != ''">
+				and t.LOAN_NO = #{loanNo}
+			</if>
+			<if test="custNo != null and custNo != ''">
+				and t.CUST_NO = #{custNo}
+			</if>
+			<if test="custName != null and custName != ''">
+				and t.CUST_NAME = #{custName}
+			</if>
+			<if test="certNo != null and certNo != ''">
+				and t.CERT_NO = #{certNo}
+			</if>
+			<if test="busnDate != null and busnDate != ''">
+				and t.BUSN_DATE = #{busnDate}
+			</if>
+			<if test="repayDate != null and repayDate != ''">
+				and t.REPAY_DATE = #{repayDate}
+			</if>
+			<if test="repayNum != null">
+				and t.REPAY_NUM = #{repayNum}
+			</if>
+			<if test="ovduLev != null">
+				and t.OVDU_LEV = #{ovduLev}
+			</if>
+			<if test="bgnNum != null">
+				and t.BGN_NUM = #{bgnNum}
+			</if>
+			<if test="endNum != null">
+				and t.END_NUM = #{endNum}
+			</if>
+			<if test="bgnDate != null and bgnDate != ''">
+				and t.BGN_DATE = #{bgnDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and t.END_DATE = #{endDate}
+			</if>
+			<if test="ovduDays != null">
+				and t.OVDU_DAYS = #{ovduDays}
+			</if>
+			<if test="dealStat != null and dealStat != ''">
+				and t.DEAL_STAT = #{dealStat}
+			</if>
+			<if test="dealTime != null">
+				and t.DEAL_TIME = #{dealTime}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME = #{staffName}
+			</if>
+			<if test="orgNo != null and orgNo != ''">
+				and t.ORG_NO = #{orgNo}
+			</if>
+			<if test="orgName != null and orgName != ''">
+				and t.ORG_NAME = #{orgName}
+			</if>
+			<if test="dealDesc != null and dealDesc != ''">
+				and t.DEAL_DESC = #{dealDesc}
+			</if>
+			<if test="outFlag != null and outFlag != ''">
+				and t.OUT_FLAG = #{outFlag}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+			<if test="withStat != null">
+				and t.WITH_STAT = #{withStat}
+			</if>
+		</trim>
+	</select>
+	<!-- 返回 Bean -->
+	<resultMap id="PlLoanOvduCaseRetBo"
+		type="com.hs.loan.collection.entity.PlLoanOvduCaseBo">
+		<result column="ID" property="id" />
+		<result column="LOAN_NO" property="loanNo" />
+		<result column="CUST_NO" property="custNo" />
+		<result column="CUST_NAME" property="custName" />
+		<result column="CERT_NO" property="certNo" />
+		<result column="OVDU_LEV" property="ovduLev" />
+		<result column="BGN_NUM" property="bgnNum" />
+		<result column="END_NUM" property="endNum" />
+		<result column="BGN_DATE" property="bgnDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="DEAL_STAT" property="dealStat" />
+		<result column="DEAL_TIME" property="dealTime" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="OUT_FLAG" property="outFlag" />
+		<result column="REPAY_AMT" property="repayAmt" />
+		<result column="OVDU_AMT" property="ovduAmt" />
+		<result column="BRANCH_PROV" property="branchProvName" />
+		<result column="BRANCH_CITY" property="branchCityName" />
+		<result column="WITH_STAT" property="withStat" />
+		<result column="DEAL_DESC" property="dealDesc" />
+	</resultMap>
+	<!-- 查询 PL_逾期案件 列表 -->
+	<select id="queryForParam" resultMap="PlLoanOvduCaseRetBo"
+		parameterType="java.util.Map">
+		SELECT T.ID,
+		T.LOAN_NO,
+		T.CUST_NAME,
+		TT.CERT_NO,
+		T.BGN_NUM,
+		T.END_NUM,
+		T.BGN_DATE,
+		T.END_DATE,
+		T.OVDU_LEV,
+		T.DEAL_STAT,
+		T.STAFF_NAME,
+		T.STAFF_NO,
+		T.DEAL_TIME,
+		T.OUT_FLAG,
+		(SELECT SUM(P.REPAY_AMT)
+		FROM ACC_LOAN_PLAN P
+		WHERE P.LOAN_NO = T.LOAN_NO
+		AND P.REPAY_NUM BETWEEN T.BGN_NUM AND T.END_NUM)
+		AS REPAY_AMT,
+		(SELECT SUM(P.OVDU_AMT)
+		FROM ACC_LOAN_PLAN P
+		WHERE P.LOAN_NO = T.LOAN_NO
+		AND P.REPAY_NUM BETWEEN T.BGN_NUM AND T.END_NUM)
+		AS OVDU_AMT,
+		(SELECT DISTINCT PROV_NAME
+		FROM SYS_REGIONAL_BELONG A
+		WHERE A.PROV_NO = BRA.BRANCH_PROV) AS BRANCH_PROV,
+		(SELECT DISTINCT CITY_NAME
+		FROM SYS_REGIONAL_BELONG A
+		WHERE A.CITY_NO = BRA.BRANCH_CITY) AS BRANCH_CITY,
+		T.WITH_STAT, T.DEAL_DESC
+		FROM PL_LOAN_OVDU_CASE T
+		JOIN APP_CUST_INFO TT ON T.CUST_NO = TT.CUST_NO
+		JOIN APP_LOAN_BRANCH BRA ON T.LOAN_NO = BRA.LOAN_NO
+		JOIN APP_LOAN_SALER SALER ON T.LOAN_NO = SALER.LOAN_NO
+		INNER JOIN APP_LOAN_ACCT at ON T.LOAN_NO = at.loan_no
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loanNo != null and loanNo != ''">
+				and t.LOAN_NO = #{loanNo}
+			</if>
+			<if test="custNo != null and custNo != ''">
+				and t.CUST_NO = #{custNo}
+			</if>
+			<if test="custName != null and custName != ''">
+				and t.CUST_NAME like '%${custName}%'
+			</if>
+			<if test="certNo != null and certNo != ''">
+				and t.CERT_NO = #{certNo}
+			</if>
+			<if test="busnDate != null and busnDate != ''">
+				and t.BUSN_DATE = #{busnDate}
+			</if>
+			<if test="repayDate != null and repayDate != ''">
+				and t.REPAY_DATE = #{repayDate}
+			</if>
+			<if test="repayNum != null">
+				and t.REPAY_NUM = #{repayNum}
+			</if>
+			<if test="ovduLev != null">
+				and t.OVDU_LEV = #{ovduLev}
+			</if>
+			<if test="bgnNum != null">
+				and t.BGN_NUM = #{bgnNum}
+			</if>
+			<if test="endNum != null">
+				and t.END_NUM = #{endNum}
+			</if>
+			<if test="bgnDate != null and bgnDate != '' and endDate != null and  endDate!= ''">
+				and t.BGN_DATE &gt;= date_format(#{bgnDate},'%Y%m%d')
+				and t.BGN_DATE &lt;= date_format(#{endDate},'%Y%m%d')
+			</if>
+			<!-- <if test="endDate != null and  endDate!= ''">
+				and t.END_DATE &lt;= date_format(#{endDate},'%Y%m%d')
+			</if> -->
+			<if test="ovduDays != null">
+				and t.OVDU_DAYS = #{ovduDays}
+			</if>
+			<if test="dealStat != null and dealStat != ''">
+				and t.DEAL_STAT = #{dealStat}
+			</if>
+			<if test="dealStatFlg != null and dealStatFlg != ''">
+				and (t.DEAL_STAT &lt;&gt; #{dealStatFlg} or t.DEAL_STAT is null)
+			</if>
+			<if test="dealTime != null">
+				and t.DEAL_TIME = #{dealTime}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME like '%${staffName}%'
+			</if>
+			<if test="orgNo != null and orgNo != ''">
+				and t.ORG_NO = #{orgNo}
+			</if>
+			<if test="orgName != null and orgName != ''">
+				and t.ORG_NAME like '%${orgName}%'
+			</if>
+			<if test="dealDesc != null and dealDesc != ''">
+				and t.DEAL_DESC = #{dealDesc}
+			</if>
+			<if test="outFlag != null and outFlag != ''">
+				and t.OUT_FLAG = #{outFlag}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+			<if test="branchProvNo != null and branchProvNo != ''">
+				and BRA.BRANCH_PROV = #{branchProvNo}
+			</if>
+			<if test="branchCityNo != null and branchCityNo != ''">
+				and BRA.BRANCH_CITY = #{branchCityNo}
+			</if>
+			<if test="withStat != null and withStat != ''">
+				and t.WITH_STAT = #{withStat}
+			</if>
+			<if test="saleName != null and saleName != ''">
+				and SALER.STAFF_NAME like '%${saleName}%'
+			</if>
+			<if test="telPhone != null and telPhone != ''">
+				AND T.CUST_NO IN
+				(SELECT INFO.CUST_NO
+				FROM APP_LOAN_CUST_INFO INFO
+				WHERE INFO.TYPE NOT IN ('1', '2', '3')
+				AND INFO.CUST_TEXT =#{telPhone})
+			</if>
+			<if test="collectionStateNot != null and collectionStateNot != ''">
+				AND T.LOAN_NO NOT IN (SELECT H.LOAN_NO FROM pl_loan_ovdu_hand H GROUP
+				BY H.LOAN_NO)
+			</if>
+			<if test="collectionStateYes != null and collectionStateYes != ''">
+				AND T.LOAN_NO IN (SELECT H.LOAN_NO FROM pl_loan_ovdu_hand H GROUP BY
+				H.LOAN_NO)
+			</if>
+			<if test="ovduLev !=null and ovduLev !=''">
+				AND T.OVDU_LEV =#{ovduLev}
+			</if>
+			<if test="ovduLevBig!=null and ovduLevBig!=''">
+				AND T.OVDU_LEV &gt;= #{ovduLevBig}
+			</if>
+			<if test="saleChanl!=null and saleChanl!=''">
+				and AT.SALE_CHANL=#{saleChanl}
+			</if>
+		</trim>
+		ORDER BY T.BGN_DATE desc
+	</select>
+
+	<!-- 客户信息和银行信息返回 -->
+	<resultMap id="accCustAndBankBo"
+		type="com.hs.loan.collection.entity.AccCustAndBankBo">
+		<result column="CUST_NO" property="custNo" />
+		<result column="CUST_NAME" property="custName" />
+		<result column="CUST_TYPE" property="custType" />
+		<result column="CERT_NO" property="certNo" />
+		<result column="PHONE_NO" property="phoneNo" />
+		<result column="ACCT_NO" property="acctNo" />
+		<result column="ACCT_NAME" property="acctName" />
+		<result column="BANK_NO" property="bankNo" />
+		<result column="BANK_NAME" property="bankName" />
+		<result column="STAT" property="bankStat" />
+		<result column="NO_AGREE" property="noAgree"/>
+	</resultMap>
+
+	<!-- 查询 客户信息和银行信息 -->
+	<select id="getCustAndBank" resultMap="accCustAndBankBo"
+		parameterType="java.lang.String">
+		SELECT I.CUST_NO,
+		I.CUST_TYPE,
+		I.CUST_NAME,
+		I.PHONE_NO,
+		I.CERT_NO,
+		BANK.ACCT_NO,
+		BANK.ACCT_NAME,
+		BANK.OPEN_ORG AS BANK_NO,
+		BANK.OPEN_ORG AS BANK_NAME,
+		BANK.STAT,
+	 	agr.NO_AGREE
+		FROM APP_LOAN_ACCT ACCT
+		JOIN APP_CUST_INFO I ON ACCT.CUST_NO = I.CUST_NO
+		JOIN APP_LOAN_BANK_ACCT BAK ON BAK.LOAN_NO = ACCT.LOAN_NO AND BAK.STAT
+		='10002001'
+		JOIN APP_CUST_BANK_ACCT BANK ON BANK.ID = BAK.BANK_ACCT_ID  
+		LEFT JOIN acc_agree_no agr ON ACCT.LOAN_NO = agr.LOAN_NO
+		WHERE ACCT.LOAN_NO =#{loanNo}
+	</select>
+
+	<!-- 贷款产品和商品详情返回 -->
+	<resultMap id="appLoanAcctBo" type="com.hs.loan.collection.entity.AppLoanAcctBo">
+		<result column="LOAN_NO" property="loanNo" />
+		<result column="LOAN_AMT" property="loanAMT" />
+		<result column="FST_REPAY_DATE" property="fstRepayDate" />
+		<result column="MTH_REPAY_AMT" property="mthRepayAmt" />
+		<result column="OPEN_ORG" property="openOrg" />
+		<result column="ACCT_NO" property="acctNo" />
+		<result column="INST_NUM" property="instNum" />
+		<result column="GOODS_TYPE" property="goodsType" />
+		<result column="BRAND" property="brand" />
+		<result column="MARQUES" property="marques" />
+		<result column="PRIC" property="pric" />
+		<result column="BRANCH_ADD" property="branchAdd"/>
+	</resultMap>
+
+	<!-- 查询 贷款产品和商品详情 -->
+	<select id="getAppLoanAcctBo" resultMap="appLoanAcctBo"
+		parameterType="java.lang.String">
+		SELECT ACCT.LOAN_NO,
+		       ACCT.LOAN_AMT,
+		       ACCT.FST_REPAY_DATE,
+		       ACCT.MTH_REPAY_AMT,
+		       BANK.OPEN_ORG,
+		       BANK.ACCT_NO,
+		       ACCT.INST_NUM,
+		       GOODS.GOODS_TYPE,
+		       GOODS.BRAND,
+		       GOODS.MARQUES,
+		       GOODS.PRIC,
+		       BRA.BRANCH_ADD
+		  FROM APP_LOAN_ACCT ACCT
+		       JOIN APP_LOAN_GOODS GOODS ON ACCT.LOAN_NO = GOODS.LOAN_NO
+		       left JOIN APP_LOAN_BANK_ACCT BAK
+		          ON BAK.LOAN_NO = ACCT.LOAN_NO AND BAK.STAT = '10002001'
+		       left JOIN APP_CUST_BANK_ACCT BANK
+		          ON BANK.ID = BAK.BANK_ACCT_ID 
+		       JOIN APP_LOAN_BRANCH BRA ON accT.LOAN_NO = BRA.LOAN_NO
+		WHERE ACCT.LOAN_NO =#{loanNo}
+	</select>
+
+
+	<!-- 客户相关联系人返回 -->
+	<resultMap id="appLoanCustInfoBo"
+		type="com.hs.loan.collection.entity.AppLoanCustInfoBo">
+		<result column="CUST_NO" property="custNo" />
+		<result column="CUST_TEXT" property="custText" />
+		<result column="REMARK" property="remark" />
+		<result column="STAT" property="stat" />
+		<result column="CONTACT_REL" property="contactRel" />
+		<result column="CONTACT_NAME" property="contactName" />
+		<result column="CALL_DATE" property="callDate" />
+		<result column="HAND_REST_CODE" property="handRestCode" />
+	</resultMap>
+
+	<!-- 查询 客户相关联系人 -->
+	<select id="queryLoanCustInfoForList" resultMap="appLoanCustInfoBo"
+		parameterType="java.lang.String">
+		SELECT EXTE.CUST_NO,
+		       EXTE.exte1 AS CUST_TEXT,
+		       '客户其他联系电话' AS REMARK,
+		       '40103112' AS CONTACT_REL,
+		       EXTE.CUST_NAME AS CONTACT_NAME,
+		       '' AS HAND_REST_CODE,
+		       '' AS CALL_DATE
+		  FROM APP_CUST_INFO_EXTE EXTE
+		  	 WHERE EXTE.CUST_NO = #{custNo}
+		  UNION ALL
+		SELECT  T1.CUST_NO,
+				T1.CUST_TEXT,
+				T1.REMARK,
+				T1.CONTACT_REL,
+				T1.CONTACT_NAME,
+				T2.HAND_REST_CODE,
+				T2.INST_DATE AS CALL_DATE
+				FROM APP_LOAN_CUST_INFO T1
+				LEFT JOIN
+				(SELECT *
+				FROM PL_LOAN_OVDU_HAND H1
+				WHERE (H1.CUST_NO, H1.CONT_TEL, H1.INST_DATE) IN
+				(SELECT H2.CUST_NO, H2.CONT_TEL, MAX(H2.INST_DATE) AS INST_DATE
+				FROM PL_LOAN_OVDU_HAND H2 WHERE H2.CUST_NO = #{custNo}
+				GROUP BY H2.CUST_NO, H2.CONT_TEL)) T2
+				ON T1.CUST_NO = T2.CUST_NO AND T1.CUST_TEXT = T2.CONT_TEL
+		WHERE T1.TYPE NOT IN ('1', '2', '3')
+				AND T1.CUST_NO = #{custNo}
+	</select>
+
+
+
+	<!-- 返回 Bean -->
+	<resultMap id="plLoanOvduCaseRetAndFlowBo"
+		type="com.hs.loan.collection.entity.PlLoanOvduCaseRetAndFlowBo">
+		<result column="ID" property="id" />
+		<result column="LOAN_NO" property="loanNo" />
+		<result column="CUST_NO" property="custNo" />
+		<result column="CUST_NAME" property="custName" />
+		<result column="CERT_NO" property="certNo" />
+		<result column="OVDU_LEV" property="ovduLev" />
+		<result column="BGN_NUM" property="bgnNum" />
+		<result column="END_NUM" property="endNum" />
+		<result column="BGN_DATE" property="bgnDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="DEAL_STAT" property="dealStat" />
+		<result column="DEAL_TIME" property="dealTime" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="OUT_FLAG" property="outFlag" />
+		<result column="REPAY_AMT" property="repayAmt" />
+		<result column="BRANCH_PROV" property="branchProvName" />
+		<result column="BRANCH_CITY" property="branchCityName" />
+		<result column="WITH_STAT" property="withStat" />
+		<result column="DEAL_DESC" property="dealDesc" />
+		<result column="TRAN_AMT" property="tranAmt" />
+	</resultMap>
+	<!-- 查询 PL_逾期案件 列表 -->
+	<select id="queryLoanOvduCaseFlowList" resultMap="plLoanOvduCaseRetAndFlowBo"
+		parameterType="java.util.Map">
+		SELECT T.ID,
+		T.LOAN_NO,
+		T.CUST_NAME,
+		TT.CERT_NO,
+		T.BGN_NUM,
+		T.END_NUM,
+		T.BGN_DATE,
+		T.END_DATE,
+		T.OVDU_LEV,
+		T.DEAL_STAT,
+		T.STAFF_NAME,
+		T.STAFF_NO,
+		T.DEAL_TIME,
+		T.OUT_FLAG,
+		(SELECT SUM(P.REPAY_AMT)
+		FROM ACC_LOAN_PLAN P
+		WHERE P.LOAN_NO = T.LOAN_NO
+		AND P.REPAY_NUM BETWEEN T.BGN_NUM AND T.END_NUM)
+		AS REPAY_AMT,
+		(SELECT DISTINCT PROV_NAME
+		FROM SYS_REGIONAL_BELONG A
+		WHERE A.PROV_NO = BRA.BRANCH_PROV)
+		AS BRANCH_PROV,
+		(SELECT DISTINCT CITY_NAME
+		FROM SYS_REGIONAL_BELONG A
+		WHERE A.CITY_NO = BRA.BRANCH_CITY)
+		AS BRANCH_CITY,
+		T.WITH_STAT,
+		T.DEAL_DESC,
+		FL.TRAN_AMT
+		FROM PL_LOAN_OVDU_CASE T
+		LEFT JOIN APP_CUST_INFO TT ON T.CUST_NO = TT.CUST_NO
+		LEFT JOIN APP_LOAN_BRANCH BRA ON T.LOAN_NO = BRA.LOAN_NO
+		LEFT JOIN APP_LOAN_SALER SALER ON T.LOAN_NO = SALER.LOAN_NO
+		RIGHT JOIN ACC_REPAY_FLOW FL ON T.LOAN_NO = FL.LOAN_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loanNo != null and loanNo != ''">
+				and t.LOAN_NO = #{loanNo}
+			</if>
+			<if test="custNo != null and custNo != ''">
+				and t.CUST_NO = #{custNo}
+			</if>
+			<if test="custName != null and custName != ''">
+				and t.CUST_NAME like '%${custName}%'
+			</if>
+			<if test="certNo != null and certNo != ''">
+				and t.CERT_NO = #{certNo}
+			</if>
+			<if test="busnDate != null and busnDate != ''">
+				and t.BUSN_DATE = #{busnDate}
+			</if>
+			<if test="repayDate != null and repayDate != ''">
+				and t.REPAY_DATE = #{repayDate}
+			</if>
+			<if test="repayNum != null">
+				and t.REPAY_NUM = #{repayNum}
+			</if>
+			<if test="ovduLev != null">
+				and t.OVDU_LEV = #{ovduLev}
+			</if>
+			<if test="bgnNum != null">
+				and t.BGN_NUM = #{bgnNum}
+			</if>
+			<if test="endNum != null">
+				and t.END_NUM = #{endNum}
+			</if>
+			<if test="bgnDate != null and bgnDate != ''">
+				and t.BGN_DATE &gt;= date_format(#{bgnDate},'%Y%m%d')
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and t.END_DATE &lt;= date_format(#{endDate},'%Y%m%d')
+			</if>
+			<if test="ovduDays != null">
+				and t.OVDU_DAYS = #{ovduDays}
+			</if>
+			<if test="dealStat != null and dealStat != ''">
+				and t.DEAL_STAT = #{dealStat}
+			</if>
+			<if test="dealStatFlg != null and dealStatFlg != ''">
+				and (t.DEAL_STAT &lt;&gt; #{dealStatFlg} or t.DEAL_STAT is null)
+			</if>
+			<if test="dealTime != null">
+				and t.DEAL_TIME = #{dealTime}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME like '%${staffName}%'
+			</if>
+			<if test="orgNo != null and orgNo != ''">
+				and t.ORG_NO = #{orgNo}
+			</if>
+			<if test="orgName != null and orgName != ''">
+				and t.ORG_NAME = #{orgName}
+			</if>
+			<if test="dealDesc != null and dealDesc != ''">
+				and t.DEAL_DESC = #{dealDesc}
+			</if>
+			<if test="outFlag != null and outFlag != ''">
+				and t.OUT_FLAG = #{outFlag}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+			<if test="branchProvNo != null and branchProvNo != ''">
+				and BRA.BRANCH_PROV = #{branchProvNo}
+			</if>
+			<if test="branchCityNo != null and branchCityNo != ''">
+				and BRA.BRANCH_CITY = #{branchCityNo}
+			</if>
+			<if test="withStat != null and withStat != ''">
+				and t.WITH_STAT = #{withStat}
+			</if>
+			<if test="saleName != null and saleName != ''">
+				and SALER.STAFF_NAME like '%${saleName}%'
+			</if>
+			<if test="telPhone != null and telPhone != ''">
+				AND T.CUST_NO IN
+				(SELECT INFO.CUST_NO
+				FROM APP_LOAN_CUST_INFO INFO
+				WHERE INFO.TYPE NOT IN ('1', '2', '3')
+				AND INFO.CUST_TEXT =#{telPhone})
+			</if>
+		</trim>
+	</select>
+</mapper>

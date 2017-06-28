@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.loan.acctplus.mapper.AppLoanApprMapper">
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 APPR_ID, LOAN_NO, CUST_NO, CUST_NAME, SALE_NO, SALE_NAME, INST_DATE, INST_NUM, STAT, AUTO_START_DATE, AUTO_END_DATE, MANU_START_DATE, MANU_END_DATE, APPR_NO, APPR_NAME, MANU_FLAG, APPR_GROUP_NO, APPR_GROUP_NAME, APPR_DESC, REMARK, APPR_TYP, ENTR_DATE, REMARK2
+	</sql>
+
+	<!-- 通用更新列-->
+	<sql id="Base_Update_Column_List">
+		 APPR_ID, #{loanNo}, #{custNo}, #{custName}, #{saleNo}, #{saleName}, #{instDate}, #{instNum}, #{stat}, #{autoStartDate}, #{autoEndDate}, #{manuStartDate}, #{manuEndDate}, #{apprNo}, #{apprName}, #{manuFlag}, #{apprGroupNo}, #{apprGroupName}, #{apprDesc}, #{remark}, #{apprTyp}, #{entrDate}, #{remark2}
+	</sql>
+
+</mapper>

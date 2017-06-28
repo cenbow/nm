@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hs.loan.cust.mapper.AppCustTravelMapper" >
+  <resultMap id="BaseResultMap" type="com.hs.loan.cust.entity.AppCustTravel" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CUST_NO" property="custNo" jdbcType="VARCHAR" />
+    <result column="TOUR_ROUT_NAME" property="tourRoutName" jdbcType="VARCHAR" />
+    <result column="TOUR_ROUT_PRIC" property="tourRoutPric" jdbcType="DECIMAL" />
+    <result column="SRC_PLAE" property="srcPlae" jdbcType="VARCHAR" />
+    <result column="DEST_PLAE" property="destPlae" jdbcType="VARCHAR" />
+    <result column="TRAVEL_DAYS" property="travelDays" jdbcType="INTEGER" />
+    <result column="OWN_IS_TRAVEL" property="ownIsTravel" jdbcType="VARCHAR" />
+    <result column="TRAVELPROD_NO" property="travelprodNo" jdbcType="VARCHAR" />
+    <result column="INST_DATE" property="instDate" jdbcType="TIMESTAMP" />
+    <result column="UPDT_DATE" property="updtDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TRAVEL_DATE" property="travelDate" jdbcType="TIMESTAMP" />
+    <result column="TRAVEL_NUM" property="travelNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUST_NO, TOUR_ROUT_NAME, TOUR_ROUT_PRIC, SRC_PLAE, DEST_PLAE, TRAVEL_DAYS,OWN_IS_TRAVEL,INST_DATE,
+    UPDT_DATE, STATUS,TRAVELPROD_NO,TRAVEL_DATE,TRAVEL_NUM
+  </sql>
+  <select id="getByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from app_cust_travel
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from app_cust_travel
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustTravel" >
+    insert into app_cust_travel (ID, CUST_NO, TOUR_ROUT_NAME, 
+      TOUR_ROUT_PRIC, SRC_PLAE, DEST_PLAE, 
+      TRAVEL_DAYS,OWN_IS_TRAVEL,TRAVELPROD_NO,INST_DATE, UPDT_DATE,
+      STATUS,TRAVEL_DATE,TRAVEL_NUM)
+    values (#{id,jdbcType=VARCHAR}, #{custNo,jdbcType=VARCHAR}, #{tourRoutName,jdbcType=VARCHAR}, 
+      #{tourRoutPric,jdbcType=DECIMAL}, #{srcPlae,jdbcType=VARCHAR}, #{destPlae,jdbcType=VARCHAR}, 
+      #{travelDays,jdbcType=INTEGER},#{ownIsTravel,jdbcType=VARCHAR},#{travelprodNo,jdbcType=VARCHAR}, #{instDate,jdbcType=TIMESTAMP}, #{updtDate,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR},#{travelDate,jdbcType=TIMESTAMP},#{travelNum,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="java.util.Map" >
+    update app_cust_travel
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="custNo != null" >
+        CUST_NO = #{custNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tourRoutName != null" >
+        TOUR_ROUT_NAME = #{tourRoutName,jdbcType=VARCHAR},
+      </if>
+      <if test="tourRoutPric != null" >
+        TOUR_ROUT_PRIC = #{tourRoutPric,jdbcType=DECIMAL},
+      </if>
+      <if test="srcPlae != null" >
+        SRC_PLAE = #{srcPlae,jdbcType=VARCHAR},
+      </if>
+      <if test="destPlae != null" >
+        DEST_PLAE = #{destPlae,jdbcType=VARCHAR},
+      </if>
+      <if test="travelDays != null" >
+        TRAVEL_DAYS = #{travelDays,jdbcType=INTEGER},
+      </if>
+      <if test="ownIsTravel != null" >
+        OWN_IS_TRAVEL = #{ownIsTravel,jdbcType=VARCHAR},
+      </if>
+      <if test="travelprodNo != null" >
+        TRAVELPROD_NO = #{travelprodNo,jdbcType=VARCHAR},
+      </if>
+      <if test="instDate != null" >
+        INST_DATE = #{instDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updtDate != null" >
+        UPDT_DATE = #{updtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="travelDate != null" >
+        TRAVEL_DATE = #{travelDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="travelNum != null" >
+        TRAVE_LNUM = #{travelNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="queryForList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT <include refid="Base_Column_List"/> FROM app_cust_travel
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="custNo != null" >
+        and CUST_NO = #{custNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tourRoutName != null" >
+        and TOUR_ROUT_NAME = #{tourRoutName,jdbcType=VARCHAR}
+      </if>
+      <if test="tourRoutPric != null" >
+        and TOUR_ROUT_PRIC = #{tourRoutPric,jdbcType=DECIMAL}
+      </if>
+      <if test="srcPlae != null" >
+        and SRC_PLAE = #{srcPlae,jdbcType=VARCHAR}
+      </if>
+      <if test="destPlae != null" >
+        and DEST_PLAE = #{destPlae,jdbcType=VARCHAR}
+      </if>
+      <if test="travelDays != null" >
+        and TRAVEL_DAYS = #{travelDays,jdbcType=INTEGER}
+      </if>
+      <if test="ownIsTravel != null" >
+        and OWN_IS_TRAVEL = #{ownIsTravel,jdbcType=VARCHAR}
+      </if>
+      <if test="travelprodNo != null" >
+        and TRAVELPROD_NO = #{travelprodNo,jdbcType=VARCHAR}
+      </if>
+      <if test="instDate != null" >
+        and INST_DATE = #{instDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updtDate != null" >
+        and UPDT_DATE = #{updtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        and STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="travelDate != null" >
+        and TRAVEL_DATE = #{travelDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="travelNum != null" >
+        and TRAVE_LNUM = #{travelNum,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </select>
+</mapper>

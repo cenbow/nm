@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 声明需要暴露的服务接口 
+	<dubbo:service interface="com.hs.system.api.SysMenuApi" ref="sysMenuService" />
+	-->
+<!-- 	产品基本信息 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.ProdApi" ref="prodServer" />             
+<!-- 	产品与区域关系 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.ProdAreaApi" ref="prodServer" />         
+<!-- 	产品费用项 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.ProdFeeApi" ref="prodServer" />          
+<!-- 	产品合同 -->
+<!-- 	<dubbo:service interface="com.hs.loan.prod.api.ProdFileApi" ref="prodServer" />          -->
+<!-- 	产品资金渠道 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.ProdFundChanApi" ref="prodServer" />     
+<!-- 	产品机构 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.ProdOrgApi" ref="prodServer" />          
+<!-- 	产品业务渠道 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.ProdStrApi" ref="prodServer" />          
+<!-- 	产品还款类型 
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.PubProdRepayTypApi" ref="prodServer" />  
+	-->
+<!-- 	产品销售群组 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.prod.api.PubProdGroupApi" ref="prodServer" />  
+
+
+</beans>

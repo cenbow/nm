@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.LoginMapper">
+
+	<!-- 返回 Bean -->
+	<resultMap id="SysStaffRetMap" type="com.hs.system.entity.SysStaff">
+		<result column="ID" property="id" />
+		<result column="LOGIN_NO" property="loginNo" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="LOGIN_PWD" property="loginPwd" />
+		<result column="BELG_ORG_NO" property="belgOrgNo" />
+		<result column="LAST_LOGIN_DATE" property="lastLoginDate" />
+		<result column="LAST_LOG" property="lastLog" />
+		<result column="OPEN_ID" property="openId" />
+		<result column="STAFF_POSITION" property="staffPosition" />
+		<result column="STAFF_STAT" property="staffStat" />
+		<result column="USER_TYP" property="userTyp" />
+		<result column="MOBL_NO" property="moblNo" />
+		<result column="EMAIL" property="email" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="staffaut_name" property="staffAutName" />
+	</resultMap>
+
+	<!-- 返回 Bean -->
+	<resultMap id="SysRoleRetMap" type="com.hs.system.entity.SysRole">
+		<result column="ID" property="id" />
+		<result column="ROLE_NO" property="roleNo" />
+		<result column="REL_ID" property="relId" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="ROLE_STAT" property="roleStat" />
+		<result column="REMARK" property="remark" />
+		<result column="ROLE_ORG" property="roleOrg" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 返回菜单 -->
+	<resultMap id="PubMenuRetMap" type="com.hs.commons.bo.Menu">
+		<result column="ID" property="id" />
+		<result column="MENU_NAME" property="menuName" />
+		<result column="PAR_MENU_ID" property="parMenuId" />
+		<result column="URL" property="url" />
+		<result column="IMG" property="img" />
+		<result column="MENU_TARGT" property="menuTargt" />
+		<result column="MENU_LAYER" property="menuLayer" />
+		<result column="SYS_ID" property="sysId" />
+		<result column="SYS_COD" property="sysCode" />
+		<result column="SYS_IP" property="sysIp" />
+	</resultMap>
+
+	<!-- 查询 员工信息 列表 -->
+	<select id="queryForList" resultMap="SysStaffRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_staff t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loginNo != null and loginNo != ''">
+				and t.LOGIN_NO = #{loginNo}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME = #{staffName}
+			</if>
+			<if test="loginPwd != null and loginPwd != ''">
+				and t.LOGIN_PWD = #{loginPwd}
+			</if>
+			<if test="belgOrgNo != null and belgOrgNo != ''">
+				and t.BELG_ORG_NO = #{belgOrgNo}
+			</if>
+			<if test="lastLoginDate != null">
+				and t.LAST_LOGIN_DATE = #{lastLoginDate}
+			</if>
+			<if test="lastLog != null and lastLog != ''">
+				and t.LAST_LOG = #{lastLog}
+			</if>
+			<if test="openId != null and openId != ''">
+				and t.OPEN_ID = #{openId}
+			</if>
+			<if test="staffPosition != null and staffPosition != ''">
+				and t.STAFF_POSITION = #{staffPosition}
+			</if>
+			<if test="staffStat != null and staffStat != ''">
+				and t.STAFF_STAT = #{staffStat}
+			</if>
+			<if test="userTyp != null and userTyp != ''">
+				and t.USER_TYP = #{userTyp}
+			</if>
+			<if test="moblNo != null and moblNo != ''">
+				and t.MOBL_NO = #{moblNo}
+			</if>
+			<if test="email != null and email != ''">
+				and t.EMAIL = #{email}
+			</if>
+			<if test="createDate != null">
+				and t.CREATE_DATE = #{createDate}
+			</if>
+			<if test="modifyDate != null">
+				and t.MODIFY_DATE = #{modifyDate}
+			</if>
+		</trim>
+	</select>
+
+
+	<!-- 查询 角色信息 列表 -->
+	<select id="queryCustEnableRoles" resultMap="SysRoleRetMap"
+		parameterType="java.lang.String">
+		select r.* from sys_role r
+		where EXISTS
+		(select 1 from sys_staff_role s,sys_staff f where s.staff_id=f.id and r.id =
+		s.role_id and f.staff_no=#{staffNo})
+		and ROLE_STAT='10002001'
+	</select>
+
+
+	<!-- 返回 Bean -->
+	<resultMap id="SysOrgRetMap" type="com.hs.system.entity.SysOrg">
+		<result column="ID" property="id" />
+		<result column="ORG_NO" property="orgNo" />
+		<result column="ORG_NAME" property="orgName" />
+		<result column="ORG_LEV" property="orgLev" />
+		<result column="PAR_ORG_NO" property="parOrgNo" />
+		<result column="ORG_COD_PATH" property="orgCodPath" />
+		<result column="STAT" property="stat" />
+		<result column="PROV_NO" property="provNo" />
+		<result column="CITY_NO" property="cityNo" />
+		<result column="CNTY_NO" property="cntyNo" />
+		<result column="AREA_NO" property="areaNo" />
+		<result column="ORG_ATTR" property="orgAttr" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+
+	<!-- 通过员工编号查询 机构信息 -->
+	<select id="getStaffOrg" resultMap="SysOrgRetMap" parameterType="java.lang.String">
+		select
+		t.*
+		from sys_org t,sys_staff f
+		where t.ORG_NO = f.BELG_ORG_NO
+		and f.STAFF_NO = #{staffNo}
+	</select>
+
+
+	<!-- 通过角色ID获取 菜单资源信息 -->
+	<select id="getRoleResource" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select
+		t.url
+		from sys_menu t, sys_role_menu m
+		where t.ID = m.MENU_ID
+		and ROLE_ID = #{roleId}
+	</select>
+
+	<!-- 查询菜单 -->
+	<select id="queryMenu" resultMap="PubMenuRetMap" parameterType="java.util.Map">
+		SELECT
+		t.*, s.SYS_COD,
+		s.SYS_NAME,
+		s.SYS_IP
+		FROM
+		sys_menu t
+		INNER JOIN sys_sub s ON t.SYS_ID = s.ID
+		WHERE
+		t.MENU_STAT = '10002001'
+		AND MENU_TYP = '11001001'
+		AND s.SYS_COD = #{sysCode}
+		AND
+		EXISTS (
+		SELECT
+		'X'
+		FROM
+		sys_role r,
+		sys_staff a,
+		sys_role_menu rm,
+		sys_staff_role sr
+		WHERE
+		a.STAFF_NO = #{staffNo}
+		AND a.ID = sr.STAFF_ID
+		AND sr.ROLE_ID = r.ID
+		AND r.ID = rm.ROLE_ID
+		AND r.ROLE_STAT = '10002001'
+		AND rm.MENU_ID = t.ID
+		)
+		ORDER BY MENU_ORDER
+	</select>
+</mapper>

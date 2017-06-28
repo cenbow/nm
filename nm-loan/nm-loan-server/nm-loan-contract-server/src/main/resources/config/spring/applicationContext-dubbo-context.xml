@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 生成远程服务代理，可以像使用本地bean一样使用Service -->
+	<dubbo:reference registry="refReg" check="false"  id="contractLoanViewService" interface="com.hs.loan.sale.api.LoanViewApi" />
+	<dubbo:reference registry="refReg" check="false"  id="contractLoanAcctService" interface="com.hs.loan.sale.api.LoanAcctApi" />
+	<dubbo:reference registry="refReg" check="false"  id="contractCustInfoService" interface="com.hs.loan.cust.api.CustInfoApi" />
+	<dubbo:reference registry="refReg" check="false"  id="contractLoanAttService" interface="com.hs.loan.sale.api.LoanAttApi" />
+	<dubbo:reference registry="refReg" check="false"  id="contractCustContctInfoService" interface="com.hs.loan.cust.api.CustContctInfoApi" />
+	<dubbo:reference registry="refReg" check="false"  id="contractCustViewService" interface="com.hs.loan.cust.api.CustViewApi" />
+	<!-- 
+	<dubbo:reference registry="refReg" check="false"  id="loanContractSignService" interface="com.hs.loan.contract.api.LoanContractSignApi" >
+		<dubbo:method name="buidContant" retries="3" timeout="20000"/>
+	</dubbo:reference>	 
+	 -->
+	<dubbo:reference registry="refReg" check="false"  id="custLiveInfoService" interface="com.hs.loan.cust.api.CustLiveInfoApi" />	 
+	<dubbo:reference registry="refReg" check="false"  id="custOtherInfoService" interface="com.hs.loan.cust.api.CustOtherInfoApi" />	 
+	<dubbo:reference registry="refReg" check="false"  id="branchService" interface="com.hs.loan.market.api.BranchApi" />	 
+	<dubbo:reference registry="refReg" check="false"  id="loanFundMatchService" interface="com.hs.loan.approve.api.LoanFundMatchApi" />	 
+	<!-- 
+	<dubbo:reference registry="refReg" check="false" id="sysAttachServer" interface="com.hs.commons.attach.AttachmentApi" /> 由公共包提供 --> <!--附件上传  -->
+	
+	<dubbo:reference registry="refReg" check="false"  id="custWorkService" interface="com.hs.loan.cust.api.CustWorkApi" />
+	<dubbo:reference registry="refReg" check="false"  id="loanContractService" interface="com.hs.loan.operation.api.LoanContractApi" />
+ 
+</beans>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.collection.mapper.PlOverdueDetailMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlOverdueDetailRetMap" type="com.hs.loan.collection.entity.PlOverdueDetail">
+			<result column="ID" property="id"/>
+			<result column="CASE_ID" property="caseId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="FEE_TYPE" property="feeType"/>
+			<result column="FEE_NAME" property="feeName"/>
+			<result column="OVER_AMT" property="overAmt"/>
+			<result column="RESIDUE_AMT" property="residueAmt"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 PL_逾期费用项明细 -->
+	<insert id="insert" parameterType="com.hs.loan.collection.entity.PlOverdueDetail">
+		insert into PL_OVERDUE_DETAIL
+		(
+  			ID
+  			,CASE_ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,FEE_TYPE
+  			,FEE_NAME
+  			,OVER_AMT
+  			,RESIDUE_AMT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{caseId}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{feeType}
+  			, #{feeName}
+  			, #{overAmt}
+  			, #{residueAmt}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_逾期费用项明细 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_OVERDUE_DETAIL
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('caseId')">  
+	  					CASE_ID = #{caseId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeType')">  
+	  					FEE_TYPE = #{feeType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeName')">  
+	  					FEE_NAME = #{feeName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overAmt')">  
+	  					OVER_AMT = #{overAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('residueAmt')">  
+	  					RESIDUE_AMT = #{residueAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PL_逾期费用项明细 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_OVERDUE_DETAIL
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_逾期费用项明细 -->
+	<select id="getByPrimaryKey" resultMap="PlOverdueDetailRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_OVERDUE_DETAIL t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PL_逾期费用项明细 列表 -->
+	<select id="queryForList" resultMap="PlOverdueDetailRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_OVERDUE_DETAIL t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="caseId != null and caseId != ''">
+	  				and t.CASE_ID = #{caseId}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="feeType != null and feeType != ''">
+	  				and t.FEE_TYPE = #{feeType}				
+	  			</if>
+				<if test="feeName != null and feeName != ''">
+	  				and t.FEE_NAME = #{feeName}				
+	  			</if>
+				<if test="overAmt != null">
+	  				and t.OVER_AMT = #{overAmt}				
+	  			</if>
+				<if test="residueAmt != null">
+	  				and t.RESIDUE_AMT = #{residueAmt}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.PubIndexMapper">
+
+<!-- 返回 Bean-->
+  	<resultMap id="saleValMap" type="com.hs.system.index.bo.ValBo">
+			<result column="stat" property="key" />
+			<result column="val" property="val" />
+	</resultMap> 
+  	<resultMap id="apprTjMap" type="com.hs.system.index.bo.ApprTjBo">
+			<result column="total" property="total" />
+			<result column="pass" property="pass" />
+			<result column="unpass" property="unpass" />
+			<result column="apprMth" property="apprMth" />
+	</resultMap> 
+  	<resultMap id="collectTjMap" type="com.hs.system.index.bo.CollectTjBo">
+			<result column="total" property="total" />
+			<result column="pass" property="pass" />
+			<result column="collectMth" property="collectMth" />
+	</resultMap> 
+
+	<!--查询销售界面 数据-->
+	<select id="querySaleIndexOfStat" parameterType="java.lang.String"
+		resultMap="saleValMap">
+			SELECT
+				a.val,
+				a.stat
+			FROM
+			(
+				SELECT
+					count(1) val,
+					l.stat
+				FROM
+					app_loan_acct l,
+					app_loan_saler s
+				WHERE
+					l.loan_no = s.loan_no and   s.STAFF_NO =#{staffNo} and  DATE_FORMAT(APPLY_DATE,'%Y%m%d')=#{applyDt}
+				GROUP BY
+					l.stat
+			) a
+		<where>
+		    a.stat in <foreach collection="stats" item="item" index="index" 
+			open="(" separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+	<!-- 查询审批界面数据 -->
+	<select id="queryApprIndexOfStat" resultMap="saleValMap"
+		parameterType="string">
+		SELECT
+			a.val,
+			a.stat
+		FROM
+			(
+				SELECT
+					count(1) val,
+					l.stat
+				FROM
+					app_loan_appr l 
+				WHERE
+					l.APPR_NO =#{staffNo} and  DATE_FORMAT(MANU_END_DATE,'%Y%m')=#{applyDt}
+				GROUP BY
+					l.stat
+			) a
+		<where>
+		    a.stat in <foreach collection="stats" item="item" index="index" 
+			open="(" separator="," close=")">#{item}</foreach>
+		</where>
+	</select>
+	<!-- 查询审批界面数据-总数按月 -->
+	<select id="queryApprIndexOfStatByMuth" resultType="java.util.Map"
+		parameterType="string">
+			select 
+			   	 sum(case when a.STAT in('40002006','40002007','40002008','40002009') then 1 else 0 END) _all,
+				 sum(case when a.STAT in('40002007') then 1 else 0 END)  pass,
+				 sum(case when a.STAT in('40002008') then 1 else 0 END) unpass,
+			     a.APPR_NO staffNo
+			 from   app_loan_appr a 
+			 where a.appr_no=#{staffNo}
+			 and  DATE_FORMAT(MANU_END_DATE,'%Y%m')=#{applyDt}
+			 group by a.APPR_NO 
+	</select>
+	<!-- 查询审批界面数据 -->
+	<select id="queryApprStaffGroup" resultType="java.util.Map"
+		parameterType="string">
+		select GROUP_NAME groupName,GROUP_NO  groupNo from app_appr_staff_group where staff_no=#{staffNo}
+	</select>
+	<!-- 查询审批界面数据 -->
+	<select id="queryCollectionStaffGroup" resultType="java.util.Map"
+		parameterType="string">
+		select GROUP_NAME groupName,GROUP_NO  groupNo from PL_RECALL_STAFF_GROUP where staff_no=#{staffNo}
+	</select>
+	<!-- 查询违约率 -->
+	<select id="queryRiskRate" parameterType="java.util.Map"
+		resultType="java.lang.Double">
+		select DEFL_RAT from sum_app_busn_day
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="statDate != null and statDate != ''">
+				and STAT_DATE=#{statDate}
+			</if>
+		</trim> 
+		order by stat_date desc limit 1
+	</select>
+	<!-- 查询进件量、通过量、不通过量、统计月份 -->
+	<select id="queryApprIndex" resultType="java.util.Map"
+		resultMap="apprTjMap">
+		select sum(TOTL_CNT) total,sum(PASS_CNT) pass,sum(TOTL_CNT-PASS_CNT) unpass,substring(STAT_DATE,1,6) apprMth from sum_app_staff_day where STAT_DATE between #{statDateSt} and #{statDateEd}
+		group by substring(STAT_DATE,1,6)
+	</select>
+	<!-- 查询催收案件数、回收案件数、统计月份 -->
+	<select id="queryCollectIndex" resultType="java.util.Map"
+		resultMap="collectTjMap">
+		select sum(COLL_CNT) total,sum(RETN_CNT) pass,substring(STAT_MTH,1,6) collectMth from sum_pl_case_mth where STAT_MTH between #{statMthSt} and #{statMthEd}
+		group by substring(STAT_MTH,1,6)
+	</select>
+	<insert id="saveDmOrder" parameterType="java.util.Map">
+		insert into Dm_order_info(order_id,loan_no) values( #{orderId}, #{loanNo})
+	
+	</insert>
+	<insert id="saveDmOrderAndAppkey" parameterType="java.util.Map">
+		insert into Dm_order_info(order_id,loan_no,app_key) values( #{orderId}, #{loanNo},#{appKey})
+	
+	</insert>
+	<!-- 查询进件量、通过量、不通过量、统计月份 -->
+	<select id="getDmOrderId" resultType="java.lang.String"  parameterType="java.lang.String">
+		 select order_id as orderId from Dm_order_info where loan_no=#{loanNo}
+	</select>
+	<!-- 查询进件量、通过量、不通过量、统计月份 -->
+	<select id="getDmOrderIdAndAppkey" resultType="java.util.Map"  parameterType="java.lang.String">
+		 select order_id as orderId,app_key as appKey from Dm_order_info where loan_no=#{loanNo}
+	</select>
+	<!-- 查询进件量、通过量、不通过量、统计月份 -->
+	<select id="getDmResult" resultType="java.lang.String"  parameterType="java.lang.String">
+		select result from app_loan_dm_score s,dm_order_info o where s.order_id=o.order_id and o.loan_no=#{loanNo}
+	</select>
+	<!-- 根据贷款贷款编号更新orderid -->
+	<update id="updateDmOrderId"  parameterType="java.util.Map">
+		 update Dm_order_info set order_id = #{orderId} where loan_no=#{loanNo}
+	</update>
+</mapper>

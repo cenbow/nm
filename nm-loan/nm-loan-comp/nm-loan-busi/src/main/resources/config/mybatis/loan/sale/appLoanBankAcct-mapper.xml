@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanBankAcctMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanBankAcctRetMap" type="com.hs.loan.sale.entity.AppLoanBankAcct">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="BANK_ACCT_ID" property="bankAcctId"/>
+			<result column="STAT" property="stat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_分期与银行账户关系 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanBankAcct">
+		insert into app_loan_bank_acct
+		(
+  			ID
+  			,LOAN_NO
+  			,BANK_ACCT_ID
+  			,STAT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{bankAcctId}
+  			, #{stat}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期与银行账户关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_loan_bank_acct
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bankAcctId')">  
+	  					BANK_ACCT_ID = #{bankAcctId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	<!-- 修改 APP_分期与银行账户关系 -->
+	<update id="updateByLoanSelective" parameterType="java.util.Map">
+		update app_loan_bank_acct 
+		SET  STAT = #{stat},UPDT_DATE=#{updeDate}
+		where 
+  			loan_No= #{loanNo}				
+	</update>
+	
+		<update id="deleteByLoanNo" parameterType="String">
+		update app_loan_bank_acct 
+		SET  STAT = '10002002',UPDT_DATE=now()
+		where 
+  			loan_No= #{loanNo}				
+	</update>
+	
+	
+	
+	<!-- 删除 APP_分期与银行账户关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_loan_bank_acct
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期与银行账户关系 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanBankAcctRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_loan_bank_acct t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期与银行账户关系 列表 -->
+	<select id="queryForList" resultMap="AppLoanBankAcctRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_loan_bank_acct t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="bankAcctId != null and bankAcctId != ''">
+	  				and t.BANK_ACCT_ID = #{bankAcctId}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

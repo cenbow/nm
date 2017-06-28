@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.role.mapper.SysRoleMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysRoleRetMap" type="com.hs.system.entity.SysRole">
+		<result column="ID" property="id" />
+		<result column="ROLE_NO" property="roleNo" />
+		<result column="REL_ID" property="relId" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="ROLE_STAT" property="roleStat" />
+		<result column="REMARK" property="remark" />
+		<result column="ROLE_ORG" property="roleOrg" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+	<!-- 返回 Bean -->
+	<resultMap id="SysStaffRoleRetMap" type="com.hs.system.dto.SysStaffRoleBO">
+		<result column="ID" property="id" />
+		<result column="ROLE_NO" property="roleNo" />
+		<result column="REL_ID" property="relId" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="ROLE_STAT" property="roleStat" />
+		<result column="REMARK" property="remark" />
+		<result column="ROLE_ORG" property="roleOrg" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+		<result column="rid" property="rid" />
+	</resultMap>
+
+	<!-- 新增 角色信息 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysRole">
+		insert into sys_role
+		(
+		ID
+		,ROLE_NO
+		,REL_ID
+		,ROLE_NAME
+		,ROLE_STAT
+		,REMARK
+		,ROLE_ORG
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{roleNo}
+		, #{relId}
+		, #{roleName}
+		, #{roleStat}
+		, #{remark}
+		, #{roleOrg}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 角色信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_role
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('roleNo')">
+				ROLE_NO = #{roleNo},
+			</if>
+			<if test="_parameter.containsKey('relId')">
+				REL_ID = #{relId},
+			</if>
+			<if test="_parameter.containsKey('roleName')">
+				ROLE_NAME = #{roleName},
+			</if>
+			<if test="_parameter.containsKey('roleStat')">
+				ROLE_STAT = #{roleStat},
+			</if>
+			<if test="_parameter.containsKey('remark')">
+				REMARK = #{remark},
+			</if>
+			<if test="_parameter.containsKey('roleOrg')">
+				ROLE_ORG = #{roleOrg},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 角色信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_role
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 角色信息 -->
+	<select id="getByPrimaryKey" resultMap="SysRoleRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_role t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 角色信息 列表 -->
+	<select id="queryForList" resultMap="SysRoleRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_role t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="roleNo != null and roleNo != ''">
+				and t.ROLE_NO = #{roleNo}
+			</if>
+			<if test="relId != null and relId != ''">
+				and t.REL_ID = #{relId}
+			</if>
+			<if test="roleName != null and roleName != ''">
+				and t.ROLE_NAME like CONCAT(CONCAT('%', #{roleName}), '%')
+			</if>
+			<if test="roleStat != null and roleStat != ''">
+				and t.ROLE_STAT = #{roleStat}
+			</if>
+			<if test="remark != null and remark != ''">
+				and t.REMARK = #{remark}
+			</if>
+			<if test="roleOrg != null and roleOrg != ''">
+				and t.ROLE_ORG = #{roleOrg}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+	<!-- 查询 角色信息 列表 -->
+	<select id="queryCustExistRoles" resultMap="SysStaffRoleRetMap"
+		parameterType="java.util.Map">
+		select a.*,r.ID as rid from sys_role a,sys_staff_role
+		r,sys_staff f
+		where r.ROLE_ID=a.ID
+		and r.STAFF_ID=f.ID
+		and f.STAFF_NO=#{staffNo}
+	</select>
+
+	<!-- 查询 角色信息 列表 -->
+	<select id="queryCustNotExistRoles" resultMap="SysRoleRetMap"
+		parameterType="java.lang.String">
+		select r.* from sys_role r
+		where NOT EXISTS
+		(select 1 from sys_staff_role s,sys_staff f where s.staff_id=f.id and r.id =
+		s.role_id and f.staff_no=#{staffNo}
+		)
+		<if test="roleName != null and roleName != ''">
+			and r.ROLE_NAME like '%${roleName}%'
+		</if>
+	</select>
+</mapper>

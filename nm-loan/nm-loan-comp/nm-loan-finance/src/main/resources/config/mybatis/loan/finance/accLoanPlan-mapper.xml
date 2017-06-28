@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccLoanPlanMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccLoanPlanRetMap" type="com.hs.loan.finance.entity.AccLoanPlan">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="BUSI_DATE" property="busiDate"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="REPAY_AMT" property="repayAmt"/>
+			<result column="PRIN_AMT" property="prinAmt"/>
+			<result column="INT_AMT" property="intAmt"/>
+			<result column="OVDU_AMT" property="ovduAmt"/>
+			<result column="SVC_AMT" property="svcAmt"/>
+			<result column="ACCT_AMT" property="mngAmt"/>
+			<result column="INSU_AMT" property="insuAmt"/>
+			<result column="FEE_AMT" property="feeAmt"/>
+			<result column="PUN_AMT" property="punAmt"/>
+			<result column="OUT_AMT" property="outAmt"/>
+			<result column="PACK_AMT" property="packAmt"/>
+			<result column="OVDU_FLAG" property="ovduFlag"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_还款计划 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccLoanPlan">
+		insert into ACC_LOAN_PLAN
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,BUSI_DATE
+  			,REPAY_NUM
+  			,REPAY_AMT
+  			,PRIN_AMT
+  			,INT_AMT
+  			,OVDU_AMT
+  			,SVC_AMT
+  			,ACCT_AMT
+  			,INSU_AMT
+  			,FEE_AMT
+  			,PUN_AMT
+  			,OUT_AMT
+  			,PACK_AMT
+  			,OVDU_FLAG
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{busiDate}
+  			, #{repayNum}
+  			, #{repayAmt}
+  			, #{prinAmt}
+  			, #{intAmt}
+  			, #{ovduAmt}
+  			, #{svcAmt}
+  			, #{mngAmt}
+  			, #{insuAmt}
+  			, #{feeAmt}
+  			, #{punAmt}
+  			, #{outAmt}
+  			, #{packAmt}
+  			, #{ovduFlag}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_还款计划 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_LOAN_PLAN
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busiDate')">  
+	  					BUSI_DATE = #{busiDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayAmt')">  
+	  					REPAY_AMT = #{repayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prinAmt')">  
+	  					PRIN_AMT = #{prinAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('intAmt')">  
+	  					INT_AMT = #{intAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('ovduAmt')">  
+	  					OVDU_AMT = #{ovduAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('svcAmt')">  
+	  					SVC_AMT = #{svcAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mngAmt')">  
+	  					ACCT_AMT = #{mngAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('insuAmt')">  
+	  					INSU_AMT = #{insuAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeAmt')">  
+	  					FEE_AMT = #{feeAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('punAmt')">  
+	  					PUN_AMT = #{punAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('outAmt')">  
+	  					OUT_AMT = #{outAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('packAmt')">  
+	  					PACK_AMT = #{packAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('ovduFlag')">  
+	  					OVDU_FLAG = #{ovduFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_还款计划 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_LOAN_PLAN
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_还款计划 -->
+	<select id="getByPrimaryKey" resultMap="AccLoanPlanRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_LOAN_PLAN t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_还款计划 列表 -->
+	<select id="queryForList" resultMap="AccLoanPlanRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_LOAN_PLAN t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="busiDate != null and busiDate != ''">
+	  				and t.BUSI_DATE = #{busiDate}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="repayAmt != null">
+	  				and t.REPAY_AMT = #{repayAmt}				
+	  			</if>
+				<if test="prinAmt != null">
+	  				and t.PRIN_AMT = #{prinAmt}				
+	  			</if>
+				<if test="intAmt != null">
+	  				and t.INT_AMT = #{intAmt}				
+	  			</if>
+				<if test="ovduAmt != null">
+	  				and t.OVDU_AMT = #{ovduAmt}				
+	  			</if>
+				<if test="svcAmt != null">
+	  				and t.SVC_AMT = #{svcAmt}				
+	  			</if>
+				<if test="mngAmt != null">
+	  				and t.ACCT_AMT = #{mngAmt}				
+	  			</if>
+				<if test="insuAmt != null">
+	  				and t.INSU_AMT = #{insuAmt}				
+	  			</if>
+				<if test="feeAmt != null">
+	  				and t.FEE_AMT = #{feeAmt}				
+	  			</if>
+				<if test="punAmt != null">
+	  				and t.PUN_AMT = #{punAmt}				
+	  			</if>
+				<if test="outAmt != null">
+	  				and t.OUT_AMT = #{outAmt}				
+	  			</if>
+				<if test="packAmt != null">
+	  				and t.PACK_AMT = #{packAmt}				
+	  			</if>
+				<if test="ovduFlag != null and ovduFlag != ''">
+	  				and t.OVDU_FLAG = #{ovduFlag}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 查询 ACC_还款计划 列表 -->
+	<select id="queryListByParam" resultMap="AccLoanPlanRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_LOAN_PLAN t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="bgRepayNum != null and enRepayNum != null">
+	  				and t.REPAY_NUM &gt;= #{bgRepayNum} and t.REPAY_NUM &lt;= #{enRepayNum}				
+	  			</if>
+	  			<if test="repayDate !=null and repayDate!=''">
+	  				and t.REPAY_DATE = #{repayDate}
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 返回 Bean-->
+	<resultMap id="AccLoanPlanRetBo" type="com.hs.loan.finance.bo.AccLoanPlanBo">
+			<result column="CUST_NAME" property="custName"/>
+			<result column="BANK_NAME" property="bankName"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="CERT_NO" property="certNo"/>
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="BUSI_DATE" property="busiDate"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="REPAY_AMT" property="repayAmt"/>
+			<result column="PRIN_AMT" property="prinAmt"/>
+			<result column="INT_AMT" property="intAmt"/>
+			<result column="OVDU_AMT" property="ovduAmt"/>
+			<result column="SVC_AMT" property="svcAmt"/>
+			<result column="ACCT_AMT" property="acctAmt"/>
+			<result column="INSU_AMT" property="insuAmt"/>
+			<result column="FEE_AMT" property="feeAmt"/>
+			<result column="PUN_AMT" property="punAmt"/>
+			<result column="OUT_AMT" property="outAmt"/>
+			<result column="PACK_AMT" property="packAmt"/>
+			<result column="OVDU_FLAG" property="ovduFlag"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	
+	<!-- 查询委外案件还款计划 列表 -->
+	<select id="queryOutSourceCaseListOnNo" resultMap="AccLoanPlanRetBo" parameterType="java.util.Map">
+			SELECT o.USER_NAME AS acct_name,
+			       o.OPEN_BANK AS BANK_NAME,
+			       o.CUST_ACCOUNT AS ACCT_NO,
+			       o.debt_name AS CUST_NAME,
+			       o.CARD_NO AS cert_no,
+			       o.id,
+			       o.loan_no,
+			       i.REPAY_DATE AS REPAY_DATE,
+			       o.ENTRUST_DATE AS BUSN_DATE,
+			       '1' AS repay_num,
+			       o.DEBT_AMT AS REPAY_AMT,
+			       o.PRIN_AMT,
+			       o.INTER_AMT as INT_AMT,
+			       o.OVERDUE_AMT as OVDU_AMT,
+			       o.SVC_AMT,
+			       o.ACCT_AMT,
+			       o.INSURE as INSU_AMT,
+			       o.FEE_AMT,
+			       o.PUN_AMT,
+			       if(o.OUT_AMT,null,0) as OUT_AMT,
+			       o.PACK_AMT,
+			       '1' as OVDU_FLAG
+			  FROM pl_loan_outsource o left join acc_loan_acct_inst i on o.LOAN_NO = i.LOAN_NO
+			 WHERE o.debt_amt &lt;&gt; 0 and o.IS_SETTLE='10001002'
+				<if test="loanNo != null and loanNo != ''">
+	  				and o.LOAN_NO = #{loanNo}  		
+	  			</if>
+	  			<if test="certNo != null and certNo !=''">
+	  				and o.card_no =#{certNo} 			
+	  			</if>
+	  			<if test="custName !=null and custName != ''">
+	  				and o.user_name = #{custName}				
+	  			</if>
+	</select>
+	<!-- 查询 ACC_还款计划 列表 -->
+	<select id="queryListOnNo" resultMap="AccLoanPlanRetBo" parameterType="java.util.Map">
+			SELECT DISTINCT BANK.ACCT_NAME,
+			                BANK.OPEN_ORG AS BANK_NAME,
+			                BANK.ACCT_NO,
+			                I.CUST_NAME,
+			                I.CERT_NO,
+			                P.ID,
+			                P.LOAN_NO,
+			                P.REPAY_DATE,
+			                P.BUSN_DATE,
+			                P.REPAY_NUM,
+			                P.REPAY_AMT,
+			                P.PRIN_AMT,
+			                P.INT_AMT,
+			                P.OVDU_AMT,
+			                P.SVC_AMT,
+			                P.ACCT_AMT,
+			                P.INSU_AMT,
+			                P.FEE_AMT,
+			                P.PUN_AMT,
+			                P.OUT_AMT,
+			                P.PACK_AMT,
+			                P.POST_FLAG,
+			                P.OVDU_FLAG,
+			                P.INST_DATE,
+			                P.UPDT_DATE
+			  FROM ACC_LOAN_PLAN P
+			       JOIN APP_LOAN_ACCT ACCT ON P.LOAN_NO = ACCT.LOAN_NO
+			       INNER JOIN ACC_LOAN_ACCT_INST inst
+			          ON P.LOAN_NO = inst.LOAN_NO AND inst.INST_STAT = '20101001'
+			       JOIN APP_CUST_INFO I ON ACCT.CUST_NO = I.CUST_NO
+			       JOIN APP_LOAN_BANK_ACCT BAK
+			          ON BAK.LOAN_NO = P.LOAN_NO AND BAK.STAT = '10002001'
+			       JOIN APP_CUST_BANK_ACCT BANK
+			          ON BANK.ID = BAK.BANK_ACCT_ID 
+			  WHERE  inst.INST_STAT = '20101001'
+				<if test="loanNo != null and loanNo != ''">
+	  				and P.LOAN_NO = #{loanNo}  		
+	  			</if>
+				<if test="repayDate != null and repayDate !=''">
+	  				and P.REPAY_DATE =#{repayDate}				
+	  			</if>
+	  			<if test="certNo != null and certNo !=''">
+	  				and i.cert_no =#{certNo} 			
+	  			</if>
+	  			<if test="custName !=null and custName != ''">
+	  				and I.CUST_NAME = #{custName}				
+	  			</if>
+	  			<if test="repayNum != null and repayNum !=''">
+	  				and P.REPAY_NUM =#{repayNum}				
+	  			</if>
+	</select>
+	
+	<!-- 计算还款金额 -->
+	<select id="calcEealySumAmt" parameterType="java.lang.String" resultType="com.hs.loan.finance.bo.AccLoanPlanBo">
+		SELECT 	* 	FROM   (
+					SELECT
+						MAX(LOAN_NO) loanNo,
+						sum(PRIN_AMT) prinAmt,
+						sum(INT_AMT) intAmt,
+						sum(SVC_AMT) svcAmt,
+						sum(OVDU_AMT) ovduAmt,
+						sum(ACCT_AMT) acctAmt,
+						sum(INSU_AMT) insuAmt,
+						sum(FEE_AMT) feeAmt,
+						sum(PUN_AMT) punAmt,
+						sum(PACK_AMT) packAmt
+		
+					FROM
+						ACC_LOAN_PLAN WHERE loan_NO= #{loanNo}	
+				) t,
+				(
+					SELECT
+						distinct
+						loan_no loanNo,
+						sum(TOTL_AMT) totalAmt,
+						sum(DAY_RCV_AMT) dayRcvAmt,
+						SETL_AMT seTlAmt,
+						REPAY_DATE repayDate,
+						repay_Num repayNum
+					FROM
+						ACC_LOAN_ACCT_INST   WHERE loan_NO= #{loanNo}	
+				) t2,
+				(
+					SELECT
+					a.loan_no loanNo,
+					min(repay_Num) rePayedlNum,
+					count(1) unPaylNum
+				FROM
+					ACC_LOAN_ACCT_INST a  WHERE a.LOAN_NO= #{loanNo}
+				) t3 where t.loanNo = t2.loanNo and t2.loanNo =t3.loanNo
+	 
+	</select>
+</mapper>

@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hs.system</groupId>
+		<artifactId>nm-system</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>nm-system-web</artifactId>
+	<packaging>war</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hs.system</groupId>
+			<artifactId>nm-system-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.hs.system</groupId>
+			<artifactId>nm-system-pub</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.hs.core</groupId>
+			<artifactId>nm-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hs.core</groupId>
+			<artifactId>nm-core-web</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.hs.core</groupId>
+			<artifactId>nm-core</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.hs.system</groupId>
+			<artifactId>nm-system-pub-web</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		
+		
+		
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+		</dependency>
+		<dependency>
+				<groupId>com.github.sgroschupf</groupId>
+				<artifactId>zkclient</artifactId>
+		</dependency>
+		<dependency>  
+			    <groupId>org.jasig.cas.client</groupId>  
+			    <artifactId>cas-client-core</artifactId>  
+		</dependency>
+		<dependency>  
+			    <groupId>org.jasig.cas.client</groupId>  
+			    <artifactId>cas-client-core</artifactId>  
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>system</finalName>
+		
+		<plugins>
+			<plugin>
+				<groupId>com.juvenxu.portable-config-maven-plugin</groupId>
+				<artifactId>portable-config-maven-plugin</artifactId>
+				<executions>
+						<execution>
+							<goals>
+								<goal>replace-package</goal>
+							</goals>
+						</execution>
+				</executions>
+				<configuration>
+					<portableConfig>src/main/filters/${filters.env}.xml</portableConfig>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<filters.env>dev</filters.env>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<filters.env>test</filters.env>
+			</properties>
+		</profile>
+		<profile>
+			<id>uat</id>
+			<properties>
+				<filters.env>uat</filters.env>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<filters.env>prod</filters.env>
+			</properties>
+		</profile>
+	</profiles>
+</project>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppApprStaffGroupMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppApprStaffGroupRetMap" type="com.hs.loan.approve.entity.AppApprStaffGroup">
+			<result column="ID" property="id"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="GROUP_NO" property="groupNo"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="STAT" property="stat"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	<!-- 根据人员编号更新审批人员状态(审批中) -->
+	<update id="updateApprStateByStaffNo" parameterType="java.lang.String">
+       UPDATE app_appr_staff_group SET APPR_STAT='40001101' WHERE STAFF_NO=#{staffNo}
+	</update>
+	<!-- 查询审批人员当前的审批状态 -->
+	<select id="getApprStateByStaffNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+      SELECT count(1) FROM app_appr_staff_group AS a WHERE a.STAFF_NO=#{staffNo} and a.APPR_STAT='40001101'
+	</select>
+	<!-- 新增 APP_审批人员与组关联信息 -->
+	<insert id="insert" parameterType="com.hs.loan.approve.entity.AppApprStaffGroup">
+		insert into APP_APPR_STAFF_GROUP
+		(
+  			ID
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,GROUP_NO
+  			,GROUP_NAME
+  			,STAT
+  			,APPR_STAT
+  			,UPDT_DATE
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{groupNo}
+  			, #{groupName}
+  			, #{stat}
+  			, #{apprStat}
+  			, #{updtDate}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_审批人员与组关联信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_APPR_STAFF_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupNo')">  
+	  					GROUP_NO = #{groupNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprStat')">  
+	  					APPR_STAT = #{apprStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 修改 APP_审批人员与组关联信息 -->
+	<update id="updateByApprStaffGrp" parameterType="com.hs.loan.approve.entity.AppApprStaffGroup">
+		update APP_APPR_STAFF_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="staffNo!=null and staffNo!=''">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="staffName!=null and staffName!=''">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="groupNo!=null and groupNo!=''">  
+	  					GROUP_NO = #{groupNo},  
+	  				</if>		
+	  				<if test="groupName!=null and groupName!=''">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="stat!=null and stat!=''">  
+	  					STAT = #{stat},  
+	  				</if>
+	  				<if test="_parameter.containsKey('apprStat')">  
+	  					APPR_STAT = #{apprStat},  
+	  				</if>		
+	  				<if test="updtDate!=null">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="instDate!=null">  
+	  					INST_DATE = #{instDate}  
+	  				</if>		
+    	</trim>
+		where ID = #{id}				
+	</update>
+	
+	<!-- 修改 APP_审批人员与组关联信息 -->
+	<update id="updateStaffGrpStat" parameterType="java.util.Map">
+		update APP_APPR_STAFF_GROUP SET	STAT = #{stat}  where staff_no = #{staffNo}				
+	</update>
+	
+	
+	<!-- 修改 APP_审批人员签到明细 -->
+	<update id="updateApprstatByStaffNo" parameterType="java.util.Map">
+		update APP_APPR_STAFF_GROUP  SET APPR_STAT = #{apprStat}  
+		where STAFF_NO = #{staffNo}				
+	</update>
+	
+	<!-- 删除 APP_审批人员与组关联信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_APPR_STAFF_GROUP
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 删除 APP_审批人员与组关联信息 -->
+	<delete id="deleteByCont" parameterType="java.util.Map">
+		delete from APP_APPR_STAFF_GROUP where staff_no = #{staffNo} and group_no = #{groupNo}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_审批人员与组关联信息 -->
+	<select id="getByPrimaryKey" resultMap="AppApprStaffGroupRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_APPR_STAFF_GROUP t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_审批人员与组关联信息 列表 -->
+	<select id="queryForList" resultMap="AppApprStaffGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_APPR_STAFF_GROUP t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME like '%${staffName}%'				
+	  			</if>
+				<if test="groupNo != null and groupNo != ''">
+	  				and t.GROUP_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME like '%${groupName}%'				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="apprStat != null and apprStat != ''">
+	  				and t.APPR_STAT = #{apprStat}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

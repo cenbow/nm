@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 声明需要暴露的服务接口 
+	<dubbo:service interface="com.hs.system.api.SysMenuApi" ref="sysMenuService" />
+	-->
+	<dubbo:registry address="zookeeper:/mvn.hansyinfo.com:2181" check="false"/>
+	<dubbo:protocol name="dubbo" payload="167772160"/>
+
+	<dubbo:service registry="svReg"  interface="com.hs.loan.contract.api.LoanContractSignApi" ref="contractBuidServer">
+		<dubbo:method name="buidContant" retries="3" timeout="20000"/>
+	</dubbo:service>
+	<dubbo:service registry="svReg"  interface="com.hs.loan.contract.api.AppContractSignApi" ref="appContractBuildServer">
+	</dubbo:service>
+	
+	<!--<dubbo:service registry="svReg"  interface="com.hs.loan.contract.api.TestLoanContractSignApi" ref="testContractBuidServer" />-->
+</beans>

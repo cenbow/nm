@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<dubbo:consumer timeout="15000" />
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="system_consumer" />
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry id="defRegistry" file="c:/cache" address="zookeeper://192.168.3.208:2181" />
+
+	<!-- 生成远程服务代理，可以像使用本地bean一样使用demoService -->
+	<!-- 
+	<dubbo:reference url="dubbo://127.0.0.1:20980/com.hs.system.api.SysMenuApi" id="sysMenuService" interface="com.hs.system.api.SysMenuApi" />
+	 -->
+	<dubbo:reference registry="defRegistry" id="sysMenuService" interface="com.hs.system.api.SysMenuApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysRoleMenuService" interface="com.hs.system.api.SysRoleMenuApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysRoleService" interface="com.hs.system.api.SysRoleApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysStaffRoleService" interface="com.hs.system.api.SysStaffRoleApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysStaffService" interface="com.hs.system.api.SysStaffApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysStaffOrgService" interface="com.hs.system.api.SysStaffOrgApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysOrgService" interface="com.hs.system.api.SysOrgApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysPrivInfoService" interface="com.hs.system.api.SysPrivInfoApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysCodTypService" interface="com.hs.system.api.SysCodeTypeApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysGroupService" interface="com.hs.system.api.SysGroupApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysCodeInfoService" interface="com.hs.system.api.SysCodeInfoApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysSubService" interface="com.hs.system.api.SysSubApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysParamService" interface="com.hs.system.api.SysParamApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysOperaterLogService" interface="com.hs.system.api.SysOperaterLogApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysLoginLogService" interface="com.hs.system.api.SysLoginLogApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="sysOperaterLogApi" interface="com.hs.system.api.SysOperaterLogApi" validation="true"/>
+	<dubbo:reference registry="defRegistry" id="regionalBelongApi" interface="com.hs.system.api.RegionalBelongApi" validation="true"/>
+	
+	<dubbo:reference registry="defRegistry"  id="saleCrowdServer" interface="com.hs.system.api.PubSaleCrowdApi" validation="true"/>
+	<dubbo:reference registry="defRegistry"  id="saleGroupServer" interface="com.hs.system.api.PubSalerGroupApi" validation="true"/>
+	<dubbo:reference registry="defRegistry"  id="complexParaServer" interface="com.hs.system.api.ComplexParaApi" validation="true"/>
+	<dubbo:reference registry="defRegistry"  id="sysAttachServer" interface="com.hs.commons.attach.AttachmentApi" />
+	<dubbo:reference registry="defRegistry" timeout="5000"  id="operateCacheService" interface="com.nm.cache.busi.service.OperateCacheServiceApi" />
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd" >
+
+	<util:properties id="fileTransfer" location="classpath:/env/fileTransfer.properties"/>
+
+	<bean class="com.hs.commons.attach.tansfer.OSSFileTransfer">
+		<property name="client" ref="ossClient"></property>
+	</bean>
+
+	<bean id="ossClient" class="com.aliyun.oss.OSSClient">
+		<constructor-arg value="#{fileTransfer['oss.endpoint']}"/>
+		<constructor-arg value="#{fileTransfer['oss.accessKeyId']}"/>
+		<constructor-arg value="#{fileTransfer['oss.accessKeySecret']}"/>
+	</bean>
+
+	<!-- oss第二版配置 -->
+	<bean id="ossConfig" class="com.nm.api.frame.oss.config.OSSFileTransferConfig">
+		<property name="bucket" value="#{fileTransfer['oss.bucket']}" />
+		<property name="basePhysicalAddressDir" value="#{fileTransfer['oss.basePhysicalAddressDir']}" />
+		<property name="baseNetworkAddressDir" value="#{fileTransfer['oss.baseNetworkAddressDir']}" />
+	</bean>
+
+	<!-- 第二版附件上传 -->
+	<bean id="ossFileTransferComp" class="com.nm.api.frame.oss.comp.OSSFileTransferComp">
+		<property name="ossClient" ref="ossClient"/>
+		<property name="ossConfig" ref="ossConfig"/>
+	</bean>
+</beans>

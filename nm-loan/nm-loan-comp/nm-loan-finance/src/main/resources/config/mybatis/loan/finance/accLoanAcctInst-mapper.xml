@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccLoanAcctInstMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccLoanAcctInstRetMap" type="com.hs.loan.finance.entity.AccLoanAcctInst">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="BUSN_DATE" property="busnDate"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="TOTL_AMT" property="totlAmt"/>
+			<result column="DAY_RCV_AMT" property="dayRcvAmt"/>
+			<result column="CUR_RCV_AMT" property="curRcvAmt"/>
+			<result column="FUND_TOTL_AMT" property="fundTotlAmt"/>
+			<result column="FUND_DAY_RCV_AMT" property="fundDayRcvAmt"/>
+			<result column="FUND_CUR_RCV_AMT" property="fundCurRcvAmt"/>
+			<result column="SETL_AMT" property="setlAmt"/>
+			<result column="INST_STAT" property="instStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	<select id="getByLoanNo" parameterType="java.util.HashMap" resultMap="AccLoanAcctInstRetMap">
+
+	</select>
+	<!-- 返回 Bean-->
+	<resultMap id="AccLoanAcctInstDgMap" type="com.hs.loan.finance.bo.AccLoanAcctInstBo" extends="AccLoanAcctInstRetMap">
+			<result column="CUST_NAME" property="custName"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CERT_NO" property="certNo"/>
+			<result column="ACCT_NO" property="custAcctNo"/>
+			<result column="ACCT_NAME" property="custAcctName"/>
+			<result column="OPEN_ORG" property="openOrg"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_分期预处理 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccLoanAcctInst">
+		insert into ACC_LOAN_ACCT_INST
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,BUSN_DATE
+  			,REPAY_NUM
+  			,TOTL_AMT
+  			,DAY_RCV_AMT
+  			,CUR_RCV_AMT
+  			,FUND_TOTL_AMT
+  			,FUND_DAY_RCV_AMT
+  			,FUND_CUR_RCV_AMT
+  			,SETL_AMT
+  			,INST_STAT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{busnDate}
+  			, #{repayNum}
+  			, #{totlAmt}
+  			, #{dayRcvAmt}
+  			, #{curRcvAmt}
+  			, #{fundTotlAmt}
+  			, #{fundDayRcvAmt}
+  			, #{fundCurRcvAmt}
+  			, #{setlAmt}
+  			, #{instStat}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_分期预处理 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_LOAN_ACCT_INST
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busnDate')">  
+	  					BUSN_DATE = #{busnDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('totlAmt')">  
+	  					TOTL_AMT = #{totlAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('dayRcvAmt')">  
+	  					DAY_SHL_AMT = #{dayRcvAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('curRcvAmt')">  
+	  					CURR_SHL_AMT = #{curRcvAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fundTotlAmt')">  
+	  					FUND_TOTL_AMT = #{fundTotlAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fundDayRcvAmt')">  
+	  					FUND_DAY_SHL_AMT = #{fundDayRcvAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fundCurRcvAmt')">  
+	  					FUND_CURR_SHL_AMT = #{fundCurRcvAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('setlAmt')">  
+	  					SETL_AMT = #{setlAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instStat')">  
+	  					t.INST_STAT = #{instStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	
+	
+	<!-- 删除 ACC_分期预处理 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_LOAN_ACCT_INST
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_分期预处理 -->
+	<select id="getByPrimaryKey" resultMap="AccLoanAcctInstRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_LOAN_ACCT_INST t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_分期预处理 列表 -->
+	<select id="queryForList" resultMap="AccLoanAcctInstRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_LOAN_ACCT_INST t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="busnDate != null and busnDate != ''">
+	  				and t.BUSN_DATE = #{busnDate}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="totlAmt != null">
+	  				and t.TOTL_AMT = #{totlAmt}				
+	  			</if>
+				<if test="dayRcvAmt != null">
+	  				and t.DAY_RCV_AMT = #{dayRcvAmt}				
+	  			</if>
+				<if test="curRcvAmt != null">
+	  				and t.CUR_RCV_AMT = #{curRcvAmt}				
+	  			</if>
+				<if test="fundTotlAmt != null">
+	  				and t.FUND_TOTL_AMT = #{fundTotlAmt}				
+	  			</if>
+				<if test="fundDayRcvAmt != null">
+	  				and t.FUND_DAY_RCV_AMT = #{fundDayRcvAmt}				
+	  			</if>
+				<if test="fundCurrShlAmt != null">
+	  				and t.FUND_CUR_RCV_AMT = #{fundCurRcvAmt}				
+	  			</if>
+				<if test="setlAmt != null">
+	  				and t.SETL_AMT = #{setlAmt}				
+	  			</if>
+				<if test="instStat != null and instStat != ''">
+	  				and t.INST_STAT = #{instStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+  				<if test="bgRepayNum != null and bgRepayNum!='' and enRepayNum!=null and enRepayNum!=''">
+	  				and t.REPAY_NUM between #{bgRepayNum} and #{enRepayNum}				
+	  			</if>
+    	</trim>
+    	order by t.REPAY_NUM
+	</select>
+	
+	<!-- 查询当前时间点未结清的总期数 -->
+	<select id="queryUnClearTotalByLoanNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+	    select count(loan_no) unClearTotal from acc_loan_acct_inst
+		where DAY_RCV_AMT >= CUR_RCV_AMT and INST_STAT != '20101003'
+		and loan_no = #{loanNo}
+		group by loan_no
+	</select>
+	
+	<!-- 查询预处理表  -->
+	<select id="queryAccLoanAcctInst" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT
+			t.REPAY_NUM,
+			t.REPAY_DATE,
+			t.LOAN_NO,
+			t.TOTL_AMT,
+			t.DAY_RCV_AMT,
+			t.CUR_RCV_AMT,
+			t.FUND_TOTL_AMT,
+			t.FUND_DAY_RCV_AMT,
+			t.FUND_CUR_RCV_AMT,
+			t.SETL_AMT,
+			t.INST_STAT,
+			t.BUSN_DATE
+		FROM ACC_LOAN_ACCT_INST t
+		where t.LOAN_NO = #{loanNo}
+	 		and t.REPAY_NUM = #{repayNum}
+		 ORDER BY t.REPAY_NUM ASC
+	</select>
+	<!-- 查询预处理表  -->
+	<select id="queryAccLoanAcctInstSelt" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT
+			t.REPAY_NUM,
+			t.REPAY_DATE,
+			t.LOAN_NO,
+			t.TOTL_AMT,
+			sum(t.DAY_RCV_AMT) DAY_RCV_AMT,
+			sum(t.CUR_RCV_AMT) CUR_RCV_AMT,
+			sum(t.FUND_TOTL_AMT) FUND_TOTL_AMT,
+			sum(t.FUND_DAY_RCV_AMT) FUND_DAY_RCV_AMT,
+			sum(t.FUND_CUR_RCV_AMT) FUND_CUR_RCV_AMT,
+			t.SETL_AMT,
+			t.INST_STAT,
+			t.BUSN_DATE
+		FROM ACC_LOAN_ACCT_INST t
+		where t.LOAN_NO = #{loanNo}
+		 ORDER BY t.REPAY_NUM ASC
+	</select>
+	
+	<!-- 查询预处理表  -->
+	<select id="queryListAccLoanAcctInst" resultType="java.util.HashMap">
+		SELECT
+			t.REPAY_NUM,
+			t.REPAY_DATE,
+			t.LOAN_NO,
+			t.TOTL_AMT,
+			t.DAY_RCV_AMT,
+			t.CUR_RCV_AMT,
+			t.FUND_TOTL_AMT,
+			t.FUND_DAY_RCV_AMT,
+			t.FUND_CUR_RCV_AMT,
+			t.SETL_AMT,
+			t.INST_STAT,
+			t.BUSN_DATE
+		FROM ACC_LOAN_ACCT_INST t
+		where t.LOAN_NO = #{loanNo}
+		 ORDER BY t.REPAY_NUM ASC
+	</select>
+	
+	<!-- 计算当前应还的总金额  -->
+	<select id="queryAccLoanAcctAll" resultType="java.util.HashMap">
+		<![CDATA[
+		SELECT
+			sum(t.CUR_RCV_AMT) "allAmt"
+		FROM ACC_LOAN_ACCT_INST t
+		where t.LOAN_NO = #{loanNo}
+	 		and t.REPAY_NUM >= #{bgRepayNum}
+	 		and t.REPAY_NUM <= #{edRepayNum}
+	 	]]>
+	</select>
+	
+	<!-- 更新预处理表状态  -->
+	<update id="updateAccLoanAccInstLockStatusByLoanNoAndRepayNum" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET t.INST_STAT = #{instStat},
+		t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo} 
+		<if test="repayNum != null">
+	  		and t.REPAY_NUM = #{repayNum}				
+	 	</if>
+	</update>
+	
+	<!-- 查询预处理表状态  -->
+	<select id="queryAccLoanAccInstLockStatusByLoanNoAndRepayNum" resultType="java.util.HashMap">
+		SELECT
+			t.INST_STAT,
+			t.BUSN_DATE
+		FROM ACC_LOAN_ACCT_INST t 
+		where t.LOAN_NO = #{loanNo} 
+		<if test="repayNum != null and repayNum != ''">
+	 		and t.REPAY_NUM = #{repayNum}
+ 		</if>
+	</select>
+	
+	<!-- 资方扣款更新预处理表金额  -->
+	<update id="updateFundAccLoanInst" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET  t.FUND_CURR_RCV_AMT = t.FUND_CUR_RCV_AMT - #{FUND_CUR_RCV_AMT},
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo}
+	 		and t.REPAY_NUM = #{repayNum}
+	</update>
+	
+	
+	<!-- 更新当前金额为0 -->
+	<update id="updateAccLoanInstAmtToZero" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET t.CUR_RCV_AMT = 0,
+			t.FUND_CUR_RCV_AMT = 0,
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo}
+	 		and t.REPAY_NUM = #{repayNum}
+	</update>
+	
+	<!-- 更新当日应还并更改当前预处理状态  -->
+	<update id="updateAlaiCramtAndIns" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET  t.CUR_RCV_AMT = t.CUR_RCV_AMT - #{curRcvAmt},
+			t.INST_STAT = #{stat},
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo}
+	 		and t.REPAY_NUM = #{repayNum}
+	</update>
+	
+	<!-- 更新信托当日应还并更改当前预处理状态  -->
+	<update id="updateXtAlaiCramtAndIns" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET  t.FUND_CUR_RCV_AMT = t.FUND_CUR_RCV_AMT - #{fundCurRcvAmt},
+			t.INST_STAT = #{stat},
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo}
+	 		and t.REPAY_NUM = #{repayNum}
+	</update>
+	
+	<!-- 更新当前金额为0 -->
+	<update id="updateAccLoanInstCurRcvAmt" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET t.CUR_RCV_AMT = t.CUR_RCV_AMT - #{curRcvAmt},
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo} and t.REPAY_NUM = #{repayNum}
+	</update>
+	<!-- 更新当前金额为0 -->
+	<update id="updateAccLoanInstCurRcvAmtAndUnLock" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET t.CUR_RCV_AMT = t.CUR_RCV_AMT - #{curRcvAmt},t.INST_STAT = '20101001',
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo} and t.REPAY_NUM = #{repayNum}
+	</update>
+	
+	<!-- 更新当前金额为0 -->
+	<update id="batchUpdateAccLoanInstCurRcvAmt" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET t.CUR_RCV_AMT = t.CUR_RCV_AMT - #{curRcvAmt},
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo} and t.REPAY_NUM = #{repayNum}
+	</update>
+	
+	<!-- 更新结清金额 -->
+	<update id="updateAccLoanInstSetlAmt" parameterType="java.util.Map">
+		UPDATE ACC_LOAN_ACCT_INST t
+		SET t.SETL_AMT = t.SETL_AMT - ${curRcvAmt},
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo}
+	</update>
+	<insert id="insertAppFeeAdjuReg" parameterType="java.util.Map">
+		INSERT INTO app_fee_adju_reg (`ID`, `LOAN_NO`, `ADJU_REPAY_DATE`, `REPAY_NUM`, `ADJU_TYP`, `TRAN_STAFF`, `INST_DATE`, `STAT`)
+        VALUES (#{id},#{loanNo},#{adjuRepayDate},#{repayNum},#{adjuType},#{tranStaff},NOW(),#{stat});
+	</insert>
+	<select id="isLock" resultType="java.lang.Integer" parameterType="java.util.Map">
+		<![CDATA[ SELECT COUNT(0) coun  FROM acc_loan_acct_inst  WHERE INST_STAT <> '20101001' AND LOAN_NO=#{loanNo}]]>
+	</select>
+	<select id="isOver" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(0) AS coun from pl_loan_ovdu_case where LOAN_NO=#{loanNo} AND deal_stat = '50002001'
+	</select>
+	<select id="changeCount" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT count(0) AS changeCount FROM APP_FEE_ADJU_REG WHERE LOAN_NO=#{loanNo}
+	</select>
+	<select id="flexibleNotYetDetail" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT c.cust_name AS custName,c.CERT_NO AS certNo,t.LOAN_NO AS loanNo,t.REPAY_NUM AS repayNum,
+        t.REPAY_DATE AS repayDate,t.CUR_RCV_AMT AS curRcvAmt FROM ACC_LOAN_ACCT_INST t
+        join APP_LOAN_ACCT acc on t.loan_no = acc.loan_no
+        join app_cust_info c on acc.cust_no = c.cust_no
+        WHERE t.LOAN_NO=#{loanNo}
+	</select>
+	<!-- 查询预处理表（对公还款登记）-->
+	<select id="queryAccLoanAcctInstDg" resultMap="AccLoanAcctInstDgMap" parameterType="java.util.Map">
+		SELECT
+		    t.id,
+			t.REPAY_NUM ,
+			t.REPAY_DATE,
+			t.LOAN_NO,
+			t.TOTL_AMT,
+			t.DAY_RCV_AMT,
+			t.CUR_RCV_AMT,
+			t.FUND_TOTL_AMT,
+			t.FUND_DAY_RCV_AMT,
+			t.FUND_CUR_RCV_AMT,
+			t.SETL_AMT,
+			t.INST_STAT,
+			t.BUSN_DATE,
+			c.cust_name,
+			c.CERT_NO,
+			c.cust_no,
+			bank.ACCT_NO,
+			bank.ACCT_NAME,
+			bank.OPEN_ORG
+		FROM ACC_LOAN_ACCT_INST t
+          join APP_LOAN_ACCT acc
+            on t.loan_no = acc.loan_no
+          join app_cust_info c
+            on acc.cust_no = c.cust_no
+          join app_loan_bank_acct bak
+            on bak.loan_no=t.loan_no
+          join app_cust_bank_acct bank
+            on bank.id=bak.BANK_ACCT_ID
+         WHERE t.INST_STAT =#{instStat}
+         	 and  bak.stat='10002001'
+	 		<if test="loanNo != null and loanNo != ''">
+	 		and	t.loan_no = #{loanNo}
+	 		</if>
+	 		<if test="repayNum != null and repayNum != ''">
+	 		and	t.repay_num = #{repayNum}
+	 		</if>
+	 		<if test="custName != null and custName != ''">
+	 		and	c.cust_name  like CONCAT('%',#{custName},'%')
+	 		</if>
+	 		<if test="certNo != null and certNo != ''">
+	 		and	c.CERT_NO =#{certNo}
+	 		</if>
+         order by t.repay_num ASC
+	</select>
+	<!-- 根据批量代扣查询条件批量锁定预处理表并更新预处理表更新时间 -->
+	<update id="batchUpdateAccLoanAcctInstByBatckDk" parameterType="java.util.Map">
+	    update acc_loan_acct_inst i set i.INST_STAT = #{instStat},i.UPDT_DATE = #{updt}
+		where EXISTS (
+			select 1 from ACC_CAP_WITH w where w.loan_no = i.loan_no and i.REPAY_NUM = w.repay_num
+				<if test="repayNum != null and repayNum != ''">
+	  				and w.REPAY_NUM = #{repayNum}				
+	  			</if>
+	  			<if test="loanNo != null and loanNo != ''">
+	  				and w.loan_no = #{loanNo}				
+	  			</if>
+	  			<if test="startTime != null and startTime != ''">
+	  				and w.REPAY_DATE &gt;= #{startTime}				
+	  			</if>
+	  			<if test="endTime != null and endTime != ''">
+	  				and w.REPAY_DATE &lt;= #{endTime}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and w.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and w.BANK_NO = #{bankNo}				
+	  			</if>
+				<if test="withStat != null and withStat != ''">
+	  				and w.WITH_STAT = #{withStat}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and w.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and w.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="bankName != null and bankName != ''">
+	  				and w.BANK_NAME = #{bankName}				
+	  			</if>
+	  			<if test ="companyType!=null and companyType!=''">
+	  				and w.COMPANY_TYP = #{companyType}
+	  			</if>
+  				<if test ="ovduStatNo!=null and ovduStatNo !=''">
+	  				  AND NOT EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = w.LOAN_NO AND PC.deal_stat = '50002001')
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='1'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev=1)
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='2'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev>1)
+	  			</if>
+	  			<if test="lianlianpay!=null and lianlianpay!='' ">
+	  				AND EXISTS
+			              (SELECT acs.user_id, acs.card_no
+			                 FROM acc_cap_lian_sign AS acs
+			                WHERE acs.user_id = w.LOAN_NO AND acs.card_no = w.ACCT_NO and acs.state='10002001')
+	  			</if>
+			) and i.inst_stat !='20101003' and i.CUR_RCV_AMT > 0
+	</update>
+	
+	<update id="batchUpdateAccCapWithByBatckDk" parameterType="java.util.Map">
+		update ACC_CAP_WITH w set w.WITH_STAT = #{withStatForUpdate},w.UPDT_DATE = #{updtDate}	
+		where w.WITH_STAT = #{withStat}	
+		and w.COMPANY_TYP = #{companyType}
+		and not EXISTS(select loan_no from acc_loan_acct_inst i where w.loan_No = i.loan_no and i.inst_stat ='20101003' and i.CUR_RCV_AMT &lt;= 0 )
+			<if test="repayNum != null and repayNum != ''">
+	  				and w.REPAY_NUM = #{repayNum}				
+	  			</if>
+	  			<if test="loanNo != null and loanNo != ''">
+	  				and w.loan_no = #{loanNo}				
+	  			</if>
+	  			<if test="startTime != null and startTime != ''">
+	  				and w.REPAY_DATE &gt;= #{startTime}				
+	  			</if>
+	  			<if test="endTime != null and endTime != ''">
+	  				and w.REPAY_DATE &lt;= #{endTime}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and w.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and w.BANK_NO = #{bankNo}				
+	  			</if>
+				<if test="withStat != null and withStat != ''">
+	  				and w.WITH_STAT = #{withStat}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and w.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and w.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="bankName != null and bankName != ''">
+	  				and w.BANK_NAME = #{bankName}				
+	  			</if>
+  				<if test ="ovduStatNo!=null and ovduStatNo !=''">
+	  				  AND NOT EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = w.LOAN_NO AND PC.deal_stat = '50002001')
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='1'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev=1)
+	  			</if>
+	  			<if test ="ovduStatYes!=null and ovduStatYes !='' and ovduStatYes =='2'.toString()">
+	 				 AND  EXISTS
+		              (SELECT PC.LOAN_NO
+		                 FROM pl_loan_ovdu_case PC
+		                WHERE PC.LOAN_NO = t.LOAN_NO AND PC.deal_stat = '50002001' and pc.ovdu_lev>1)
+	  			</if>
+	  			<if test="lianlianpay!=null and lianlianpay!='' ">
+	  				AND EXISTS
+			              (SELECT acs.user_id, acs.card_no
+			                 FROM acc_cap_lian_sign AS acs
+			                WHERE acs.user_id = w.LOAN_NO AND acs.card_no = w.ACCT_NO and acs.state='10002001')
+	  			</if>
+	</update>
+	<!-- 根据批量代扣查询条件批量锁定|解锁预处理表并更新预处理表更新时间 -->
+	<update id="batchUpdateALAIStatAndCurAmtByBatckDk" parameterType="java.util.Map">
+	    update acc_loan_acct_inst i
+			   SET i.CUR_RCV_AMT = I.CUR_RCV_AMT - 
+			          (SELECT T.TRAN_AMT
+			             FROM ACC_REPAY_FLOW T
+			            WHERE (t.loan_no, t.repay_date, t.inst_date) IN
+			                     (SELECT LOAN_NO, REPAY_DATE, max(inst_date)
+			                        FROM ACC_REPAY_FLOW T1
+			                       WHERE     t1.loan_no = i.loan_no
+			                         AND t1.repay_date = i.repay_date
+			                      GROUP BY LOAN_NO, REPAY_DATE
+			                  )
+			          ),I.INST_STAT = #{instStat},i.UPDT_DATE = #{updt}
+			 WHERE EXISTS
+			          (SELECT loan_no
+			             FROM ACC_CAP_WITH w
+			            where w.loan_no = i.loan_no
+			              AND i.REPAY_NUM = w.repay_num
+			              AND w.id IN (${withIds}))
+	</update>
+	
+	<!-- 更新金额 -->
+	<update id="batchUpdateCurAmtByBatckDk" parameterType="java.util.Map">
+	    update acc_loan_acct_inst i
+			   SET i.CUR_RCV_AMT = I.CUR_RCV_AMT - 
+			          (SELECT ifnull(T.TRAN_AMT,0)
+			             FROM ACC_REPAY_FLOW T
+			            WHERE (t.loan_no, t.repay_date, t.inst_date) IN
+			                     (SELECT LOAN_NO, REPAY_DATE, max(inst_date)
+			                        FROM ACC_REPAY_FLOW T1
+			                       WHERE     t1.loan_no = i.loan_no
+			                         AND t1.repay_date = i.repay_date
+			                      GROUP BY LOAN_NO, REPAY_DATE
+			                  )
+			          ),i.UPDT_DATE = #{updt}
+			 WHERE EXISTS
+			          (SELECT loan_no
+			             FROM ACC_CAP_WITH w
+			            where w.loan_no = i.loan_no
+			              AND i.REPAY_NUM = w.repay_num
+			              AND w.id IN (${withIds}))
+	</update>
+	
+	<!-- 只更新状态 -->
+	<update id="batchUpdateALAIStatByBatckDk" parameterType="java.util.Map">
+	    update acc_loan_acct_inst i
+			   SET I.INST_STAT = #{instStat},i.UPDT_DATE = #{updt}
+			 WHERE EXISTS
+			          (SELECT loan_no
+			             FROM ACC_CAP_WITH w
+			            where w.loan_no = i.loan_no
+			              AND i.REPAY_NUM = w.repay_num
+			              AND w.id IN (${withIds}))
+	</update>
+</mapper>

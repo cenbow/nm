@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.PubSysOperaterLogMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysOperaterLogRetMap" type="com.hs.system.entity.SysOperaterLog">
+		<result column="ID" property="id" />
+		<result column="STAFF_ID" property="staffId" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="LOG_IP" property="logIp" />
+		<result column="SERVER_IP" property="serverIp" />
+		<result column="BUSI_TYP" property="busiTyp" />
+		<result column="LOG_DATE" property="logDate" />
+		<result column="OPERATE_TYP" property="operateTyp" />
+		<result column="OPERATE_INFO" property="operateInfo" />
+		<result column="SYS_NAME" property="sysName" />
+		<result column="CHANNEL" property="channel" />
+	</resultMap>
+
+	<!-- 新增 SYS_系统操作日志 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysOperaterLog">
+		insert into sys_operater_log
+		(
+		ID
+		,STAFF_ID
+		,STAFF_NAME
+		,LOG_IP
+		,SERVER_IP
+		,BUSI_TYP
+		,LOG_DATE
+		,OPERATE_TYP
+		,OPERATE_INFO
+		,SYS_NAME
+		,CHANNEL
+		)
+		values
+		(
+		#{id}
+		, #{staffId}
+		, #{staffName}
+		, #{logIp}
+		, #{serverIp}
+		, #{busiTyp}
+		, #{logDate}
+		, #{operateTyp}
+		, #{operateInfo}
+		, #{sysName}
+		, #{channel}
+		)
+	</insert>
+</mapper>

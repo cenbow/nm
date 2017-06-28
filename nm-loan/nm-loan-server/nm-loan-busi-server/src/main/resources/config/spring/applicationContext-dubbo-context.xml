@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 生成远程服务代理，可以像使用本地bean一样使用Service -->
+	<dubbo:reference registry="refReg" check="false"  id="busiCustInfoService" interface="com.hs.loan.cust.api.CustInfoApi" />    <!-- 客户基本信息查询  -->
+	<dubbo:reference registry="refReg" check="false"  id="busiCustBankAcctService" interface="com.hs.loan.cust.api.CustBankAcctApi" />    <!-- 客户银行账户信息 -->
+	<dubbo:reference registry="refReg" check="false"  id="busiProdService" interface="com.hs.loan.prod.api.ProdApi" />    <!-- 产品信息 -->
+	<dubbo:reference registry="refReg" check="false"  id="busiBranchService" interface="com.hs.loan.market.api.BranchApi" />    <!-- 网点服务  -->
+	<dubbo:reference registry="refReg" check="false"  id="busiProdFeeService" interface="com.hs.loan.prod.api.ProdFeeApi" />    <!-- 产品费用  -->
+	<dubbo:reference registry="refReg" check="false"  id="busiRepayFirstConfService" interface="com.hs.loan.acct.api.RepayFirstConfApi" />    <!-- 首次还款日  -->
+	<dubbo:reference registry="refReg" check="false"  id="busiSqeService" interface="com.hs.system.sqe.SysSqeApi" />    <!-- 获取编号  -->
+</beans>

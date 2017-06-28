@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustScoreMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustScoreRetMap" type="com.hs.loan.cust.entity.AppCustScore">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="SCORE" property="score"/>
+			<result column="SCORE_TYP" property="scoreTyp"/>
+			<result column="SCORE_DATE" property="scoreDate"/>
+			<result column="SCORE_VALID" property="scoreValid"/>
+			<result column="SCORE_USER" property="scoreUser"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户评分 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustScore">
+		insert into app_cust_score
+		(
+  			ID
+  			,CUST_NO
+  			,SCORE
+  			,SCORE_TYP
+  			,SCORE_DATE
+  			,SCORE_VALID
+  			,SCORE_USER
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{score}
+  			, #{scoreTyp}
+  			, #{scoreDate}
+  			, #{scoreValid}
+  			, #{scoreUser}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户评分 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_score
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('score')">  
+	  					SCORE = #{score},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('scoreTyp')">  
+	  					SCORE_TYP = #{scoreTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('scoreDate')">  
+	  					SCORE_DATE = #{scoreDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('scoreValid')">  
+	  					SCORE_VALID = #{scoreValid},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('scoreUser')">  
+	  					SCORE_USER = #{scoreUser},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户评分 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_score
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户评分 -->
+	<select id="getByPrimaryKey" resultMap="AppCustScoreRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_score t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户评分 列表 -->
+	<select id="queryForList" resultMap="AppCustScoreRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_score t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="score != null and score != ''">
+	  				and t.SCORE = #{score}				
+	  			</if>
+				<if test="scoreTyp != null and scoreTyp != ''">
+	  				and t.SCORE_TYP = #{scoreTyp}				
+	  			</if>
+				<if test="scoreDate != null and scoreDate != ''">
+	  				and t.SCORE_DATE = #{scoreDate}				
+	  			</if>
+				<if test="scoreValid != null and scoreValid != ''">
+	  				and t.SCORE_VALID = #{scoreValid}				
+	  			</if>
+				<if test="scoreUser != null and scoreUser != ''">
+	  				and t.SCORE_USER = #{scoreUser}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

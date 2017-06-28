@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 声明需要暴露的服务接口  -->
+	<dubbo:service registry="svReg"  interface="com.hs.loan.acct.api.RepayFeeConfApi" ref="repayFeeConfServer" >
+		<dubbo:method name="save" retries="0"/>
+	</dubbo:service>
+	<dubbo:service registry="svReg"  interface="com.hs.loan.acct.api.RepayKindConfApi" ref="repayKindConfServer" >
+		<dubbo:method name="save" retries="0" />
+	</dubbo:service>
+	<dubbo:service registry="svReg"  interface="com.hs.loan.acct.api.RepayTypConfApi" ref="repayTypConfServer" >
+		<dubbo:method name="save" retries="0"/>
+	</dubbo:service>
+	<dubbo:service registry="svReg"  interface="com.hs.loan.acct.api.RepayFirstConfApi" ref="repayFirstDateServer" >
+		<dubbo:method name="save" retries="0"/>
+	</dubbo:service>
+	
+	<dubbo:service registry="svReg"  interface="com.hs.loan.acct.api.SubjInfoApi" ref="subjInfoServer" />
+	
+</beans>

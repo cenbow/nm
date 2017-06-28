@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccInnAcctDtlMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccInnAcctDtlRetMap" type="com.hs.loan.finance.entity.AccInnAcctDtl">
+			<result column="SEQ_NO" property="seqNo"/>
+			<result column="SERL_NO" property="serlNo"/>
+			<result column="ACCT_NO" property="acctNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="TX_DATE" property="txDate"/>
+			<result column="SUBJ_NO" property="subjNo"/>
+			<result column="DR_CR_FLALG" property="drCrFlalg"/>
+			<result column="TX_AMT" property="txAmt"/>
+			<result column="BAL" property="bal"/>
+			<result column="CNT_ACCT_NO" property="cntAcctNo"/>
+			<result column="CNT_ACCT_NAME" property="cntAcctName"/>
+			<result column="CNT_CUST_NO" property="cntCustNo"/>
+			<result column="TX_STAT" property="txStat"/>
+			<result column="TX_COD" property="txCod"/>
+			<result column="TX_DESC" property="txDesc"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_内部账户交易明细 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccInnAcctDtl">
+		insert into ACC_INN_ACCT_DTL
+		(
+  			SEQ_NO
+  			,SERL_NO
+  			,ACCT_NO
+  			,CUST_NO
+  			,ACCT_NAME
+  			,TX_DATE
+  			,SUBJ_NO
+  			,DR_CR_FLALG
+  			,TX_AMT
+  			,BAL
+  			,CNT_ACCT_NO
+  			,CNT_ACCT_NAME
+  			,CNT_CUST_NO
+  			,TX_STAT
+  			,TX_COD
+  			,TX_DESC
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{seqNo}
+  			, #{serlNo}
+  			, #{acctNo}
+  			, #{custNo}
+  			, #{acctName}
+  			, #{txDate}
+  			, #{subjNo}
+  			, #{drCrFlalg}
+  			, #{txAmt}
+  			, #{bal}
+  			, #{cntAcctNo}
+  			, #{cntAcctName}
+  			, #{cntCustNo}
+  			, #{txStat}
+  			, #{txCod}
+  			, #{txDesc}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_内部账户交易明细 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_INN_ACCT_DTL
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('seqNo')">  
+	  					SEQ_NO = #{seqNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('serlNo')">  
+	  					SERL_NO = #{serlNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctNo')">  
+	  					ACCT_NO = #{acctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txDate')">  
+	  					TX_DATE = #{txDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('subjNo')">  
+	  					SUBJ_NO = #{subjNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('drCrFlalg')">  
+	  					DR_CR_FLALG = #{drCrFlalg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txAmt')">  
+	  					TX_AMT = #{txAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bal')">  
+	  					BAL = #{bal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntAcctNo')">  
+	  					CNT_ACCT_NO = #{cntAcctNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntAcctName')">  
+	  					CNT_ACCT_NAME = #{cntAcctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cntCustNo')">  
+	  					CNT_CUST_NO = #{cntCustNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txStat')">  
+	  					TX_STAT = #{txStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txCod')">  
+	  					TX_COD = #{txCod},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txDesc')">  
+	  					TX_DESC = #{txDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+	</update>
+	
+	<!-- 删除 ACC_内部账户交易明细 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_INN_ACCT_DTL
+		where 
+	</delete>
+	
+	<!-- 通过主键查询 ACC_内部账户交易明细 -->
+	<select id="getByPrimaryKey" resultMap="AccInnAcctDtlRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_INN_ACCT_DTL t
+		where 
+	</select>
+	
+	<!-- 查询 ACC_内部账户交易明细 列表 -->
+	<select id="queryForList" resultMap="AccInnAcctDtlRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_INN_ACCT_DTL t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="seqNo != null and seqNo != ''">
+	  				and t.SEQ_NO = #{seqNo}				
+	  			</if>
+				<if test="serlNo != null">
+	  				and t.SERL_NO = #{serlNo}				
+	  			</if>
+				<if test="acctNo != null and acctNo != ''">
+	  				and t.ACCT_NO = #{acctNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="txDate != null">
+	  				and t.TX_DATE = #{txDate}				
+	  			</if>
+				<if test="subjNo != null and subjNo != ''">
+	  				and t.SUBJ_NO = #{subjNo}				
+	  			</if>
+				<if test="drCrFlalg != null and drCrFlalg != ''">
+	  				and t.DR_CR_FLALG = #{drCrFlalg}				
+	  			</if>
+				<if test="txAmt != null">
+	  				and t.TX_AMT = #{txAmt}				
+	  			</if>
+				<if test="bal != null">
+	  				and t.BAL = #{bal}				
+	  			</if>
+				<if test="cntAcctNo != null and cntAcctNo != ''">
+	  				and t.CNT_ACCT_NO = #{cntAcctNo}				
+	  			</if>
+				<if test="cntAcctName != null and cntAcctName != ''">
+	  				and t.CNT_ACCT_NAME = #{cntAcctName}				
+	  			</if>
+				<if test="cntCustNo != null and cntCustNo != ''">
+	  				and t.CNT_CUST_NO = #{cntCustNo}				
+	  			</if>
+				<if test="txStat != null and txStat != ''">
+	  				and t.TX_STAT = #{txStat}				
+	  			</if>
+				<if test="txCod != null and txCod != ''">
+	  				and t.TX_COD = #{txCod}				
+	  			</if>
+				<if test="txDesc != null and txDesc != ''">
+	  				and t.TX_DESC = #{txDesc}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.contract.mapper.AppContractSignInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppContractSignInfoRetMap" type="com.hs.loan.contract.entity.AppContractSignInfo">
+			<result column="loan_no" property="loanNo"/>
+			<result column="contract_no" property="contractNo"/>
+			<result column="sign_status" property="signStatus"/>
+			<result column="contract_url" property="contractUrl"/>
+	</resultMap>
+	<select id="getAttByLoanNo" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT t.ATT_NO,t.LOAN_NO,PHYSICAL_ADDRESS,t.ATT_TYP,t.INST_DATE FROM app_loan_att AS t INNER JOIN sys_attachment
+		AS l ON l.id=t.ATT_NO WHERE (ATT_TYP='40103401' OR  ATT_TYP='40103402' or ATT_TYP='40103404' or  ATT_TYP='40103403')
+		and t.LOAN_NO=#{loanNo}
+	</select>
+	<update id="updateStateLoanAcct" parameterType="java.util.Map">
+		<![CDATA[
+		UPDATE app_loan_acct SET STAT='30201006',REG_DATE=NOW() WHERE LOAN_NO=#{loanNo} AND STAT <> '30201006'
+		]]>
+	</update>
+	<select id="getContractInfoList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT c.CUST_NAME AS custName,C.CERT_NO AS certNo,a.contract_no as contractNo,b.LOAN_NO AS loanNo FROM
+		(SELECT * FROM app_contract_sign_info GROUP BY loan_no) AS a
+		INNER JOIN app_loan_acct AS b ON a.loan_no=b.LOAN_NO  
+		INNER JOIN app_loan_saler s  on b.LOAN_NO = s.LOAN_NO 
+		INNER JOIN sys_org org on s.org_no = org.org_no
+		INNER JOIN app_cust_info AS c ON b.CUST_NO=c.CUST_NO
+		<where>
+			<if test="authority != null and authority == '_SELF_AND_SUB'.toString()">  
+				    and org.org_cod_path like CONCAT('%',#{orgCodPath},'%') 
+			</if>
+			<if test="authority != null and authority == '_SELF'.toString()">  
+				     and s.STAFF_NO=#{staffNo}
+				</if> 
+			<if test="null!=loanNo and ''!=loanNo">
+              AND b.LOAN_NO=#{loanNo}
+			</if>
+			<if test="null!=custName and ''!=custName">
+				AND c.CUST_NAME like CONCAT('%',#{custName},'%')
+			</if>
+			<if test="null!=certNo and ''!=certNo">
+				AND C.CERT_NO=#{certNo}
+			</if>
+		</where>
+	</select>
+    <select id="fileIsUploadSsq" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT * FROM app_contract_sign_info
+		<where>
+			<if test="null!=loanNo and ''!=loanNo">
+				and loan_no=#{loanNo}
+			</if>
+			<if test="null!=contract_no and ''!=contract_no">
+				and contract_no=#{contract_no}
+			</if>
+		</where>
+    </select>
+	<update id="updateAcctStat" parameterType="java.util.Map">
+		UPDATE app_loan_acct SET STAT='30201006' WHERE LOAN_NO=(SELECT LOAN_NO FROM app_contract_sign_info WHERE contract_no=#{contractNo} LIMIT 1)
+	</update>
+	<select id="selectcontractNo" parameterType="java.util.Map"  resultType="java.util.Map">
+		SELECT * from app_contract_sign_info WHERE contract_no=#{contractNo}
+	</select>
+	<delete id="deleteContractByLoanNo" parameterType="java.util.Map">
+		DELETE FROM app_contract_sign_info
+		<where>
+			loan_no=#{loanNo}
+		</where>
+	</delete>
+	<update id="updateSignStatus" parameterType="java.util.Map">
+		UPDATE app_contract_sign_info SET `cust_sign_status`=#{status},`sign_status`=#{status} WHERE (contract_no=#{contractNo} AND sign_type=#{signType})
+	</update>
+	<select id="getXYPage" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM PUB_LOAN_CONTRACT_FILE
+		<where>
+			<if test="null!=fileTyp">
+				AND FILE_TYP=#{fileTyp}
+			</if>
+			<if test="null!=chanNo">
+				AND CHAN_NO=#{chanNo}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+	<select id="insertBatch" parameterType="java.util.Map" resultType="java.lang.Integer">
+		insert into app_contract_sign_info(`loan_no`, `contract_no`, `sign_status`, `contract_url`, `cust_sign_status`, `sign_type`, `contract_sign_id`, `docid`, `sign_phone`)
+		values
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.loanNo},#{item.contractNo},#{item.signStatus},#{item.contractUrl},'0',#{item.signType},#{item.contractSignId},#{item.docid},#{item.signPhone})
+		</foreach>
+	</select>
+	<select id="getProdType" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT a.PROD_TYP FROM pub_prod AS a INNER JOIN app_loan_prod AS b ON a.PROD_NO=b.PROD_NO WHERE b.LOAN_NO=#{loanNo}
+	</select>
+	<select id="getBranchMobl" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT a.CONTCT_TEL,a.CONTCT_DUTY FROM pub_branch AS a INNER JOIN app_loan_branch AS b ON a.BRANCH_NO=b.BRANCH_NO WHERE b.LOAN_NO=#{loanNo}
+	</select>
+    <select id="getStaffMobl" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT MOBL_NO,STAFF_NAME FROM sys_staff WHERE STAFF_NO=#{staffNo}
+	</select>
+	<select id="getContractByLoanNo" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT * from app_contract_sign_info WHERE loan_no=#{loanNo} LIMIT 1
+	</select>
+	<select id="getFeeRatByLoanNo" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT b.fee_rat from app_loan_prod as a INNER JOIN pub_prod_prefee as b
+        ON a.prod_no=b.prod_no and b.fee_num=#{feeNum} and a.loan_no=#{loanNo} limit 1
+	</select>
+	<select id="getContractNoByLoanNo" resultType="java.lang.String" parameterType="java.util.Map">
+		SELECT contract_no from app_contract_sign_info WHERE loan_no=#{loanNo} LIMIT 1
+	</select>
+	<select id="getContract" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT * FROM app_contract_sign_info WHERE loan_no=#{loanNo}
+	</select>
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.contract.entity.AppContractSignInfo">
+		insert into app_contract_sign_info
+		(
+  			loan_no
+  			,contract_no
+  			,sign_status
+  			,contract_url
+  			,cust_sign_status
+    	)
+    	values
+    	(
+  			 #{loanNo}
+  			, #{contractNo}
+  			, #{signStatus}
+  			, #{contractUrl}
+  			, #{custSignStatus}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_contract_sign_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('contractNo')">  
+	  					contract_no = #{contractNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('signStatus')">  
+	  					sign_status = #{signStatus},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contractUrl')">  
+	  					contract_url = #{contractUrl},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custSignStatus')">  
+	  					cust_sign_status = #{custSignStatus},  
+	  				</if>		
+    	</trim>
+		where 
+  			loan_no = #{loanNo}				
+	</update>
+	
+	<!-- 修改  -->
+	<update id="updateByContractNo" parameterType="java.util.Map">
+		update app_contract_sign_info
+		<trim prefix="SET" suffixOverrides=",">
+				<if test="_parameter.containsKey('custSignStatus')">  
+					cust_sign_status = #{custSignStatus},  
+				</if>		
+    	</trim>
+		where contract_no = #{contractNo}				
+	</update>
+	
+	<!-- 删除  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_contract_sign_info
+		where 
+  			loan_no = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询  -->
+	<select id="getByPrimaryKey" resultMap="AppContractSignInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_contract_sign_info t
+		where 
+  				t.loan_no = #{id}				
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="AppContractSignInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_contract_sign_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.loan_no = #{loanNo}				
+	  			</if>
+				<if test="contractNo != null and contractNo != ''">
+	  				and t.contract_no = #{contractNo}				
+	  			</if>
+				<if test="signStatus != null and signStatus != ''">
+	  				and t.sign_status = #{signStatus}				
+	  			</if>
+				<if test="contractUrl != null and contractUrl != ''">
+	  				and t.contract_url = #{contractUrl}				
+	  			</if>
+				<if test="custSignStatus != null and custSignStatus != ''">
+	  				and t.cust_sign_status = #{custSignStatus}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.PubRepayFirstConfMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubRepayFirstConfRetMap" type="com.hs.loan.acct.entity.PubRepayFirstConf">
+			<result column="FIRST_NO" property="firstNo"/>
+			<result column="FIRST_NAME" property="firstName"/>
+			<result column="FIRST_CALC" property="firstCalc"/>
+			<result column="FIRST_REMARK" property="firstRemark"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_首次还款日规则 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.PubRepayFirstConf">
+		insert into PUB_REPAY_FIRST_CONF
+		(
+  			FIRST_NO
+  			,FIRST_NAME
+  			,FIRST_CALC
+  			,FIRST_REMARK
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{firstNo}
+  			, #{firstName}
+  			, #{firstCalc}
+  			, #{firstRemark}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_首次还款日规则 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_REPAY_FIRST_CONF
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('firstName')">  
+	  					FIRST_NAME = #{firstName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('firstCalc')">  
+	  					FIRST_CALC = #{firstCalc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('firstRemark')">  
+	  					FIRST_REMARK = #{firstRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			FIRST_NO = #{firstNo}				
+	</update>
+	
+	<!-- 删除 PUB_首次还款日规则 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_REPAY_FIRST_CONF
+		where 
+  			FIRST_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_首次还款日规则 -->
+	<select id="getByPrimaryKey" resultMap="PubRepayFirstConfRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_REPAY_FIRST_CONF t
+		where 
+  				t.FIRST_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_首次还款日规则 列表 -->
+	<select id="queryForList" resultMap="PubRepayFirstConfRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_REPAY_FIRST_CONF t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="firstNo != null and firstNo != ''">
+	  				and t.FIRST_NO = #{firstNo}				
+	  			</if>
+				<if test="firstName != null and firstName != ''">
+	  				and t.FIRST_NAME = #{firstName}				
+	  			</if>
+				<if test="firstCalc != null and firstCalc != ''">
+	  				and t.FIRST_CALC = #{firstCalc}				
+	  			</if>
+				<if test="firstRemark != null and firstRemark != ''">
+	  				and t.FIRST_REMARK = #{firstRemark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 获取每月还款日	 -->
+	<insert id="getFirstRepayDate" parameterType="java.util.Map" statementType="CALLABLE">  
+			<![CDATA[  
+			    {call PROC_REPAY_DAY (#{I_PROD_NO,mode=IN,jdbcType=VARCHAR},
+								 	  #{I_DAY,mode=IN,jdbcType=INTEGER},
+			    				 	  #{O_RET,mode=OUT,jdbcType=VARCHAR})}  
+			 ]]>  
+	</insert>
+</mapper>

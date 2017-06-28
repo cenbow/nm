@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustLoanTotalMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustLoanTotalRetMap" type="com.hs.loan.cust.entity.AppCustLoanTotal">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="LOAN_CNT" property="loanCnt"/>
+			<result column="LOAN_AMT" property="loanAmt"/>
+			<result column="LOAN_BAL" property="loanBal"/>
+			<result column="LAST_DATE" property="lastDate"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户分期信息汇总 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustLoanTotal">
+		insert into app_cust_loan_total
+		(
+  			ID
+  			,CUST_NO
+  			,LOAN_CNT
+  			,LOAN_AMT
+  			,LOAN_BAL
+  			,LAST_DATE
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{loanCnt}
+  			, #{loanAmt}
+  			, #{loanBal}
+  			, #{lastDate}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户分期信息汇总 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_loan_total
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanCnt')">  
+	  					LOAN_CNT = #{loanCnt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanAmt')">  
+	  					LOAN_AMT = #{loanAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanBal')">  
+	  					LOAN_BAL = #{loanBal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('lastDate')">  
+	  					LAST_DATE = #{lastDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户分期信息汇总 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_loan_total
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户分期信息汇总 -->
+	<select id="getByPrimaryKey" resultMap="AppCustLoanTotalRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_loan_total t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户分期信息汇总 列表 -->
+	<select id="queryForList" resultMap="AppCustLoanTotalRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_loan_total t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="loanCnt != null">
+	  				and t.LOAN_CNT = #{loanCnt}				
+	  			</if>
+				<if test="loanAmt != null">
+	  				and t.LOAN_AMT = #{loanAmt}				
+	  			</if>
+				<if test="loanBal != null">
+	  				and t.LOAN_BAL = #{loanBal}				
+	  			</if>
+				<if test="lastDate != null and lastDate != ''">
+	  				and t.LAST_DATE = #{lastDate}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!--根据客户号获取 客户分期信息汇总  -->
+	<select id="getByNo" resultMap="AppCustLoanTotalRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_loan_total t
+		where 
+  				t.CUST_NO = #{custNo}				
+	</select>
+</mapper>

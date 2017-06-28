@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanAttMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="AppLoanAttRetMap" type="com.hs.loan.sale.entity.AppLoanAtt">
+		<result column="ATT_NO" property="attNo" />
+		<result column="LOAN_NO" property="loanNo" />
+		<result column="CUST_NO" property="custNo" />
+		<result column="ATT_NAME" property="attName" />
+		<result column="ATT_TYP" property="attTyp" />
+		<result column="ATT_FILE" property="attFile" />
+		<result column="INST_USER" property="instUser" />
+		<result column="INST_ORG" property="instOrg" />
+		<result column="INST_DATE" property="instDate" />
+	</resultMap>
+	<select id="getLoanProd" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		SELECT
+		CASE
+		WHEN t.SALE_CHAN='20105002' THEN '线下'
+		WHEN
+		t.SALE_CHAN='20105001' THEN '线上'
+		WHEN t.SALE_CHAN='20105003' THEN '移动'
+		END SALE_CHAN FROM APP_LOAN_PROD AS t WHERE LOAN_NO=#{loanNo} LIMIT 1
+		;
+	</select>
+	<select id="getAttByLoanNo" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT t.ATT_NO,t.LOAN_NO,PHYSICAL_ADDRESS,t.ATT_TYP,t.INST_DATE FROM
+		app_loan_att AS t INNER JOIN sys_attachment
+		AS l ON l.id=t.ATT_NO
+		<where>
+			<if test="null!=loanNo">
+				AND LOAN_NO=#{loanNo}
+			</if>
+			<if test="null!=attTyp">
+				AND ATT_TYP=#{attTyp}
+			</if>
+		</where>
+	</select>
+	<!-- 新增 APP_分期附件表 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanAtt">
+		insert into APP_LOAN_ATT
+		(
+		ATT_NO
+		,LOAN_NO
+		,CUST_NO
+		,ATT_NAME
+		,ATT_TYP
+		,ATT_FILE
+		,INST_USER
+		,INST_ORG
+		,INST_DATE
+		)
+		values
+		(
+		#{attNo}
+		, #{loanNo}
+		, #{custNo}
+		, #{attName}
+		,
+		#{attTyp}
+		, #{attFile}
+		, #{instUser}
+		, #{instOrg}
+		, #{instDate}
+		)
+	</insert>
+
+	<!-- 修改 APP_分期附件表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_ATT
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('custNo')">
+				CUST_NO = #{custNo},
+			</if>
+			<if test="_parameter.containsKey('attName')">
+				ATT_NAME = #{attName},
+			</if>
+			<if test="_parameter.containsKey('attTyp')">
+				ATT_TYP = #{attTyp},
+			</if>
+			<if test="_parameter.containsKey('attFile')">
+				ATT_FILE = #{attFile},
+			</if>
+			<if test="_parameter.containsKey('instUser')">
+				INST_USER = #{instUser},
+			</if>
+			<if test="_parameter.containsKey('instOrg')">
+				INST_ORG = #{instOrg},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+		</trim>
+		where
+		ATT_NO = #{attNo} AND LOAN_NO = #{loanNo}
+	</update>
+
+	<!-- 删除 APP_分期附件表 -->
+	<delete id="deleteByLoanAndAttNo" parameterType="java.util.Map">
+		delete from
+		APP_LOAN_ATT
+		where LOAN_NO = #{loanNo} and ATT_TYP = #{attTyp}
+	</delete>
+
+
+	<!-- 通过主键查询 APP_分期附件表 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanAttRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from APP_LOAN_ATT t
+		where
+		t.ATT_NO = #{attNo} and
+		t.LOAN_NO = #{loanNo}
+	</select>
+
+	<!-- 查询 APP_分期附件表 列表 -->
+	<select id="queryForList" resultMap="AppLoanAttRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from APP_LOAN_ATT t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="attNo != null and attNo != ''">
+				and t.ATT_NO = #{attNo}
+			</if>
+			<if test="loanNo != null and loanNo != ''">
+				and t.LOAN_NO = #{loanNo}
+			</if>
+			<if test="custNo != null and custNo != ''">
+				and t.CUST_NO = #{custNo}
+			</if>
+			<if test="attName != null and attName != ''">
+				and t.ATT_NAME = #{attName}
+			</if>
+			<if test="attTyp != null and attTyp != ''">
+				and t.ATT_TYP = #{attTyp}
+			</if>
+			<if test="attFile != null and attFile != ''">
+				and t.ATT_FILE = #{attFile}
+			</if>
+			<if test="instUser != null and instUser != ''">
+				and t.INST_USER = #{instUser}
+			</if>
+			<if test="instOrg != null and instOrg != ''">
+				and t.INST_ORG = #{instOrg}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+		</trim>
+		order by t.ATT_TYP
+	</select>
+
+	<!-- 查询附件类型 -->
+	<select id="queryLoanAttByGroupCod" resultMap="AppLoanAttRetMap"
+		parameterType="java.util.Map">
+		select distinct la.* from app_loan_att la
+		inner join (
+	     	select ci.* 
+	     		from sys_cod_info ci
+			  	inner join sys_cod_group cg 
+			  		on cg.COD_ID = ci.ID
+			  	inner join sys_group g 
+			  		on g.ID = cg.GROUP_ID
+	      		inner join sys_cod_typ ct 
+	      			on ct.ID = g.TYP_ID
+      			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+      				<if test="groupCods != null">
+						and g.group_cod in
+						<foreach collection="groupCods" index="index" item="groupCod"
+							open="(" separator="," close=")">
+							#{groupCod}
+						</foreach>
+					</if>
+					<if test="groupCodFilters != null">
+						and g.group_cod not in
+						<foreach collection="groupCodFilters" index="index" item="groupCod"
+							open="(" separator="," close=")">
+							#{groupCod}
+						</foreach>
+					</if>
+					<if test="codTyp != null and codTyp != ''">
+						and ct.COD_TYP = #{codTyp}
+					</if>
+				</trim>
+	    ) t on t.COD_VAL = la.ATT_TYP
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="loanNo != null and loanNo != ''">
+				and la.LOAN_NO = #{loanNo}
+			</if>
+		</trim>
+		order by la.ATT_TYP asc
+	</select>
+</mapper>

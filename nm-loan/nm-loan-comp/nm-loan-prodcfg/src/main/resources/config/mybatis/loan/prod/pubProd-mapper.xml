@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdRetMap" type="com.hs.loan.prod.entity.PubProd">
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="PROD_NAME" property="prodName"/>
+			<result column="PROD_TYP" property="prodTyp"/>
+			<result column="RAT" property="rat"/>
+			<result column="IS_PREPOST" property="isPrepost"/>
+			<result column="PREPOST_RAT" property="prepostRat"/>
+			<result column="FST_PAY_TYP" property="fstPayTyp"/>
+			<result column="FST_PAY_VAL" property="fstPayVal"/>
+			<result column="MIN_AMT" property="minAmt"/>
+			<result column="MAX_AMT" property="maxAmt"/>
+			<result column="REPAY_KIND" property="repayKind"/>
+			<result column="COMM_AMT" property="commAmt"/>
+			<result column="PROD_REMARK" property="prodRemark"/>
+			<result column="SALE_CHAN" property="saleChan"/>
+			<result column="START_DATE" property="startDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="PROD_STAT" property="prodStat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="cust_Type" property="custType"/>
+		<!--<result column="FEE_RAT" property="feeRat"/>-->
+	<!--	<result column="FEE_NUM" property="feeNum"/>-->
+	</resultMap>
+	
+	<!-- 新增 PUB_产品信息 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProd">
+		insert into PUB_PROD
+		(
+  			PROD_NO
+  			,PROD_NAME
+  			,PROD_TYP
+  			,RAT
+  			,IS_PREPOST
+  			,PREPOST_RAT
+  			,FST_PAY_TYP
+  			,FST_PAY_VAL
+  			,MIN_AMT
+  			,MAX_AMT
+  			,REPAY_KIND
+  			,COMM_AMT
+  			,PROD_REMARK
+  			,SALE_CHAN
+  			,START_DATE
+  			,END_DATE
+  			,PROD_STAT
+  			,INST_DATE
+  			,UPDT_DATE
+  			,cust_Type
+    	)
+    	values
+    	(
+  			 #{prodNo}
+  			, #{prodName}
+  			, #{prodTyp}
+  			, #{rat}
+  			, #{isPrepost}
+  			, #{prepostRat}
+  			, #{fstPayTyp}
+  			, #{fstPayVal}
+  			, #{minAmt}
+  			, #{maxAmt}
+  			, #{repayKind}
+  			, #{commAmt}
+  			, #{prodRemark}
+  			, #{saleChan}
+  			, #{startDate}
+  			, #{endDate}
+  			, #{prodStat}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{custType}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('prodName')">  
+	  					PROD_NAME = #{prodName},
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodTyp')">  
+	  					PROD_TYP = #{prodTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rat')">  
+	  					RAT = #{rat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custType')">  
+	  					cust_Type = #{custType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isPrepost')">  
+	  					IS_PREPOST = #{isPrepost},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prepostRat')">  
+	  					PREPOST_RAT = #{prepostRat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstPayTyp')">  
+	  					FST_PAY_TYP = #{fstPayTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fstPayVal')">  
+	  					FST_PAY_VAL = #{fstPayVal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('minAmt')">  
+	  					MIN_AMT = #{minAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('maxAmt')">  
+	  					MAX_AMT = #{maxAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayKind')">  
+	  					REPAY_KIND = #{repayKind},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('commAmt')">  
+	  					COMM_AMT = #{commAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodRemark')">  
+	  					PROD_REMARK = #{prodRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleChan')">  
+	  					SALE_CHAN = #{saleChan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('startDate')">  
+	  					START_DATE = #{startDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodStat')">  
+	  					PROD_STAT = #{prodStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>
+		</trim>
+		where 
+  			PROD_NO = #{prodNo}				
+	</update>
+	
+	<!-- 删除 PUB_产品信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD
+		where 
+  			PROD_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品信息 -->
+	<select id="getByPrimaryKey" resultMap="PubProdRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD t
+		where 
+  				t.PROD_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品信息 列表 -->
+	<select id="queryForList" resultMap="PubProdRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="prodName != null and prodName != ''">
+	  				and t.PROD_NAME  like CONCAT(CONCAT('%', #{prodName}), '%')		
+	  			</if>
+				<if test="prodTyp != null and prodTyp != ''">
+	  				and t.PROD_TYP = #{prodTyp}				
+	  			</if>
+				<if test="rat != null">
+	  				and t.RAT = #{rat}				
+	  			</if>
+				<if test="isPrepost != null and isPrepost != ''">
+	  				and t.IS_PREPOST = #{isPrepost}				
+	  			</if>
+				<if test="prepostRat != null">
+	  				and t.PREPOST_RAT = #{prepostRat}				
+	  			</if>
+				<if test="fstPayTyp != null and fstPayTyp != ''">
+	  				and t.FST_PAY_TYP = #{fstPayTyp}				
+	  			</if>
+				<if test="fstPayVal != null">
+	  				and t.FST_PAY_VAL = #{fstPayVal}				
+	  			</if>
+				<if test="minAmt != null">
+	  				and t.MIN_AMT = #{minAmt}				
+	  			</if>
+				<if test="maxAmt != null">
+	  				and t.MAX_AMT = #{maxAmt}				
+	  			</if>
+				<if test="repayKind != null and repayKind != ''">
+	  				and t.REPAY_KIND = #{repayKind}				
+	  			</if>
+				<if test="commAmt != null">
+	  				and t.COMM_AMT = #{commAmt}				
+	  			</if>
+				<if test="prodRemark != null and prodRemark != ''">
+	  				and t.PROD_REMARK = #{prodRemark}				
+	  			</if>
+				<if test="saleChan != null and saleChan != ''">
+	  				and t.SALE_CHAN = #{saleChan}				
+	  			</if>
+				<if test="startDate != null">
+	  				and to_data(#{startDate},'yyyy-MM-dd') >= t.START_DATE 			
+	  			</if>
+				<if test="endDate != null">
+	  				and  t.END_DATE > to_data(#{endDate},'yyyy-MM-dd')			
+	  			</if>
+				<if test="prodStat != null and prodStat != ''">
+	  				and t.PROD_STAT = #{prodStat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="custType != null and custType !=''">
+	  				and t.cust_Type = #{custType}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 查询 PUB_产品信息 列表 -->
+	<select id="queryForBaseList" resultMap="PubProdRetMap" parameterType="java.util.Map">
+		SELECT
+			distinct t.*
+		FROM
+			pub_prod t
+		    LEFT JOIN pub_prod_goods AS b ON t.PROD_NO=b.PROD_NO
+			LEFT JOIN pub_prod_fund_chan f on t.PROD_NO = f.PROD_NO
+			LEFT JOIN pub_prod_str s on t.PROD_NO = s.PROD_NO
+			LEFT JOIN pub_prod_repay_typ r on  t.PROD_NO = r.PROD_NO
+			LEFT JOIN pub_prod_org o on t.prod_no = o.PROD_NO
+		WHERE 1=1 
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="goodsId != null and goodsId != ''">
+					and b.GOODS_ID = #{goodsId}
+				</if>
+				<if test="prodName != null and prodName != ''">
+	  				and t.PROD_NAME like CONCAT(CONCAT('%', #{prodName}), '%')			
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and t.cust_Type = #{custType}				
+	  			</if>
+				<if test="prodTyp != null and prodTyp != ''">
+	  				and t.PROD_TYP = #{prodTyp}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and f.CHAN_NO  in (${chanNo})				
+	  			</if>
+				<if test="branchNo != null and branchNo != ''">
+	  				and s.BRANCH_NO in (${branchNo})				
+	  			</if>
+				<if test="confNo != null and confNo != ''">
+	  				and r.CONF_NO  in(${confNo})				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and o.ORG_NO in (${orgNo})				
+	  			</if>
+				<if test="rat != null  and rat != ''">
+	  				and t.RAT = #{rat}				
+	  			</if>
+				<if test="isPrepost != null and isPrepost != ''">
+	  				and t.IS_PREPOST = #{isPrepost}				
+	  			</if>
+				<if test="prepostRat != null and prepostRat != ''">
+	  				and t.PREPOST_RAT = #{prepostRat}				
+	  			</if>
+				<if test="fstPayTyp != null and fstPayTyp != ''">
+	  				and t.FST_PAY_TYP = #{fstPayTyp}				
+	  			</if>
+				<if test="fstPayVal != null and fstPayVal !=''">
+	  				and t.FST_PAY_VAL = #{fstPayVal}				
+	  			</if>
+				<if test="repayKind != null and repayKind != ''">
+	  				and t.REPAY_KIND = #{repayKind}				
+	  			</if>
+				<if test="commAmt != null">
+	  				and t.COMM_AMT = #{commAmt}				
+	  			</if>
+				<if test="prodRemark != null and prodRemark != ''">
+	  				and t.PROD_REMARK = #{prodRemark}				
+	  			</if>
+				<if test="saleChan != null and saleChan != ''">
+	  				and t.SALE_CHAN = #{saleChan}				
+	  			</if>
+				<if test="startDate != null and startDate !=''">
+	  				and t.START_DATE = #{startDate}				
+	  			</if>
+				<if test="endDate != null  and endDate !=''">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+				<if test="prodStat != null and prodStat != ''">
+	  				and t.PROD_STAT = #{prodStat}				
+	  			</if>
+				<if test="instDate != null  and instDate !=''">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null  and updtDate !=''">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+	</select>
+	<!-- 查询 PUB_产品信息 列表 -->
+	<select id="queryProdListForLoanCal" resultMap="PubProdRetMap" parameterType="java.util.Map">
+		SELECT
+			distinct t.*
+		FROM
+			pub_prod t 
+			LEFT JOIN pub_prod_fund_chan f on t.PROD_NO = f.PROD_NO
+			LEFT JOIN pub_prod_str s on t.PROD_NO = s.PROD_NO
+			LEFT JOIN PUB_PROD_GROUP g on t.prod_no=g.group_no
+			LEFT JOIN PUB_PROD_TEAM  m on t.prod_no=m.group_no
+			LEFT JOIN pub_prod_org o on t.prod_no = o.PROD_NO
+		WHERE 1=1 
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="prodName != null and prodName != ''">
+	  				and t.PROD_NAME like CONCAT(CONCAT('%', #{prodName}), '%')			
+	  			</if>
+				<if test="custType != null and custType != ''">
+	  				and t.cust_Type = #{custType}				
+	  			</if>
+				<if test="prodTyp != null and prodTyp != ''">
+	  				and t.PROD_TYP = #{prodTyp}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and f.CHAN_NO  in (${chanNo})				
+	  			</if>
+				<if test="branchNo != null and branchNo != ''">
+	  				and s.BRANCH_NO in (${branchNo})				
+	  			</if>
+				<if test="confNo != null and confNo != ''">
+	  				and r.CONF_NO  in(${confNo})				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and o.ORG_NO in (${orgNo})				
+	  			</if>
+				<if test="rat != null  and rat != ''">
+	  				and t.RAT = #{rat}				
+	  			</if>
+				<if test="isPrepost != null and isPrepost != ''">
+	  				and t.IS_PREPOST = #{isPrepost}				
+	  			</if>
+				<if test="prepostRat != null and prepostRat != ''">
+	  				and t.PREPOST_RAT = #{prepostRat}				
+	  			</if>
+				<if test="fstPayTyp != null and fstPayTyp != ''">
+	  				and t.FST_PAY_TYP = #{fstPayTyp}				
+	  			</if>
+				<if test="fstPayVal != null and fstPayVal !=''">
+	  				and t.FST_PAY_VAL = #{fstPayVal}				
+	  			</if>
+				<if test="repayKind != null and repayKind != ''">
+	  				and t.REPAY_KIND = #{repayKind}				
+	  			</if>
+				<if test="commAmt != null">
+	  				and t.COMM_AMT = #{commAmt}				
+	  			</if>
+				<if test="prodRemark != null and prodRemark != ''">
+	  				and t.PROD_REMARK = #{prodRemark}				
+	  			</if>
+				<if test="saleChan != null and saleChan != ''">
+	  				and t.SALE_CHAN = #{saleChan}				
+	  			</if>
+				<if test="startDate != null and startDate !=''">
+	  				and t.START_DATE = #{startDate}				
+	  			</if>
+				<if test="endDate != null  and endDate !=''">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+				<if test="prodStat != null and prodStat != ''">
+	  				and t.PROD_STAT = #{prodStat}				
+	  			</if>
+				<if test="instDate != null  and instDate !=''">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null  and updtDate !=''">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+	</select>
+	
+ 
+	<select id="queryProdLisForLoanCal" parameterType="java.util.Map"  resultMap="PubProdRetMap" statementType="CALLABLE">  
+			<![CDATA[  
+			    {call PROC_PUB_PROD (#{I_SALE_CHAN,mode=IN,jdbcType=VARCHAR},
+									 #{I_PROD_TYP,mode=IN,jdbcType=VARCHAR},
+									 #{I_STAFF_NO,mode=IN,jdbcType=VARCHAR},
+									 #{I_ORG_NO,mode=IN,jdbcType=VARCHAR},
+									 #{I_STR_NO,mode=IN,jdbcType=VARCHAR},
+									 #{I_CUST_TYP,mode=IN,jdbcType=VARCHAR},
+									 #{I_GOODS_TYP,mode=IN,jdbcType=VARCHAR},
+				    				 #{O_RET,mode=OUT,jdbcType=VARCHAR})}  
+			 ]]>  
+	</select>
+	<select id="getPreFee" parameterType="java.util.List" resultType="java.util.Map">
+		select distinct prod_no as prodNo,fst_pay_typ as fstPayTyp,fst_pay_val as fstPayVal from PUB_PROD_PREFEE 
+		where  prod_no in
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			 #{item.prodNo}		
+  		</foreach>
+	</select>
+	
+</mapper>

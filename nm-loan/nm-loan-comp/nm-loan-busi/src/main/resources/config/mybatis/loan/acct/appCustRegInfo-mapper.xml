@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.AppCustRegInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustRegInfoRetMap" type="com.hs.loan.acct.entity.AppCustRegInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="AREA" property="area"/>
+			<result column="LOGIN_TIME" property="loginTime"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户登录信息 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.AppCustRegInfo">
+		insert into app_cust_reg_info
+		(
+  			ID
+  			,CUST_NO
+  			,AREA
+  			,LOGIN_TIME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{area}
+  			, #{loginTime}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户登录信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_reg_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('area')">  
+	  					AREA = #{area},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loginTime')">  
+	  					LOGIN_TIME = #{loginTime},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户登录信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_reg_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户登录信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustRegInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_reg_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户登录信息 列表 -->
+	<select id="queryForList" resultMap="AppCustRegInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_reg_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="area != null and area != ''">
+	  				and t.AREA = #{area}				
+	  			</if>
+				<if test="loginTime != null">
+	  				and t.LOGIN_TIME &gt;= #{loginTime}
+	  				and t.LOGIN_TIME &lt;= #{loginTime}					
+	  			</if>
+    	</trim>
+    	order by t.LOGIN_TIME desc
+	</select>
+</mapper>

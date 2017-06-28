@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nm.mapper.home.HomeApiMapper">
+
+    <insert id="saveCallLogs">
+    <![CDATA[
+      INSERT into APP_CAP_CALL_INFO (
+      ID
+      ,CUST_NO
+      ,CONTENT
+      ,INST_DATE
+      ) values (
+      #{id}
+      ,#{custNo}
+      ,#{phoneBook}
+      ,#{instDate}
+      )
+      ]]>
+    </insert>
+
+   <update id="updateCallLogs">
+        UPDATE APP_CAP_CALL_INFO set CONTENT=#{phoneBook} where CUST_NO=#{custNo}
+    </update>
+    
+     <select id="queryCustCallLogs" resultType="java.lang.Integer">
+        select count(*) from APP_CAP_CALL_INFO where  CUST_NO=#{custNo}
+    </select>
+    
+    
+
+    <select id="queryBarnners" resultType="map">
+        <![CDATA[
+  select ID ,IMAGE_NAME,IMAGE_URL,REMARK,ADVER_CHAN, IS_UPDATE  from APP_ADVER_ACTIVITY  where ADVER_CHAN='cust'
+            ]]>
+    </select>
+
+</mapper>

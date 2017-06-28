@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.SysSalescoreInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="SysSalescoreInfoRetMap" type="com.hs.loan.finance.entity.SysSalescoreInfo">
+			<result column="ID" property="id"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="MGR_AREA_NO" property="mgrAreaNo"/>
+			<result column="MGR_REGION_NO" property="mgrRegionNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="BELG_ORG_NO" property="belgOrgNo"/>
+			<result column="BELG_ORG_NAME" property="belgOrgName"/>
+			<result column="AREA_FLAG" property="areaFlag"/>
+			<result column="TARGET_AMT" property="targetAmt"/>
+			<result column="ALL_TARGET_AMT" property="allTargetAmt"/>
+			<result column="ROLE_ID" property="roleId"/>
+			<result column="CREATE_DATE" property="createDate"/>
+			<result column="LEAVE_DATE" property="leaveDate"/>
+			<result column="STAT_MTH" property="statMth"/>
+			<result column="OVDU_RAT" property="ovduRat"/>
+			<result column="SCORE" property="score"/>
+	</resultMap>
+	
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.SysSalescoreInfo">
+		insert into sys_salescore_info
+		(
+  			ID
+  			,STAFF_NO
+  			,MGR_AREA_NO
+  			,MGR_REGION_NO
+  			,STAFF_NAME
+  			,BELG_ORG_NO
+  			,BELG_ORG_NAME
+  			,AREA_FLAG
+  			,TARGET_AMT
+  			,ALL_TARGET_AMT
+  			,ROLE_ID
+  			,CREATE_DATE
+  			,LEAVE_DATE
+  			,STAT_MTH
+  			,OVDU_RAT
+  			,SCORE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{staffNo}
+  			, #{mgrAreaNo}
+  			, #{mgrRegionNo}
+  			, #{staffName}
+  			, #{belgOrgNo}
+  			, #{belgOrgName}
+  			, #{areaFlag}
+  			, #{targetAmt}
+  			, #{allTargetAmt}
+  			, #{roleId}
+  			, #{createDate}
+  			, #{leaveDate}
+  			, #{statMth}
+  			, #{ovduRat}
+  			, #{score}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_salescore_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mgrAreaNo')">  
+	  					MGR_AREA_NO = #{mgrAreaNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mgrRegionNo')">  
+	  					MGR_REGION_NO = #{mgrRegionNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('belgOrgNo')">  
+	  					BELG_ORG_NO = #{belgOrgNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('belgOrgName')">  
+	  					BELG_ORG_NAME = #{belgOrgName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaFlag')">  
+	  					AREA_FLAG = #{areaFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('targetAmt')">  
+	  					TARGET_AMT = #{targetAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('allTargetAmt')">  
+	  					ALL_TARGET_AMT = #{allTargetAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('roleId')">  
+	  					ROLE_ID = #{roleId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('createDate')">  
+	  					CREATE_DATE = #{createDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('leaveDate')">  
+	  					LEAVE_DATE = #{leaveDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('statMth')">  
+	  					STAT_MTH = #{statMth},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('ovduRat')">  
+	  					OVDU_RAT = #{ovduRat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('score')">  
+	  					SCORE = #{score},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_salescore_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询  -->
+	<select id="getByPrimaryKey" resultMap="SysSalescoreInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from sys_salescore_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="SysSalescoreInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from sys_salescore_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="mgrAreaNo != null and mgrAreaNo != ''">
+	  				and t.MGR_AREA_NO = #{mgrAreaNo}				
+	  			</if>
+				<if test="mgrRegionNo != null and mgrRegionNo != ''">
+	  				and t.MGR_REGION_NO = #{mgrRegionNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="belgOrgNo != null and belgOrgNo != ''">
+	  				and t.BELG_ORG_NO = #{belgOrgNo}				
+	  			</if>
+				<if test="belgOrgName != null and belgOrgName != ''">
+	  				and t.BELG_ORG_NAME = #{belgOrgName}				
+	  			</if>
+				<if test="areaFlag != null and areaFlag != ''">
+	  				and t.AREA_FLAG = #{areaFlag}				
+	  			</if>
+				<if test="targetAmt != null">
+	  				and t.TARGET_AMT = #{targetAmt}				
+	  			</if>
+				<if test="allTargetAmt != null">
+	  				and t.ALL_TARGET_AMT = #{allTargetAmt}				
+	  			</if>
+				<if test="roleId != null and roleId != ''">
+	  				and t.ROLE_ID = #{roleId}				
+	  			</if>
+				<if test="createDate != null">
+	  				and t.CREATE_DATE = #{createDate}				
+	  			</if>
+				<if test="leaveDate != null">
+	  				and t.LEAVE_DATE = #{leaveDate}				
+	  			</if>
+				<if test="statMth != null and statMth != ''">
+	  				and t.STAT_MTH = #{statMth}				
+	  			</if>
+				<if test="ovduRat != null">
+	  				and t.OVDU_RAT = #{ovduRat}				
+	  			</if>
+				<if test="score != null">
+	  				and t.SCORE = #{score}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

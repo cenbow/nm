@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.attach.mapper.SysAttachmentMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="SysAttachmentRetMap" type="com.hs.system.entity.SysAttachment">
+			<result column="ID" property="id"/>
+			<result column="ORIGINAL_NAME" property="originalName"/>
+			<result column="PRESENT_NAME" property="presentName"/>
+			<result column="FILE_SIZE" property="fileSize"/>
+			<result column="CONTENT_TYPE" property="contentType"/>
+			<result column="PHYSICAL_ADDRESS" property="physicalAddress"/>
+			<result column="NETWORK_ADDRESS" property="networkAddress"/>
+			<result column="EXT_NAME" property="extName"/>
+			<result column="BUSI_TYPE" property="busiType"/>
+			<result column="BUSI_KEY" property="busiKey"/>
+			<result column="BUSI_REMARK" property="busiRemark"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="INST_PERSON" property="instPerson"/>
+			<result column="STAT" property="stat"/>
+	</resultMap>
+	
+	<!-- 新增 SYS_附件表 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysAttachment">
+		insert into sys_attachment
+		(
+  			ID
+  			,ORIGINAL_NAME
+  			,PRESENT_NAME
+  			,FILE_SIZE
+  			,CONTENT_TYPE
+  			,PHYSICAL_ADDRESS
+  			,NETWORK_ADDRESS
+  			,EXT_NAME
+  			,BUSI_TYPE
+  			,BUSI_KEY
+  			,BUSI_REMARK
+  			,INST_DATE
+  			,UPDT_DATE
+  			,INST_PERSON
+  			,STAT
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{originalName}
+  			, #{presentName}
+  			, #{fileSize}
+  			, #{contentType}
+  			, #{physicalAddress}
+  			, #{networkAddress}
+  			, #{extName}
+  			, #{busiType}
+  			, #{busiKey}
+  			, #{busiRemark}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{instPerson}
+  			, #{stat}
+    	)
+	</insert>
+	
+	<!-- 修改 SYS_附件表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_attachment
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('originalName')">  
+	  					ORIGINAL_NAME = #{originalName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('presentName')">  
+	  					PRESENT_NAME = #{presentName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fileSize')">  
+	  					FILE_SIZE = #{fileSize},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contentType')">  
+	  					CONTENT_TYPE = #{contentType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('physicalAddress')">  
+	  					PHYSICAL_ADDRESS = #{physicalAddress},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('networkAddress')">  
+	  					NETWORK_ADDRESS = #{networkAddress},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('extName')">  
+	  					EXT_NAME = #{extName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busiType')">  
+	  					BUSI_TYPE = #{busiType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busiKey')">  
+	  					BUSI_KEY = #{busiKey},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busiRemark')">  
+	  					BUSI_REMARK = #{busiRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instPerson')">  
+	  					INST_PERSON = #{instPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 SYS_附件表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_attachment
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 SYS_附件表 -->
+	<select id="getByPrimaryKey" resultMap="SysAttachmentRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from sys_attachment t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 SYS_附件表 列表 -->
+	<select id="queryForList" resultMap="SysAttachmentRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from sys_attachment t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="originalName != null and originalName != ''">
+	  				and t.ORIGINAL_NAME = #{originalName}				
+	  			</if>
+				<if test="presentName != null and presentName != ''">
+	  				and t.PRESENT_NAME = #{presentName}				
+	  			</if>
+				<if test="fileSize != null">
+	  				and t.FILE_SIZE = #{fileSize}				
+	  			</if>
+				<if test="contentType != null and contentType != ''">
+	  				and t.CONTENT_TYPE = #{contentType}				
+	  			</if>
+				<if test="physicalAddress != null and physicalAddress != ''">
+	  				and t.PHYSICAL_ADDRESS = #{physicalAddress}				
+	  			</if>
+				<if test="networkAddress != null and networkAddress != ''">
+	  				and t.NETWORK_ADDRESS = #{networkAddress}				
+	  			</if>
+				<if test="extName != null and extName != ''">
+	  				and t.EXT_NAME = #{extName}				
+	  			</if>
+				<if test="busiType != null and busiType != ''">
+	  				and t.BUSI_TYPE = #{busiType}				
+	  			</if>
+				<if test="busiKey != null and busiKey != ''">
+	  				and t.BUSI_KEY = #{busiKey}				
+	  			</if>
+				<if test="busiRemark != null and busiRemark != ''">
+	  				and t.BUSI_REMARK = #{busiRemark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and DATE_FORMAT(t.INST_DATE,'%Y%m%d') = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="instPerson != null and instPerson != ''">
+	  				and t.INST_PERSON = #{instPerson}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

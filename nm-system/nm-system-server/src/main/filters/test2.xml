@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<portable-config>
+	<config-file path="dubbo.properties">
+		<replace key="dubbo.registry.address">zookeeper://192.168.3.208:2181</replace>
+		
+		<replace key="dubbo.protocol.port">20982</replace>
+		<replace key="dubbo.service.loadbalance">leastactive</replace>
+		<replace key="dubbo.log4j.level">INFO</replace>
+		<replace key="dubbo.log4j.file">/data/deploy/logs/dubbo-hs-system-provider.log</replace>
+	</config-file>
+	<config-file path="application.properties">
+		<replace key="jdbc.driver">com.mysql.jdbc.Driver</replace>
+		<replace key="jdbc.url">jdbc:mysql://nmsgcomp.mysql.rds.aliyuncs.com:3306/nmtest-db?useUnicode=true&amp;characterEncoding=utf-8</replace>
+		<replace key="jdbc.username">nmtest</replace>
+		<replace key="jdbc.password">nmtest</replace>
+		<replace key="jdbc.pool.minIdle">2</replace>
+		<replace key="jdbc.pool.maxActive">4</replace>
+		<replace key="web.maxUploadSize">10485760</replace>
+		
+		<replace key="jdbc.driverRead">com.mysql.jdbc.Driver</replace>
+  		<replace key="jdbc.urlRead">jdbc:mysql://nmsgcomp.mysql.rds.aliyuncs.com:3306/nmtest-db?useUnicode=true&amp;characterEncoding=utf-8</replace>
+  		<replace key="jdbc.usernameRead">nmtest</replace>
+  		<replace key="jdbc.passwordRead">nmtest</replace>
+  		<replace key="jdbc.pool.minIdleRead">2</replace>
+  		<replace key="jdbc.pool.maxActiveRead">4</replace>
+  		<replace key="web.maxUploadSizeRead">10485760</replace>
+	</config-file>
+
+	<config-file path="logback.xml">
+		<replace
+			xpath="/configuration/property[@name='LOG_HOME']/@value">/data/deploy/logs</replace>
+		<replace xpath="/configuration/logger[@name='com.hs']/@level">TRACE</replace>
+		<replace xpath="/configuration/root/@level">INFO</replace>
+	</config-file>
+	<config-file path="/env/redis.properties">
+		<replace key="redis.host">192.168.3.208</replace>
+		<replace key="redis.port">6379</replace>
+		<replace key="redis.password">Lemon@123</replace>
+		<replace key="redis.maxIdle">300</replace>
+		<replace key="redis.testOnBorrow">true</replace>
+	</config-file>
+	<config-file path="env/sys.properties">
+		<replace key="sys.run.env">test2</replace>
+		<replace key="sys.redis.enable">true</replace>
+	</config-file>
+</portable-config>

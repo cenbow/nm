@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustGroupMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustGroupRetMap" type="com.hs.loan.cust.entity.AppCustGroup">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_GROUP" property="custGroup"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户与客户群的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustGroup">
+		insert into app_cust_group
+		(
+  			ID
+  			,CUST_NO
+  			,CUST_GROUP
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{custGroup}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户与客户群的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_group
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custGroup')">  
+	  					CUST_GROUP = #{custGroup},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户与客户群的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_group
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户与客户群的关系 -->
+	<select id="getByPrimaryKey" resultMap="AppCustGroupRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_group t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户与客户群的关系 列表 -->
+	<select id="queryForList" resultMap="AppCustGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_group t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custGroup != null and custGroup != ''">
+	  				and t.CUST_GROUP = #{custGroup}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

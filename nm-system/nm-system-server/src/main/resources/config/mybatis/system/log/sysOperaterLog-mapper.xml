@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.log.mapper.SysOperaterLogMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysOperaterLogRetMap" type="com.hs.system.entity.SysOperaterLog">
+		<result column="ID" property="id" />
+		<result column="STAFF_ID" property="staffId" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="LOG_IP" property="logIp" />
+		<result column="SERVER_IP" property="serverIp" />
+		<result column="BUSI_TYP" property="busiTyp" />
+		<result column="LOG_DATE" property="logDate" />
+		<result column="OPERATE_TYP" property="operateTyp" />
+		<result column="OPERATE_INFO" property="operateInfo" />
+		<result column="SYS_NAME" property="sysName" />
+		<result column="CHANNEL" property="channel" />
+	</resultMap>
+
+	<!-- 新增 SYS_系统操作日志 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysOperaterLog">
+		insert into sys_operater_log
+		(
+		ID
+		,STAFF_ID
+		,STAFF_NAME
+		,LOG_IP
+		,SERVER_IP
+		,BUSI_TYP
+		,LOG_DATE
+		,OPERATE_TYP
+		,OPERATE_INFO
+		,SYS_NAME
+		,CHANNEL
+		)
+		values
+		(
+		#{id}
+		, #{staffId}
+		, #{staffName}
+		, #{logIp}
+		, #{serverIp}
+		, #{busiTyp}
+		, #{logDate}
+		, #{operateTyp}
+		, #{operateInfo}
+		, #{sysName}
+		, #{channel}
+		)
+	</insert>
+
+	<!-- 修改 SYS_系统操作日志 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_operater_log
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('staffId')">
+				STAFF_ID = #{staffId},
+			</if>
+			<if test="_parameter.containsKey('staffName')">
+				STAFF_NAME = #{staffName},
+			</if>
+			<if test="_parameter.containsKey('logIp')">
+				LOG_IP = #{logIp},
+			</if>
+			<if test="_parameter.containsKey('serverIp')">
+				SERVER_IP = #{serverIp},
+			</if>
+			<if test="_parameter.containsKey('busiTyp')">
+				BUSI_TYP = #{busiTyp},
+			</if>
+			<if test="_parameter.containsKey('logDate')">
+				LOG_DATE = #{logDate},
+			</if>
+			<if test="_parameter.containsKey('operateTyp')">
+				OPERATE_TYP = #{operateTyp},
+			</if>
+			<if test="_parameter.containsKey('operateInfo')">
+				OPERATE_INFO = #{operateInfo},
+			</if>
+			<if test="_parameter.containsKey('sysName')">
+				SYS_NAME = #{sysName},
+			</if>
+			<if test="_parameter.containsKey('channel')">
+				CHANNEL = #{channel},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 SYS_系统操作日志 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_operater_log
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 SYS_系统操作日志 -->
+	<select id="getByPrimaryKey" resultMap="SysOperaterLogRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_operater_log t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 SYS_系统操作日志 列表 -->
+	<select id="queryForList" resultMap="SysOperaterLogRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_operater_log t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="staffId != null and staffId != ''">
+				and t.STAFF_ID = #{staffId}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME like CONCAT('%',#{staffName},'%')
+			</if>
+			<if test="logIp != null and logIp != ''">
+				and t.LOG_IP = #{logIp}
+			</if>
+			<if test="serverIp != null and serverIp != ''">
+				and t.SERVER_IP = #{serverIp}
+			</if>
+			<if test="busiTyp != null and busiTyp != ''">
+				and t.BUSI_TYP = #{busiTyp}
+			</if>
+			<if test="startDate != null and startDate != ''">
+   	 				<![CDATA[   and DATE_FORMAT(t.LOG_DATE, '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%i:%s')   ]]>
+			</if>
+			<if test="endDate != null and endDate != ''">
+			    	<![CDATA[  and DATE_FORMAT(t.LOG_DATE, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%i:%s')    ]]>
+			</if>
+			<if test="operateTyp != null and operateTyp != ''">
+				and t.OPERATE_TYP = #{operateTyp}
+			</if>
+			<if test="operateInfo != null and operateInfo != ''">
+				and t.OPERATE_INFO  like CONCAT('%',#{operateInfo},'%')
+			</if>
+			<if test="sysName != null and sysName != ''">
+				and t.SYS_NAME  like CONCAT('%',#{sysName},'%')
+			</if>
+			<if test="channel != null and channel != ''">
+				and t.CHANNEL = #{channel}
+			</if>
+		</trim>
+	</select>
+</mapper>

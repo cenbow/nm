@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.AccLoanActRepayMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccLoanActRepayRetMap" type="com.hs.loan.acct.entity.AccLoanActRepay">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="NUM" property="num"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="REPAY_AMT" property="repayAmt"/>
+			<result column="PRIN_INTER_AMT" property="prinInterAmt"/>
+			<result column="PRIN_AMT" property="prinAmt"/>
+			<result column="INTER_AMT" property="interAmt"/>
+			<result column="OVERDUE_AMT" property="overdueAmt"/>
+			<result column="SERVICE_AMT" property="serviceAmt"/>
+			<result column="ACCT_MNG_AMT" property="acctMngAmt"/>
+			<result column="INSU_AMT" property="insuAmt"/>
+			<result column="FEE_AMT" property="feeAmt"/>
+			<result column="UNEXP_PAY_AMT" property="unexpPayAmt"/>
+			<result column="AGILITY_AMT" property="agilityAmt"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_实还明细信息 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.AccLoanActRepay">
+		insert into ACC_LOAN_ACT_REPAY
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,NUM
+  			,REPAY_NUM
+  			,REPAY_AMT
+  			,PRIN_INTER_AMT
+  			,PRIN_AMT
+  			,INTER_AMT
+  			,OVERDUE_AMT
+  			,SERVICE_AMT
+  			,ACCT_MNG_AMT
+  			,INSU_AMT
+  			,FEE_AMT
+  			,UNEXP_PAY_AMT
+  			,AGILITY_AMT
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{num}
+  			, #{repayNum}
+  			, #{repayAmt}
+  			, #{prinInterAmt}
+  			, #{prinAmt}
+  			, #{interAmt}
+  			, #{overdueAmt}
+  			, #{serviceAmt}
+  			, #{acctMngAmt}
+  			, #{insuAmt}
+  			, #{feeAmt}
+  			, #{unexpPayAmt}
+  			, #{agilityAmt}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_实还明细信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_LOAN_ACT_REPAY
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('num')">  
+	  					NUM = #{num},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayAmt')">  
+	  					REPAY_AMT = #{repayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prinInterAmt')">  
+	  					PRIN_INTER_AMT = #{prinInterAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prinAmt')">  
+	  					PRIN_AMT = #{prinAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('interAmt')">  
+	  					INTER_AMT = #{interAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueAmt')">  
+	  					OVERDUE_AMT = #{overdueAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('serviceAmt')">  
+	  					SERVICE_AMT = #{serviceAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctMngAmt')">  
+	  					ACCT_MNG_AMT = #{acctMngAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('insuAmt')">  
+	  					INSU_AMT = #{insuAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeAmt')">  
+	  					FEE_AMT = #{feeAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unexpPayAmt')">  
+	  					UNEXP_PAY_AMT = #{unexpPayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('agilityAmt')">  
+	  					AGILITY_AMT = #{agilityAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_实还明细信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_LOAN_ACT_REPAY
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_实还明细信息 -->
+	<select id="getByPrimaryKey" resultMap="AccLoanActRepayRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_LOAN_ACT_REPAY t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_实还明细信息 列表 -->
+	<select id="queryForList" resultMap="AccLoanActRepayRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_LOAN_ACT_REPAY t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="num != null">
+	  				and t.NUM = #{num}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="repayAmt != null">
+	  				and t.REPAY_AMT = #{repayAmt}				
+	  			</if>
+				<if test="prinInterAmt != null">
+	  				and t.PRIN_INTER_AMT = #{prinInterAmt}				
+	  			</if>
+				<if test="prinAmt != null">
+	  				and t.PRIN_AMT = #{prinAmt}				
+	  			</if>
+				<if test="interAmt != null">
+	  				and t.INTER_AMT = #{interAmt}				
+	  			</if>
+				<if test="overdueAmt != null">
+	  				and t.OVERDUE_AMT = #{overdueAmt}				
+	  			</if>
+				<if test="serviceAmt != null">
+	  				and t.SERVICE_AMT = #{serviceAmt}				
+	  			</if>
+				<if test="acctMngAmt != null">
+	  				and t.ACCT_MNG_AMT = #{acctMngAmt}				
+	  			</if>
+				<if test="insuAmt != null">
+	  				and t.INSU_AMT = #{insuAmt}				
+	  			</if>
+				<if test="feeAmt != null">
+	  				and t.FEE_AMT = #{feeAmt}				
+	  			</if>
+				<if test="unexpPayAmt != null">
+	  				and t.UNEXP_PAY_AMT = #{unexpPayAmt}				
+	  			</if>
+				<if test="agilityAmt != null">
+	  				and t.AGILITY_AMT = #{agilityAmt}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdGroupMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdGroupRetMap" type="com.hs.loan.prod.entity.PubProdGroup">
+			<result column="ID" property="id"/>
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="GROUP_NO" property="groupNo"/>
+			<result column="GROUP_NAME" property="groupName"/>
+	</resultMap>
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdGroupCrowdRetMap" type="com.hs.loan.prod.bo.ProdGroupBO">
+			<result column="ID" property="id"/>
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="GROUP_NO" property="groupNo"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="property" property="property"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与销售群关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdGroup">
+		insert into PUB_PROD_GROUP
+		(
+  			ID
+  			,PROD_NO
+  			,GROUP_NO
+  			,GROUP_NAME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{prodNo}
+  			, #{groupNo}
+  			, #{groupName}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与销售群关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupNo')">  
+	  					group_NO = #{groupNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					group_NAME = #{groupName},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与销售群关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD_GROUP
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 删除 PUB_产品与销售群关系 -->
+	<delete id="deleteBygroupNo" parameterType="java.lang.String">
+		delete from PUB_PROD_GROUP
+		where 
+  			group_NO = #{groupNo}			
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与销售群关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdGroupRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD_GROUP t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品与销售群关系 列表 -->
+	<select id="queryForList" resultMap="PubProdGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_GROUP t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="groupNo != null and groupNo != ''">
+	  				and t.group_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.group_NAME like CONCAT(CONCAT('%', #{groupName}), '%')			
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 查询 PUB_产品与销售群关系 列表 -->
+	<select id="queryForGroupCrowdList" resultMap="PubProdGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_GROUP t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="groupNo != null and groupNo != ''">
+	  				and t.group_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.group_NAME like CONCAT(CONCAT('%', #{groupName}), '%')			
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 查询 PUB_产品与销售群关系 列表 -->
+	<select id="queryForPageGroupCrowd" resultMap="PubProdGroupCrowdRetMap" parameterType="java.util.Map">
+		select * from(
+				SELECT
+       			g.ID,
+       			g.PROD_NO,
+				g.GROUP_NO,
+				g.GROUP_NAME,
+				'11006001' property
+			FROM
+				pub_prod_group g
+			UNION ALL
+				SELECT
+					a.ID,
+					a.PROD_NO,
+					a.crowd_NO GROUP_NO,
+					a.crowd_NAME GROUP_NAME,
+					'11006002' property
+				FROM
+					pub_prod_crowd a) t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="property != null and property != ''">
+	  				and t.property = #{property}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+	  			<if test="groupNo != null and groupNo != ''">
+	  				and t.group_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME  like CONCAT(CONCAT('%', #{groupName}), '%')				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

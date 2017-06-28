@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdFeeMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdFeeRetMap" type="com.hs.loan.prod.entity.PubProdFee">
+			<result column="ID" property="id"/>
+			<result column="FEE_NO" property="feeNo"/>
+			<result column="PROD_NO" property="prodNo"/>
+			<result column="FEE_NAME" property="feeName"/>
+			<result column="FEE_VAL" property="feeVal"/>
+			<result column="IS_SEL" property="isSel"/>
+			<result column="SETL_PRIOR" property="setlPrior"/>
+			<result column="INST_NUM" property="instNum"/>
+	</resultMap>
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdFeeRet" type="com.hs.loan.prod.bo.PubProdFeeBo" extends="PubProdFeeRetMap">
+		    <result column="fee_Mode" property="feeMode"/>
+			<result column="FEE_RAT" property="feeRat"/>
+		    <result column="RAT" property="rat"/>
+		    <result column="FST_PAY_TYP" property="fstPayTyp"/>
+		    <result column="FST_PAY_VAL" property="fstPayVal"/> 
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与费用项关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdFee">
+		insert into PUB_PROD_FEE
+		(
+  			ID
+  			,FEE_NO
+  			,PROD_NO
+  			,FEE_NAME
+  			,FEE_VAL
+  			,IS_SEL
+  			,SETL_PRIOR
+  			,INST_NUM
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{feeNo}
+  			, #{prodNo}
+  			, #{feeName}
+  			, #{feeVal}
+  			, #{isSel}
+  			, #{setlPrior}
+  			, #{instNum}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与费用项关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_PROD_FEE
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('feeNo')">  
+	  					FEE_NO = #{feeNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instNum')">  
+	  					INST_NUM = #{instNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeName')">  
+	  					FEE_NAME = #{feeName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('feeVal')">  
+	  					FEE_VAL = #{feeVal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isSel')">  
+	  					IS_SEL = #{isSel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('setlPrior')">  
+	  					SETL_PRIOR = #{setlPrior},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与费用项关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_PROD_FEE
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与费用项关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdFeeRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_PROD_FEE t
+		where 
+  				t.ID = #{id}				
+	</select>
+	<!-- 通过主键查询 PUB_产品与费用项关系 -->
+	<select id="queryProdFeeForIvnNum" resultType="java.lang.String" parameterType="java.lang.String">
+			SELECT DISTINCT p.INST_NUM  as instNum
+			FROM 	pub_prod_fee p
+			WHERE 	p.pROD_NO = #{prodNo}		
+	</select>
+	
+	<!-- 查询 PUB_产品与费用项关系 列表 -->
+	<select id="queryForList" resultMap="PubProdFeeRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_PROD_FEE t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="feeNo != null and feeNo != ''">
+	  				and t.FEE_NO = #{feeNo}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="feeName != null and feeName != ''">
+	  				and t.FEE_NAME = #{feeName}				
+	  			</if>
+				<if test="feeVal != null and feeVal != ''">
+	  				and t.FEE_VAL = #{feeVal}				
+	  			</if>
+				<if test="isSel != null and isSel != ''">
+	  				and t.IS_SEL = #{isSel}				
+	  			</if>
+				<if test="setlPrior != null">
+	  				and t.SETL_PRIOR = #{setlPrior}				
+	  			</if>	  
+				<if test="instNum != null and instNum != ''">
+	  				and t.INST_NUM = #{instNum}			
+	  			</if>
+    	</trim>
+    	order by t.SETL_PRIOR ASC
+	</select>
+	<insert id="insertPubProdPrefee" parameterType="java.util.Map">
+		INSERT INTO `pub_prod_prefee` (`ID`, `PROD_NO`, `FEE_NUM`, `FEE_RAT`, `RAT`, `FST_PAY_TYP`, `FST_PAY_VAL`) VALUES
+		(#{id}, #{prodNo},#{feeNum}, #{feeRat},#{rat},#{fstPayTyp},#{fstPayVal} )
+	</insert>
+    <delete id="delPubProdPrefee" parameterType="java.util.Map">
+		DELETE FROM pub_prod_prefee WHERE PROD_NO=#{prodNo}
+		<if test="feeNum!=null and feeNum!=''">
+			 AND FEE_NUM=#{feeNum}	
+		</if>
+	</delete>
+	<!-- 查询 PUB_产品与费用项关系 列表 -->
+	<select id="queryForListFee2" resultMap="PubProdFeeRet" parameterType="java.util.Map">
+		select
+		t.*,
+		f.fee_Mode,
+		p.RAT,p.FEE_RAT,p.FST_PAY_TYP,p.FST_PAY_VAL
+		from PUB_PROD_FEE t
+		INNER JOIN PUB_PROD_PREFEE p ON t.PROD_NO=p.PROD_NO AND t.INST_NUM=p.FEE_NUM
+		LEFT JOIN pub_repay_fee_conf f on t.FEE_NO=f.FEE_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="feeNo != null and feeNo != ''">
+				and t.FEE_NO = #{feeNo}
+			</if>
+			<if test="prodNo != null and prodNo != ''">
+				and t.PROD_NO = #{prodNo}
+			</if>
+			<if test="feeName != null and feeName != ''">
+				and t.FEE_NAME = #{feeName}
+			</if>
+			<if test="feeVal != null and feeVal != ''">
+				and t.FEE_VAL = #{feeVal}
+			</if>
+			<if test="isSel != null and isSel != ''">
+				and t.IS_SEL = #{isSel}
+			</if>
+			<if test="setlPrior != null">
+				and t.SETL_PRIOR = #{setlPrior}
+			</if>
+			<if test="instNum != null and instNum != ''">
+				and t.INST_NUM = #{instNum}
+			</if>
+		</trim>
+		order by t.INST_NUM,t.SETL_PRIOR ASC
+	</select>
+
+	<!-- 查询 PUB_产品与费用项关系 列表 -->
+	<select id="queryForListFee" resultMap="PubProdFeeRet" parameterType="java.util.Map">
+			select
+				t.*,
+				f.fee_Mode
+			from PUB_PROD_FEE t
+		LEFT JOIN pub_repay_fee_conf f on t.FEE_NO=f.FEE_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="feeNo != null and feeNo != ''">
+	  				and t.FEE_NO = #{feeNo}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+				<if test="feeName != null and feeName != ''">
+	  				and t.FEE_NAME = #{feeName}				
+	  			</if>
+				<if test="feeVal != null and feeVal != ''">
+	  				and t.FEE_VAL = #{feeVal}				
+	  			</if>
+				<if test="isSel != null and isSel != ''">
+	  				and t.IS_SEL = #{isSel}				
+	  			</if>
+				<if test="setlPrior != null">
+	  				and t.SETL_PRIOR = #{setlPrior}				
+	  			</if>	  
+				<if test="instNum != null and instNum != ''">
+	  				and t.INST_NUM = #{instNum}			
+	  			</if>
+    	</trim>
+    	order by t.SETL_PRIOR ASC
+	</select>
+	<!-- 查询 PUB_产品与费用项关系 列表 -->
+	<select id="queryCustSelFeeList" resultMap="PubProdFeeRetMap" parameterType="java.util.Map">
+		select	
+			 distinct t.PROD_NO,t.FEE_NO,t.FEE_NAME,t.IS_SEL
+		from PUB_PROD_FEE t
+		 WHERE	  t.PROD_NO = #{prodNo}	 
+		 <if test="isSel != null and isSel != ''">
+	  		   and t.IS_SEL = #{isSel}			
+	  	  </if>
+		   order by t.SETL_PRIOR ASC
+	</select>
+	 
+	<!-- 删除 PUB_产品与费用项关系 -->
+	<delete id="deletePubPrdoFeeByprodNo" parameterType="java.lang.String">
+		delete from PUB_PROD_FEE
+		where 
+  			prod_no = #{prodNo}				
+	</delete>
+ 
+	<!-- 删除 PUB_产品与费用项关系 根据产品编号和期数-->
+	<delete id="deleteByProdNoAndInum" parameterType="java.lang.String">
+		delete from PUB_PROD_FEE
+		where 
+  			prod_no = #{prodNo} and	INST_NUM = #{instNum}		
+	</delete>
+</mapper>

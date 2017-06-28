@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccRepayDiscRegMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccRepayDiscRegRetMap" type="com.hs.loan.finance.entity.AccRepayDiscReg">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="DISC_TYPE" property="discType"/>
+			<result column="DISC_AMT" property="discAmt"/>
+			<result column="DISC_DATE" property="discDate"/>
+			<result column="TRAN_DESC" property="tranDesc"/>
+			<result column="TRAN_STAFF" property="tranStaff"/>
+			<result column="TRAN_ORG" property="tranOrg"/>
+			<result column="SETL_FLAG" property="setlFlag"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	<resultMap id="AccRepayDiscRegBo" type="com.hs.loan.finance.bo.AccRepayDiscRegBo">
+			<result column="CUST_NAME" property="custName"/>
+			<result column="CERT_NO" property="busnDate"/>
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="DISC_TYPE" property="discType"/>
+			<result column="DISC_AMT" property="discAmt"/>
+			<result column="DISC_DATE" property="discDate"/>
+			<result column="TRAN_DESC" property="tranDesc"/>
+			<result column="TRAN_STAFF" property="tranStaff"/>
+			<result column="TRAN_ORG" property="tranOrg"/>
+			<result column="SETL_FLAG" property="setlFlag"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	
+	<!-- 新增 ACC_还款登记（费用减免） -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccRepayDiscReg">
+		insert into ACC_REPAY_DISC_REG
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,DISC_TYPE
+  			,DISC_AMT
+  			,DISC_DATE
+  			,TRAN_DESC
+  			,TRAN_STAFF
+  			,TRAN_ORG
+  			,SETL_FLAG
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{discType}
+  			, #{discAmt}
+  			, #{discDate}
+  			, #{tranDesc}
+  			, #{tranStaff}
+  			, #{tranOrg}
+  			, #{setlFlag}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_还款登记（费用减免） -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_REPAY_DISC_REG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('discType')">  
+	  					DISC_TYPE = #{discType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('discAmt')">  
+	  					DISC_AMT = #{discAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('discDate')">  
+	  					DISC_DATE = #{discDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDesc')">  
+	  					TRAN_DESC = #{tranDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranStaff')">  
+	  					TRAN_STAFF = #{tranStaff},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranOrg')">  
+	  					TRAN_ORG = #{tranOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('setlFlag')">  
+	  					SETL_FLAG = #{setlFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_还款登记（费用减免） -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_REPAY_DISC_REG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_还款登记（费用减免） -->
+	<select id="getByPrimaryKey" resultMap="AccRepayDiscRegRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_REPAY_DISC_REG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_还款登记（费用减免） 列表 -->
+	<select id="queryForList" resultMap="AccRepayDiscRegRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_REPAY_DISC_REG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="discType != null and discType != ''">
+	  				and t.DISC_TYPE = #{discType}				
+	  			</if>
+				<if test="discAmt != null">
+	  				and t.DISC_AMT = #{discAmt}				
+	  			</if>
+				<if test="discDate != null">
+	  				and t.DISC_DATE = #{discDate}				
+	  			</if>
+				<if test="tranDesc != null and tranDesc != ''">
+	  				and t.TRAN_DESC = #{tranDesc}				
+	  			</if>
+				<if test="tranStaff != null and tranStaff != ''">
+	  				and t.TRAN_STAFF = #{tranStaff}				
+	  			</if>
+				<if test="tranOrg != null and tranOrg != ''">
+	  				and t.TRAN_ORG = #{tranOrg}				
+	  			</if>
+				<if test="setlFlag != null and setlFlag != ''">
+	  				and t.SETL_FLAG = #{setlFlag}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+    	order by t.inst_date desc
+	</select>
+	<!-- 根据时间等 查询 ACC_还款登记（费用减免） 列表 -->
+	<select id="queryForPageByInstDate" resultMap="AccRepayDiscRegBo" parameterType="java.util.Map">
+	SELECT TT.CUST_NAME,
+	       TTT.CERT_NO,
+	       T.ID,
+	       T.LOAN_NO,
+	       T.DISC_TYPE,
+	       T.DISC_AMT,
+	       T.TRAN_ORG,
+	       T.TRAN_STAFF,
+	       T.SETL_FLAG,
+	       T.INST_DATE
+	  FROM ACC_REPAY_DISC_REG T
+	       LEFT JOIN APP_LOAN_ACCT TT ON T.LOAN_NO = TT.LOAN_NO
+	       LEFT JOIN APP_CUST_INFO TTT ON TT.CUST_NO = TTT.CUST_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="tranStaff != null and tranStaff != ''">
+	  				and t.TRAN_STAFF = #{tranStaff}				
+	  			</if>
+				<if test="tranOrg != null and tranOrg != ''">
+	  				and t.TRAN_ORG like '%${tranOrg}%'				
+	  			</if>
+	  			<if test="custName != null and custName !=''">
+	  				and TT.CUST_NAME like '%${custName}%'					
+	  			</if>
+				<if test="instDateBegin != null and instDateBegin != ''">
+	  				and t.INST_DATE &gt;= #{instDateBegin} 
+	  			</if>
+	  			<if test="instDateEnd != null and instDateEnd !=''">
+	  				and t.INST_DATE &lt;= #{instDateEnd}			
+	  			</if>
+    	</trim>
+    	order by t.inst_date desc
+	</select>
+	
+	<select id="getOutMap" resultType="java.util.Map" parameterType="java.lang.String">
+		SELECT * FROM pl_loan_outsource WHERE IS_SETTLE='10001002'
+		AND LOAN_NO = #{loanNo}
+	</select>
+	<update id="updateOutSource" parameterType="java.util.Map">
+		update pl_loan_outsource set debt_amt = debt_amt - #{discAmt}  where loan_no = #{loanNo} and IS_SETTLE='10001002'; 
+	</update>
+</mapper>

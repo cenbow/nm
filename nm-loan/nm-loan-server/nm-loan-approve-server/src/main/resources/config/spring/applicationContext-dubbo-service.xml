@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 声明需要暴露的服务接口 
+	<dubbo:service interface="com.hs.system.api.SysMenuApi" ref="sysMenuService" />
+	-->
+	
+	<dubbo:service registry="svReg" interface="com.hs.loan.approve.api.ApprGroupApi" ref="apprGroupServer" />
+	<dubbo:service registry="svReg" interface="com.hs.loan.approve.api.ApprStaffSignApi" ref="apprStaffSignServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.loan.approve.api.LoanApprApi" ref="loanApprServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.loan.approve.api.LoanApprHApi" ref="loanApprHServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.loan.approve.api.LoanFundMatchLogApi" ref="loanFundMatchLogServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.loan.approve.api.LoanApprBookApi" ref="loanApprBookServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.loan.approve.api.LoanFundMatchApi" ref="loanFundMatchServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.loan.approve.api.LoanApprTermApi" ref="loanApprTermServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.loan.approve.api.LoanApprCheckApi" ref="loanApprCheckServer" />
+</beans>

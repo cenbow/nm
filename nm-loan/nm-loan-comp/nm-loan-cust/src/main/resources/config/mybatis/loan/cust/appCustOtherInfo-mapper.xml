@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustOtherInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustOtherInfoRetMap" type="com.hs.loan.cust.entity.AppCustOtherInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="INCOME" property="income"/>
+			<result column="FAM_INCOME" property="famIncome"/>
+			<result column="EDU" property="edu"/>
+			<result column="IS_LOANED" property="isLoaned"/>
+			<result column="MTH_REPAY" property="mthRepay"/>
+			<result column="IS_VALID" property="isValid"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户其他信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustOtherInfo">
+		insert into app_cust_other_info
+		(
+  			ID
+  			,CUST_NO
+  			,INCOME
+  			,FAM_INCOME
+  			,EDU
+  			,IS_LOANED
+  			,MTH_REPAY
+  			,IS_VALID
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{income}
+  			, #{famIncome}
+  			, #{edu}
+  			, #{isLoaned}
+  			, #{mthRepay}
+  			, #{isValid}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户其他信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_other_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('income')">  
+	  					INCOME = #{income},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('famIncome')">  
+	  					FAM_INCOME = #{famIncome},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('edu')">  
+	  					EDU = #{edu},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isLoaned')">  
+	  					IS_LOANED = #{isLoaned},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mthRepay')">  
+	  					MTH_REPAY = #{mthRepay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isValid')">  
+	  					IS_VALID = #{isValid},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户其他信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_other_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户其他信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustOtherInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_other_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户其他信息 列表 -->
+	<select id="queryForList" resultMap="AppCustOtherInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_other_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="income != null">
+	  				and t.INCOME = #{income}				
+	  			</if>
+				<if test="famIncome != null">
+	  				and t.FAM_INCOME = #{famIncome}				
+	  			</if>
+				<if test="edu != null and edu != ''">
+	  				and t.EDU = #{edu}				
+	  			</if>
+				<if test="isLoaned != null and isLoaned != ''">
+	  				and t.IS_LOANED = #{isLoaned}				
+	  			</if>
+				<if test="mthRepay != null">
+	  				and t.MTH_REPAY = #{mthRepay}				
+	  			</if>
+				<if test="isValid != null and isValid != ''">
+	  				and t.IS_VALID = #{isValid}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

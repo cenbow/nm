@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"  
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd"
+	>
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<!--
+	<jee:jndi-lookup id="dataSource" jndi-name="MALLDB" resource-ref="true"/>
+	-->
+	<!-- 数据源配置, 使用Tomcat JDBC连接池 -->
+	
+	<bean id="dataSourceMaster" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<property name="initialSize" value="${jdbc.pool.minIdle}" />
+		<property name="minIdle" value="${jdbc.pool.minIdle}" />
+		<property name="maxActive" value="${jdbc.pool.maxActive}" />
+
+		<property name="maxWait" value="60000" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 1 from sm_t_user" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="filters" value="stat" />
+	</bean>
+	<!-- 数据源配置, 使用Tomcat JDBC连接池 -->
+	
+	<bean id="dataSourceSlave" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+
+		<property name="url" value="${jdbc.urlRead}" />
+		<property name="username" value="${jdbc.usernameRead}" />
+		<property name="password" value="${jdbc.passwordRead}" />
+
+		<property name="initialSize" value="${jdbc.pool.minIdleRead}" />
+		<property name="minIdle" value="${jdbc.pool.minIdleRead}" />
+		<property name="maxActive" value="${jdbc.pool.maxActiveRead}" />
+
+		<property name="maxWait" value="60000" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 1 from sm_t_user" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<property name="filters" value="stat" />
+	</bean>
+	
+ 	<bean id="dataSourceSpied" class="com.hs.base.support.DynamicDataSource">
+        <property name="targetDataSources">
+            <map>
+                <entry key="slave" value-ref="dataSourceSlave"/>
+                <entry key="master" value-ref="dataSourceMaster"/>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="dataSourceMaster"/>
+        
+    </bean>
+
+	<bean id="dataSource" class="net.sf.log4jdbc.sql.jdbcapi.DataSourceSpy">
+		<constructor-arg ref="dataSourceSpied"/>
+	</bean>
+</beans>

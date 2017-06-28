@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<dubbo:protocol name="dubbo" />
+	<!-- 声明需要暴露的服务接口 -->
+	<dubbo:service registry="svReg" interface="com.hs.system.api.SysMenuApi" ref="sysMenuService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysRoleMenuApi" ref="sysRoleMenuService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysStaffApi" ref="sysStaffService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysOrgApi" ref="sysOrgService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysRoleApi" ref="sysRoleService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysStaffApi" ref="sysStaffService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysPrivInfoApi" ref="sysPrivInfoService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysGroupApi" ref="sysGroupService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysSubApi" ref="sysSubService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysParamApi" ref="sysParamService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysCodeTypeApi" ref="sysCodTypService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysCodeInfoApi" ref="sysCodeInfoService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysLoginLogApi" ref="sysLoginLogService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysOperaterLogApi" ref="sysOperaterLogService" />	<!-- 操作日志查询API -->
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.SysLoginLogApi" ref="sysLoginLogService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.PubSalerGroupApi" ref="pubSalerGroupService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.PubSaleCrowdApi" ref="pubSaleCrowdService" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.RegionalBelongApi" ref="pubSysRegionalBelongServer" />
+	<dubbo:service registry="svReg"  interface="com.hs.system.api.ComplexParaApi" ref="sysComplexParaService" />
+<!-- 	<dubbo:service registry="svReg"  interface="com.hs.system.log.OperaterLogSaveApi" ref="sysOperaterLogService" async="true"/>	操作日志写入API 异步 -->
+	<dubbo:service registry="svReg"  interface="com.hs.commons.attach.AttachmentApi" ref="sysAttachmentService" />	<!-- 附件信息表API  -->
+	<!-- LEK附件  -->
+	<!-- 没有nm-lek.jar hemf 临时注释-->
+	<!--
+		<dubbo:service registry="svReg"  interface="com.hs.system.api.StandardELKLogApi" ref="standardELKLogService" />
+	-->
+	 <dubbo:reference registry="svReg" timeout="5000"  id="operateCacheServiceApi" interface="com.nm.cache.busi.service.OperateCacheServiceApi" />
+</beans>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppApprGroupMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppApprGroupRetMap" type="com.hs.loan.approve.entity.AppApprGroup">
+			<result column="GROUP_NO" property="groupNo"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="STAT" property="stat"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="PROD_TYP" property="prodTyp"/>
+		<result column="BRANCH_PROV" property="branchProv"/>
+		<result column="BRANCH_CITY" property="branchCity"/>
+		<result column="BRANCH_AREA" property="branchArea"/>
+	</resultMap>
+	
+	<!-- 新增 APP_审批组信息 -->
+	<insert id="insert" parameterType="com.hs.loan.approve.entity.AppApprGroup">
+		insert into APP_APPR_GROUP
+		(
+  			GROUP_NO
+  			,GROUP_NAME
+  			,STAT
+  			,INST_DATE
+  			,UPDT_DATE
+  			,PROD_TYP
+  			<if test="branchProv != null and branchProv != ''">
+  				,BRANCH_PROV
+  			</if>
+  			<if test="branchCity != null and branchCity != ''">
+  				,BRANCH_CITY
+  			</if>
+  			<if test="branchArea != null and branchArea != ''">
+  				,BRANCH_AREA
+  			</if>
+    	)
+    	values
+    	(
+  			 #{groupNo}
+  			, #{groupName}
+  			, #{stat}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{prodTyp}
+  			<if test="branchProv != null and branchProv != ''">
+  				, #{branchProv}
+  			</if>
+  			<if test="branchCity != null and branchCity != ''">
+  			, #{branchCity}
+  			</if>
+  			<if test="branchArea != null and branchArea != ''">
+  			, #{branchArea}
+  			</if>
+    	)
+	</insert>
+	
+	<!-- 修改 APP_审批组信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_APPR_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodTyp')">  
+	  					PROD_TYP = #{prodTyp},
+	  				</if>
+			<if test="_parameter.containsKey('branchProv')">
+				BRANCH_PROV = #{branchProv},
+			</if>
+			<if test="_parameter.containsKey('branchCity')">
+				BRANCH_CITY = #{branchCity},
+			</if>
+			<if test="_parameter.containsKey('branchArea')">
+				BRANCH_AREA = #{branchArea}
+			</if>
+		</trim>
+		where 
+  			GROUP_NO = #{groupNo}				
+	</update>
+	
+	<!-- 修改 APP_审批组信息 -->
+	<update id="updateGrpByGrpNo" parameterType="com.hs.loan.approve.entity.AppApprGroup">
+		update APP_APPR_GROUP
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="groupName!=null and groupName!=''">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="stat!=null and stat!=''">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="instDate!=null">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="updtDate!=null">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>
+	  				<if test="prodTyp!=null and prodTyp!=''">  
+	  					PROD_TYP = #{prodTyp},  
+	  				</if>
+			<if test="branchProv!=null and branchProv!=''">
+				BRANCH_PROV = #{branchProv},
+			</if>
+			<if test="branchCity!=null and branchCity!=''">
+				BRANCH_CITY = #{branchCity},
+			</if>
+			<if test="branchArea!=null and branchArea!=''">
+				BRANCH_AREA = #{branchArea}
+			</if>
+    	</trim>
+		where 
+  			GROUP_NO = #{groupNo}				
+	</update>
+	
+	<!-- 删除 APP_审批组信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_APPR_GROUP
+		where 
+  			GROUP_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_审批组信息 -->
+	<select id="getByPrimaryKey" resultMap="AppApprGroupRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_APPR_GROUP t
+		where 
+  				t.GROUP_NO = #{id}				
+	</select>
+	
+	<!-- 查询 APP_审批组信息 列表 -->
+	<select id="queryForList" resultMap="AppApprGroupRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_APPR_GROUP t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="groupNo != null and groupNo != ''">
+	  				and t.GROUP_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME like '%${groupName}%'				
+	  			</if>
+				<if test="groupNameVal != null and groupNameVal != ''">
+	  				and t.GROUP_NAME = #{groupNameVal}			
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+				<if test="prodTyp != null and prodTyp != ''">
+	  				and t.PROD_TYP = #{prodTyp}				
+	  			</if>
+			<if test="branchProv != null and branchProv != ''">
+				and t.BRANCH_PROV = #{branchProv}
+			</if>
+			<if test="branchCity != null and branchCity != ''">
+				and t.BRANCH_CITY = #{branchCity}
+			</if>
+			<if test="branchArea != null and branchArea != ''">
+				and t.BRANCH_AREA = #{branchArea}
+			</if>
+    	</trim>
+	</select>
+</mapper>

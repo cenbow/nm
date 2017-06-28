@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.market.mapper.PubBranchMapper">
+    <!-- 返回 Bean-->
+    <resultMap id="PubBranchRetMap" type="com.hs.loan.market.entity.PubBranch">
+        <result column="BRANCH_NO" property="branchNo"/>
+        <result column="BRANCH_NAME" property="branchName"/>
+        <result column="BRANCH_LEVEL" property="branchLevel"/>
+        <result column="BRANCH_SCORE" property="branchScore"/>
+        <result column="BRANCH_ADDR" property="branchAddr"/>
+        <result column="BRANCH_TYP" property="branchTyp"/>
+        <result column="SIGN_CONTR" property="signContr"/>
+        <result column="SIGN_DATE" property="signDate"/>
+        <result column="CONTCT_PER" property="contctPer"/>
+        <result column="CONTCT_DUTY" property="contctDuty"/>
+        <result column="CONTCT_TEL" property="contctTel"/>
+        <result column="OPEN_ORG" property="openOrg"/>
+        <result column="OPEN_PROV" property="openProv"/>
+        <result column="OPEN_CITY" property="openCity"/>
+        <result column="OPEN_AREA" property="openArea"/>
+        <result column="BRANCH_PROV" property="branchProv"/>
+        <result column="BRANCH_CITY" property="branchCity"/>
+        <result column="BRANCH_AREA" property="branchArea"/>
+        <result column="ACCT_NO" property="acctNo"/>
+        <result column="ACCT_NAME" property="acctName"/>
+        <result column="BANK_NO" property="bankNo"/>
+        <result column="BANK_NAME" property="bankName"/>
+        <result column="BLCK_LIST_FLAG" property="blckListFlag"/>
+        <result column="BLCK_LIST_DESC" property="blckListDesc"/>
+        <result column="INST_DATE" property="instDate"/>
+        <result column="UPDT_DATE" property="updtDate"/>
+        <result column="STAT" property="stat"/>
+        <result column="SHOP_LEVEL" property="shopLevel"/>
+        <result column="LEGAL_PERSON_NAME" property="legalPersonName"/>
+        <result column="LEGAL_PERSON_TEL" property="legalPersonTel"/>
+        <result column="LEGAL_PERSON_CERT" property="legalPersonCert"/>
+        <result column="BUS_LICENSE_NO" property="businessLicenseNo"/>
+        <result column="ORG_NO" property="organizationNo"/>
+        <result column="TAX_NO" property="taxNo"/>
+        <result column="SOCIAL_CERT_NO" property="socialCertNo"/>
+    </resultMap>
+    <!-- 返回 Bean-->
+    <resultMap id="PubBranchRetBoMap" type="com.hs.loan.market.bo.PubBranchBo" extends="PubBranchRetMap">
+        <result column="GROUP_NAME" property="branchGrpName"/>
+    </resultMap>
+    
+    
+    <select id="selectExistsDisableState" parameterType="com.hs.loan.market.entity.PubBranch" resultType="java.lang.String">
+    SELECT b.BRANCH_NO FROM pub_branch AS b
+    WHERE ((b.BRANCH_NO=#{branchNo})or(b.BRANCH_NAME = #{branchName} AND
+    b.ACCT_NO = #{acctNo} AND
+    b.ACCT_NAME = #{acctName})) AND b.STAT=10002002;
+    </select>
+
+    <select id="selectExistsPubBranchByBranchNo" parameterType="com.hs.loan.market.entity.PubBranch" resultType="java.lang.Integer">
+    SELECT count(1) FROM pub_branch AS p WHERE p.BRANCH_NO=#{branchNo}
+    </select>
+    
+    <select id="selectExistPubBranch" parameterType="com.hs.loan.market.entity.PubBranch" resultType="java.lang.Integer">
+     SELECT count(1)
+     FROM pub_branch
+     WHERE
+     pub_branch.BRANCH_NAME = #{branchName} AND
+     pub_branch.ACCT_NO = #{acctNo} AND
+     pub_branch.ACCT_NAME = #{acctName}
+	</select>
+    <!-- 新增 PUB_网点信息 -->
+    <insert id="insert" parameterType="com.hs.loan.market.entity.PubBranch">
+		insert into PUB_BRANCH
+		(
+  			BRANCH_NO
+  			,BRANCH_NAME
+  			,BRANCH_LEVEL
+  			,BRANCH_SCORE
+  			,BRANCH_ADDR
+  			,BRANCH_TYP
+  			,SIGN_CONTR
+  			,SIGN_DATE
+  			,CONTCT_PER
+  			,CONTCT_DUTY
+  			,CONTCT_TEL
+  			,OPEN_ORG
+  			,OPEN_PROV
+  			,OPEN_CITY
+  			,OPEN_AREA
+  			,BRANCH_PROV
+  			,BRANCH_CITY
+  			,BRANCH_AREA
+  			,ACCT_NO
+  			,ACCT_NAME
+  			,BANK_NO
+  			,BANK_NAME
+  			,BLCK_LIST_FLAG
+  			,BLCK_LIST_DESC
+  			,INST_DATE
+  			,UPDT_DATE
+  			,STAT
+  			,SHOP_LEVEL
+  			,LEGAL_PERSON_NAME
+  			,LEGAL_PERSON_TEL
+  			,LEGAL_PERSON_CERT
+  			,BUS_LICENSE_NO
+  			,ORG_NO
+  			,TAX_NO
+  			,SOCIAL_CERT_NO
+    	)
+    	values
+    	(
+  			 #{branchNo}
+  			, #{branchName}
+  			, #{branchLevel}
+  			, #{branchScore}
+  			, #{branchAddr}
+  			, #{branchTyp}
+  			, #{signContr}
+  			, #{signDate}
+  			, #{contctPer}
+  			, #{contctDuty}
+  			, #{contctTel}
+  			, #{openOrg}
+  			, #{openProv}
+  			, #{openCity}
+  			, #{openArea}
+  			, #{branchProv}
+  			, #{branchCity}
+  			, #{branchArea}
+  			, #{acctNo}
+  			, #{acctName}
+  			, #{bankNo}
+  			, #{bankName}
+  			, #{blckListFlag}
+  			, #{blckListDesc}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{stat}
+  			, #{shopLevel}
+  			, #{legalPersonName}
+  			, #{legalPersonTel}
+  			, #{legalPersonCert}
+  			, #{businessLicenseNo}
+  			, #{organizationNo}
+  			, #{taxNo}
+  			, #{socialCertNo}
+    	)
+	</insert>
+
+    <!-- 修改 PUB_网点信息 -->
+    <update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+        update PUB_BRANCH
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="_parameter.containsKey('branchName')">
+                BRANCH_NAME = #{branchName},
+            </if>
+            <if test="_parameter.containsKey('branchLevel')">
+                BRANCH_LEVEL = #{branchLevel},
+            </if>
+            <if test="_parameter.containsKey('branchScore')">
+                BRANCH_SCORE = #{branchScore},
+            </if>
+            <if test="_parameter.containsKey('branchAddr')">
+                BRANCH_ADDR = #{branchAddr},
+            </if>
+            <if test="_parameter.containsKey('branchTyp')">
+                BRANCH_TYP = #{branchTyp},
+            </if>
+            <if test="_parameter.containsKey('signContr')">
+                SIGN_CONTR = #{signContr},
+            </if>
+            <if test="_parameter.containsKey('signDate')">
+                SIGN_DATE = #{signDate},
+            </if>
+            <if test="_parameter.containsKey('contctPer')">
+                CONTCT_PER = #{contctPer},
+            </if>
+            <if test="_parameter.containsKey('contctDuty')">
+                CONTCT_DUTY = #{contctDuty},
+            </if>
+            <if test="_parameter.containsKey('contctTel')">
+                CONTCT_TEL = #{contctTel},
+            </if>
+            <if test="_parameter.containsKey('openOrg')">
+                OPEN_ORG = #{openOrg},
+            </if>
+            <if test="_parameter.containsKey('openProv')">
+                OPEN_PROV = #{openProv},
+            </if>
+            <if test="_parameter.containsKey('openCity')">
+                OPEN_CITY = #{openCity},
+            </if>
+            <if test="_parameter.containsKey('openArea')">
+                OPEN_AREA = #{openArea},
+            </if>
+            <if test="_parameter.containsKey('branchProv')">
+                BRANCH_PROV = #{branchProv},
+            </if>
+            <if test="_parameter.containsKey('branchCity')">
+                BRANCH_CITY = #{branchCity},
+            </if>
+            <if test="_parameter.containsKey('branchArea')">
+                BRANCH_AREA = #{branchArea},
+            </if>
+            <if test="_parameter.containsKey('acctNo')">
+                ACCT_NO = #{acctNo},
+            </if>
+            <if test="_parameter.containsKey('acctName')">
+                ACCT_NAME = #{acctName},
+            </if>
+            <if test="_parameter.containsKey('bankNo')">
+                BANK_NO = #{bankNo},
+            </if>
+            <if test="_parameter.containsKey('bankName')">
+                BANK_NAME = #{bankName},
+            </if>
+            <if test="_parameter.containsKey('blckListFlag')">
+                BLCK_LIST_FLAG = #{blckListFlag},
+            </if>
+            <if test="_parameter.containsKey('blckListDesc')">
+                BLCK_LIST_DESC = #{blckListDesc},
+            </if>
+           <!--  <if test="_parameter.containsKey('instDate')">
+                INST_DATE = #{instDate},
+            </if> -->
+            <if test="_parameter.containsKey('updtDate')">
+                UPDT_DATE = #{updtDate},
+            </if>
+            <if test="_parameter.containsKey('stat')">
+                STAT = #{stat},
+            </if>
+            <if test="_parameter.containsKey('shopLevel')">
+                SHOP_LEVEL = #{shopLevel},
+            </if>
+ 			<if test="_parameter.containsKey('legalPersonName')">
+                LEGAL_PERSON_NAME = #{legalPersonName},
+            </if>
+ 			<if test="_parameter.containsKey('legalPersonTel')">
+                LEGAL_PERSON_TEL = #{legalPersonTel},
+            </if>
+ 			<if test="_parameter.containsKey('legalPersonCert')">
+                LEGAL_PERSON_CERT = #{legalPersonCert},
+            </if>
+ 			<if test="_parameter.containsKey('businessLicenseNo')">
+                BUS_LICENSE_NO = #{businessLicenseNo},
+            </if>
+			<if test="_parameter.containsKey('organizationNo')">
+                ORG_NO = #{organizationNo},
+            </if>
+			<if test="_parameter.containsKey('taxNo')">
+                TAX_NO = #{taxNo},
+            </if>
+            <if test="_parameter.containsKey('socialCertNo')">
+                SOCIAL_CERT_NO = #{socialCertNo},
+            </if>
+        </trim>
+        where
+        BRANCH_NO = #{branchNo}
+    </update>
+
+    <!-- 删除 PUB_网点信息 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_BRANCH
+		where 
+  			BRANCH_NO = #{id}				
+	</delete>
+
+    <!-- 通过主键查询 PUB_网点信息 -->
+    <select id="getByPrimaryKey" resultMap="PubBranchRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_BRANCH t
+		where 
+  				t.BRANCH_NO = #{id}				
+	</select>
+
+    <!-- 查询 PUB_网点信息 列表 -->
+    <select id="queryForList" resultMap="PubBranchRetMap" parameterType="java.util.Map">
+        select
+        t.*
+        from PUB_BRANCH t
+        <if test="groupNo != null and groupNo != '' ">
+            LEFT JOIN pub_branch_group b ON t.BRANCH_NO = b.BRANCH_NO
+        </if>
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="branchNo != null and branchNo != ''">
+                and t.BRANCH_NO = #{branchNo}
+            </if>
+            <if test="branchName != null and branchName != ''">
+                and t.BRANCH_NAME like CONCAT('%',#{branchName},'%')
+            </if>
+            <if test="branchLevel != null and branchLevel != ''">
+                and t.BRANCH_LEVEL = #{branchLevel}
+            </if>
+            <if test="branchScore != null">
+                and t.BRANCH_SCORE = #{branchScore}
+            </if>
+            <if test="branchAddr != null and branchAddr != ''">
+                and t.BRANCH_ADDR = #{branchAddr}
+            </if>
+            <if test="branchTyp != null and branchTyp != ''">
+                and t.BRANCH_TYP = #{branchTyp}
+            </if>
+            <if test="signContr != null and signContr != ''">
+                and t.SIGN_CONTR = #{signContr}
+            </if>
+            <if test="signDate != null and signDate != ''">
+                and t.SIGN_DATE = #{signDate}
+            </if>
+            <if test="contctPer != null and contctPer != ''">
+                and t.CONTCT_PER = #{contctPer}
+            </if>
+            <if test="contctDuty != null and contctDuty != ''">
+                and t.CONTCT_DUTY = #{contctDuty}
+            </if>
+            <if test="contctTel != null and contctTel != ''">
+                and t.CONTCT_TEL = #{contctTel}
+            </if>
+            <if test="openOrg != null and openOrg != ''">
+                and t.OPEN_ORG = #{openOrg}
+            </if>
+            <if test="openProv != null and openProv != ''">
+                and t.OPEN_PROV = #{openProv}
+            </if>
+            <if test="openCity != null and openCity != ''">
+                and t.OPEN_CITY = #{openCity}
+            </if>
+            <if test="openArea != null and openArea != ''">
+                and t.OPEN_AREA = #{openArea}
+            </if>
+            <if test="branchProv != null and branchProv != ''">
+                and t.BRANCH_PROV = #{branchProv}
+            </if>
+            <if test="branchCity != null and branchCity != ''">
+                and t.BRANCH_CITY = #{branchCity}
+            </if>
+            <if test="branchArea != null and branchArea != ''">
+                and t.BRANCH_AREA = #{branchArea}
+            </if>
+            <if test="acctNo != null and acctNo != ''">
+                and t.ACCT_NO = #{acctNo}
+            </if>
+            <if test="acctName != null and acctName != ''">
+                and t.ACCT_NAME = #{acctName}
+            </if>
+            <if test="bankNo != null and bankNo != ''">
+                and t.BANK_NO = #{bankNo}
+            </if>
+            <if test="bankName != null and bankName != ''">
+                and t.BANK_NAME = #{bankName}
+            </if>
+            <if test="blckListFlag != null and blckListFlag != ''">
+                and t.BLCK_LIST_FLAG = #{blckListFlag}
+            </if>
+            <if test="blckListDesc != null and blckListDesc != ''">
+                and t.BLCK_LIST_DESC = #{blckListDesc}
+            </if>
+            <if test="instDate != null">
+                and t.INST_DATE = #{instDate}
+            </if>
+            <if test="updtDate != null">
+                and t.UPDT_DATE = #{updtDate}
+            </if>
+            <if test="stat != null and stat != '' ">
+                and t.STAT = #{stat}
+            </if>
+            <if test="groupNo != null and groupNo != '' ">
+                and b.GROUP_NO = #{groupNo}
+            </if>
+            <if test="prodNo != null and prodNo != '' ">
+                and not exists(select 1 from pub_prod_str where branch_no = t.BRANCH_NO and prod_no = #{prodNo})
+            </if>
+             <if test="shopLevel != null and shopLevel != '' ">
+                and b.SHOP_LEVEL = #{shopLevel}
+            </if>
+            
+        </trim>
+        order by t.BRANCH_NO
+    </select>
+
+    <select id="queryBranchListByProdNo" resultMap="PubBranchRetBoMap" parameterType="java.util.Map">
+        SELECT * FROM pub_branch pb WHERE pb.STAT='10002001' 
+        	and not exists (select 1 from pub_prod_str where BRANCH_NO=pb.BRANCH_NO and PROD_NO=#{prodNo})
+        	 <if test="branchName != null and branchName != ''">
+             	AND   pb.BRANCH_NAME like CONCAT('%',#{branchName},'%')
+            </if>
+              <if test="branchProv != null and branchProv != ''">
+                and pb.BRANCH_PROV = #{branchProv}
+            </if>
+            <if test="branchCity != null and branchCity != ''">
+                and pb.BRANCH_CITY = #{branchCity}
+            </if>
+    </select>
+
+    <!-- 查询网点组不包含的网点信息列表 -->
+    <select id="queryBranchGroupNotExists" resultMap="PubBranchRetBoMap" parameterType="java.util.Map">
+        SELECT * FROM pub_branch b WHERE b.STAT=10002001 AND not EXISTS
+        (SELECT br.BRANCH_NO FROM pub_branch_group_info g INNER JOIN pub_branch_group br
+        ON g.GROUP_NO=br.GROUP_NO WHERE br.BRANCH_NO=b.BRANCH_NO 
+	        <if test="groupNo != null and groupNo != ''">
+	           AND g.group_no=#{groupNo}
+	        </if>
+         )
+    </select>
+    
+    <!-- 查询 PUB_网点信息 列表 -->
+    <select id="queryList" resultMap="PubBranchRetBoMap" parameterType="java.util.Map">
+        select
+        t.*,
+        g.GROUP_NAME
+        from PUB_BRANCH t
+        LEFT JOIN pub_branch_group b ON t.BRANCH_NO = b.BRANCH_NO
+        LEFT JOIN PUB_BRANCH_GROUP_INFO g on g.GROUP_NO = b.GROUP_NO
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="branchGrpName != null and branchGrpName != ''">
+                and g.GROUP_NAME like CONCAT('%',#{branchGrpName},'%')
+            </if>
+            <if test="branchNo != null and branchNo != ''">
+                and t.BRANCH_NO = #{branchNo}
+            </if>
+            <if test="branchName != null and branchName != ''">
+                and t.BRANCH_NAME like CONCAT('%',#{branchName},'%')
+            </if>
+            <if test="branchLevel != null and branchLevel != ''">
+                and t.BRANCH_LEVEL = #{branchLevel}
+            </if>
+            <if test="branchScore != null">
+                and t.BRANCH_SCORE = #{branchScore}
+            </if>
+            <if test="branchAddr != null and branchAddr != ''">
+                and t.BRANCH_ADDR = #{branchAddr}
+            </if>
+            <if test="branchTyp != null and branchTyp != ''">
+                and t.BRANCH_TYP = #{branchTyp}
+            </if>
+            <if test="signContr != null and signContr != ''">
+                and t.SIGN_CONTR = #{signContr}
+            </if>
+            <if test="signDate != null and signDate != ''">
+                and t.SIGN_DATE = #{signDate}
+            </if>
+            <if test="contctPer != null and contctPer != ''">
+                and t.CONTCT_PER = #{contctPer}
+            </if>
+            <if test="contctDuty != null and contctDuty != ''">
+                and t.CONTCT_DUTY = #{contctDuty}
+            </if>
+            <if test="contctTel != null and contctTel != ''">
+                and t.CONTCT_TEL = #{contctTel}
+            </if>
+            <if test="openOrg != null and openOrg != ''">
+                and t.OPEN_ORG = #{openOrg}
+            </if>
+            <if test="openProv != null and openProv != ''">
+                and t.OPEN_PROV = #{openProv}
+            </if>
+            <if test="openCity != null and openCity != ''">
+                and t.OPEN_CITY = #{openCity}
+            </if>
+            <if test="openArea != null and openArea != ''">
+                and t.OPEN_AREA = #{openArea}
+            </if>
+            <if test="branchProv != null and branchProv != ''">
+                and t.BRANCH_PROV = #{branchProv}
+            </if>
+            <if test="branchCity != null and branchCity != ''">
+                and t.BRANCH_CITY = #{branchCity}
+            </if>
+            <if test="branchArea != null and branchArea != ''">
+                and t.BRANCH_AREA = #{branchArea}
+            </if>
+            <if test="acctNo != null and acctNo != ''">
+                and t.ACCT_NO = #{acctNo}
+            </if>
+            <if test="acctName != null and acctName != ''">
+                and t.ACCT_NAME = #{acctName}
+            </if>
+            <if test="bankNo != null and bankNo != ''">
+                and t.BANK_NO = #{bankNo}
+            </if>
+            <if test="bankName != null and bankName != ''">
+                and t.BANK_NAME = #{bankName}
+            </if>
+            <if test="blckListFlag != null and blckListFlag != ''">
+                and t.BLCK_LIST_FLAG = #{blckListFlag}
+            </if>
+            <if test="blckListDesc != null and blckListDesc != ''">
+                and t.BLCK_LIST_DESC = #{blckListDesc}
+            </if>
+            <if test="instDate != null">
+                and t.INST_DATE = #{instDate}
+            </if>
+            <if test="updtDate != null">
+                and t.UPDT_DATE = #{updtDate}
+            </if>
+            <if test="stat != null and stat != '' ">
+                and t.STAT = #{stat}
+            </if>
+            <if test="groupNo != null and groupNo != '' ">
+                and b.GROUP_NO = #{groupNo}
+            </if>
+            <if test="prodNo != null and prodNo != '' ">
+                and not exists(select 1 from pub_prod_str where branch_no = t.BRANCH_NO and prod_no = #{prodNo})
+            </if>
+        </trim>
+    </select>
+
+    <!--查询未在网点组里的网点  -->
+    <select id="queryNotInGrpBrhList" parameterType="map" resultMap="PubBranchRetMap">
+        SELECT
+        *
+        FROM
+        pub_branch t
+        WHERE
+        NOT EXISTS (
+        SELECT
+        *
+        FROM
+        pub_branch_group g
+        WHERE
+        t.BRANCH_NO = g.branch_no
+        AND g.GROUP_NO = ''
+        )
+        <if test="branchNo != null and branchNo != ''">
+            and t.BRANCH_NO = #{branchNo}
+        </if>
+        <if test="branchName != null and branchName != ''">
+            and t.BRANCH_NAME = #{branchName}
+        </if>
+        <if test="branchLevel != null and branchLevel != ''">
+            and t.BRANCH_LEVEL = #{branchLevel}
+        </if>
+        <if test="branchScore != null">
+            and t.BRANCH_SCORE = #{branchScore}
+        </if>
+        <if test="branchAddr != null and branchAddr != ''">
+            and t.BRANCH_ADDR = #{branchAddr}
+        </if>
+        <if test="branchTyp != null and branchTyp != ''">
+            and t.BRANCH_TYP = #{branchTyp}
+        </if>
+        <if test="signContr != null and signContr != ''">
+            and t.SIGN_CONTR = #{signContr}
+        </if>
+        <if test="signDate != null and signDate != ''">
+            and t.SIGN_DATE = #{signDate}
+        </if>
+        <if test="contctPer != null and contctPer != ''">
+            and t.CONTCT_PER = #{contctPer}
+        </if>
+        <if test="contctDuty != null and contctDuty != ''">
+            and t.CONTCT_DUTY = #{contctDuty}
+        </if>
+        <if test="contctTel != null and contctTel != ''">
+            and t.CONTCT_TEL = #{contctTel}
+        </if>
+        <if test="openOrg != null and openOrg != ''">
+            and t.OPEN_ORG = #{openOrg}
+        </if>
+        <if test="openProv != null and openProv != ''">
+            and t.OPEN_PROV = #{openProv}
+        </if>
+        <if test="openCity != null and openCity != ''">
+            and t.OPEN_CITY = #{openCity}
+        </if>
+        <if test="openArea != null and openArea != ''">
+            and t.OPEN_AREA = #{openArea}
+        </if>
+        <if test="branchProv != null and branchProv != ''">
+            and t.BRANCH_PROV = #{branchProv}
+        </if>
+        <if test="branchCity != null and branchCity != ''">
+            and t.BRANCH_CITY = #{branchCity}
+        </if>
+        <if test="branchArea != null and branchArea != ''">
+            and t.BRANCH_AREA = #{branchArea}
+        </if>
+        <if test="acctNo != null and acctNo != ''">
+            and t.ACCT_NO = #{acctNo}
+        </if>
+        <if test="acctName != null and acctName != ''">
+            and t.ACCT_NAME = #{acctName}
+        </if>
+        <if test="bankNo != null and bankNo != ''">
+            and t.BANK_NO = #{bankNo}
+        </if>
+        <if test="bankName != null and bankName != ''">
+            and t.BANK_NAME = #{bankName}
+        </if>
+        <if test="blckListFlag != null and blckListFlag != ''">
+            and t.BLCK_LIST_FLAG = #{blckListFlag}
+        </if>
+        <if test="blckListDesc != null and blckListDesc != ''">
+            and t.BLCK_LIST_DESC = #{blckListDesc}
+        </if>
+        <if test="instDate != null">
+            and t.INST_DATE = #{instDate}
+        </if>
+        <if test="updtDate != null">
+            and t.UPDT_DATE = #{updtDate}
+        </if>
+        <if test="stat != null and stat != '' ">
+            and t.STAT = #{stat}
+        </if>
+    </select>
+
+    <!--获取销售绑定的  有效的 网点   -->
+    <select id="getSalerBindedBranchList" parameterType="map" resultMap="PubBranchRetMap">
+        SELECT
+        b.*
+        FROM
+        PUB_SALER_BRANCH s
+        LEFT JOIN PUB_BRANCH b ON s.BRANCH_NO = b.BRANCH_NO
+        WHERE 1=1
+        <if test="staffNo != null and staffNo != ''">
+            and s.STAFF_NO = #{staffNo}
+        </if>
+        <if test="stat != null and stat != ''">
+            AND b.STAT = #{stat}
+        </if>
+        <if test="branchNos!=null">
+        	and s.BRANCH_NO in 
+        	<foreach item="item" index="index" collection="branchNos" open="(" separator="," close=")">  
+			  #{item}  
+			</foreach>  
+        </if>
+        <if test="notInner!=null and notInner!=''">
+        	and s.BRANCH_NO not like 'INNER_%'
+        </if>
+    </select>
+	<select id="judgeBranchStatusByFaild" parameterType="java.lang.String" resultType="java.util.Map">
+		select branch_no,branch_name from PUB_BRANCH where STAT = '10002002' and branch_name like CONCAT('%',#{branchName},'%' ) 
+	</select>
+</mapper>

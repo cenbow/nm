@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanCallHandMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanCallHandRetMap" type="com.hs.loan.sale.entity.AppLoanCallHand">
+			<result column="ID" property="id"/>
+			<result column="ORDER_ID" property="orderId"/>
+			<result column="HAND_PERSON" property="handPerson"/>
+			<result column="HAND_NO" property="handNo"/>
+			<result column="HAND_TYPE" property="handType"/>
+			<result column="START_DATE" property="startDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="REMARK" property="remark"/>
+	</resultMap>
+	
+	<!-- 新增 APP_经办历史记录表 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanCallHand">
+		insert into APP_LOAN_CALL_HAND
+		(
+  			ID
+  			,ORDER_ID
+  			,HAND_PERSON
+  			,HAND_NO
+  			,HAND_TYPE
+  			,START_DATE
+  			,END_DATE
+  			,REMARK
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{orderId}
+  			, #{handPerson}
+  			, #{handNo}
+  			, #{handType}
+  			, #{startDate}
+  			, #{endDate}
+  			, #{remark}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_经办历史记录表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_CALL_HAND
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('orderId')">  
+	  					ORDER_ID = #{orderId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handPerson')">  
+	  					HAND_PERSON = #{handPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handNo')">  
+	  					HAND_NO = #{handNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handType')">  
+	  					HAND_TYPE = #{handType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('startDate')">  
+	  					START_DATE = #{startDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	<update id="updateLastHand" parameterType="java.util.Map">
+		update APP_LOAN_CALL_HAND set  END_DATE = #{endDate} 
+		where 
+  			ORDER_ID = #{orderId} and HAND_TYPE = #{handType} and END_DATE is null
+	</update>
+	
+	<!-- 删除 APP_经办历史记录表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_CALL_HAND
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_经办历史记录表 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanCallHandRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_CALL_HAND t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_经办历史记录表 列表 -->
+	<select id="queryForList" resultMap="AppLoanCallHandRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_CALL_HAND t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="orderId != null and orderId != ''">
+	  				and t.ORDER_ID = #{orderId}				
+	  			</if>
+				<if test="handPerson != null and handPerson != ''">
+	  				and t.HAND_PERSON = #{handPerson}				
+	  			</if>
+				<if test="handNo != null and handNo != ''">
+	  				and t.HAND_NO = #{handNo}				
+	  			</if>
+				<if test="handType != null and handType != ''">
+	  				and t.HAND_TYPE = #{handType}				
+	  			</if>
+				<if test="startDate != null">
+	  				and t.START_DATE = #{startDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+    	</trim>
+	</select>
+	<select id="queryHandForList" resultMap="AppLoanCallHandRetMap" parameterType="java.util.Map">
+		select t.* from APP_LOAN_CALL_HAND t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="orderId != null and orderId != ''">
+	  				and t.ORDER_ID = #{orderId}				
+	  			</if>
+				<if test="handTypeIn != null and handTypeIn != ''">
+	  				and t.hand_Type in('70028004','70028005','70028006','70028009')				
+	  			</if>
+		</trim>
+		order by t.START_DATE desc
+	</select>
+	
+</mapper>

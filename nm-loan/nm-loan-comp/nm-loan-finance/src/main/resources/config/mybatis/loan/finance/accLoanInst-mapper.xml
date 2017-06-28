@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccLoanInstMapper" >
+	<!-- 杩斿洖 Bean-->
+	<resultMap id="AccLoanInstRetMap" type="com.hs.loan.finance.entity.AccLoanInst">
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="BUSN_DATE" property="busnDate"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="RCV_PRIN_AMT" property="rcvPrinAmt"/>
+			<result column="ACT_PRIN_AMT" property="actPrinAmt"/>
+			<result column="RCV_INT_AMT" property="rcvIntAmt"/>
+			<result column="ACT_INT_AMT" property="actIntAmt"/>
+			<result column="RCV_SVC_AMT" property="rcvSvcAmt"/>
+			<result column="ACT_SVC_AMT" property="actSvcAmt"/>
+			<result column="RCV_OVDU_AMT" property="rcvOvduAmt"/>
+			<result column="ACT_OVDU_AMT" property="actOvduAmt"/>
+			<result column="RCV_ACCT_AMT" property="rcvAcctAmt"/>
+			<result column="ACT_ACCT_AMT" property="actAcctAmt"/>
+			<result column="RCV_INSU_AMT" property="rcvInsuAmt"/>
+			<result column="ACT_INSU_AMT" property="actInsuAmt"/>
+			<result column="RCV_FEE_AMT" property="rcvFeeAmt"/>
+			<result column="ACT_FEE_AMT" property="actFeeAmt"/>
+			<result column="RCV_PUN_AMT" property="rcvPunAmt"/>
+			<result column="ACT_PUN_AMT" property="actPunAmt"/>
+			<result column="RCV_OUT_AMT" property="rcvOutAmt"/>
+			<result column="ACT_OUT_AMT" property="actOutAmt"/>
+			<result column="RCV_PACK_AMT" property="rcvPackAmt"/>
+			<result column="ACT_PACK_AMT" property="actPackAmt"/>
+			<result column="RCV_TOTL_AMT" property="rcvTotlAmt"/>
+			<result column="ACT_TOTL_AMT" property="actTotlAmt"/>
+			<result column="OVDU_FLAG" property="ovduFlag"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	<update id="updateAccLoanInstSetlAmtAndUnLock" parameterType="java.util.Map">
+			UPDATE ACC_LOAN_ACCT_INST t
+		SET t.SETL_AMT = t.SETL_AMT - #{setlAmt},t.INST_STAT = '20101001',
+			t.UPDT_DATE = #{updt}
+		where t.LOAN_NO = #{loanNo} 
+	</update>
+	
+	<update id="updateSetlAmtByLoanNo" parameterType="java.util.HashMap">
+		UPDATE acc_loan_acct_inst SET CUR_RCV_AMT=(CUR_RCV_AMT-#{setlAmt}),UPDT_DATE=#{updtDate} WHERE LOAN_NO=#{loanNo}
+	</update>
+	<update id="updateInstStatOkByLoanNo" parameterType="java.lang.String">
+		UPDATE acc_loan_acct_inst SET INST_STAT='20101003' WHERE LOAN_NO=#{loanNo} 
+	</update>
+	<update id="updateCurAmt" parameterType="java.util.HashMap">
+		UPDATE acc_loan_acct_inst SET CUR_RCV_AMT=CUR_RCV_AMT-#{amt},UPDT_DATE=#{updtDate} WHERE LOAN_NO=#{loanNo} and REPAY_NUM =#{repayNum}
+	</update>
+	<select id="selectSetlAmtByLoanNo" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT a.CUR_RCV_AMT FROM ACC_LOAN_ACCT_INST AS a WHERE
+        a.REPAY_NUM=(SELECT MIN(REPAY_NUM) FROM ACC_LOAN_ACCT_INST WHERE LOAN_NO=#{loanNo})
+        AND a.LOAN_NO=#{loanNo};
+	</select>
+	<!-- 通过贷款编号查询最近的一期  -->
+	<select id="getMinRepayNoByLoanNo" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT MIN(REPAY_NUM) repayNum,REPAY_DATE FROM acc_loan_acct_inst WHERE LOAN_NO=#{loanNo}
+	</select>
+	<!-- 通过贷款编号查询是否存在锁表  -->
+	<select id="getCountByLoanNoInstStat" resultType="java.lang.Integer" parameterType="java.lang.String">
+       SELECT count(1) FROM acc_loan_acct_inst WHERE LOAN_NO=#{loanNo} AND INST_STAT='20101002';
+	</select>
+	<!-- 更新状态为锁表  -->
+	<update id="updateInstStat" parameterType="java.util.Map">
+		UPDATE acc_loan_acct_inst SET INST_STAT=#{instStat}
+		<where>
+			<if test="null!=loanNo and ''!=loanNo">
+				AND LOAN_NO=#{loanNo}
+			</if>
+			<if test="null!=repayNum and ''!=repanyNum">
+				AND REPAY_NUM=#{repayNum}
+			</if>
+		</where>
+	</update>
+	<!-- 鏂板  -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccLoanInst">
+		insert into ACC_LOAN_INST
+		(
+  			LOAN_NO
+  			,REPAY_DATE
+  			,BUSN_DATE
+  			,REPAY_NUM
+  			,RCV_PRIN_AMT
+  			,ACT_PRIN_AMT
+  			,RCV_INT_AMT
+  			,ACT_INT_AMT
+  			,RCV_SVC_AMT
+  			,ACT_SVC_AMT
+  			,RCV_OVDU_AMT
+  			,ACT_OVDU_AMT
+  			,RCV_ACCT_AMT
+  			,ACT_ACCT_AMT
+  			,RCV_INSU_AMT
+  			,ACT_INSU_AMT
+  			,RCV_FEE_AMT
+  			,ACT_FEE_AMT
+  			,RCV_PUN_AMT
+  			,ACT_PUN_AMT
+  			,RCV_OUT_AMT
+  			,ACT_OUT_AMT
+  			,RCV_PACK_AMT
+  			,ACT_PACK_AMT
+  			,RCV_TOTL_AMT
+  			,ACT_TOTL_AMT
+  			,OVDU_FLAG
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{loanNo}
+  			, #{repayDate}
+  			, #{busnDate}
+  			, #{repayNum}
+  			, #{rcvPrinAmt}
+  			, #{actPrinAmt}
+  			, #{rcvIntAmt}
+  			, #{actIntAmt}
+  			, #{rcvSvcAmt}
+  			, #{actSvcAmt}
+  			, #{rcvOvduAmt}
+  			, #{actOvduAmt}
+  			, #{rcvAcctAmt}
+  			, #{actAcctAmt}
+  			, #{rcvInsuAmt}
+  			, #{actInsuAmt}
+  			, #{rcvFeeAmt}
+  			, #{actFeeAmt}
+  			, #{rcvPunAmt}
+  			, #{actPunAmt}
+  			, #{rcvOutAmt}
+  			, #{actOutAmt}
+  			, #{rcvPackAmt}
+  			, #{actPackAmt}
+  			, #{rcvTotlAmt}
+  			, #{actTotlAmt}
+  			, #{ovduFlag}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 淇敼  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_LOAN_INST
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('busnDate')">  
+	  					BUSN_DATE = #{busnDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvPrinAmt')">  
+	  					RCV_PRIN_AMT = #{rcvPrinAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actPrinAmt')">  
+	  					ACT_PRIN_AMT = #{actPrinAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvIntAmt')">  
+	  					RCV_INT_AMT = #{rcvIntAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actIntAmt')">  
+	  					ACT_INT_AMT = #{actIntAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvSvcAmt')">  
+	  					RCV_SVC_AMT = #{rcvSvcAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actSvcAmt')">  
+	  					ACT_SVC_AMT = #{actSvcAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvOvduAmt')">  
+	  					RCV_OVDU_AMT = #{rcvOvduAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actOvduAmt')">  
+	  					ACT_OVDU_AMT = #{actOvduAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvAcctAmt')">  
+	  					RCV_ACCT_AMT = #{rcvAcctAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actAcctAmt')">  
+	  					ACT_ACCT_AMT = #{actAcctAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvInsuAmt')">  
+	  					RCV_INSU_AMT = #{rcvInsuAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actInsuAmt')">  
+	  					ACT_INSU_AMT = #{actInsuAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvFeeAmt')">  
+	  					RCV_FEE_AMT = #{rcvFeeAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actFeeAmt')">  
+	  					ACT_FEE_AMT = #{actFeeAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvPunAmt')">  
+	  					RCV_PUN_AMT = #{rcvPunAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actPunAmt')">  
+	  					ACT_PUN_AMT = #{actPunAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvOutAmt')">  
+	  					RCV_OUT_AMT = #{rcvOutAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actOutAmt')">  
+	  					ACT_OUT_AMT = #{actOutAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvPackAmt')">  
+	  					RCV_PACK_AMT = #{rcvPackAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actPackAmt')">  
+	  					ACT_PACK_AMT = #{actPackAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvTotlAmt')">  
+	  					RCV_TOTL_AMT = #{rcvTotlAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('actTotlAmt')">  
+	  					ACT_TOTL_AMT = #{actTotlAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('ovduFlag')">  
+	  					OVDU_FLAG = #{ovduFlag},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+	</update>
+	
+	<!-- 鍒犻櫎  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_LOAN_INST
+		where 
+	</delete>
+	
+	<!-- 閫氳繃涓婚敭鏌ヨ  -->
+	<select id="getByPrimaryKey" resultMap="AccLoanInstRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_LOAN_INST t
+		where 
+	</select>
+
+	<select id="billQueryForList" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT a.CUST_NAME,b.PHONE_NO,b.CERT_NO,c.* FROM app_loan_acct AS a INNER JOIN app_cust_info AS b ON a.CUST_NO=b.CUST_NO
+		INNER JOIN ACC_LOAN_INST AS c ON a.LOAN_NO=c.LOAN_NO
+		<where>
+			<if test="null!=loanNo and ''!=loanNo">
+				AND c.LOAN_NO=#{loanNo}
+			</if>
+			<if test="null!=phoneNo and ''!=phoneNo">
+				AND b.PHONE_NO=#{phoneNo}
+			</if>
+			<if test="null!=certNo and ''!=certNo">
+				AND b.CERT_NO=#{certNo}
+			</if>
+			<if test="null!=custName and ''!=custName">
+				AND a.CUST_NAME LIKE CONCAT('%',#{custName},'%')
+			</if>
+			<if test="null!=busiDate and ''!=busiDate">
+				AND c.BUSN_DATE=#{busiDate}
+			</if>
+		</where>
+	</select>
+
+	<!-- 鏌ヨ  鍒楄〃 -->
+	<select id="queryForList" resultMap="AccLoanInstRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_LOAN_INST t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="busnDate != null and busnDate != ''">
+	  				and t.BUSN_DATE = #{busnDate}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="rcvPrinAmt != null">
+	  				and t.RCV_PRIN_AMT = #{rcvPrinAmt}				
+	  			</if>
+				<if test="actPrinAmt != null">
+	  				and t.ACT_PRIN_AMT = #{actPrinAmt}				
+	  			</if>
+				<if test="rcvIntAmt != null">
+	  				and t.RCV_INT_AMT = #{rcvIntAmt}				
+	  			</if>
+				<if test="actIntAmt != null">
+	  				and t.ACT_INT_AMT = #{actIntAmt}				
+	  			</if>
+				<if test="rcvSvcAmt != null">
+	  				and t.RCV_SVC_AMT = #{rcvSvcAmt}				
+	  			</if>
+				<if test="actSvcAmt != null">
+	  				and t.ACT_SVC_AMT = #{actSvcAmt}				
+	  			</if>
+				<if test="rcvOvduAmt != null">
+	  				and t.RCV_OVDU_AMT = #{rcvOvduAmt}				
+	  			</if>
+				<if test="actOvduAmt != null">
+	  				and t.ACT_OVDU_AMT = #{actOvduAmt}				
+	  			</if>
+				<if test="rcvAcctAmt != null">
+	  				and t.RCV_ACCT_AMT = #{rcvAcctAmt}				
+	  			</if>
+				<if test="actAcctAmt != null">
+	  				and t.ACT_ACCT_AMT = #{actAcctAmt}				
+	  			</if>
+				<if test="rcvInsuAmt != null">
+	  				and t.RCV_INSU_AMT = #{rcvInsuAmt}				
+	  			</if>
+				<if test="actInsuAmt != null">
+	  				and t.ACT_INSU_AMT = #{actInsuAmt}				
+	  			</if>
+				<if test="rcvFeeAmt != null">
+	  				and t.RCV_FEE_AMT = #{rcvFeeAmt}				
+	  			</if>
+				<if test="actFeeAmt != null">
+	  				and t.ACT_FEE_AMT = #{actFeeAmt}				
+	  			</if>
+				<if test="rcvPunAmt != null">
+	  				and t.RCV_PUN_AMT = #{rcvPunAmt}				
+	  			</if>
+				<if test="actPunAmt != null">
+	  				and t.ACT_PUN_AMT = #{actPunAmt}				
+	  			</if>
+				<if test="rcvOutAmt != null">
+	  				and t.RCV_OUT_AMT = #{rcvOutAmt}				
+	  			</if>
+				<if test="actOutAmt != null">
+	  				and t.ACT_OUT_AMT = #{actOutAmt}				
+	  			</if>
+				<if test="rcvPackAmt != null">
+	  				and t.RCV_PACK_AMT = #{rcvPackAmt}				
+	  			</if>
+				<if test="actPackAmt != null">
+	  				and t.ACT_PACK_AMT = #{actPackAmt}				
+	  			</if>
+				<if test="rcvTotlAmt != null">
+	  				and t.RCV_TOTL_AMT = #{rcvTotlAmt}				
+	  			</if>
+				<if test="actTotlAmt != null">
+	  				and t.ACT_TOTL_AMT = #{actTotlAmt}				
+	  			</if>
+				<if test="ovduFlag != null and ovduFlag != ''">
+	  				and t.OVDU_FLAG = #{ovduFlag}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 鏌ヨ  鍒楄〃 -->
+	<select id="queryInstForList" resultMap="AccLoanInstRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_LOAN_INST t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="busnDate != null and busnDate != ''">
+	  				and t.BUSN_DATE = #{busnDate}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="rcvPrinAmt != null">
+	  				and t.RCV_PRIN_AMT = #{rcvPrinAmt}				
+	  			</if>
+				<if test="actPrinAmt != null">
+	  				and t.ACT_PRIN_AMT = #{actPrinAmt}				
+	  			</if>
+				<if test="rcvIntAmt != null">
+	  				and t.RCV_INT_AMT = #{rcvIntAmt}				
+	  			</if>
+				<if test="actIntAmt != null">
+	  				and t.ACT_INT_AMT = #{actIntAmt}				
+	  			</if>
+				<if test="rcvSvcAmt != null">
+	  				and t.RCV_SVC_AMT = #{rcvSvcAmt}				
+	  			</if>
+				<if test="actSvcAmt != null">
+	  				and t.ACT_SVC_AMT = #{actSvcAmt}				
+	  			</if>
+				<if test="rcvOvduAmt != null">
+	  				and t.RCV_OVDU_AMT = #{rcvOvduAmt}				
+	  			</if>
+				<if test="actOvduAmt != null">
+	  				and t.ACT_OVDU_AMT = #{actOvduAmt}				
+	  			</if>
+				<if test="rcvAcctAmt != null">
+	  				and t.RCV_ACCT_AMT = #{rcvAcctAmt}				
+	  			</if>
+				<if test="actAcctAmt != null">
+	  				and t.ACT_ACCT_AMT = #{actAcctAmt}				
+	  			</if>
+				<if test="rcvInsuAmt != null">
+	  				and t.RCV_INSU_AMT = #{rcvInsuAmt}				
+	  			</if>
+				<if test="actInsuAmt != null">
+	  				and t.ACT_INSU_AMT = #{actInsuAmt}				
+	  			</if>
+				<if test="rcvFeeAmt != null">
+	  				and t.RCV_FEE_AMT = #{rcvFeeAmt}				
+	  			</if>
+				<if test="actFeeAmt != null">
+	  				and t.ACT_FEE_AMT = #{actFeeAmt}				
+	  			</if>
+				<if test="rcvPunAmt != null">
+	  				and t.RCV_PUN_AMT = #{rcvPunAmt}				
+	  			</if>
+				<if test="actPunAmt != null">
+	  				and t.ACT_PUN_AMT = #{actPunAmt}				
+	  			</if>
+				<if test="rcvOutAmt != null">
+	  				and t.RCV_OUT_AMT = #{rcvOutAmt}				
+	  			</if>
+				<if test="actOutAmt != null">
+	  				and t.ACT_OUT_AMT = #{actOutAmt}				
+	  			</if>
+				<if test="rcvPackAmt != null">
+	  				and t.RCV_PACK_AMT = #{rcvPackAmt}				
+	  			</if>
+				<if test="actPackAmt != null">
+	  				and t.ACT_PACK_AMT = #{actPackAmt}				
+	  			</if>
+				<if test="rcvTotlAmt != null">
+	  				and t.RCV_TOTL_AMT = #{rcvTotlAmt}				
+	  			</if>
+				<if test="actTotlAmt != null">
+	  				and t.ACT_TOTL_AMT = #{actTotlAmt}				
+	  			</if>
+				<if test="ovduFlag != null and ovduFlag != ''">
+	  				and t.OVDU_FLAG = #{ovduFlag}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+	  			<if test="bgRepayNum != null and bgRepayNum != '' and enRepayNum != null and enRepayNum != ''">
+	  					and t.REPAY_NUM between  #{bgRepayNum}	and  #{enRepayNum}						
+	  			</if>
+	  			
+    	</trim>
+	</select>
+</mapper>

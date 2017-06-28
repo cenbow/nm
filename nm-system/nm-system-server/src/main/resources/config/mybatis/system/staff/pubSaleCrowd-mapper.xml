@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.staff.mapper.PubSaleCrowdMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="PubSaleCrowdRetMap" type="com.hs.system.entity.PubSaleCrowd">
+		<result column="Crowd_NO" property="crowdNo" />
+		<result column="crowd_NAME" property="crowdName" />
+		<result column="crowd_RULE" property="crowdRule" />
+		<result column="crowd_DESC" property="crowdDesc" />
+	</resultMap>
+
+	<!-- 新增 PUB_销售群 -->
+	<insert id="insert" parameterType="com.hs.system.entity.PubSaleCrowd">
+		insert into PUB_SALE_crowd
+		(
+		crowd_NO
+		,crowd_NAME
+		,crowd_RULE
+		,crowd_DESC
+		)
+		values
+		(
+		#{crowdNo}
+		, #{crowdName}
+		, #{crowdRule}
+		, #{crowdDesc}
+		)
+	</insert>
+
+	<!-- 修改 PUB_销售群 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_SALE_crowd
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('crowdName')">
+				crowd_NAME = #{crowdName},
+			</if>
+			<if test="_parameter.containsKey('crowdRule')">
+				crowd_RULE = #{crowdRule},
+			</if>
+			<if test="_parameter.containsKey('crowdDesc')">
+				crowd_DESC = #{crowdDesc},
+			</if>
+		</trim>
+		where
+		crowd_NO = #{crowdNo}
+	</update>
+
+	<!-- 删除 PUB_销售群 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		PUB_SALE_crowd
+		where
+		crowd_NO = #{crowdNo}
+	</delete>
+
+	<!-- 通过主键查询 PUB_销售群 -->
+	<select id="getByPrimaryKey" resultMap="PubSaleCrowdRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from PUB_SALE_crowd t
+		where
+		t.crowd_NO = #{crowdNo}
+	</select>
+
+	<!-- 查询 PUB_销售群 列表 -->
+	<select id="queryForList" resultMap="PubSaleCrowdRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from PUB_SALE_crowd t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="crowdNo != null and crowdNo != ''">
+				and t.crowd_NO = #{crowdNo}
+			</if>
+			<if test="crowdName != null and crowdName != ''">
+				and t.crowd_NAME  LIKE CONCAT('%',#{crowdName},'%')
+			</if>
+			<if test="crowdRule != null and crowdRule != ''">
+				and t.crowd_RULE = #{crowdRule}
+			</if>
+			<if test="crowdDesc != null and crowdDesc != ''">
+				and t.crowd_DESC = #{crowdDesc}
+			</if>
+		</trim>
+	</select>
+
+	<!--执行规则 -->
+	<select id="executeRule"
+		resultMap="com.hs.system.staff.mapper.SysStaffMapper.SysStaffRetMap"
+		parameterType="map">
+		${rule}
+	</select>
+
+</mapper>

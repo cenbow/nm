@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.operation.mapper.PubLoanContractFileMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubLoanContractFileRetMap" type="com.hs.loan.operation.entity.PubLoanContractFile">
+			<result column="FILE_ID" property="fileId"/>
+			<result column="FILE_COD" property="fileCod"/>
+			<result column="FILE_NAME" property="fileName"/>
+			<result column="FILE_TYP" property="fileTyp"/>
+			<result column="CHAN_NO" property="chanNo"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+			<result column="sign_X" property="signX"/>
+			<result column="sign_Y" property="signY"/>
+			<result column="sign_Page" property="signPage"/>
+			<result column="c_sign_X" property="cSignX"/>
+			<result column="c_sign_Y" property="cSignY"/>
+			<result column="c_sign_Page" property="cSignPage"/>
+		<result column="shop_sign_X" property="shopSignX"/>
+		<result column="shop_sign_Y" property="shopSignY"/>
+		<result column="shop_sign_Page" property="shopSignPage"/>
+	</resultMap>
+	<select id="getSendLoanApply" parameterType="java.util.Map" resultType="java.lang.String">
+     <![CDATA[
+     {call PROC_XINTUO_INTERFACE_ONE(#{dataFormat})}
+     ]]>
+	</select>
+	<select id="getSendLoanResult" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+     {call PROC_XINTUO_INTERFACE_TWO(#{dataFormat})}
+     ]]>
+	</select>
+	<select id="getSendSuccessRepayment" parameterType="java.util.Map" resultType="java.lang.String">
+		<![CDATA[
+     {CALL PROC_xintuo_interface_fiv(#{dataFormat})}
+     ]]>
+	</select>
+	<insert id="insertAppEntr" parameterType="java.util.Map">
+		INSERT INTO app_entr_loan_info (`ID`, `LOAN_NO`, `ENTR_DATE`, `ENTR_RESULT`, `CTOF_DATE`, `FAIL_REASON`, `APPR_RESULT`, `REFU_REASON`)
+        VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},#{item.loanNo},#{item.entrDate},#{item.entrResulr},#{item.ctofDate},#{item.failReason}, #{item.apprResult}, #{item.refuReason})
+		</foreach>
+	</insert>
+	<select id="getAppEntr" parameterType="java.util.Map" resultType="java.util.HashMap">
+     SELECT b.*,c.CUST_NAME,d.BRANCH_NAME FROM app_loan_acct AS a
+     INNER JOIN app_entr_loan_info AS b ON a.LOAN_NO=b.LOAN_NO
+     INNER JOIN app_cust_info AS c ON a.CUST_NO=c.CUST_NO
+     INNER JOIN app_loan_branch AS d ON a.LOAN_NO=d.LOAN_NO
+     <where>
+	   <if test="null!=custName">
+		 AND  c.CUST_NAME LIKE CONCAT('%',#{custName},'%')
+	   </if>
+		 <if test="null!=branchName">
+			 AND  d.BRANCH_NAME LIKE CONCAT('%',#{branchName},'%')
+		 </if>
+		 <if test="null!=loanNo">
+			 AND b.LOAN_NO=#{loanNo}
+		 </if>
+		 <if test="null!=entrDate">
+			 <![CDATA[  AND b.ENTR_DATE >=#{entrStart} AND b.CTOF_DATE <=#{entrEnd}]]>
+		 </if>
+		 <if test="null!=CTOF_DATE">
+			 <![CDATA[  AND b.CTOF_DATE >=#{ctofStart} AND b.CTOF_DATE <=#{ctofEnd}]]>
+		 </if>
+	 </where>
+	</select>
+	<!-- 新增 PUB_合同模版 -->
+	<insert id="insert" parameterType="com.hs.loan.operation.entity.PubLoanContractFile">
+		insert into PUB_LOAN_CONTRACT_FILE
+		(
+  			FILE_ID
+  			,FILE_COD
+  			,FILE_NAME
+  			,FILE_TYP
+  			,CHAN_NO
+  			,INST_DATE
+  			,UPDT_DATE
+  			,SIGN_X
+  			,SIGN_Y
+  			,SIGN_PAGE
+  			,c_SIGN_X
+  			,c_SIGN_Y
+  			,c_SIGN_PAGE
+  			,shop_SIGN_X
+  			,shop_SIGN_Y
+  			,shop_SIGN_PAGE
+    	)
+    	values
+    	(
+  			 #{fileId}
+  			, #{fileCod}
+  			, #{fileName}
+  			, #{fileTyp}
+  			, #{chanNo}
+  			, #{instDate}
+  			, #{updtDate}
+  			, #{signX}
+  			, #{signY}
+  			, #{signPage}
+  			, #{cSignX}
+  			, #{cSignY}
+  			, #{cSignPage}
+  			, #{shopSignX}
+  			, #{shopSignY}
+  			, #{shopSignPage}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_合同模版 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_LOAN_CONTRACT_FILE
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('fileCod')">  
+	  					FILE_COD = #{fileCod},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fileName')">  
+	  					FILE_NAME = #{fileName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('fileTyp')">  
+	  					FILE_TYP = #{fileTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('chanNo')">  
+	  					CHAN_NO = #{chanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('signX')">  
+	  					sign_x = #{signX},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('signY')">  
+	  					sign_y = #{signY},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('signPage')">  
+	  					sign_Page = #{signPage},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cSignX')">  
+	  					c_sign_x = #{cSignX},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cSignY')">  
+	  					c_sign_y = #{cSignY},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cSignPage')">  
+	  					c_sign_Page = #{cSignPage},  
+	  				</if>
+			<if test="_parameter.containsKey('shopSignX')">
+				shop_sign_x = #{shopSignX},
+			</if>
+			<if test="_parameter.containsKey('shopSignY')">
+				shop_sign_y = #{shopSignY},
+			</if>
+			<if test="_parameter.containsKey('shopSignPage')">
+				shop_sign_Page = #{shopSignPage},
+			</if>
+		</trim>
+		where 
+  			FILE_ID = #{fileId}				
+	</update>
+	
+	<!-- 删除 PUB_合同模版 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_LOAN_CONTRACT_FILE
+		where 
+  			FILE_ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_合同模版 -->
+	<select id="getByPrimaryKey" resultMap="PubLoanContractFileRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_LOAN_CONTRACT_FILE t
+		where 
+  				t.FILE_ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_合同模版 列表 -->
+	<select id="queryForList" resultMap="PubLoanContractFileRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_LOAN_CONTRACT_FILE t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="fileId != null and fileId != ''">
+	  				and t.FILE_ID = #{fileId}				
+	  			</if>
+				<if test="fileCod != null and fileCod != ''">
+	  				and t.FILE_COD = #{fileCod}				
+	  			</if>
+				<if test="fileName != null and fileName != ''">
+	  				and t.FILE_NAME = #{fileName}				
+	  			</if>
+				<if test="fileTyp != null and fileTyp != ''">
+	  				and t.FILE_TYP = #{fileTyp}				
+	  			</if>
+				<if test="chanNo != null and chanNo != ''">
+	  				and t.CHAN_NO = #{chanNo}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

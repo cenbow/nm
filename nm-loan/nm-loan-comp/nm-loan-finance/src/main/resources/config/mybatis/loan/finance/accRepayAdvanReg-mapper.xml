@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccRepayAdvanRegMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccRepayAdvanRegRetMap" type="com.hs.loan.finance.entity.AccRepayAdvanReg">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_DATE" property="repayDate"/>
+			<result column="REPAY_NUM" property="repayNum"/>
+			<result column="TRAN_DATE" property="tranDate"/>
+			<result column="TRAN_AMT" property="tranAmt"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="CUST_ACCT" property="custAcct"/>
+			<result column="STAT" property="stat"/>
+			<result column="TRAN_DESC" property="tranDesc"/>
+			<result column="TRAN_STAFF" property="tranStaff"/>
+			<result column="TRAN_ORG" property="tranOrg"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="REPAY_CHAN" property="repayChan"/>
+			<result column="CONF_NO" property="confNo"/>
+			<result column="SETL_TYPE" property="setlType"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_还款登记（提前结清） -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccRepayAdvanReg">
+		insert into acc_repay_advan_reg
+		(
+  			ID
+  			,LOAN_NO
+  			,REPAY_DATE
+  			,REPAY_NUM
+  			,TRAN_DATE
+  			,TRAN_AMT
+  			,CUST_NAME
+  			,CUST_ACCT
+  			,STAT
+  			,TRAN_DESC
+  			,TRAN_STAFF
+  			,TRAN_ORG
+  			,INST_DATE
+  			,REPAY_CHAN
+  			,CONF_NO
+  			,SETL_TYPE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{repayDate}
+  			, #{repayNum}
+  			, #{tranDate}
+  			, #{tranAmt}
+  			, #{custName}
+  			, #{custAcct}
+  			, #{stat}
+  			, #{tranDesc}
+  			, #{tranStaff}
+  			, #{tranOrg}
+  			, #{instDate}
+  			, #{repayChan}
+  			, #{confNo}
+  			, #{setlType}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_还款登记（提前结清） -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update acc_repay_advan_reg
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDate')">  
+	  					TRAN_DATE = #{tranDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranAmt')">  
+	  					TRAN_AMT = #{tranAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custAcct')">  
+	  					CUST_ACCT = #{custAcct},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDesc')">  
+	  					TRAN_DESC = #{tranDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranStaff')">  
+	  					TRAN_STAFF = #{tranStaff},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranOrg')">  
+	  					TRAN_ORG = #{tranOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayChan')">  
+	  					REPAY_CHAN = #{repayChan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('confNo')">  
+	  					CONF_NO = #{confNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	<!-- 修改 ACC_还款登记（提前结清） -->
+	<update id="updateBySelective" parameterType="java.util.Map">
+		update acc_repay_advan_reg
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					REPAY_DATE = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayNum')">  
+	  					REPAY_NUM = #{repayNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDate')">  
+	  					TRAN_DATE = #{tranDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranAmt')">  
+	  					TRAN_AMT = #{tranAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custAcct')">  
+	  					CUST_ACCT = #{custAcct},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranDesc')">  
+	  					TRAN_DESC = #{tranDesc},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranStaff')">  
+	  					TRAN_STAFF = #{tranStaff},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranOrg')">  
+	  					TRAN_ORG = #{tranOrg},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayChan')">  
+	  					REPAY_CHAN = #{repayChan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('confNo')">  
+	  					CONF_NO = #{confNo},  
+	  				</if>		
+    	</trim>
+		where LOAN_NO = #{loanNo} AND REPAY_NUM = #{repayNum} AND STAT = #{stat}
+  			 			
+	</update>
+	
+	<!-- 删除 ACC_还款登记（提前结清） -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from acc_repay_advan_reg
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_还款登记（提前结清） -->
+	<select id="getByPrimaryKey" resultMap="AccRepayAdvanRegRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from acc_repay_advan_reg t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_还款登记（提前结清） 列表 -->
+	<select id="queryForList" resultMap="AccRepayAdvanRegRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from acc_repay_advan_reg t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.REPAY_DATE = #{repayDate}				
+	  			</if>
+				<if test="repayNum != null">
+	  				and t.REPAY_NUM = #{repayNum}				
+	  			</if>
+				<if test="tranDate != null">
+	  				and DATE_FORMAT(t.TRAN_DATE,'%Y-%m-%d') = #{tranDate}				
+	  			</if>
+				<if test="tranAmt != null">
+	  				and t.TRAN_AMT = #{tranAmt}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="custAcct != null and custAcct != ''">
+	  				and t.CUST_ACCT = #{custAcct}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="tranDesc != null and tranDesc != ''">
+	  				and t.TRAN_DESC = #{tranDesc}				
+	  			</if>
+				<if test="tranStaff != null and tranStaff != ''">
+	  				and t.TRAN_STAFF = #{tranStaff}				
+	  			</if>
+				<if test="tranOrg != null and tranOrg != ''">
+	  				and t.TRAN_ORG = #{tranOrg}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="repayChan != null and repayChan != ''">
+	  				and t.REPAY_CHAN = #{repayChan}				
+	  			</if>
+				<if test="confNo != null and confNo != ''">
+	  				and t.CONF_NO = #{confNo}				
+	  			</if>
+	  			<if test="setlType != null and setlType != ''">
+	  				and t.SETL_TYPE = #{setlType}				
+	  			</if>
+    	</trim>
+	</select>
+	<update id="updateOveLoanStat"  parameterType="java.lang.String">
+		update   PL_LOAN_OVDU_CASE set DEAL_STAT ='50002002' where  loan_no=#{loanNo}
+	</update>
+	<!-- 查询分期信息 -->
+	<select id="getAppLoanAcct" resultType="java.util.Map" parameterType="java.lang.String">
+		select T.cust_name custName,info.phone_no phoneNo,date_format(T.APPLY_DATE,'%Y年%m月%d日') applyDate,date_format(now(),'%Y年%m月%d日') todayDate from app_loan_acct T LEFT JOIN APP_CUST_INFO info on t.CUST_NO = info.CUST_NO
+	 	where t.LOAN_NO = #{loanNo}				
+	</select>
+</mapper>

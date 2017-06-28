@@ -1,0 +1,34 @@
+.sidebar-menu-child {
+	position: absolute;
+	top: 50px; 
+	left: 250px;
+	width: 200px;
+	background-color: #f9fafc;
+	border-right: 1px solid #ddd;
+	
+	display: none;
+}
+.child-menu-container > ul {
+	display: none;
+}
+.sidebar-menu-child ul, .sidebar-menu-child ul li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.sidebar-menu-child ul li a {
+	display: block;
+	padding-left: 15px;
+	color: #999;
+	
+	border-left: 3px solid transparent;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+.sidebar-menu-child ul li a:hover {
+	color:#000;
+    background-color: #f4f4f5;
+    border-left-color:#f39c12
+}

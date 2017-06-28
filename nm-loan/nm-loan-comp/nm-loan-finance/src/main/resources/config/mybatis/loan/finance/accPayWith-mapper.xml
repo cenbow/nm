@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccPayWithMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="AccPayWithRetMap" type="com.hs.loan.finance.entity.AccPayWith">
+		<result column="ID" property="id" />
+		<result column="LOAN_NO" property="loanNo" />
+		<result column="ACCT_NO" property="acctNo" />
+		<result column="ACCT_NAME" property="acctName" />
+		<result column="OPEN_BANK" property="openBank" />
+		<result column="CERT_NO" property="certNo" />
+		<result column="BGN_REPAY_NUM" property="bgnRepayNum" />
+		<result column="END_REPAY_NUM" property="endRepayNum" />
+		<result column="WITH_AMT" property="withAmt" />
+		<result column="CUR_RCV_AMT" property="curRcvAmt" />
+		<result column="REPAY_TYPE" property="repayType" />
+		<result column="STAT" property="stat" />
+		<result column="RET_CODE" property="retCode" />
+		<result column="RET_MSG" property="retMsg" />
+		<result column="REMARK" property="remark" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+		<result column="COMPANY_TYP" property="companyType" />
+		<result column="NO_AGREE" property="noAgree"/>
+		<result column="PHONE_NO" property="phoneNo"/>
+	</resultMap>
+
+	<!-- 新增 ACC_三方支付代扣信息 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccPayWith">
+		insert into acc_pay_with
+		(
+		ID
+		,LOAN_NO
+		,ACCT_NO
+		,ACCT_NAME
+		,OPEN_BANK
+		,CERT_NO
+		,BGN_REPAY_NUM
+		,END_REPAY_NUM
+		,WITH_AMT
+		,CUR_RCV_AMT
+		,REPAY_TYPE
+		,STAT
+		,RET_CODE
+		,RET_MSG
+		,REMARK
+		,INST_DATE
+		,UPDT_DATE
+		,COMPANY_TYP
+		)
+		values
+		(
+		#{id}
+		, #{loanNo}
+		, #{acctNo}
+		, #{acctName}
+		, #{openBank}
+		, #{certNo}
+		, #{bgnRepayNum}
+		, #{endRepayNum}
+		, #{withAmt}
+		, #{curRcvAmt}
+		, #{repayType}
+		, #{stat}
+		, #{retCode}
+		, #{retMsg}
+		, #{remark}
+		, #{instDate}
+		, #{updtDate}
+		, #{companyType}
+		)
+	</insert>
+
+	<!-- 代扣登记文件返回后修改逾期表状态 -->
+	<update id="updateOverByLoanNo" parameterType="java.util.Map">
+		update PL_LOAN_OVDU_CASE set DEAL_STAT =
+		#{dealStat},DEAL_TIME=#{updt},UPDT_DATE = #{updt}
+		where loan_no =
+		#{loanNo}
+	</update>
+
+
+	<!-- 修改 ACC_三方支付代扣信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update acc_pay_with
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('loanNo')">
+				LOAN_NO = #{loanNo},
+			</if>
+			<if test="_parameter.containsKey('acctNo')">
+				ACCT_NO = #{acctNo},
+			</if>
+			<if test="_parameter.containsKey('acctName')">
+				ACCT_NAME = #{acctName},
+			</if>
+			<if test="_parameter.containsKey('openBank')">
+				OPEN_BANK = #{openBank},
+			</if>
+			<if test="_parameter.containsKey('certNo')">
+				CERT_NO = #{certNo},
+			</if>
+			<if test="_parameter.containsKey('curRcvAmt')">
+				cur_rcv_Amt = #{curRcvAmt},
+			</if>
+			<if test="_parameter.containsKey('bgnRepayNum')">
+				BGN_REPAY_NUM = #{bgnRepayNum},
+			</if>
+			<if test="_parameter.containsKey('endRepayNum')">
+				END_REPAY_NUM = #{endRepayNum},
+			</if>
+			<if test="_parameter.containsKey('stat')">
+				STAT = #{stat},
+			</if>
+			<if test="_parameter.containsKey('retCode')">
+				RET_CODE = #{retCode},
+			</if>
+			<if test="_parameter.containsKey('retMsg')">
+				RET_MSG = #{retMsg},
+			</if>
+			<if test="_parameter.containsKey('remark')">
+				REMARK = #{remark},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 ACC_三方支付代扣信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		acc_pay_with
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 ACC_三方支付代扣信息 -->
+	<select id="getByPrimaryKey" resultMap="AccPayWithRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from acc_pay_with t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 ACC_三方支付代扣信息 列表 -->
+	<select id="queryForList" resultMap="AccPayWithRetMap" parameterType="java.util.Map">
+		SELECT t.*, d.no_agree, c.PHONE_NO
+	 	 FROM acc_pay_with t
+	       LEFT JOIN ACC_AGREE_NO d ON t.LOAN_NO = d.LOAN_NO
+	       LEFT JOIN APP_CUST_INFO c ON c.cert_no = t.cert_no
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loanNo != null and loanNo != ''">
+				and t.LOAN_NO = #{loanNo}
+			</if>
+			<if test="acctNo != null and acctNo != ''">
+				and t.ACCT_NO = #{acctNo}
+			</if>
+			<if test="acctName != null and acctName != ''">
+				and t.ACCT_NAME = #{acctName}
+			</if>
+			<if test="openBank != null and openBank != ''">
+				and t.OPEN_BANK = #{openBank}
+			</if>
+			<if test="certNo != null and certNo != ''">
+				and t.CERT_NO = #{certNo}
+			</if>
+			<if test="tranAmt != null">
+				and t.cur_rcv_Amt = #{curRcvAmt}
+			</if>
+			<if test="bgnRepayNum != null">
+				and t.BGN_REPAY_NUM = #{bgnRepayNum}
+			</if>
+			<if test="endRepayNum != null">
+				and t.END_REPAY_NUM = #{endRepayNum}
+			</if>
+			<if test="stat != null and stat != ''">
+				and t.STAT = #{stat}
+			</if>
+			<if test="retCode != null and retCode != ''">
+				and t.RET_CODE = #{retCode}
+			</if>
+			<if test="retMsg != null and retMsg != ''">
+				and t.RET_MSG = #{retMsg}
+			</if>
+			<if test="remark != null and remark != ''">
+				and t.REMARK = #{remark}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+			<if test="repayType != null">
+				and t.REPAY_TYPE = #{repayType}
+			</if>
+			<if test="companyType!=null">
+				and t.COMPANY_TYP = #{companyType}
+			</if>
+		</trim>
+		order by t.stat
+	</select>
+	<insert id="updateOutSource" parameterType="java.util.Map" >
+	INSERT INTO PL_LOAN_OUTSOURCE_RETURN 
+				(         ID,
+                                LOAN_NO,
+                                UNIT_NO,
+                                UNIT_Name,
+                                PAY_AMT,
+                                PAY_TYP,
+                                REL_ID,
+                                INST_DATE)
+			   SELECT #{id} as id,
+			          loan_no,
+			          unit_no,
+			          unit_name,
+			          #{payAmt} as pay_Amt,
+			          #{payTyp} as pay_typ,
+			          id as rel_id,
+			          now() as inst_date
+			     FROM PL_LOAN_OUTSOURCE_RELATION 
+			    WHERE loan_no = #{loanNo} AND STAT = #{stat}
+	</insert>
+	<update id="updateIsSettle" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="isSettle=='1'.toString()">  
+ 				IS_SETTLE = '10001001',
+			</if>
+			<if test="debtAmt!=null and debtAmt!=''">
+				DEBT_AMT = DEBT_AMT - #{debtAmt},
+			</if>
+		</trim>
+		WHERE LOAN_NO=#{loanNo}
+	</update>
+</mapper>

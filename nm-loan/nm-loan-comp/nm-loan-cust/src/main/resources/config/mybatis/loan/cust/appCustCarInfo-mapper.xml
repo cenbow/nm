@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustCarInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustCarInfoRetMap" type="com.hs.loan.cust.entity.AppCustCarInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CAR_TYPE" property="carType"/>
+			<result column="CAR_PLATE" property="carPlate"/>
+			<result column="CAR_BRAND" property="carBrand"/>
+			<result column="CAR_MODEL" property="carModel"/>
+			<result column="CAR_BUY_YEAR" property="carBuyYear"/>
+			<result column="CAR_MTH_AMT" property="carMthAmt"/>
+			<result column="CAR_MTH_DAY" property="carMthDay"/>
+			<result column="CAR_MONTH" property="carMonth"/>
+			<result column="REMARK" property="remark"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户车辆信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustCarInfo">
+		insert into app_cust_car_info
+		(
+  			ID
+  			,CUST_NO
+  			,CAR_TYPE
+  			,CAR_PLATE
+  			,CAR_BRAND
+  			,CAR_MODEL
+  			,CAR_BUY_YEAR
+  			,CAR_MTH_AMT
+  			,CAR_MTH_DAY
+  			,CAR_MONTH
+  			,REMARK
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{carType}
+  			, #{carPlate}
+  			, #{carBrand}
+  			, #{carModel}
+  			, #{carBuyYear}
+  			, #{carMthAmt}
+  			, #{carMthDay}
+  			, #{carMonth}
+  			, #{remark}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户车辆信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_car_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carType')">  
+	  					CAR_TYPE = #{carType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carPlate')">  
+	  					CAR_PLATE = #{carPlate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carBrand')">  
+	  					CAR_BRAND = #{carBrand},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carModel')">  
+	  					CAR_MODEL = #{carModel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carBuyYear')">  
+	  					CAR_BUY_YEAR = #{carBuyYear},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carMthAmt')">  
+	  					CAR_MTH_AMT = #{carMthAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carMthDay')">  
+	  					CAR_MTH_DAY = #{carMthDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('carMonth')">  
+	  					CAR_MONTH = #{carMonth},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户车辆信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_car_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户车辆信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustCarInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_car_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户车辆信息 列表 -->
+	<select id="queryForList" resultMap="AppCustCarInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_car_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="carType != null and carType != ''">
+	  				and t.CAR_TYPE = #{carType}				
+	  			</if>
+				<if test="carPlate != null and carPlate != ''">
+	  				and t.CAR_PLATE = #{carPlate}				
+	  			</if>
+				<if test="carBrand != null and carBrand != ''">
+	  				and t.CAR_BRAND = #{carBrand}				
+	  			</if>
+				<if test="carModel != null and carModel != ''">
+	  				and t.CAR_MODEL = #{carModel}				
+	  			</if>
+				<if test="carBuyYear != null and carBuyYear != ''">
+	  				and t.CAR_BUY_YEAR = #{carBuyYear}				
+	  			</if>
+				<if test="carMthAmt != null and carMthAmt != ''">
+	  				and t.CAR_MTH_AMT = #{carMthAmt}				
+	  			</if>
+				<if test="carMthDay != null and carMthDay != ''">
+	  				and t.CAR_MTH_DAY = #{carMthDay}				
+	  			</if>
+				<if test="carMonth != null and carMonth != ''">
+	  				and t.CAR_MONTH = #{carMonth}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 获取有效时间段里的 有效的 客户车辆信息  -->
+	<select id="getCustCarInfoLstByDate" parameterType="map" resultMap="AppCustCarInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_car_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustCarInfoRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_car_info t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}				
+	  	</if>
+		<if test="carType != null and carType != ''">
+	  		and t.CAR_TYPE = #{carType}				
+	  	</if>
+		<if test="carPlate != null and carPlate != ''">
+	  		and t.CAR_PLATE = #{carPlate}				
+	  	</if>
+		<if test="carBrand != null and carBrand != ''">
+	  		and t.CAR_BRAND = #{carBrand}				
+	  	</if>
+		<if test="carModel != null and carModel != ''">
+	  		and t.CAR_MODEL = #{carModel}				
+	  	</if>
+		<if test="carBuyYear != null and carBuyYear != ''">
+	  		and t.CAR_BUY_YEAR = #{carBuyYear}				
+	  	</if>
+		<if test="carMthAmt != null and carMthAmt != ''">
+	  		and t.CAR_MTH_AMT = #{carMthAmt}				
+	  	</if>
+		<if test="carMthDay != null and carMthDay != ''">
+	  		and t.CAR_MTH_DAY = #{carMthDay}				
+	  	</if>
+		<if test="carMonth != null and carMonth != ''">
+	  		and t.CAR_MONTH = #{carMonth}				
+	  	</if>
+		<if test="remark != null and remark != ''">
+	  		and t.REMARK = #{remark}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>
+		order by t.BEGIN_DATE desc
+	</select>
+	
+</mapper>

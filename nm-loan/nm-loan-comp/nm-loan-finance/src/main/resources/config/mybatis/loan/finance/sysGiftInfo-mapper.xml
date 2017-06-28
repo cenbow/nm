@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.SysGiftInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="SysGiftInfoRetMap" type="com.hs.loan.finance.entity.SysGiftInfo">
+			<result column="ID" property="id"/>
+			<result column="GIFT_NO" property="giftNo"/>
+			<result column="GIFT_SUBJECT" property="giftSubject"/>
+			<result column="GIFT_REMARK" property="giftRemark"/>
+			<result column="VALUE_SCORE" property="valueScore"/>
+			<result column="REMAIN_NUM" property="remainNum"/>
+			<result column="SELF_CNT" property="selfCnt"/>
+			<result column="POT_PATH" property="potPath"/>
+			<result column="BGN_DATE" property="bgnDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增  -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.SysGiftInfo">
+		insert into sys_gift_info
+		(
+  			ID
+  			,GIFT_NO
+  			,GIFT_SUBJECT
+  			,GIFT_REMARK
+  			,VALUE_SCORE
+  			,REMAIN_NUM
+  			,SELF_CNT
+  			,POT_PATH
+  			,BGN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{giftNo}
+  			, #{giftSubject}
+  			, #{giftRemark}
+  			, #{valueScore}
+  			, #{remainNum}
+  			, #{selfCnt}
+  			, #{potPath}
+  			, #{bgnDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改  -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_gift_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('giftNo')">  
+	  					GIFT_NO = #{giftNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('giftSubject')">  
+	  					GIFT_SUBJECT = #{giftSubject},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('giftRemark')">  
+	  					GIFT_REMARK = #{giftRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('valueScore')">  
+	  					VALUE_SCORE = #{valueScore},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remainNum')">  
+	  					REMAIN_NUM = #{remainNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('selfCnt')">  
+	  					SELF_CNT = #{selfCnt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('potPath')">  
+	  					POT_PATH = #{potPath},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bgnDate')">  
+	  					BGN_DATE = #{bgnDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除  -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_gift_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询  -->
+	<select id="getByPrimaryKey" resultMap="SysGiftInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from sys_gift_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询  列表 -->
+	<select id="queryForList" resultMap="SysGiftInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from sys_gift_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="giftNo != null and giftNo != ''">
+	  				and t.GIFT_NO = #{giftNo}				
+	  			</if>
+				<if test="giftSubject != null and giftSubject != ''">
+	  				and t.GIFT_SUBJECT = #{giftSubject}				
+	  			</if>
+				<if test="giftRemark != null and giftRemark != ''">
+	  				and t.GIFT_REMARK = #{giftRemark}				
+	  			</if>
+				<if test="valueScore != null">
+	  				and t.VALUE_SCORE = #{valueScore}				
+	  			</if>
+				<if test="remainNum != null">
+	  				and t.REMAIN_NUM = #{remainNum}				
+	  			</if>
+				<if test="selfCnt != null">
+	  				and t.SELF_CNT = #{selfCnt}				
+	  			</if>
+				<if test="potPath != null and potPath != ''">
+	  				and t.POT_PATH = #{potPath}				
+	  			</if>
+				<if test="bgnDate != null">
+	  				and t.BGN_DATE = #{bgnDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	
+	<select id="getCountByGiftNo" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT COUNT(*) FROM SYS_GIFT_INFO t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+			<if test="id != null and id != ''">
+	  			and t.ID != #{id}				
+	  		</if>
+			<if test="giftNo != null and giftNo != ''">
+	  			and t.GIFT_NO = #{giftNo}				
+	  		</if>
+    	</trim>
+	</select>
+</mapper>

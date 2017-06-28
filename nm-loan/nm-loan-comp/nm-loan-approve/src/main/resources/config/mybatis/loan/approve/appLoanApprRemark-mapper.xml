@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.approve.mapper.AppLoanApprRemakMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanApprBookRetMap" type="com.hs.loan.approve.entity.AppLoanApprRemark">
+			<result column="ID" property="id"/>
+			<result column="APPR_ID" property="apprId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="BLOCK_ID" property="blockId"/>
+			<result column="OPERATE_NO" property="operateNo"/>
+			<result column="OPERATE_NAME" property="operateName"/>
+			<result column="APPR_REMARK" property="apprRemark"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_分期审批案件批注表 -->
+	<insert id="insert" parameterType="com.hs.loan.approve.entity.AppLoanApprBook">
+		insert into APP_LOAN_APPR_REMARK
+		(
+  			ID
+  			,APPR_ID
+  			,LOAN_NO
+  			,BLOCK_ID
+  			,OPERATE_NO
+  			,OPERATE_NAME
+  			,APPR_REMARK
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{apprId}
+  			, #{loanNo}
+  			, #{blockId}
+  			, #{operateNo}
+  			, #{operateName}
+  			, #{apprRemark}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期审批案件批注表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_APPR_REMARK
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('id')">  
+	  					ID = #{id},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprId')">  
+	  					APPR_ID = #{apprId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('blockId')">  
+	  					BLOCK_ID = #{blockId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('operateNo')">  
+	  					OPERATE_NO = #{operateNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('operateName')">  
+	  					OPERATE_NAME = #{operateName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('apprBook')">
+						APPR_REMARK = #{apprRemark},
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where ID = #{id}
+	</update>
+	
+	<!-- 删除 APP_分期审批案件批注表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR_REMARK
+		where  ID = #{id}
+	</delete>
+	<!-- 删除 APP_分期审批案件批注表 -->
+	<delete id="deleteByLoanNo" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR_REMARK
+		where LOAN_NO = #{loanNo} 
+	</delete>
+	
+	<!-- 删除 APP_分期审批案件批注表 -->
+	<delete id="deleteByBlockId" parameterType="java.lang.String">
+		delete from APP_LOAN_APPR_REMARK
+		where BLOCK_ID = #{blockId} and LOAN_NO = #{loanNo} 
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期审批案件批注表 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanApprBookRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_APPR_REMARK t
+		where  ID = #{id}
+	</select>
+	
+	<!-- 查询 APP_分期审批案件批注表 列表 -->
+	<select id="queryForList" resultMap="AppLoanApprBookRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_APPR_REMARK t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="apprId != null and apprId != ''">
+	  				and t.APPR_ID = #{apprId}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="blockId != null and blockId != ''">
+	  				and t.BLOCK_ID = #{blockId}				
+	  			</if>
+				<if test="operateNo != null and operateNo != ''">
+	  				and t.OPERATE_NO = #{operateNo}				
+	  			</if>
+				<if test="operateName != null and operateName != ''">
+	  				and t.OPERATE_NAME = #{operateName}				
+	  			</if>
+				<if test="apprBook != null and apprBook != ''">
+	  				and t.APPR_REMARK = #{apprRemark}
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

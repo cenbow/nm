@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.priv.mapper.SysPrivInfoMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysPrivInfoRetMap" type="com.hs.system.entity.SysPrivInfo">
+		<result column="ID" property="id" />
+		<result column="BUSI_TYP_COD" property="busiTypCod" />
+		<result column="ORG_PATH" property="orgPath" />
+		<result column="ORG_PATH_NAME" property="orgPathName" />
+		<result column="ORG_MATCH_TYP" property="orgMatchTyp" />
+		<result column="ROLE_NO" property="roleNo" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="AUT_TYP_COD" property="autTypCod" />
+		<result column="APPOINT_ORG_NO" property="appointOrgNo" />
+		<result column="APPOINT_ORG_NAME" property="appointOrgName" />
+		<result column="APPOINT_ROLE_NO" property="appointRoleNo" />
+		<result column="APPOINT_ROLE_NAME" property="appointRoleName" />
+		<result column="APPOINT_STAFF_NO" property="appointStaffNo" />
+		<result column="APPOINT_STAFF_NAME" property="appointStaffName" />
+		<result column="APPOINT_ORG_CLASS" property="appointOrgClass" />
+		<result column="INST_DATE" property="instDate" />
+		<result column="UPDT_DATE" property="updtDate" />
+	</resultMap>
+
+	<!-- 新增 角色权限设置 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysPrivInfo">
+		insert into sys_priv_info
+		(
+		ID
+		,BUSI_TYP_COD
+		,ORG_PATH
+		,ORG_PATH_NAME
+		,ORG_MATCH_TYP
+		,ROLE_NO
+		,STAFF_NO
+		,AUT_TYP_COD
+		,APPOINT_ORG_NO
+		,APPOINT_ORG_NAME
+		,APPOINT_ROLE_NO
+		,APPOINT_ROLE_NAME
+		,APPOINT_STAFF_NO
+		,APPOINT_STAFF_NAME
+		,APPOINT_ORG_CLASS
+		,INST_DATE
+		,UPDT_DATE
+		)
+		values
+		(
+		#{id}
+		, #{busiTypCod}
+		, #{orgPath}
+		, #{orgPathName}
+		, #{orgMatchTyp}
+		, #{roleNo}
+		, #{staffNo}
+		, #{autTypCod}
+		, #{appointOrgNo}
+		, #{appointOrgName}
+		, #{appointRoleNo}
+		, #{appointRoleName}
+		, #{appointStaffNo}
+		, #{appointStaffName}
+		, #{appointOrgClass}
+		, #{instDate}
+		, #{updtDate}
+		)
+	</insert>
+
+	<!-- 修改 角色权限设置 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_priv_info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('busiTypCod')">
+				BUSI_TYP_COD = #{busiTypCod},
+			</if>
+			<if test="_parameter.containsKey('orgPath')">
+				ORG_PATH = #{orgPath},
+			</if>
+			<if test="_parameter.containsKey('orgPathName')">
+				ORG_PATH_NAME = #{orgPathName},
+			</if>
+			<if test="_parameter.containsKey('orgMatchTyp')">
+				ORG_MATCH_TYP = #{orgMatchTyp},
+			</if>
+			<if test="_parameter.containsKey('roleNo')">
+				ROLE_NO = #{roleNo},
+			</if>
+			<if test="_parameter.containsKey('staffNo')">
+				STAFF_NO = #{staffNo},
+			</if>
+			<if test="_parameter.containsKey('autTypCod')">
+				AUT_TYP_COD = #{autTypCod},
+			</if>
+			<if test="_parameter.containsKey('appointOrgNo')">
+				APPOINT_ORG_NO = #{appointOrgNo},
+			</if>
+			<if test="_parameter.containsKey('appointOrgName')">
+				APPOINT_ORG_NAME = #{appointOrgName},
+			</if>
+			<if test="_parameter.containsKey('appointRoleNo')">
+				APPOINT_ROLE_NO = #{appointRoleNo},
+			</if>
+			<if test="_parameter.containsKey('appointRoleName')">
+				APPOINT_ROLE_NAME = #{appointRoleName},
+			</if>
+			<if test="_parameter.containsKey('appointStaffNo')">
+				APPOINT_STAFF_NO = #{appointStaffNo},
+			</if>
+			<if test="_parameter.containsKey('appointStaffName')">
+				APPOINT_STAFF_NAME = #{appointStaffName},
+			</if>
+			<if test="_parameter.containsKey('appointOrgClass')">
+				APPOINT_ORG_CLASS = #{appointOrgClass},
+			</if>
+			<if test="_parameter.containsKey('instDate')">
+				INST_DATE = #{instDate},
+			</if>
+			<if test="_parameter.containsKey('updtDate')">
+				UPDT_DATE = #{updtDate},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 角色权限设置 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_priv_info
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 角色权限设置 -->
+	<select id="getByPrimaryKey" resultMap="SysPrivInfoRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_priv_info t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 角色权限设置 列表 -->
+	<select id="queryForList" resultMap="SysPrivInfoRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_priv_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="busiTypCod != null and busiTypCod != ''">
+				and t.BUSI_TYP_COD = #{busiTypCod}
+			</if>
+			<if test="orgPath != null and orgPath != ''">
+				and t.ORG_PATH = #{orgPath}
+			</if>
+			<if test="orgMatchTyp != null and orgMatchTyp != ''">
+				and t.ORG_MATCH_TYP = #{orgMatchTyp}
+			</if>
+			<if test="roleNo != null and roleNo != ''">
+				and t.ROLE_NO = #{roleNo}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="autTypCod != null and autTypCod != ''">
+				and t.AUT_TYP_COD = #{autTypCod}
+			</if>
+			<if test="appointOrgNo != null and appointOrgNo != ''">
+				and t.APPOINT_ORG_NO = #{appointOrgNo}
+			</if>
+			<if test="appointRoleNo != null and appointRoleNo != ''">
+				and t.APPOINT_ROLE_NO = #{appointRoleNo}
+			</if>
+			<if test="appointStaffNo != null and appointStaffNo != ''">
+				and t.APPOINT_STAFF_NO = #{appointStaffNo}
+			</if>
+			<if test="appointOrgClass != null and appointOrgClass != ''">
+				and t.APPOINT_ORG_CLASS = #{appointOrgClass}
+			</if>
+			<if test="instDate != null">
+				and t.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and t.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+	<!--查询权限信息用于页面显示 -->
+	<select id="queryPrivMangerInfoLst" parameterType="map"
+		resultType="com.hs.system.dto.SysPrivManagerBo">
+		SELECT
+		i.ID AS "id",
+		i.BUSI_TYP_COD AS "busiTypCod",
+		i.ORG_PATH AS "orgPath",
+		i.ORG_PATH_NAME AS "orgPathName",
+		i.ORG_MATCH_TYP AS "orgMatchTyp",
+		i.ROLE_NO AS "roleNo",
+		r.ROLE_NAME AS "roleName",
+		i.STAFF_NO AS "staffNo",
+		s.STAFF_NAME AS "staffName",
+		i.AUT_TYP_COD AS "autTypCod",
+		i.APPOINT_ORG_NO AS "appointOrgNo",
+		i.APPOINT_ORG_NAME AS "appointOrgName",
+		i.APPOINT_ROLE_NO AS "appointRoleNo",
+		i.APPOINT_ROLE_NAME AS "appointRoleName",
+		i.APPOINT_STAFF_NO AS "appointStaffNo",
+		i.APPOINT_STAFF_NAME AS "appointStaffName",
+		i.APPOINT_ORG_CLASS AS "appointOrgClass",
+		i.INST_DATE AS "instDate",
+		i.UPDT_DATE AS "updtDate"
+		FROM
+		sys_priv_info i
+		LEFT JOIN
+		sys_role r ON i.ROLE_NO = r.ROLE_NO
+		LEFT JOIN
+		sys_staff s ON i.STAFF_NO = s.STAFF_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and i.ID = #{id}
+			</if>
+			<if test="busiTypCod != null and busiTypCod != ''">
+				and i.BUSI_TYP_COD = #{busiTypCod}
+			</if>
+			<if test="orgPath != null and orgPath != ''">
+				and i.ORG_PATH = #{orgPath}
+			</if>
+			<if test="orgMatchTyp != null and orgMatchTyp != ''">
+				and i.ORG_MATCH_TYP = #{orgMatchTyp}
+			</if>
+			<if test="roleNo != null and roleNo != ''">
+				and i.ROLE_NO = #{roleNo}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and i.STAFF_NO = #{staffNo}
+			</if>
+			<if test="autTypCod != null and autTypCod != ''">
+				and i.AUT_TYP_COD = #{autTypCod}
+			</if>
+			<if test="appointOrgNo != null and appointOrgNo != ''">
+				and i.APPOINT_ORG_NO = #{appointOrgNo}
+			</if>
+			<if test="appointRoleNo != null and appointRoleNo != ''">
+				and i.APPOINT_ROLE_NO = #{appointRoleNo}
+			</if>
+			<if test="appointStaffNo != null and appointStaffNo != ''">
+				and i.APPOINT_STAFF_NO = #{appointStaffNo}
+			</if>
+			<if test="appointOrgClass != null and appointOrgClass != ''">
+				and i.APPOINT_ORG_CLASS = #{appointOrgClass}
+			</if>
+			<if test="instDate != null">
+				and i.INST_DATE = #{instDate}
+			</if>
+			<if test="updtDate != null">
+				and i.UPDT_DATE = #{updtDate}
+			</if>
+		</trim>
+	</select>
+
+</mapper>

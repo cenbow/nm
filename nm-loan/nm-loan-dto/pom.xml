@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hs.loan</groupId>
+		<artifactId>nm-loan</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>nm-loan-dto</artifactId>
+	<packaging>pom</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hs.core</groupId>
+			<artifactId>nm-core</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<modules>
+		<module>nm-loan-acct-dto</module>
+		<module>nm-loan-cust-dto</module>
+		<module>nm-loan-prod-dto</module>
+		<module>nm-loan-finance-dto</module>
+		<module>nm-loan-market-dto</module>
+		<module>nm-loan-operation-dto</module>
+		<module>nm-loan-busi-dto</module>
+		<module>nm-loan-approve-dto</module>
+		<module>nm-loan-certification-dto</module>
+		<module>nm-loan-collection-dto</module>
+		<module>nm-loan-customer-dto</module>
+	</modules>
+</project>

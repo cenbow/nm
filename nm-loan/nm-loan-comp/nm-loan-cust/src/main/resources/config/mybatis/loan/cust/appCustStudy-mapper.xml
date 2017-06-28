@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustStudyMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustStudyRetMap" type="com.hs.loan.cust.entity.AppCustStudy">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="SCHOOL_NAME" property="schoolName"/>
+			<result column="COLLEGE_NAME" property="collegeName"/>
+			<result column="EDUC" property="educ"/>
+			<result column="MAJOR" property="major"/>
+			<result column="TIE" property="tie"/>
+			<result column="CUST_CLASS" property="custClass"/>
+			<result column="INTO_SCHOOL_DATE" property="intoSchoolDate"/>
+			<result column="SCHOOL_PROV" property="schoolProv"/>
+			<result column="SCHOOL_CITY" property="schoolCity"/>
+			<result column="SCHOOL_AREA" property="schoolArea"/>
+			<result column="SCHOOL_ADDR" property="schoolAddr"/>
+			<result column="SCHOOL_MAN" property="schoolMan"/>
+			<result column="SCHOOL_TEL" property="schoolTel"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户学校信息 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustStudy">
+		insert into app_cust_study
+		(
+  			ID
+  			,CUST_NO
+  			,SCHOOL_NAME
+  			,COLLEGE_NAME
+  			,EDUC
+  			,MAJOR
+  			,TIE
+  			,CUST_CLASS
+  			,INTO_SCHOOL_DATE
+  			,SCHOOL_PROV
+  			,SCHOOL_CITY
+  			,SCHOOL_AREA
+  			,SCHOOL_ADDR
+  			,SCHOOL_MAN
+  			,SCHOOL_TEL
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{schoolName}
+  			, #{collegeName}
+  			, #{educ}
+  			, #{major}
+  			, #{tie}
+  			, #{custClass}
+  			, #{intoSchoolDate}
+  			, #{schoolProv}
+  			, #{schoolCity}
+  			, #{schoolArea}
+  			, #{schoolAddr}
+  			, #{schoolMan}
+  			, #{schoolTel}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户学校信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_study
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('schoolName')">  
+	  					SCHOOL_NAME = #{schoolName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('collegeName')">  
+	  					COLLEGE_NAME = #{collegeName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('educ')">  
+	  					EDUC = #{educ},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('major')">  
+	  					MAJOR = #{major},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tie')">  
+	  					TIE = #{tie},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custClass')">  
+	  					CUST_CLASS = #{custClass},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('intoSchoolDate')">  
+	  					INTO_SCHOOL_DATE = #{intoSchoolDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('schoolProv')">  
+	  					SCHOOL_PROV = #{schoolProv},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('schoolCity')">  
+	  					SCHOOL_CITY = #{schoolCity},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('schoolArea')">  
+	  					SCHOOL_AREA = #{schoolArea},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('schoolAddr')">  
+	  					SCHOOL_ADDR = #{schoolAddr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('schoolMan')">  
+	  					SCHOOL_MAN = #{schoolMan},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('schoolTel')">  
+	  					SCHOOL_TEL = #{schoolTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户学校信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_study
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户学校信息 -->
+	<select id="getByPrimaryKey" resultMap="AppCustStudyRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_study t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户学校信息 列表 -->
+	<select id="queryForList" resultMap="AppCustStudyRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_study t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="schoolName != null and schoolName != ''">
+	  				and t.SCHOOL_NAME = #{schoolName}				
+	  			</if>
+				<if test="collegeName != null and collegeName != ''">
+	  				and t.COLLEGE_NAME = #{collegeName}				
+	  			</if>
+				<if test="educ != null and educ != ''">
+	  				and t.EDUC = #{educ}				
+	  			</if>
+				<if test="major != null and major != ''">
+	  				and t.MAJOR = #{major}				
+	  			</if>
+				<if test="tie != null and tie != ''">
+	  				and t.TIE = #{tie}				
+	  			</if>
+				<if test="custClass != null and custClass != ''">
+	  				and t.CUST_CLASS = #{custClass}				
+	  			</if>
+				<if test="intoSchoolDate != null and intoSchoolDate != ''">
+	  				and t.INTO_SCHOOL_DATE = #{intoSchoolDate}				
+	  			</if>
+				<if test="schoolProv != null and schoolProv != ''">
+	  				and t.SCHOOL_PROV = #{schoolProv}				
+	  			</if>
+				<if test="schoolCity != null and schoolCity != ''">
+	  				and t.SCHOOL_CITY = #{schoolCity}				
+	  			</if>
+				<if test="schoolArea != null and schoolArea != ''">
+	  				and t.SCHOOL_AREA = #{schoolArea}				
+	  			</if>
+				<if test="schoolAddr != null and schoolAddr != ''">
+	  				and t.SCHOOL_ADDR = #{schoolAddr}				
+	  			</if>
+				<if test="schoolMan != null and schoolMan != ''">
+	  				and t.SCHOOL_MAN = #{schoolMan}				
+	  			</if>
+				<if test="schoolTel != null and schoolTel != ''">
+	  				and t.SCHOOL_TEL = #{schoolTel}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!-- 通过有效时间区间 获取这个区间的 客户学校信息 list -->
+	<select id="getCustStudyListByDate" parameterType="map" resultMap="AppCustStudyRetMap" >
+		SELECT
+			*
+		FROM
+			app_cust_study t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		order by t.BEGIN_DATE desc
+	</select>
+	
+	<select id="getAvailableExtraInfoLst" parameterType="map" resultMap="AppCustStudyRetMap">
+		SELECT
+			*
+		FROM
+			app_cust_study t
+		WHERE
+			t.CUST_NO = #{custNo}
+		AND
+			#{availableDate} BETWEEN t.BEGIN_DATE AND t.END_DATE
+		<if test="id != null and id != ''">
+	  		and t.ID = #{id}				
+	  	</if>
+		<if test="schoolName != null and schoolName != ''">
+	  		and t.SCHOOL_NAME = #{schoolName}				
+	  	</if>
+		<if test="collegeName != null and collegeName != ''">
+	  		and t.COLLEGE_NAME = #{collegeName}				
+	  	</if>
+		<if test="educ != null and educ != ''">
+	  		and t.EDUC = #{educ}				
+	  	</if>
+		<if test="major != null and major != ''">
+	  		and t.MAJOR = #{major}				
+	  	</if>
+		<if test="tie != null and tie != ''">
+	  		and t.TIE = #{tie}				
+	  	</if>
+		<if test="custClass != null and custClass != ''">
+	  		and t.CUST_CLASS = #{custClass}				
+	  	</if>
+		<if test="intoSchoolDate != null and intoSchoolDate != ''">
+	  		and t.INTO_SCHOOL_DATE = #{intoSchoolDate}				
+	  	</if>
+		<if test="schoolProv != null and schoolProv != ''">
+	  		and t.SCHOOL_PROV = #{schoolProv}				
+	  	</if>
+		<if test="schoolCity != null and schoolCity != ''">
+	  		and t.SCHOOL_CITY = #{schoolCity}				
+	  	</if>
+		<if test="schoolArea != null and schoolArea != ''">
+	  		and t.SCHOOL_AREA = #{schoolArea}				
+	  	</if>
+		<if test="schoolAddr != null and schoolAddr != ''">
+	  		and t.SCHOOL_ADDR = #{schoolAddr}				
+	  	</if>
+		<if test="schoolMan != null and schoolMan != ''">
+	  		and t.SCHOOL_MAN = #{schoolMan}				
+	  	</if>
+		<if test="schoolTel != null and schoolTel != ''">
+	  		and t.SCHOOL_TEL = #{schoolTel}				
+	  	</if>
+		<if test="beginDate != null">
+	  		and t.BEGIN_DATE = #{beginDate}				
+	  	</if>
+		<if test="endDate != null">
+	  		and t.END_DATE = #{endDate}				
+	  	</if>
+		order by t.BEGIN_DATE desc
+	</select>
+	
+</mapper>

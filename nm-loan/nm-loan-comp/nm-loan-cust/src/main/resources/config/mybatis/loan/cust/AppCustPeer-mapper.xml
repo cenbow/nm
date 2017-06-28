@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hs.loan.cust.mapper.AppCustPeerMapper" >
+  <resultMap id="BaseResultMap" type="com.hs.loan.cust.entity.AppCustPeer" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CUST_NO" property="custNo" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="CONTACT_REL" property="contactRel" jdbcType="VARCHAR" />
+    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
+    <result column="INST_DATE" property="instDate" jdbcType="TIMESTAMP" />
+    <result column="UPDT_DATE" property="updtDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUST_NO, CONTACT_NAME, CONTACT_REL, CONTACT_TEL, INST_DATE, UPDT_DATE, STATUS,REMARK
+  </sql>
+  <insert id="insertList" parameterType="java.util.Map">
+    INSERT  INTO app_cust_peer (<include refid="Base_Column_List"/>)
+    VALUES
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.id},#{item.custNo},#{item.contactName},#{item.contactRel},#{item.contactTel},#{item.instDate},#{item.updtDate},#{item.status},#{item.remark})
+    </foreach>
+  </insert>
+  <select id="getByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from app_cust_peer
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from app_cust_peer
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustPeer" >
+    insert into app_cust_peer (ID, CUST_NO, CONTACT_NAME, 
+      CONTACT_REL, CONTACT_TEL, INST_DATE, 
+      UPDT_DATE, STATUS,REMARK)
+    values (#{id,jdbcType=VARCHAR}, #{custNo,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
+      #{contactRel,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, #{instDate,jdbcType=TIMESTAMP}, 
+      #{updtDate,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hs.loan.cust.entity.AppCustPeer" >
+    update app_cust_peer
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="custNo != null" >
+        CUST_NO = #{custNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactRel != null" >
+        CONTACT_REL = #{contactRel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+      </if>
+      <if test="instDate != null" >
+        INST_DATE = #{instDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updtDate != null" >
+        UPDT_DATE = #{updtDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="queryForList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT <include refid="Base_Column_List"/> FROM app_cust_peer
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="custNo != null" >
+        and CUST_NO = #{custNo,jdbcType=VARCHAR}
+      </if>
+      <if test="contactName != null" >
+        and CONTACT_NAME = #{contactName,jdbcType=VARCHAR}
+      </if>
+      <if test="contactRel != null" >
+        and CONTACT_REL = #{contactRel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTel != null" >
+        and CONTACT_TEL = #{contactTel,jdbcType=VARCHAR}
+      </if>
+      <if test="instDate != null" >
+        and INST_DATE = #{instDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updtDate != null" >
+        and UPDT_DATE = #{updtDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="status != null" >
+        and STATUS = #{status,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null" >
+        and REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </select>
+</mapper>

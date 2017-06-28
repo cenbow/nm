@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.pub.hand.mapper.AppLoanHandMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanHandRetMap" type="com.hs.loan.pub.hand.entity.AppLoanHand">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="TYP" property="typ"/>
+			<result column="HAND_DATE" property="handDate"/>
+			<result column="HAND_PERSON_NO" property="handPersonNo"/>
+			<result column="HAND_PERSON_Name" property="handPersonName"/>
+			<result column="REMARK" property="remark"/>
+			<result column="HAND_DETAIL" property="handDetail"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="CUST_IDENTIFIER" property="custIdentifier"/>
+	</resultMap>
+	
+	<!-- 新增 APP_分期经办登记 -->
+	<insert id="insert" parameterType="com.hs.loan.pub.hand.entity.AppLoanHand">
+		insert into app_loan_hand
+		(
+  			ID
+  			,LOAN_NO
+  			,CUST_NO
+  			,CUST_NAME
+  			,TYP
+  			,HAND_DATE
+  			,HAND_PERSON_NO
+  			,HAND_PERSON_NAME
+  			,REMARK
+  			,HAND_DETAIL
+  			,INST_DATE
+  			,CUST_IDENTIFIER
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{custNo}
+  			, #{custName}
+  			, #{typ}
+  			, #{handDate}
+  			, #{handPersonNo}
+  			, #{handPersonName}
+  			, #{remark}
+  			, #{handDetail}
+  			, #{instDate}
+  			, #{custIdentifier}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期经办登记 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_loan_hand
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('typ')">  
+	  					TYP = #{typ},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handDate')">  
+	  					HAND_DATE = #{handDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handPersonNo')">  
+	  					HAND_PERSON_NO = #{handPersonNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handPersonName')">  
+	  					HAND_PERSON_NAME = #{handPersonName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					REMARK = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handDetail')">  
+	  					HAND_DETAIL = #{handDetail},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>	
+	  				<if test="_parameter.containsKey('custIdentifier')">  
+	  					CUST_IDENTIFIER = #{custIdentifier},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期经办登记 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_loan_hand
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期经办登记 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanHandRetMap" parameterType="java.lang.String">
+		select	
+			 t.*
+		from app_loan_hand t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期经办登记 列表 -->
+	<select id="queryForList" resultMap="AppLoanHandRetMap" parameterType="java.util.Map">
+		select	
+			t.ID
+  			,t.LOAN_NO
+  			,t.CUST_NO
+  			,t.CUST_NAME
+  			,t.TYP
+  			,DATE_FORMAT(t.HAND_DATE,'%Y-%m-%d-%T') HAND_DATE
+  			,t.HAND_PERSON_NO
+  			,t.HAND_PERSON_NAME
+  			,t.REMARK
+  			,t.HAND_DETAIL
+  			,t.INST_DATE
+  			,t.CUST_IDENTIFIER
+		from app_loan_hand t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME  like CONCAT(CONCAT('%', #{custName}), '%')					
+	  			</if>
+				<if test="typ != null and typ != ''">
+	  				and t.TYP = #{typ}				
+	  			</if>
+				<if test="startDate != null and startDate !=''">
+	  				and t.HAND_DATE >= #{startDate}				
+	  			</if>
+				<if test="endDate != null and endDate !=''">
+	  				and #{endDate} > t.HAND_DATE				
+	  			</if>
+				<if test="handPersonNo != null and handPersonNo != ''">
+	  				and t.HAND_PERSON_NO = #{handPersonNo}				
+	  			</if>
+				<if test="handPersonName != null and handPersonName != ''">
+	  				and t.HAND_PERSON_NAME = #{handPersonName}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.REMARK = #{remark}				
+	  			</if>
+				<if test="handDetail != null and handDetail != ''">
+	  				and t.HAND_DETAIL = #{handDetail}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+	  			<if test="roleStat != null">
+	  				and t.HAND_DETAIL in (${roleStat})			
+	  			</if>
+	  			<if test="custIdentifier != null">
+  					and t.CUST_IDENTIFIER = #{custIdentifier}			
+	  			</if>
+    	</trim>
+    	 order by t.HAND_DATE desc
+	</select>
+</mapper>

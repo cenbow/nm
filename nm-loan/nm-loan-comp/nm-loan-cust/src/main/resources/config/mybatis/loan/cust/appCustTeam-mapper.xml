@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustTeamMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustTeamRetMap" type="com.hs.loan.cust.entity.AppCustTeam">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_TEAM" property="custTeam"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户与客户组的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustTeam">
+		insert into app_cust_team
+		(
+  			ID
+  			,CUST_NO
+  			,CUST_TEAM
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{custTeam}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户与客户组的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_team
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custTeam')">  
+	  					CUST_TEAM = #{custTeam},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户与客户组的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_team
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户与客户组的关系 -->
+	<select id="getByPrimaryKey" resultMap="AppCustTeamRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_team t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户与客户组的关系 列表 -->
+	<select id="queryForList" resultMap="AppCustTeamRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_team t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custTeam != null and custTeam != ''">
+	  				and t.CUST_TEAM = #{custTeam}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!--删除组和客户的关系  -->
+	<delete id="deleteGrpCustRel" parameterType="map" >
+		delete from app_cust_team
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+			<if test="id != null and id != ''">
+  				and ID = #{id}
+  			</if>
+			<if test="custNo != null and custNo != ''">
+  				and CUST_NO = #{custNo}
+  			</if>
+			<if test="custTeam != null and custTeam != ''">
+  				and CUST_TEAM = #{custTeam}
+  			</if>
+    	</trim>
+	</delete>
+	
+	<!--查询不在该组中的客户  -->
+	<select id="queryNotInGrpCust" parameterType="map" resultMap="com.hs.loan.cust.mapper.AppCustInfoMapper.AppCustInfoRetMap">
+		SELECT
+			t.*
+		FROM
+			app_cust_info t
+		WHERE
+			NOT EXISTS (
+				SELECT
+					1
+				FROM
+					app_cust_team a
+				WHERE
+					a.cust_no = t.CUST_NO
+				AND a.cust_team = #{custTeam}
+			)
+		
+			<if test="custNo != null and custNo != ''">
+  				and t.CUST_NO = #{custNo}				
+  			</if>
+			<if test="custType != null and custType != ''">
+  				and t.CUST_TYPE = #{custType}				
+  			</if>
+			<if test="custName != null and custName != ''">
+  				and t.CUST_NAME LIKE CONCAT('%',#{custName},'%') 				
+  			</if>
+			<if test="sex != null and sex != ''">
+  				and t.SEX = #{sex}				
+  			</if>
+			<if test="ethnic != null and ethnic != ''">
+  				and t.ETHNIC = #{ethnic}				
+  			</if>
+			<if test="phoneNo != null and phoneNo != ''">
+  				and t.PHONE_NO = #{phoneNo}				
+  			</if>
+			<if test="marriage != null and marriage != ''">
+  				and t.MARRIAGE = #{marriage}				
+  			</if>
+			<if test="certType != null and certType != ''">
+  				and t.CERT_TYPE = #{certType}				
+  			</if>
+			<if test="certNo != null and certNo != ''">
+  				and t.CERT_NO = #{certNo}				
+  			</if>
+			<if test="certValidDate != null and certValidDate != ''">
+  				and t.CERT_VALID_DATE = #{certValidDate}				
+  			</if>
+			<if test="certIssuOrg != null and certIssuOrg != ''">
+  				and t.CERT_ISSU_ORG = #{certIssuOrg}				
+  			</if>
+			<if test="regType != null and regType != ''">
+  				and t.REG_TYPE = #{regType}				
+  			</if>
+			<if test="regProv != null and regProv != ''">
+  				and t.REG_PROV = #{regProv}				
+  			</if>
+			<if test="regCity != null and regCity != ''">
+  				and t.REG_CITY = #{regCity}				
+  			</if>
+			<if test="regArea != null and regArea != ''">
+  				and t.REG_AREA = #{regArea}				
+  			</if>
+			<if test="regTown != null and regTown != ''">
+  				and t.REG_TOWN = #{regTown}				
+  			</if>
+			<if test="regStreet != null and regStreet != ''">
+  				and t.REG_STREET = #{regStreet}				
+  			</if>
+			<if test="regVillage != null and regVillage != ''">
+  				and t.REG_VILLAGE = #{regVillage}				
+  			</if>
+			<if test="regUnit != null and regUnit != ''">
+  				and t.REG_UNIT = #{regUnit}				
+  			</if>
+			<if test="remark != null and remark != ''">
+  				and t.REMARK = #{remark}				
+  			</if>
+			<if test="instPerson != null and instPerson != ''">
+  				and t.INST_PERSON = #{instPerson}				
+  			</if>
+			<if test="instDate != null">
+  				and t.INST_DATE = #{instDate}				
+  			</if>
+			<if test="updtDate != null">
+  				and t.UPDT_DATE = #{updtDate}				
+  			</if>
+    
+	</select>
+	
+</mapper>

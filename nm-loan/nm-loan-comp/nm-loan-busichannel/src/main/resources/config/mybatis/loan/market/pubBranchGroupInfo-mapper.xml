@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.market.mapper.PubBranchGroupInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubBranchGroupInfoRetMap" type="com.hs.loan.market.entity.PubBranchGroupInfo">
+			<result column="GROUP_NO" property="groupNo"/>
+			<result column="GROUP_NAME" property="groupName"/>
+			<result column="GROUP_TYP" property="groupTyp"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="UPDT_DATE" property="updtDate"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_网点分组信息 -->
+	<insert id="insert" parameterType="com.hs.loan.market.entity.PubBranchGroupInfo">
+		insert into PUB_BRANCH_GROUP_INFO
+		(
+  			GROUP_NO
+  			,GROUP_NAME
+  			,GROUP_TYP
+  			,INST_DATE
+  			,UPDT_DATE
+    	)
+    	values
+    	(
+  			 #{groupNo}
+  			, #{groupName}
+  			, #{groupTyp}
+  			, #{instDate}
+  			, #{updtDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_网点分组信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PUB_BRANCH_GROUP_INFO
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('groupName')">  
+	  					GROUP_NAME = #{groupName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('groupTyp')">  
+	  					GROUP_TYP = #{groupTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('updtDate')">  
+	  					UPDT_DATE = #{updtDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			GROUP_NO = #{groupNo}				
+	</update>
+	
+	<!-- 删除 PUB_网点分组信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PUB_BRANCH_GROUP_INFO
+		where 
+  			GROUP_NO = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_网点分组信息 -->
+	<select id="getByPrimaryKey" resultMap="PubBranchGroupInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PUB_BRANCH_GROUP_INFO t
+		where 
+  				t.GROUP_NO = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_网点分组信息 列表 -->
+	<select id="queryForList" resultMap="PubBranchGroupInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PUB_BRANCH_GROUP_INFO t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="groupNo != null and groupNo != ''">
+	  				and t.GROUP_NO = #{groupNo}				
+	  			</if>
+				<if test="groupName != null and groupName != ''">
+	  				and t.GROUP_NAME like CONCAT('%',#{groupName},'%') 				
+	  			</if>
+				<if test="groupTyp != null and groupTyp != ''">
+	  				and t.GROUP_TYP = #{groupTyp}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="updtDate != null">
+	  				and t.UPDT_DATE = #{updtDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.collection.mapper.PlCaseRepayLogMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlCaseRepayLogRetMap" type="com.hs.loan.collection.entity.PlCaseRepayLog">
+			<result column="ID" property="id"/>
+			<result column="PL__CASE_ID" property="plCaseId"/>
+			<result column="CASE_ID" property="caseId"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="REPAY_KEY" property="repayKey"/>
+			<result column="TX_AMT" property="txAmt"/>
+			<result column="TX_CATE" property="txCate"/>
+			<result column="TX_RESULT" property="txResult"/>
+			<result column="REMARK2" property="remark2"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="INST_USER" property="instUser"/>
+			<result column="INST_USER_NAME" property="instUserName"/>
+	</resultMap>
+	
+	<!-- 新增 PL_案件还款日志 -->
+	<insert id="insert" parameterType="com.hs.loan.collection.entity.PlCaseRepayLog">
+		insert into PL_CASE_REPAY_LOG
+		(
+  			ID
+  			,PL__CASE_ID
+  			,CASE_ID
+  			,LOAN_NO
+  			,REPAY_KEY
+  			,TX_AMT
+  			,TX_CATE
+  			,TX_RESULT
+  			,REMARK2
+  			,INST_DATE
+  			,INST_USER
+  			,INST_USER_NAME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{plCaseId}
+  			, #{caseId}
+  			, #{loanNo}
+  			, #{repayKey}
+  			, #{txAmt}
+  			, #{txCate}
+  			, #{txResult}
+  			, #{remark2}
+  			, #{instDate}
+  			, #{instUser}
+  			, #{instUserName}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_案件还款日志 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_CASE_REPAY_LOG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('plCaseId')">  
+	  					PL__CASE_ID = #{plCaseId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('caseId')">  
+	  					CASE_ID = #{caseId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayKey')">  
+	  					REPAY_KEY = #{repayKey},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txAmt')">  
+	  					TX_AMT = #{txAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txCate')">  
+	  					TX_CATE = #{txCate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txResult')">  
+	  					TX_RESULT = #{txResult},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark2')">  
+	  					REMARK2 = #{remark2},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instUser')">  
+	  					INST_USER = #{instUser},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instUserName')">  
+	  					INST_USER_NAME = #{instUserName},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PL_案件还款日志 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_CASE_REPAY_LOG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_案件还款日志 -->
+	<select id="getByPrimaryKey" resultMap="PlCaseRepayLogRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_CASE_REPAY_LOG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PL_案件还款日志 列表 -->
+	<select id="queryForList" resultMap="PlCaseRepayLogRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_CASE_REPAY_LOG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="plCaseId != null and plCaseId != ''">
+	  				and t.PL__CASE_ID = #{plCaseId}				
+	  			</if>
+				<if test="caseId != null and caseId != ''">
+	  				and t.CASE_ID = #{caseId}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="repayKey != null and repayKey != ''">
+	  				and t.REPAY_KEY = #{repayKey}				
+	  			</if>
+				<if test="txAmt != null">
+	  				and t.TX_AMT = #{txAmt}				
+	  			</if>
+				<if test="txCate != null and txCate != ''">
+	  				and t.TX_CATE = #{txCate}				
+	  			</if>
+				<if test="txResult != null and txResult != ''">
+	  				and t.TX_RESULT = #{txResult}				
+	  			</if>
+				<if test="remark2 != null and remark2 != ''">
+	  				and t.REMARK2 = #{remark2}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="instUser != null and instUser != ''">
+	  				and t.INST_USER = #{instUser}				
+	  			</if>
+				<if test="instUserName != null and instUserName != ''">
+	  				and t.INST_USER_NAME = #{instUserName}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.author.mapper.AppLoanSpcailpriSalerHMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanSpcailpriSalerHRetMap" type="com.hs.loan.author.entity.AppLoanSpcailpriSalerH">
+			<result column="ID" property="id"/>
+			<result column="STAFF_NO" property="staffNo"/>
+			<result column="STAFF_NAME" property="staffName"/>
+			<result column="INST_DATE" property="instDate"/>
+			<result column="END_DATE" property="endDate"/>
+			<result column="HAND_PERSON" property="handPerson"/>
+			<result column="ORG_NO" property="orgNo"/>
+	</resultMap>
+	
+	<!-- 新增 APP_销售直通车权限历史 -->
+	<insert id="insert" parameterType="com.hs.loan.author.entity.AppLoanSpcailpriSalerH">
+		insert into APP_LOAN_SPCAILPRI_SALER_H
+		(
+  			ID
+  			,STAFF_NO
+  			,STAFF_NAME
+  			,INST_DATE
+  			,END_DATE
+  			,HAND_PERSON
+  			,ORG_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{instDate}
+  			, #{endDate}
+  			, #{handPerson}
+  			, #{orgNo}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_销售直通车权限历史 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_LOAN_SPCAILPRI_SALER_H
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					STAFF_NO = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					STAFF_NAME = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handPerson')">  
+	  					HAND_PERSON = #{handPerson},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgNo')">  
+	  					ORG_NO = #{orgNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_销售直通车权限历史 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_LOAN_SPCAILPRI_SALER_H
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_销售直通车权限历史 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanSpcailpriSalerHRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_SALER_H t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_销售直通车权限历史 列表 -->
+	<select id="queryForList" resultMap="AppLoanSpcailpriSalerHRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_LOAN_SPCAILPRI_SALER_H t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.STAFF_NO = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.STAFF_NAME = #{staffName}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+				<if test="handPerson != null and handPerson != ''">
+	  				and t.HAND_PERSON = #{handPerson}				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and t.ORG_NO = #{orgNo}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

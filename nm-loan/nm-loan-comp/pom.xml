@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hs.loan</groupId>
+		<artifactId>nm-loan</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>nm-loan-comp</artifactId>
+	<packaging>pom</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hs.core</groupId>
+			<artifactId>nm-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hs.system</groupId>
+			<artifactId>nm-system-pub</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<modules>
+		<module>nm-loan-acctcfg</module>
+		<module>nm-loan-acctfeecal</module>
+		<module>nm-loan-busichannel</module>
+		<module>nm-loan-contract</module>
+		<module>nm-loan-cust</module>
+		<module>nm-loan-fundchannel</module>
+		<module>nm-loan-prodcfg</module>
+		<module>nm-loan-prodtrial</module>
+		<module>nm-loan-busi</module>
+		<module>nm-loan-approve</module>
+		<module>nm-loan-collection</module>
+		<module>nm-loan-finance</module>
+		<module>nm-loan-pub-comp</module>
+		<module>nm-loan-contractfact</module>
+		<module>nm-loan-customer</module>
+	</modules>
+</project>

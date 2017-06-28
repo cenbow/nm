@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 声明需要暴露的服务接口 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.LoanAcctApi" ref="loanAcctServer" />	<!-- 分期基本信息维护、分期信息查询 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.LoanHandApi" ref="loanHandServer" />	<!-- 分期经办登记查询 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.LoanViewApi" ref="loanViewServer" />	<!-- 分期视图 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.LoanAttApi" ref="loanAttServer" />	<!-- 分期视图 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.LoanRepaySearchApi" ref="loanRepaySearchServer" />	<!-- 分期还款信息查询 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.LoanAppWithdrawApi" ref="loanAppWithdrawServer" />	<!-- 提现记录信息查询 -->
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.ChanImportApi" ref="chanImportServer" />	<!-- 资方分期信息查询 -->
+	
+	<dubbo:service registry="svReg" interface="com.hs.loan.sale.api.SalerAuthorApi" ref="salerAuthorServer" />	<!-- 商户直通车 -->
+
+
+</beans>

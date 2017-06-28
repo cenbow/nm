@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.PubSysLoginLogMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysLoginLogRetMap" type="com.hs.system.entity.SysLoginLog">
+		<result column="ID" property="id" />
+		<result column="ORG_ID" property="orgId" />
+		<result column="ROLE_ID" property="roleId" />
+		<result column="STAFF_ID" property="staffId" />
+		<result column="LOGIN_DATE" property="loginDate" />
+		<result column="LOGIN_IP" property="loginIp" />
+		<result column="CHANNEL" property="channel" />
+		<result column="ORG_NAME" property="orgName" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="STAFF_NAME" property="staffName" />
+	</resultMap>
+
+	<!-- 新增 系统登录日志 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysLoginLog">
+		insert into sys_login_log
+		(
+		ID
+		,ORG_ID
+		,ROLE_ID
+		,STAFF_ID
+		,LOGIN_DATE
+		,LOGIN_IP
+		,CHANNEL
+		)
+		values
+		(
+		#{id}
+		, #{orgId}
+		, #{roleId}
+		, #{staffId}
+		, #{loginDate}
+		, #{loginIp}
+		, #{channel}
+		)
+	</insert>
+
+	<!-- 修改 系统登录日志 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_login_log
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('orgId')">
+				ORG_ID = #{orgId},
+			</if>
+			<if test="_parameter.containsKey('roleId')">
+				ROLE_ID = #{roleId},
+			</if>
+			<if test="_parameter.containsKey('staffId')">
+				STAFF_ID = #{staffId},
+			</if>
+			<if test="_parameter.containsKey('loginDate')">
+				LOGIN_DATE = #{loginDate},
+			</if>
+			<if test="_parameter.containsKey('loginIp')">
+				LOGIN_IP = #{loginIp},
+			</if>
+			<if test="_parameter.containsKey('channel')">
+				CHANNEL = #{channel},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 系统登录日志 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_login_log
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 系统登录日志 -->
+	<select id="getByPrimaryKey" resultMap="SysLoginLogRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_login_log t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 系统登录日志 列表 -->
+	<select id="queryForList" resultMap="SysLoginLogRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*,
+		o.ORG_NAME,
+		r.ROLE_NAME,
+		s.STAFF_NAME
+		from sys_login_log t
+		LEFT JOIN sys_org o on t.ORG_ID = o.ORG_NO
+		LEFT
+		JOIN sys_role r on t.ROLE_ID = r.ROLE_NO
+		LEFT JOIN sys_staff s on
+		t.STAFF_ID = s.STAFF_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="orgId != null and orgId != ''">
+				and t.ORG_ID = #{orgId}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				and t.ROLE_ID = #{roleId}
+			</if>
+			<if test="staffId != null and staffId != ''">
+				and t.STAFF_ID = #{staffId}
+			</if>
+			<if test="startDate != null and startDate != ''">
+   	 				<![CDATA[   and DATE_FORMAT(t.LOGIN_DATE, '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%i:%s')   ]]>
+			</if>
+			<if test="endDate != null and endDate != ''">
+			    	<![CDATA[  and DATE_FORMAT(t.LOGIN_DATE, '%Y-%m-%d %H:%i:%s') <= DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%i:%s')    ]]>
+			</if>
+			<if test="loginIp != null and loginIp != ''">
+				and t.LOGIN_IP = #{loginIp}
+			</if>
+			<if test="channel != null and channel != ''">
+				and t.CHANNEL = #{channel}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and s.STAFF_NAME like CONCAT('%',#{staffName},'%')
+			</if>
+		</trim>
+	</select>
+</mapper>

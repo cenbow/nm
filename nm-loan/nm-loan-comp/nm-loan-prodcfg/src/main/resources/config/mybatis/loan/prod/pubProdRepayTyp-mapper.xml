@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.prod.mapper.PubProdRepayTypMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PubProdRepayTypRetMap" type="com.hs.loan.prod.entity.PubProdRepayTyp">
+			<result column="ID" property="id"/>
+			<result column="CONF_NO" property="confNo"/>
+			<result column="PROD_NO" property="prodNo"/>
+	</resultMap>
+	
+	<!-- 新增 PUB_产品与还款类型的关系 -->
+	<insert id="insert" parameterType="com.hs.loan.prod.entity.PubProdRepayTyp">
+		insert into pub_prod_repay_typ
+		(
+  			ID
+  			,CONF_NO
+  			,PROD_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{confNo}
+  			, #{prodNo}
+    	)
+	</insert>
+	
+	<!-- 修改 PUB_产品与还款类型的关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update pub_prod_repay_typ
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('confNo')">  
+	  					CONF_NO = #{confNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('prodNo')">  
+	  					PROD_NO = #{prodNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PUB_产品与还款类型的关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from pub_prod_repay_typ
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PUB_产品与还款类型的关系 -->
+	<select id="getByPrimaryKey" resultMap="PubProdRepayTypRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from pub_prod_repay_typ t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PUB_产品与还款类型的关系 列表 -->
+	<select id="queryForList" resultMap="PubProdRepayTypRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from pub_prod_repay_typ t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="confNo != null and confNo != ''">
+	  				and t.CONF_NO = #{confNo}				
+	  			</if>
+				<if test="prodNo != null and prodNo != ''">
+	  				and t.PROD_NO = #{prodNo}				
+	  			</if>
+    	</trim>
+	</select>
+	<!-- 删除 PUB_产品与还款类型的关系 -->
+	<delete id="deleteByProdNo" parameterType="java.lang.String">
+		delete from pub_prod_repay_typ
+		where 
+  			 PROD_NO = #{prodNo}				
+	</delete>
+	
+</mapper>

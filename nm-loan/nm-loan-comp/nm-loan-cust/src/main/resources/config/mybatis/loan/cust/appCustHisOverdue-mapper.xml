@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustHisOverdueMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustHisOverdueRetMap" type="com.hs.loan.cust.entity.AppCustHisOverdue">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="OVERDUE_START" property="overdueStart"/>
+			<result column="OVERDUE_END" property="overdueEnd"/>
+			<result column="OVERDUE_AMT" property="overdueAmt"/>
+			<result column="OVERDUE_FINE" property="overdueFine"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户历史逾期情况 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustHisOverdue">
+		insert into app_cust_his_overdue
+		(
+  			ID
+  			,CUST_NO
+  			,OVERDUE_START
+  			,OVERDUE_END
+  			,OVERDUE_AMT
+  			,OVERDUE_FINE
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{overdueStart}
+  			, #{overdueEnd}
+  			, #{overdueAmt}
+  			, #{overdueFine}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户历史逾期情况 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_his_overdue
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueStart')">  
+	  					OVERDUE_START = #{overdueStart},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueEnd')">  
+	  					OVERDUE_END = #{overdueEnd},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueAmt')">  
+	  					OVERDUE_AMT = #{overdueAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueFine')">  
+	  					OVERDUE_FINE = #{overdueFine},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户历史逾期情况 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_his_overdue
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户历史逾期情况 -->
+	<select id="getByPrimaryKey" resultMap="AppCustHisOverdueRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_his_overdue t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户历史逾期情况 列表 -->
+	<select id="queryForList" resultMap="AppCustHisOverdueRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_his_overdue t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="overdueStart != null and overdueStart != ''">
+	  				and t.OVERDUE_START = #{overdueStart}				
+	  			</if>
+				<if test="overdueEnd != null and overdueEnd != ''">
+	  				and t.OVERDUE_END = #{overdueEnd}				
+	  			</if>
+				<if test="overdueAmt != null and overdueAmt != ''">
+	  				and t.OVERDUE_AMT = #{overdueAmt}				
+	  			</if>
+				<if test="overdueFine != null and overdueFine != ''">
+	  				and t.OVERDUE_FINE = #{overdueFine}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

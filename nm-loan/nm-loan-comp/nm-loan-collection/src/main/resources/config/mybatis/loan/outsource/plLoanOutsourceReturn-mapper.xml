@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.outsource.mapper.PlLoanOutsourceReturnMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlLoanOutsourceReturnRetMap" type="com.hs.loan.outsource.entity.PlLoanOutsourceReturn">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="UNIT_NO" property="unitNo"/>
+			<result column="UNIT_NAME" property="unitName"/>
+			<result column="PAY_AMT" property="payAmt"/>
+			<result column="PAY_TYP" property="payTyp"/>
+			<result column="REL_ID" property="relId"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 PL_委外金额收回流水 -->
+	<insert id="insert" parameterType="com.hs.loan.outsource.entity.PlLoanOutsourceReturn">
+		insert into PL_LOAN_OUTSOURCE_RETURN
+		(
+  			ID
+  			,LOAN_NO
+  			,UNIT_NO
+  			,UNIT_Name
+  			,PAY_AMT
+  			,PAY_TYP
+  			,REL_ID
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{unitNo}
+  			, #{unitName}
+  			, #{payAmt}
+  			, #{payTyp}
+  			, #{relId}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_委外金额收回流水 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE_RETURN
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitNo')">  
+	  					UNIT_NO = #{unitNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitName')">  
+	  					UNIT_NAME = #{unitName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('payAmt')">  
+	  					PAY_AMT = #{payAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('payTyp')">  
+	  					PAY_TYP = #{payTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('relId')">  
+	  					REL_ID = #{relId},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PL_委外金额收回流水 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_LOAN_OUTSOURCE_RETURN
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_委外金额收回流水 -->
+	<select id="getByPrimaryKey" resultMap="PlLoanOutsourceReturnRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_RETURN t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PL_委外金额收回流水 列表 -->
+	<select id="queryForList" resultMap="PlLoanOutsourceReturnRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_RETURN t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="unitNo != null and unitNo != ''">
+	  				and t.UNIT_NO = #{unitNo}				
+	  			</if>
+				<if test="unitName != null and unitName != ''">
+	  				and t.UNIT_NAME = #{unitName}				
+	  			</if>
+				<if test="payAmt != null">
+	  				and t.PAY_AMT = #{payAmt}				
+	  			</if>
+				<if test="payTyp != null and payTyp != ''">
+	  				and t.PAY_TYP = #{payTyp}				
+	  			</if>
+				<if test="relId != null and relId != ''">
+	  				and t.REL_ID = #{relId}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+		ORDER BY INST_DATE
+	</select>
+</mapper>

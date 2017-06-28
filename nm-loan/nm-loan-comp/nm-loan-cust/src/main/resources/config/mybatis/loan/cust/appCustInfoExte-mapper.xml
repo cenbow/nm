@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustInfoExteMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustInfoExteRetMap" type="com.hs.loan.cust.entity.AppCustInfoExte">
+			<result column="CUST_NO" property="custNo"/>
+			<result column="CUST_NAME" property="custName"/>
+			<result column="EXTE1" property="exte1"/>
+			<result column="EXTE2" property="exte2"/>
+			<result column="EXTE3" property="exte3"/>
+			<result column="EXTE4" property="exte4"/>
+			<result column="EXTE5" property="exte5"/>
+			<result column="EXTE6" property="exte6"/>
+			<result column="EXTE7" property="exte7"/>
+			<result column="EXTE8" property="exte8"/>
+			<result column="EXTE9" property="exte9"/>
+			<result column="EXTE10" property="exte10"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户信息拓展表 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustInfoExte">
+		insert into APP_CUST_INFO_EXTE
+		(
+  			CUST_NO
+  			,CUST_NAME
+  			,EXTE1
+  			,EXTE2
+  			,EXTE3
+  			,EXTE4
+  			,EXTE5
+  			,EXTE6
+  			,EXTE7
+  			,EXTE8
+  			,EXTE9
+  			,EXTE10
+    	)
+    	values
+    	(
+  			 #{custNo}
+  			, #{custName}
+  			, #{exte1}
+  			, #{exte2}
+  			, #{exte3}
+  			, #{exte4}
+  			, #{exte5}
+  			, #{exte6}
+  			, #{exte7}
+  			, #{exte8}
+  			, #{exte9}
+  			, #{exte10}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户信息拓展表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update APP_CUST_INFO_EXTE
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custName')">  
+	  					CUST_NAME = #{custName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte1')">  
+	  					EXTE1 = #{exte1},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte2')">  
+	  					EXTE2 = #{exte2},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte3')">  
+	  					EXTE3 = #{exte3},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte4')">  
+	  					EXTE4 = #{exte4},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte5')">  
+	  					EXTE5 = #{exte5},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte6')">  
+	  					EXTE6 = #{exte6},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte7')">  
+	  					EXTE7 = #{exte7},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte8')">  
+	  					EXTE8 = #{exte8},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte9')">  
+	  					EXTE9 = #{exte9},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exte10')">  
+	  					EXTE10 = #{exte10},  
+	  				</if>		
+    	</trim>
+		where 
+  			CUST_NO = #{custNo}				
+	</update>
+	
+	<!-- 删除 APP_客户信息拓展表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from APP_CUST_INFO_EXTE
+		where 
+  			CUST_NO = #{custNo}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户信息拓展表 -->
+	<select id="getByPrimaryKey" resultMap="AppCustInfoExteRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from APP_CUST_INFO_EXTE t
+		where 
+  				t.CUST_NO = #{custNo}				
+	</select>
+	
+	<!-- 查询 APP_客户信息拓展表 列表 -->
+	<select id="queryForList" resultMap="AppCustInfoExteRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from APP_CUST_INFO_EXTE t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="custName != null and custName != ''">
+	  				and t.CUST_NAME = #{custName}				
+	  			</if>
+				<if test="exte1 != null and exte1 != ''">
+	  				and t.EXTE1 = #{exte1}				
+	  			</if>
+				<if test="exte2 != null and exte2 != ''">
+	  				and t.EXTE2 = #{exte2}				
+	  			</if>
+				<if test="exte3 != null and exte3 != ''">
+	  				and t.EXTE3 = #{exte3}				
+	  			</if>
+				<if test="exte4 != null and exte4 != ''">
+	  				and t.EXTE4 = #{exte4}				
+	  			</if>
+				<if test="exte5 != null and exte5 != ''">
+	  				and t.EXTE5 = #{exte5}				
+	  			</if>
+				<if test="exte6 != null">
+	  				and t.EXTE6 = #{exte6}				
+	  			</if>
+				<if test="exte7 != null">
+	  				and t.EXTE7 = #{exte7}				
+	  			</if>
+				<if test="exte8 != null">
+	  				and t.EXTE8 = #{exte8}				
+	  			</if>
+				<if test="exte9 != null">
+	  				and t.EXTE9 = #{exte9}				
+	  			</if>
+				<if test="exte10 != null">
+	  				and t.EXTE10 = #{exte10}				
+	  			</if>
+    	</trim>
+	</select>
+
+</mapper>

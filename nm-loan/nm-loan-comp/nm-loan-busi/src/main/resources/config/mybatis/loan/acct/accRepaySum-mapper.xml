@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.acct.mapper.AccRepaySumMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccRepaySumRetMap" type="com.hs.loan.acct.entity.AccRepaySum">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="RECVBL_AMT" property="recvblAmt"/>
+			<result column="LOAN_BAL" property="loanBal"/>
+			<result column="RECVBL_BAL" property="recvblBal"/>
+			<result column="REPAY_AMT" property="repayAmt"/>
+			<result column="OVERDUE_AMT" property="overdueAmt"/>
+			<result column="OVERDUE_PRIN" property="overduePrin"/>
+			<result column="OVERDUE_NUM" property="overdueNum"/>
+			<result column="RECVBL_BEGIN_DATE" property="recvblBeginDate"/>
+			<result column="RECVBL_END_DATE" property="recvblEndDate"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_应收实收金额汇总 -->
+	<insert id="insert" parameterType="com.hs.loan.acct.entity.AccRepaySum">
+		insert into ACC_REPAY_SUM
+		(
+  			ID
+  			,LOAN_NO
+  			,RECVBL_AMT
+  			,LOAN_BAL
+  			,RECVBL_BAL
+  			,REPAY_AMT
+  			,OVERDUE_AMT
+  			,OVERDUE_PRIN
+  			,OVERDUE_NUM
+  			,RECVBL_BEGIN_DATE
+  			,RECVBL_END_DATE
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{recvblAmt}
+  			, #{loanBal}
+  			, #{recvblBal}
+  			, #{repayAmt}
+  			, #{overdueAmt}
+  			, #{overduePrin}
+  			, #{overdueNum}
+  			, #{recvblBeginDate}
+  			, #{recvblEndDate}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_应收实收金额汇总 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_REPAY_SUM
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('recvblAmt')">  
+	  					RECVBL_AMT = #{recvblAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanBal')">  
+	  					LOAN_BAL = #{loanBal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('recvblBal')">  
+	  					RECVBL_BAL = #{recvblBal},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayAmt')">  
+	  					REPAY_AMT = #{repayAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueAmt')">  
+	  					OVERDUE_AMT = #{overdueAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overduePrin')">  
+	  					OVERDUE_PRIN = #{overduePrin},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueNum')">  
+	  					OVERDUE_NUM = #{overdueNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('recvblBeginDate')">  
+	  					RECVBL_BEGIN_DATE = #{recvblBeginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('recvblEndDate')">  
+	  					RECVBL_END_DATE = #{recvblEndDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_应收实收金额汇总 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_REPAY_SUM
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_应收实收金额汇总 -->
+	<select id="getByPrimaryKey" resultMap="AccRepaySumRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_REPAY_SUM t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_应收实收金额汇总 列表 -->
+	<select id="queryForList" resultMap="AccRepaySumRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_REPAY_SUM t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="recvblAmt != null">
+	  				and t.RECVBL_AMT = #{recvblAmt}				
+	  			</if>
+				<if test="loanBal != null">
+	  				and t.LOAN_BAL = #{loanBal}				
+	  			</if>
+				<if test="recvblBal != null">
+	  				and t.RECVBL_BAL = #{recvblBal}				
+	  			</if>
+				<if test="repayAmt != null">
+	  				and t.REPAY_AMT = #{repayAmt}				
+	  			</if>
+				<if test="overdueAmt != null">
+	  				and t.OVERDUE_AMT = #{overdueAmt}				
+	  			</if>
+				<if test="overduePrin != null">
+	  				and t.OVERDUE_PRIN = #{overduePrin}				
+	  			</if>
+				<if test="overdueNum != null">
+	  				and t.OVERDUE_NUM = #{overdueNum}				
+	  			</if>
+				<if test="recvblBeginDate != null and recvblBeginDate != ''">
+	  				and t.RECVBL_BEGIN_DATE = #{recvblBeginDate}				
+	  			</if>
+				<if test="recvblEndDate != null and recvblEndDate != ''">
+	  				and t.RECVBL_END_DATE = #{recvblEndDate}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

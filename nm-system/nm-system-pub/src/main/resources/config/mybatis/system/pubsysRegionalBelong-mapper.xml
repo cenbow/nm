@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.PubSysRegionalBelongMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="SysRegionalBelongRetMap" type="com.hs.system.entity.SysRegionalBelong">
+			<result column="ID" property="id"/>
+			<result column="PROV_NO" property="provNo"/>
+			<result column="PROV_NAME" property="provName"/>
+			<result column="CITY_NO" property="cityNo"/>
+			<result column="CITY_NAME" property="cityName"/>
+			<result column="AREA_NO" property="areaNo"/>
+			<result column="AREA_NAME" property="areaName"/>
+	</resultMap>
+	
+	<!-- 新增 SYS_地域归属表 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysRegionalBelong">
+		insert into SYS_REGIONAL_BELONG
+		(
+  			ID
+  			,PROV_NO
+  			,PROV_NAME
+  			,CITY_NO
+  			,CITY_NAME
+  			,AREA_NO
+  			,AREA_NAME
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{provNo}
+  			, #{provName}
+  			, #{cityNo}
+  			, #{cityName}
+  			, #{areaNo}
+  			, #{areaName}
+    	)
+	</insert>
+	
+	<!-- 修改 SYS_地域归属表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update SYS_REGIONAL_BELONG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('provNo')">  
+	  					PROV_NO = #{provNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('provName')">  
+	  					PROV_NAME = #{provName},  
+	  				</if>		
+	  				 	
+	  				<if test="_parameter.containsKey('cityNo')">  
+	  					CITY_NO = #{cityNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cityName')">  
+	  					CITY_NAME = #{cityName},  
+	  				</if>		
+	  				 	
+	  				<if test="_parameter.containsKey('areaNo')">  
+	  					AREA_NO = #{areaNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('areaName')">  
+	  					AREA_NAME = #{areaName},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 SYS_地域归属表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from SYS_REGIONAL_BELONG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 SYS_地域归属表 -->
+	<select id="getByPrimaryKey" resultMap="SysRegionalBelongRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from SYS_REGIONAL_BELONG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 SYS_地域归属表 列表 -->
+	<select id="queryForList" resultMap="SysRegionalBelongRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from SYS_REGIONAL_BELONG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="provNo != null and provNo != ''">
+	  				and t.PROV_NO = #{provNo}				
+	  			</if>
+				<if test="provName != null and provName != ''">
+	  				and t.PROV_NAME = #{provName}				
+	  			</if>
+				 
+				<if test="cityNo != null and cityNo != ''">
+	  				and t.CITY_NO = #{cityNo}				
+	  			</if>
+				<if test="cityName != null and cityName != ''">
+	  				and t.CITY_NAME = #{cityName}				
+	  			</if>
+				 
+				<if test="areaNo != null and areaNo != ''">
+	  				and t.AREA_NO = #{areaNo}				
+	  			</if>
+				<if test="areaName != null and areaName != ''">
+	  				and t.AREA_NAME = #{areaName}				
+	  			</if>
+    	</trim>
+	</select>
+	<select id="getProvName" parameterType="java.lang.String" resultType="java.lang.String">
+	 	SELECT DISTINCT PROV_NAME from SYS_REGIONAL_BELONG WHERE PROV_NO = #{provNo}
+	</select>
+	<select id="getCityName"  parameterType="java.lang.String" resultType="java.lang.String">
+		 SELECT DISTINCT CITY_NAME from SYS_REGIONAL_BELONG WHERE CITY_NO = #{cityNo}
+	</select>
+	<select id="getCountName"  parameterType="java.lang.String" resultType="java.lang.String">
+		 SELECT DISTINCT AREA_NAME from SYS_REGIONAL_BELONG WHERE AREA_NO = #{areaNo}
+	</select>
+	
+	
+	<!-- 查询-->
+	<select id="queryProvs" resultMap="SysRegionalBelongRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from   sys_regional_belong t where (t.CITY_NO is null OR t.CITY_NO ='' OR t.CITY_NO ='') and (t.area_no is null OR t.area_no =''  OR t.area_no ='')
+	</select>
+	<!-- 查询-->
+	<select id="queryCity" resultMap="SysRegionalBelongRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from   sys_regional_belong t where (t.area_no is null OR t.area_no =''  OR t.area_no ='') and t.PROV_NO = #{areano}	
+	</select>
+	<!-- 查询-->
+	<select id="queryTowns" resultMap="SysRegionalBelongRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from   sys_regional_belong t where t.CITY_NO  = #{areano}
+	</select>
+	<!-- 查询-->
+	<select id="checkType" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT
+				t1.prov_cnt prov,
+				t2.city_cnt city
+			FROM
+				(
+					SELECT
+						count(1) AS prov_cnt
+					FROM
+						sys_regional_belong
+					WHERE
+						prov_no = #{areaNo}
+				) t1,
+				(
+					SELECT
+						count(1) AS city_cnt
+					FROM
+						sys_regional_belong
+					WHERE
+						CITY_NO = #{areaNo}
+				) t2
+	</select>
+	
+</mapper>

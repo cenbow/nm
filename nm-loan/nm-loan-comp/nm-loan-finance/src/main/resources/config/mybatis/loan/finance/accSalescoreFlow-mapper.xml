@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccSalescoreFlowMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="AccSalescoreFlowRetMap" type="com.hs.loan.finance.entity.AccSalescoreFlow">
+		<result column="ID" property="id" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="GIFT_NO" property="giftNo" />
+		<result column="TRAN_DATE" property="tranDate" />
+		<result column="TRAN_SCORE" property="tranScore" />
+		<result column="TRAN_CNT" property="tranCnt" />
+		<result column="GIFT_SUBJECT" property="giftSubject"/>
+	</resultMap>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccSalescoreFlow">
+		insert into acc_salescore_flow
+		(
+		ID
+		,STAFF_NO
+		,GIFT_NO
+		,TRAN_DATE
+		,TRAN_SCORE
+		,TRAN_CNT
+		)
+		values
+		(
+		#{id}
+		,
+		#{staffNo}
+		, #{giftNo}
+		, #{tranDate}
+		, #{tranScore}
+		, #{tranCnt}
+		)
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update acc_salescore_flow
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('staffNo')">
+				STAFF_NO = #{staffNo},
+			</if>
+			<if test="_parameter.containsKey('giftNo')">
+				GIFT_NO = #{giftNo},
+			</if>
+			<if test="_parameter.containsKey('tranDate')">
+				TRAN_DATE = #{tranDate},
+			</if>
+			<if test="_parameter.containsKey('tranScore')">
+				TRAN_SCORE = #{tranScore},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		acc_salescore_flow
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 -->
+	<select id="getByPrimaryKey" resultMap="AccSalescoreFlowRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from acc_salescore_flow t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 列表 -->
+	<select id="queryForList" resultMap="AccSalescoreFlowRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*,g.GIFT_SUBJECT
+		from acc_salescore_flow t
+		left join sys_gift_info g on t.GIFT_NO = g.GIFT_NO
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="giftNo != null and giftNo != ''">
+				and t.GIFT_NO = #{giftNo}
+			</if>
+			<if test="tranDate != null">
+				and t.TRAN_DATE = #{tranDate}
+			</if>
+			<if test="tranScore != null">
+				and t.TRAN_SCORE = #{tranScore}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 查询 列表 -->
+	<select id="queryListByStaff" resultMap="AccSalescoreFlowRetMap"
+		parameterType="java.util.Map">
+		SELECT *
+		FROM acc_salescore_flow
+		WHERE staff_no
+		=#{staffNo}
+		AND date_format(sysdate(), '%Y%m') = date_format(tran_date,
+		'%Y%m')
+	</select>
+	
+	<resultMap id="AccSalescoreFlowTwoRetMap" type="com.hs.loan.finance.bo.SaleScoreFlowBo">
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="GIFT_NO" property="giftNo" />
+		<result column="GIFT_SUBJECT" property="giftSubject" />
+		<result column="TRAN_CNT" property="tranCnt" />
+		<result column="TRAN_DATE" property="tranDate" />
+		<result column="TRAN_SCORE" property="tranScore"/>
+	</resultMap>
+	
+	<!-- 查询积分流水列表 -->
+	<select id="queryForListTwo" resultMap="AccSalescoreFlowTwoRetMap" parameterType="java.util.Map">
+		SELECT s.STAFF_NO,s.STAFF_NAME,g.GIFT_NO,g.GIFT_SUBJECT,f.TRAN_CNT,f.TRAN_DATE,f.TRAN_SCORE
+		FROM ACC_SALESCORE_FLOW f,SYS_STAFF s,SYS_GIFT_INFO g
+ 		WHERE f.STAFF_NO=s.STAFF_NO AND g.GIFT_NO=f.GIFT_NO
+ 		<if test="staffName != null and staffName != ''">
+ 			AND s.STAFF_NAME LIKE '%${staffName}%'
+ 		</if>
+ 		<if test="giftNo != null and giftNo != ''">
+ 			AND g.GIFT_NO = #{giftNo}
+ 		</if>
+ 		<if test="giftSubject != null and giftSubject != ''">
+ 			AND g.GIFT_SUBJECT LIKE '%${giftSubject}%'
+ 		</if>
+ 		<if test="payDateMin != null and payDateMin != ''">
+ 			and f.TRAN_DATE &gt;=  #{payDateMin}
+ 		</if>
+ 		<if test="payDateMax != null and payDateMax != ''">
+ 			and f.TRAN_DATE &lt;=  #{payDateMax}
+ 		</if>
+ 		ORDER BY f.TRAN_DATE
+	</select>
+</mapper>

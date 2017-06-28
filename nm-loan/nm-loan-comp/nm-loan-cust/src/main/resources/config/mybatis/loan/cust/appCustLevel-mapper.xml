@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustLevelMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustLevelRetMap" type="com.hs.loan.cust.entity.AppCustLevel">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="LEVEL" property="level"/>
+			<result column="LEVEL_TYP" property="levelTyp"/>
+			<result column="LEVEL_DATE" property="levelDate"/>
+			<result column="LEVEL_VALID" property="levelValid"/>
+			<result column="LEVEL_USER" property="levelUser"/>
+			<result column="BEGIN_DATE" property="beginDate"/>
+			<result column="END_DATE" property="endDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户评级 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustLevel">
+		insert into app_cust_level
+		(
+  			ID
+  			,CUST_NO
+  			,LEVEL
+  			,LEVEL_TYP
+  			,LEVEL_DATE
+  			,LEVEL_VALID
+  			,LEVEL_USER
+  			,BEGIN_DATE
+  			,END_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{level}
+  			, #{levelTyp}
+  			, #{levelDate}
+  			, #{levelValid}
+  			, #{levelUser}
+  			, #{beginDate}
+  			, #{endDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户评级 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_level
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('level')">  
+	  					LEVEL = #{level},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('levelTyp')">  
+	  					LEVEL_TYP = #{levelTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('levelDate')">  
+	  					LEVEL_DATE = #{levelDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('levelValid')">  
+	  					LEVEL_VALID = #{levelValid},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('levelUser')">  
+	  					LEVEL_USER = #{levelUser},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('beginDate')">  
+	  					BEGIN_DATE = #{beginDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endDate')">  
+	  					END_DATE = #{endDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户评级 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_level
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户评级 -->
+	<select id="getByPrimaryKey" resultMap="AppCustLevelRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_level t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_客户评级 列表 -->
+	<select id="queryForList" resultMap="AppCustLevelRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_level t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="level != null and level != ''">
+	  				and t.LEVEL = #{level}				
+	  			</if>
+				<if test="levelTyp != null and levelTyp != ''">
+	  				and t.LEVEL_TYP = #{levelTyp}				
+	  			</if>
+				<if test="levelDate != null and levelDate != ''">
+	  				and t.LEVEL_DATE = #{levelDate}				
+	  			</if>
+				<if test="levelValid != null and levelValid != ''">
+	  				and t.LEVEL_VALID = #{levelValid}				
+	  			</if>
+				<if test="levelUser != null and levelUser != ''">
+	  				and t.LEVEL_USER = #{levelUser}				
+	  			</if>
+				<if test="beginDate != null">
+	  				and t.BEGIN_DATE = #{beginDate}				
+	  			</if>
+				<if test="endDate != null">
+	  				and t.END_DATE = #{endDate}				
+	  			</if>
+    	</trim>
+	</select>
+	
+	<!--获取星级评估信息  -->
+	<select id="getStarEvaluate" parameterType="string" resultType="com.hs.loan.cust.bo.CustStarLevelBo">
+		SELECT
+			(SELECT l.LEVEL FROM APP_CUST_LEVEL l WHERE l.CUST_NO = #{custNo} ORDER BY l.END_DATE DESC LIMIT 1) as "level",
+			(SELECT c.REMAIN_LIMIT FROM APP_CUST_CREDIT c WHERE c.CUST_NO = #{custNo} ORDER BY c.END_DATE DESC LIMIT 1) as "remainLimit",
+			(SELECT a.SCORE FROM	APP_CUST_SCORE a WHERE a.CUST_NO = #{custNo} ORDER BY a.END_DATE DESC LIMIT 1) as "score",
+			(SELECT h.HAND_PERSON_NAME FROM APP_LOAN_HAND h WHERE h.CUST_NO = #{custNo} ORDER BY h.HAND_DATE ASC LIMIT 1) as "handPersonName",
+			(SELECT DATE_FORMAT(b.HAND_DATE, '%Y-%m-%d') AS "HAND_DATE" FROM APP_LOAN_HAND b WHERE b.CUST_NO = #{custNo} ORDER BY b.HAND_DATE ASC LIMIT 1) as "handDate"
+	</select>
+	
+</mapper>

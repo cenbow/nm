@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.system.mapper.PubSysStaffMapper">
+	<!-- 返回 Bean -->
+	<resultMap id="SysStaffRetMap" type="com.hs.system.entity.SysStaff">
+		<result column="ID" property="id" />
+		<result column="LOGIN_NO" property="loginNo" />
+		<result column="STAFF_NO" property="staffNo" />
+		<result column="STAFF_NAME" property="staffName" />
+		<result column="LOGIN_PWD" property="loginPwd" />
+		<result column="BELG_ORG_NO" property="belgOrgNo" />
+		<result column="LAST_LOGIN_DATE" property="lastLoginDate" />
+		<result column="LAST_LOG" property="lastLog" />
+		<result column="OPEN_ID" property="openId" />
+		<result column="STAFF_POSITION" property="staffPosition" />
+		<result column="STAFF_STAT" property="staffStat" />
+		<result column="USER_TYP" property="userTyp" />
+		<result column="MOBL_NO" property="moblNo" />
+		<result column="EMAIL" property="email" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="MODIFY_DATE" property="modifyDate" />
+		<result column="STAFFAUT_NAME" property="staffAutName" />
+		<result column="STAFFAUT_PWD" property="staffAutPwd" />
+	</resultMap>
+
+	<!-- 新增 员工信息 -->
+	<insert id="insert" parameterType="com.hs.system.entity.SysStaff">
+		insert into sys_staff
+		(
+		ID
+		,LOGIN_NO
+		,STAFF_NO
+		,STAFF_NAME
+		,LOGIN_PWD
+		,BELG_ORG_NO
+		,LAST_LOGIN_DATE
+		,LAST_LOG
+		,OPEN_ID
+		,STAFF_POSITION
+		,STAFF_STAT
+		,USER_TYP
+		,MOBL_NO
+		,EMAIL
+		,CREATE_DATE
+		,MODIFY_DATE
+		,STAFFAUT_NAME
+		,STAFFAUT_PWD
+		)
+		values
+		(
+		#{id}
+		, #{loginNo}
+		, #{staffNo}
+		, #{staffName}
+		, #{loginPwd}
+		, #{belgOrgNo}
+		, #{lastLoginDate}
+		, #{lastLog}
+		, #{openId}
+		, #{staffPosition}
+		, #{staffStat}
+		, #{userTyp}
+		, #{moblNo}
+		, #{email}
+		, #{createDate}
+		, #{modifyDate}
+		, #{staffAutName}
+		, #{staffAutPwd}
+		)
+	</insert>
+
+	<!-- 修改 员工信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update sys_staff
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="_parameter.containsKey('loginNo')">
+				LOGIN_NO = #{loginNo},
+			</if>
+			<if test="_parameter.containsKey('staffNo')">
+				STAFF_NO = #{staffNo},
+			</if>
+			<if test="_parameter.containsKey('staffName')">
+				STAFF_NAME = #{staffName},
+			</if>
+			<if test="_parameter.containsKey('loginPwd')">
+				LOGIN_PWD = #{loginPwd},
+			</if>
+			<if test="_parameter.containsKey('belgOrgNo')">
+				BELG_ORG_NO = #{belgOrgNo},
+			</if>
+			<if test="_parameter.containsKey('lastLoginDate')">
+				LAST_LOGIN_DATE = #{lastLoginDate},
+			</if>
+			<if test="_parameter.containsKey('lastLog')">
+				LAST_LOG = #{lastLog},
+			</if>
+			<if test="_parameter.containsKey('openId')">
+				OPEN_ID = #{openId},
+			</if>
+			<if test="_parameter.containsKey('staffPosition')">
+				STAFF_POSITION = #{staffPosition},
+			</if>
+			<if test="_parameter.containsKey('staffStat')">
+				STAFF_STAT = #{staffStat},
+			</if>
+			<if test="_parameter.containsKey('userTyp')">
+				USER_TYP = #{userTyp},
+			</if>
+			<if test="_parameter.containsKey('moblNo')">
+				MOBL_NO = #{moblNo},
+			</if>
+			<if test="_parameter.containsKey('email')">
+				EMAIL = #{email},
+			</if>
+			<if test="_parameter.containsKey('createDate')">
+				CREATE_DATE = #{createDate},
+			</if>
+			<if test="_parameter.containsKey('modifyDate')">
+				MODIFY_DATE = #{modifyDate},
+			</if>
+			<if test="_parameter.containsKey('staffAutName')">
+				staffAut_Name = #{staffAutName},
+			</if>
+			<if test="_parameter.containsKey('staffAutPwd')">
+				staffAut_Pwd = #{staffAutPwd},
+			</if>
+		</trim>
+		where
+		ID = #{id}
+	</update>
+
+	<!-- 删除 员工信息 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		sys_staff
+		where
+		ID = #{id}
+	</delete>
+
+	<!-- 通过主键查询 员工信息 -->
+	<select id="getByPrimaryKey" resultMap="SysStaffRetMap"
+		parameterType="java.lang.String">
+		select
+		t.*
+		from sys_staff t
+		where
+		t.ID = #{id}
+	</select>
+
+	<!-- 查询 员工信息 列表 -->
+	<select id="queryForList" resultMap="SysStaffRetMap"
+		parameterType="java.util.Map">
+		select
+		t.*
+		from sys_staff t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loginNo != null and loginNo != ''">
+				and t.LOGIN_NO = #{loginNo}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME = #{staffName}
+			</if>
+			<if test="loginPwd != null and loginPwd != ''">
+				and t.LOGIN_PWD = #{loginPwd}
+			</if>
+			<if test="belgOrgNo != null and belgOrgNo != ''">
+				and t.BELG_ORG_NO = #{belgOrgNo}
+			</if>
+			<if test="lastLoginDate != null">
+				and t.LAST_LOGIN_DATE = #{lastLoginDate}
+			</if>
+			<if test="lastLog != null and lastLog != ''">
+				and t.LAST_LOG = #{lastLog}
+			</if>
+			<if test="openId != null and openId != ''">
+				and t.OPEN_ID = #{openId}
+			</if>
+			<if test="staffPosition != null and staffPosition != ''">
+				and t.STAFF_POSITION = #{staffPosition}
+			</if>
+			<if test="staffStat != null and staffStat != ''">
+				and t.STAFF_STAT = #{staffStat}
+			</if>
+			<if test="userTyp != null and userTyp != ''">
+				and t.USER_TYP = #{userTyp}
+			</if>
+			<if test="moblNo != null and moblNo != ''">
+				and t.MOBL_NO = #{moblNo}
+			</if>
+			<if test="email != null and email != ''">
+				and t.EMAIL = #{email}
+			</if>
+			<if test="createDate != null">
+				and t.CREATE_DATE = #{createDate}
+			</if>
+			<if test="modifyDate != null">
+				and t.MODIFY_DATE = #{modifyDate}
+			</if>
+		</trim>
+	</select>
+
+
+	<!-- 查询 角色信息 列表 -->
+	<select id="queryStaffByRole" resultMap="SysStaffRetMap" parameterType="java.util.Map">
+		
+		SELECT
+			r.ID, 				                               
+			r.LOGIN_NO, 	                               
+			r.STAFF_NO, 	                               
+			r.STAFF_NAME, 
+			o.ORG_NAME  BELG_ORG_NO,
+			r.LAST_LOGIN_DATE, 
+			r.LAST_LOG, 
+			r.OPEN_ID,  
+			r.STAFF_POSITION, 
+			r.STAFF_STAT, 
+			r.USER_TYP,                        
+			r.MOBL_NO,                         
+			r.EMAIL,  
+			r.CREATE_DATE,                          
+			r.MODIFY_DATE,
+			r.staffAut_Name,
+			r.staffAut_Pwd 
+		FROM sys_staff r LEFT JOIN sys_org o on r.BELG_ORG_NO=o.ORG_NO
+		WHERE 
+		  EXISTS (
+		SELECT
+		1
+		FROM
+		sys_staff_role s,
+		sys_role f
+		WHERE
+		s.role_id = f.id
+		AND r.id = s.staff_id
+		AND f.role_no = #{roleNo})
+		 <if test="staffName != null and staffName != ''">
+			and r.STAFF_NAME like CONCAT('%',#{staffName},'%')
+		</if>
+		<if test="orgNo !=null and orgNo !=''">
+			and r.BELG_ORG_NO like '${orgNo}%'
+		</if>
+	</select>
+
+	
+	<!--获取包含的销售列表  -->
+	<select id="getIncludeStaffLst" parameterType="map" resultMap="SysStaffRetMap">
+		select
+			t.*
+		from sys_staff t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loginNo != null and loginNo != ''">
+				and t.LOGIN_NO = #{loginNo}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME like '%${staffName}%'
+			</if>
+			<if test="loginPwd != null and loginPwd != ''">
+				and t.LOGIN_PWD = #{loginPwd}
+			</if>
+			<if test="belgOrgNo != null and belgOrgNo != ''">
+				and t.BELG_ORG_NO = #{belgOrgNo}
+			</if>
+			<if test="lastLoginDate != null">
+				and t.LAST_LOGIN_DATE = #{lastLoginDate}
+			</if>
+			<if test="lastLog != null and lastLog != ''">
+				and t.LAST_LOG = #{lastLog}
+			</if>
+			<if test="openId != null and openId != ''">
+				and t.OPEN_ID = #{openId}
+			</if>
+			<if test="staffPosition != null and staffPosition != ''">
+				and t.STAFF_POSITION = #{staffPosition}
+			</if>
+			<if test="staffStat != null and staffStat != ''">
+				and t.STAFF_STAT = #{staffStat}
+			</if>
+			<if test="userTyp != null and userTyp != ''">
+				and t.USER_TYP = #{userTyp}
+			</if>
+			<if test="moblNo != null and moblNo != ''">
+				and t.MOBL_NO = #{moblNo}
+			</if>
+			<if test="email != null and email != ''">
+				and t.EMAIL = #{email}
+			</if>
+			<if test="createDate != null">
+				and t.CREATE_DATE = #{createDate}
+			</if>
+			<if test="modifyDate != null">
+				and t.MODIFY_DATE = #{modifyDate}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="staffNos != null and staffNos != ''">
+				and t.STAFF_NO IN (${staffNos}) 
+			</if>
+		</trim>
+	</select>
+
+	<!--获取 不包含的 销售列表  -->
+	<select id="getNotIncludeStaffLst" parameterType="map" resultMap="SysStaffRetMap">
+		select
+			t.*
+		from sys_staff t,sys_staff_role r ,sys_role o
+		where t.ID=r.STAFF_ID and r.ROLE_ID=o.ID
+		and o.ROLE_NO=#{roleNo}
+		 
+			<if test="id != null and id != ''">
+				and t.ID = #{id}
+			</if>
+			<if test="loginNo != null and loginNo != ''">
+				and t.LOGIN_NO = #{loginNo}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				and t.STAFF_NAME like '%${staffName}%'
+			</if>
+			<if test="loginPwd != null and loginPwd != ''">
+				and t.LOGIN_PWD = #{loginPwd}
+			</if>
+			<if test="belgOrgNo != null and belgOrgNo != ''">
+				and t.BELG_ORG_NO = #{belgOrgNo}
+			</if>
+			<if test="lastLoginDate != null">
+				and t.LAST_LOGIN_DATE = #{lastLoginDate}
+			</if>
+			<if test="lastLog != null and lastLog != ''">
+				and t.LAST_LOG = #{lastLog}
+			</if>
+			<if test="openId != null and openId != ''">
+				and t.OPEN_ID = #{openId}
+			</if>
+			<if test="staffPosition != null and staffPosition != ''">
+				and t.STAFF_POSITION = #{staffPosition}
+			</if>
+			<if test="staffStat != null and staffStat != ''">
+				and t.STAFF_STAT = #{staffStat}
+			</if>
+			<if test="userTyp != null and userTyp != ''">
+				and t.USER_TYP = #{userTyp}
+			</if>
+			<if test="moblNo != null and moblNo != ''">
+				and t.MOBL_NO = #{moblNo}
+			</if>
+			<if test="email != null and email != ''">
+				and t.EMAIL = #{email}
+			</if>
+			<if test="createDate != null">
+				and t.CREATE_DATE = #{createDate}
+			</if>
+			<if test="modifyDate != null">
+				and t.MODIFY_DATE = #{modifyDate}
+			</if>
+			<if test="staffNo != null and staffNo != ''">
+				and t.STAFF_NO = #{staffNo}
+			</if>
+			<if test="staffNos != null and staffNos != ''">
+				and t.STAFF_NO NOT IN (${staffNos}) 
+			</if>
+	</select>
+
+	<!-- 查询 角色信息 列表 -->
+	<select id="queryStaffMagg" resultType="java.util.Map"
+		parameterType="java.util.Map">
+			select  t4.id as mngId,t4.STAFF_NO as mngNo,t4.STAFF_NAME as mngName
+		  from sys_staff t1
+		  join sys_org t2 on t1.BELG_ORG_NO = t2.org_no
+		  join sys_staff_org t3 on t2.id = t3.org_id
+		  join (  
+		 select c.ID,c.STAFF_NO,c.STAFF_NAME,a.ROLE_NO,a.ROLE_NAME
+		   from sys_role a
+		   join sys_staff_role b on a.id = b.ROLE_ID
+		   join sys_staff c on b.STAFF_ID = c.ID
+		  where a.role_no = #{roleNo}
+		        ) t4
+		     on t3.STAFF_ID = t4.ID
+		  where t1.staff_no = #{staffNo}
+		  and t1.staff_stat='10002002'
+	</select>
+
+</mapper>

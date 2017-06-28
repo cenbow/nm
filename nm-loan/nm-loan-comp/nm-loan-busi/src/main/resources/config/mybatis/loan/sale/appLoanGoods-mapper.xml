@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.sale.mapper.AppLoanGoodsMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppLoanGoodsRetMap" type="com.hs.loan.sale.entity.AppLoanGoods">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="GOODS_TYPE" property="goodsType"/>
+			<result column="BRAND" property="brand"/>
+			<result column="MARQUES" property="marques"/>
+			<result column="PRIC" property="pric"/>
+		    <result column="IMEI" property="imei"/>
+	</resultMap>
+	<!-- 查询该imei通过贷款编号 -->
+    <select id="selectImeiByLoanNo" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT a.IMEI FROM app_loan_goods AS a WHERE LOAN_NO = #{loanNo}
+	</select>
+	<!-- 查询该imei号是否已经存在 -->
+	<select id="getImeiExists" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT count(1) FROM app_loan_goods AS a WHERE a.IMEI=#{imei}
+	</select>
+	<!-- 根据贷款编号更新imei -->
+	<update id="updateImeiByLoanNo" parameterType="java.util.HashMap">
+		UPDATE app_loan_goods SET IMEI = #{imei} WHERE LOAN_NO = #{loanNo}
+	</update>
+	<!-- 根据贷款编号查询imei是否为空 -->
+	<select id="getImeiByLoanNo" parameterType="java.util.Map" resultType="java.lang.Integer">
+	   SELECT count(1) FROM app_loan_goods t where <![CDATA[t.loan_no <>  #{loanNo} AND IMEI=#{imei} ]]>
+	</select>
+	<!-- 新增 APP_分期与商品关系 -->
+	<insert id="insert" parameterType="com.hs.loan.sale.entity.AppLoanGoods">
+		insert into app_loan_goods
+		(
+  			ID
+  			,LOAN_NO
+  			,GOODS_TYPE
+  			,BRAND
+  			,MARQUES
+  			,PRIC
+  			,IMEI
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{goodsType}
+  			, #{brand}
+  			, #{marques}
+  			, #{pric}
+  			, #{imei}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_分期与商品关系 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_loan_goods
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('goodsType')">  
+	  					GOODS_TYPE = #{goodsType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('brand')">  
+	  					BRAND = #{brand},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('marques')">  
+	  					MARQUES = #{marques},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('pric')">  
+	  					PRIC = #{pric},  
+	  				</if>
+					<if test="_parameter.containsKey('imei')">
+						IMEI = #{imei},
+					</if>
+		</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_分期与商品关系 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_loan_goods
+		where 
+  			ID = #{id}				
+	</delete>
+	<!-- 删除 APP_分期与商品关系 -->
+	<delete id="deleteByLoanNo" parameterType="java.lang.String">
+		delete from app_loan_goods
+		where 
+  			LOAN_NO = #{loanNo}			
+	</delete>
+	
+	<!-- 通过主键查询 APP_分期与商品关系 -->
+	<select id="getByPrimaryKey" resultMap="AppLoanGoodsRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_loan_goods t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 APP_分期与商品关系 列表 -->
+	<select id="queryForList" resultMap="AppLoanGoodsRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_loan_goods t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="goodsType != null and goodsType != ''">
+	  				and t.GOODS_TYPE = #{goodsType}				
+	  			</if>
+				<if test="brand != null and brand != ''">
+	  				and t.BRAND = #{brand}				
+	  			</if>
+				<if test="marques != null and marques != ''">
+	  				and t.MARQUES = #{marques}				
+	  			</if>
+				<if test="pric != null">
+	  				and t.PRIC = #{pric}
+	  			</if>
+				<if test="imei != null and imei != ''">
+					and t.IMEI = #{imei}
+				</if>
+    	</trim>
+	</select>
+</mapper>

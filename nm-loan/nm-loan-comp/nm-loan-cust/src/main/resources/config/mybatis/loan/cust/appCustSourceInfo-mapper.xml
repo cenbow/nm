@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.cust.mapper.AppCustSourceInfoMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AppCustSourceInfoRetMap" type="com.hs.loan.cust.entity.AppCustSourceInfo">
+			<result column="ID" property="id"/>
+			<result column="CUST_NO" property="custNo"/>
+			<result column="source" property="source"/>
+			<result column="cust_source" property="custSource"/>
+			<result column="IS_WILLING" property="isWilling"/>
+			<result column="remark" property="remark"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 APP_客户来源信息表 -->
+	<insert id="insert" parameterType="com.hs.loan.cust.entity.AppCustSourceInfo">
+		insert into app_cust_source_info
+		(
+  			ID
+  			,CUST_NO
+  			,source
+  			,cust_source
+  			,IS_WILLING
+  			,remark
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{custNo}
+  			, #{source}
+  			, #{custSource}
+  			, #{isWilling}
+  			, #{remark}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 APP_客户来源信息表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update app_cust_source_info
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('custNo')">  
+	  					CUST_NO = #{custNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('source')">  
+	  					source = #{source},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custSource')">  
+	  					cust_source = #{custSource},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('isWilling')">  
+	  					IS_WILLING = #{isWilling},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('remark')">  
+	  					remark = #{remark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 APP_客户来源信息表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from app_cust_source_info
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 APP_客户来源信息表 -->
+	<select id="getByPrimaryKey" resultMap="AppCustSourceInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_source_info t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 通过custNo查询 APP_客户来源信息表 -->
+	<select id="getByCustNo" resultMap="AppCustSourceInfoRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from app_cust_source_info t
+		where 
+  				t.cust_No = #{custNo}				
+	</select>
+	
+	
+	<!-- 查询 APP_客户来源信息表 列表 -->
+	<select id="queryForList" resultMap="AppCustSourceInfoRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from app_cust_source_info t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="custNo != null and custNo != ''">
+	  				and t.CUST_NO = #{custNo}				
+	  			</if>
+				<if test="source != null and source != ''">
+	  				and t.source = #{source}				
+	  			</if>
+				<if test="custSource != null and custSource != ''">
+	  				and t.cust_source = #{custSource}				
+	  			</if>
+				<if test="isWilling != null and isWilling != ''">
+	  				and t.IS_WILLING = #{isWilling}				
+	  			</if>
+				<if test="remark != null and remark != ''">
+	  				and t.remark = #{remark}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

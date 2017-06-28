@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.outsource.mapper.PlLoanOutsourceDerateMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlLoanOutsourceDerateRetMap" type="com.hs.loan.outsource.entity.PlLoanOutsourceDerate">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="DERATE_TYP" property="derateTyp"/>
+			<result column="DERATE_AMT" property="derateAmt"/>
+			<result column="STAT" property="stat"/>
+			<result column="INST_USER_NO" property="instUserNo"/>
+			<result column="INST_USER_NAME" property="instUserName"/>
+			<result column="INST_DATE" property="instDate"/>
+	</resultMap>
+	
+	<!-- 新增 PL_委外减免表 -->
+	<insert id="insert" parameterType="com.hs.loan.outsource.entity.PlLoanOutsourceDerate">
+		insert into PL_LOAN_OUTSOURCE_DERATE
+		(
+  			ID
+  			,LOAN_NO
+  			,DERATE_TYP
+  			,DERATE_AMT
+  			,STAT
+  			,INST_USER_NO
+  			,INST_USER_NAME
+  			,INST_DATE
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{derateTyp}
+  			, #{derateAmt}
+  			, #{stat}
+  			, #{instUserNo}
+  			, #{instUserName}
+  			, #{instDate}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_委外减免表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE_DERATE
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('derateTyp')">  
+	  					DERATE_TYP = #{derateTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('derateAmt')">  
+	  					DERATE_AMT = #{derateAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('stat')">  
+	  					STAT = #{stat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instUserNo')">  
+	  					INST_USER_NO = #{instUserNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instUserName')">  
+	  					INST_USER_NAME = #{instUserName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('instDate')">  
+	  					INST_DATE = #{instDate},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PL_委外减免表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_LOAN_OUTSOURCE_DERATE
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_委外减免表 -->
+	<select id="getByPrimaryKey" resultMap="PlLoanOutsourceDerateRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_DERATE t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PL_委外减免表 列表 -->
+	<select id="queryForList" resultMap="PlLoanOutsourceDerateRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE_DERATE t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="derateTyp != null and derateTyp != ''">
+	  				and t.DERATE_TYP = #{derateTyp}				
+	  			</if>
+				<if test="derateAmt != null">
+	  				and t.DERATE_AMT = #{derateAmt}				
+	  			</if>
+				<if test="stat != null and stat != ''">
+	  				and t.STAT = #{stat}				
+	  			</if>
+				<if test="instUserNo != null and instUserNo != ''">
+	  				and t.INST_USER_NO = #{instUserNo}				
+	  			</if>
+				<if test="instUserName != null and instUserName != ''">
+	  				and t.INST_USER_NAME = #{instUserName}				
+	  			</if>
+				<if test="instDate != null">
+	  				and t.INST_DATE = #{instDate}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

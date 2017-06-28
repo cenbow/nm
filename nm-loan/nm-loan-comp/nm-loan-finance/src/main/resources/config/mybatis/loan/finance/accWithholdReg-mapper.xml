@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.finance.mapper.AccWithholdRegMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="AccWithholdRegRetMap" type="com.hs.loan.finance.entity.AccWithholdReg">
+			<result column="ID" property="id"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="TRAN_TYP" property="tranTyp"/>
+			<result column="TRAN_AMT" property="tranAmt"/>
+			<result column="repay_date" property="repayDate"/>
+			<result column="RCV_AMT" property="rcvAmt"/>
+			<result column="BANK_NO" property="bankNo"/>
+			<result column="ACCT_NUM" property="acctNum"/>
+			<result column="ACCT_NAME" property="acctName"/>
+			<result column="BGN_NUM" property="bgnNum"/>
+			<result column="END_NUM" property="endNum"/>
+			<result column="WITH_STAT" property="withStat"/>
+			<result column="SETTLE_STAT" property="settleStat"/>
+			<result column="TRAN_BGN_DATE" property="tranBgnDate"/>
+			<result column="TRAN_END_DATE" property="tranEndDate"/>
+			<result column="TXSN" property="txsn"/>
+			<result column="staff_no" property="staffNo"/>
+			<result column="staff_name" property="staffName"/>
+			<result column="org_no" property="orgNo"/>
+			<result column="TRAN_CHAN" property="tranChan"/>
+	</resultMap>
+	
+	<!-- 新增 ACC_扣款流水记录表 -->
+	<insert id="insert" parameterType="com.hs.loan.finance.entity.AccWithholdReg">
+		insert into ACC_WITHHOLD_REG
+		(
+  			ID
+  			,LOAN_NO
+  			,TRAN_TYP
+  			,TRAN_AMT
+  			,repay_date
+  			,RCV_AMT
+  			,BANK_NO
+  			,ACCT_NUM
+  			,ACCT_NAME
+  			,BGN_NUM
+  			,END_NUM
+  			,WITH_STAT
+  			,SETTLE_STAT
+  			,TRAN_BGN_DATE
+  			,TRAN_END_DATE
+  			,TXSN
+  			,staff_no
+  			,staff_name
+  			,org_no
+  			,TRAN_CHAN
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{loanNo}
+  			, #{tranTyp}
+  			, #{tranAmt}
+  			, #{repayDate}
+  			, #{rcvAmt}
+  			, #{bankNo}
+  			, #{acctNum}
+  			, #{acctName}
+  			, #{bgnNum}
+  			, #{endNum}
+  			, #{withStat}
+  			, #{settleStat}
+  			, #{tranBgnDate}
+  			, #{tranEndDate}
+  			, #{txsn}
+  			, #{staffNo}
+  			, #{staffName}
+  			, #{orgNo}
+  			, #{tranChan}
+    	)
+	</insert>
+	
+	<!-- 修改 ACC_扣款流水记录表 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update ACC_WITHHOLD_REG
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranTyp')">  
+	  					TRAN_TYP = #{tranTyp},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranAmt')">  
+	  					TRAN_AMT = #{tranAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('repayDate')">  
+	  					repay_date = #{repayDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rcvAmt')">  
+	  					RCV_AMT = #{rcvAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bankNo')">  
+	  					BANK_NO = #{bankNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctNum')">  
+	  					ACCT_NUM = #{acctNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('acctName')">  
+	  					ACCT_NAME = #{acctName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bgnNum')">  
+	  					BGN_NUM = #{bgnNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('endNum')">  
+	  					END_NUM = #{endNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('withStat')">  
+	  					WITH_STAT = #{withStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('settleStat')">  
+	  					SETTLE_STAT = #{settleStat},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranBgnDate')">  
+	  					TRAN_BGN_DATE = #{tranBgnDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('tranEndDate')">  
+	  					TRAN_END_DATE = #{tranEndDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('txsn')">  
+	  					TXSN = #{txsn},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffNo')">  
+	  					staff_no = #{staffNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('staffName')">  
+	  					staff_name = #{staffName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('orgNo')">  
+	  					org_no = #{orgNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 ACC_扣款流水记录表 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from ACC_WITHHOLD_REG
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 ACC_扣款流水记录表 -->
+	<select id="getByPrimaryKey" resultMap="AccWithholdRegRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from ACC_WITHHOLD_REG t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 ACC_扣款流水记录表 列表 -->
+	<select id="queryForList" resultMap="AccWithholdRegRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from ACC_WITHHOLD_REG t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="tranTyp != null and tranTyp != ''">
+	  				and t.TRAN_TYP = #{tranTyp}				
+	  			</if>
+				<if test="tranAmt != null">
+	  				and t.TRAN_AMT = #{tranAmt}				
+	  			</if>
+				<if test="repayDate != null and repayDate != ''">
+	  				and t.repay_date = #{repayDate}				
+	  			</if>
+				<if test="rcvAmt != null">
+	  				and t.RCV_AMT = #{rcvAmt}				
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and t.BANK_NO = #{bankNo}				
+	  			</if>
+				<if test="acctNum != null and acctNum != ''">
+	  				and t.ACCT_NUM = #{acctNum}				
+	  			</if>
+				<if test="acctName != null and acctName != ''">
+	  				and t.ACCT_NAME = #{acctName}				
+	  			</if>
+				<if test="bgnNum != null">
+	  				and t.BGN_NUM = #{bgnNum}				
+	  			</if>
+				<if test="endNum != null">
+	  				and t.END_NUM = #{endNum}				
+	  			</if>
+				<if test="withStat != null and withStat != ''">
+	  				and t.WITH_STAT = #{withStat}				
+	  			</if>
+				<if test="settleStat != null and settleStat != ''">
+	  				and t.SETTLE_STAT = #{settleStat}				
+	  			</if>
+				<if test="tranBgnDate != null">
+	  				and t.TRAN_BGN_DATE = #{tranBgnDate}				
+	  			</if>
+				<if test="tranEndDate != null">
+	  				and t.TRAN_END_DATE = #{tranEndDate}				
+	  			</if>
+				<if test="txsn != null and txsn != ''">
+	  				and t.TXSN = #{txsn}				
+	  			</if>
+				<if test="staffNo != null and staffNo != ''">
+	  				and t.staff_no = #{staffNo}				
+	  			</if>
+				<if test="staffName != null and staffName != ''">
+	  				and t.staff_name = #{staffName}				
+	  			</if>
+				<if test="orgNo != null and orgNo != ''">
+	  				and t.org_no = #{orgNo}				
+	  			</if>
+    	</trim>
+	</select>
+</mapper>

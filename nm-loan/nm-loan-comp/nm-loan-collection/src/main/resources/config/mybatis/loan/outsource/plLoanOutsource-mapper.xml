@@ -1,0 +1,1259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hs.loan.outsource.mapper.PlLoanOutsourceMapper" >
+	<!-- 返回 Bean-->
+	<resultMap id="PlLoanOutsourceRetMap" type="com.hs.loan.outsource.entity.PlLoanOutsource">
+			<result column="ID" property="id"/>
+			<result column="COMPANY_NAME" property="companyName"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="DEBT_NAME" property="debtName"/>
+			<result column="SEX" property="sex"/>
+			<result column="CARD_NO" property="cardNo"/>
+			<result column="BIRTHDAY" property="birthday"/>
+			<result column="TYPE" property="type"/>
+			<result column="EXCEPT_DAY" property="exceptDay"/>
+			<result column="CONTRACT_NO" property="contractNo"/>
+			<result column="APPLY_DAY" property="applyDay"/>
+			<result column="FIRST_MONTH" property="firstMonth"/>
+			<result column="GOOD_PRICE" property="goodPrice"/>
+			<result column="FIRST_PRICE" property="firstPrice"/>
+			<result column="BACK_NO" property="backNo"/>
+			<result column="LAST_MONTH" property="lastMonth"/>
+			<result column="LOAN_AMT" property="loanAmt"/>
+			<result column="PERIOD" property="period"/>
+			<result column="PERIOD_PRICE" property="periodPrice"/>
+			<result column="LOAN_TYPE" property="loanType"/>
+			<result column="RE_PAY" property="rePay"/>
+			<result column="ALL_CONTRACT" property="allContract"/>
+			<result column="INSURE" property="insure"/>
+			<result column="PERIOD_UNPAID" property="periodUnpaid"/>
+			<result column="OVERDUE_AMT" property="overdueAmt"/>
+			<result column="DEBT_AMT" property="debtAmt"/>
+			<result column="SUM_DEBT" property="sumDebt"/>
+			<result column="CUST_ACCOUNT" property="custAccount"/>
+			<result column="ENTRUST_DATE" property="entrustDate"/>
+			<result column="BATCH" property="batch"/>
+			<result column="OVERDUE_RATE" property="overdueRate"/>
+			<result column="ENTRUST_TIME" property="entrustTime"/>
+			<result column="HAND_NUM" property="handNum"/>
+			<result column="UNOVERDUE_RATE" property="unoverdueRate"/>
+			<result column="HAND_CUST" property="handCust"/>
+			<result column="INTER_AMT" property="interAmt"/>
+			<result column="CD_VALUE" property="cdValue"/>
+			<result column="AUTO_TYPE" property="autoType"/>
+			<result column="HAND_TYPE" property="handType"/>
+			<result column="REG_ADDR" property="regAddr"/>
+			<result column="MOBILE_TEL" property="mobileTel"/>
+			<result column="APPLY_TEL" property="applyTel"/>
+			<result column="HOME_TEL" property="homeTel"/>
+			<result column="UNIT_TEL" property="unitTel"/>
+			<result column="UNIT_NAME" property="unitName"/>
+			<result column="SECTOR" property="sector"/>
+			<result column="UNIT_ADDR" property="unitAddr"/>
+			<result column="MAR_NAME" property="marName"/>
+			<result column="SALE_ADDRS" property="saleAddrs"/>
+			<result column="FIRM" property="firm"/>
+			<result column="MODE_NAME" property="modeName"/>
+			<result column="PRODUCT_NAME" property="productName"/>
+			<result column="LIVE_ADDRESS" property="liveAddress"/>
+			<result column="APPLY_HOMETEL" property="applyHometel"/>
+			<result column="APPLY_WORKTEL" property="applyWorktel"/>
+			<result column="SPOUSE_NAME" property="spouseName"/>
+			<result column="SPOUSE_TEL" property="spouseTel"/>
+			<result column="PARENT_NAME" property="parentName"/>
+			<result column="PARENT_PHONE" property="parentPhone"/>
+			<result column="PARENT_ADDRESS" property="parentAddress"/>
+			<result column="CONTACT_NAME_1" property="contactName1"/>
+			<result column="CONTACT_TEL_1" property="contactTel1"/>
+			<result column="CONTACT_NAME_2" property="contactName2"/>
+			<result column="CONTACT_TEL_2" property="contactTel2"/>
+			<result column="CONTACT_NAME_3" property="contactName3"/>
+			<result column="CONTACT_TEL_3" property="contactTel3"/>
+			<result column="CONTACT_NAME_4" property="contactName4"/>
+			<result column="CONTACT_TEL_4" property="contactTel4"/>
+			<result column="CONTACT_NAME_5" property="contactName5"/>
+			<result column="CONTACT_TEL_5" property="contactTel5"/>
+			<result column="SALE_REMARK" property="saleRemark"/>
+			<result column="MAIL_BOX" property="mailBox"/>
+			<result column="USER_NAME" property="userName"/>
+			<result column="OPEN_BANK" property="openBank"/>
+			<result column="BANK_NO" property="bankNo"/>
+			<result column="IS_SETTLE" property="isSettle"/>
+	</resultMap>
+	
+	<!-- 返回 Bean-->
+	<resultMap id="LoanOutsourceRetMap" type="com.hs.loan.outsource.bo.LoanOutsourceBo">
+			<result column="ID" property="id"/>
+			<result column="COMPANY_NAME" property="companyName"/>
+			<result column="LOAN_NO" property="loanNo"/>
+			<result column="DEBT_NAME" property="debtName"/>
+			<result column="SEX" property="sex"/>
+			<result column="CARD_NO" property="cardNo"/>
+			<result column="BIRTHDAY" property="birthday"/>
+			<result column="TYPE" property="type"/>
+			<result column="EXCEPT_DAY" property="exceptDay"/>
+			<result column="CONTRACT_NO" property="contractNo"/>
+			<result column="APPLY_DAY" property="applyDay"/>
+			<result column="FIRST_MONTH" property="firstMonth"/>
+			<result column="GOOD_PRICE" property="goodPrice"/>
+			<result column="FIRST_PRICE" property="firstPrice"/>
+			<result column="BACK_NO" property="backNo"/>
+			<result column="LAST_MONTH" property="lastMonth"/>
+			<result column="LOAN_AMT" property="loanAmt"/>
+			<result column="PERIOD" property="period"/>
+			<result column="PERIOD_PRICE" property="periodPrice"/>
+			<result column="LOAN_TYPE" property="loanType"/>
+			<result column="RE_PAY" property="rePay"/>
+			<result column="ALL_CONTRACT" property="allContract"/>
+			<result column="INSURE" property="insure"/>
+			<result column="PERIOD_UNPAID" property="periodUnpaid"/>
+			<result column="OVERDUE_AMT" property="overdueAmt"/>
+			<result column="DEBT_AMT" property="debtAmt"/>
+			<result column="SUM_DEBT" property="sumDebt"/>
+			<result column="CUST_ACCOUNT" property="custAccount"/>
+			<result column="ENTRUST_DATE" property="entrustDate"/>
+			<result column="BATCH" property="batch"/>
+			<result column="OVERDUE_RATE" property="overdueRate"/>
+			<result column="ENTRUST_TIME" property="entrustTime"/>
+			<result column="HAND_NUM" property="handNum"/>
+			<result column="UNOVERDUE_RATE" property="unoverdueRate"/>
+			<result column="HAND_CUST" property="handCust"/>
+			<result column="INTER_AMT" property="interAmt"/>
+			<result column="CD_VALUE" property="cdValue"/>
+			<result column="AUTO_TYPE" property="autoType"/>
+			<result column="HAND_TYPE" property="handType"/>
+			<result column="REG_ADDR" property="regAddr"/>
+			<result column="MOBILE_TEL" property="mobileTel"/>
+			<result column="APPLY_TEL" property="applyTel"/>
+			<result column="HOME_TEL" property="homeTel"/>
+			<result column="UNIT_TEL" property="unitTel"/>
+			<result column="UNIT_NAME" property="unitName"/>
+			<result column="SECTOR" property="sector"/>
+			<result column="UNIT_ADDR" property="unitAddr"/>
+			<result column="MAR_NAME" property="marName"/>
+			<result column="SALE_ADDRS" property="saleAddrs"/>
+			<result column="FIRM" property="firm"/>
+			<result column="MODE_NAME" property="modeName"/>
+			<result column="PRODUCT_NAME" property="productName"/>
+			<result column="LIVE_ADDRESS" property="liveAddress"/>
+			<result column="APPLY_HOMETEL" property="applyHometel"/>
+			<result column="APPLY_WORKTEL" property="applyWorktel"/>
+			<result column="SPOUSE_NAME" property="spouseName"/>
+			<result column="SPOUSE_TEL" property="spouseTel"/>
+			<result column="PARENT_NAME" property="parentName"/>
+			<result column="PARENT_PHONE" property="parentPhone"/>
+			<result column="PARENT_ADDRESS" property="parentAddress"/>
+			<result column="CONTACT_NAME_1" property="contactName1"/>
+			<result column="CONTACT_TEL_1" property="contactTel1"/>
+			<result column="CONTACT_NAME_2" property="contactName2"/>
+			<result column="CONTACT_TEL_2" property="contactTel2"/>
+			<result column="CONTACT_NAME_3" property="contactName3"/>
+			<result column="CONTACT_TEL_3" property="contactTel3"/>
+			<result column="CONTACT_NAME_4" property="contactName4"/>
+			<result column="CONTACT_TEL_4" property="contactTel4"/>
+			<result column="CONTACT_NAME_5" property="contactName5"/>
+			<result column="CONTACT_TEL_5" property="contactTel5"/>
+			<result column="SALE_REMARK" property="saleRemark"/>
+			<result column="MAIL_BOX" property="mailBox"/>
+			<result column="USER_NAME" property="userName"/>
+			<result column="OPEN_BANK" property="openBank"/>
+			<result column="BANK_NO" property="bankNo"/>
+			<result column="yhRepayAmt" property="yhRepayAmt"/>
+			<result column="hsRepayAmt" property="hsRepayAmt"/>
+			<result column="chanleName" property="chanleName"/>
+			<result column="chanleNo" property="chanleNo"/>
+		    <result column="isPayd" property="isPayd"/>
+		    <result column="repayAmt" property="repayAmt"/>
+		    <result column="stat" property="stat"/>
+	</resultMap>
+	<!-- 根据贷款编号查询应还多少钱(委外费用+实际还款金额) -->
+	<select id="getcurRvcAmtByLoanNo" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+       SELECT o.DEBT_AMT as CUR_RCV_AMT,i.REPAY_DATE,i.REPAY_NUM,i.SETL_AMT
+		  FROM acc_loan_acct_inst AS i left join pl_loan_outsource o on i.LOAN_NO = o.LOAN_NO
+		 WHERE i.LOAN_NO = #{loanNo} LIMIT 1
+	</select>
+	<!-- 根据员工编号查询员工角色 -->
+	<select id="selectRoleByStaffNo" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT r.ROLE_NO FROM sys_staff_role AS sr
+    INNER JOIN sys_staff AS s ON s.ID=sr.STAFF_ID
+    INNER JOIN sys_role AS r ON sr.ROLE_ID=r.ID
+    WHERE s.STAFF_NO=#{staffNo}
+	</select>
+	<!-- 更新委外表状态和金额 -->
+	<update id="updateIsSettle" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="isSettle=='1'.toString()">  
+ 				IS_SETTLE = '10001001',
+			</if>
+			<if test="debtAmt!=null and debtAmt!=''">
+				DEBT_AMT = DEBT_AMT - #{debtAmt},
+			</if>
+		</trim>
+		WHERE LOAN_NO=#{loanNo}
+	</update>
+	<!-- 根据贷款编号查询还款计划的费用和 -->
+	<select id="getLoanPlanSumByLoanNo" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT INSURE AS INSU_AMT,
+		       OVERDUE_AMT AS OVDU_AMT,
+		       SVC_AMT,
+		       ifnull(OUT_AMT , 0) AS OUT_AMT,
+		       ACCT_AMT,
+		       FEE_AMT,
+		       PUN_AMT,
+		       PACK_AMT,
+		       DEBT_AMT AS CUR_RCV_AMT
+		  FROM pl_loan_outsource
+		 WHERE LOAN_NO = #{loanNo};
+	</select>
+	
+	<!-- 新增 PL_委外案件 -->
+	<insert id="insert" parameterType="com.hs.loan.outsource.entity.PlLoanOutsource">
+		insert into PL_LOAN_OUTSOURCE
+		(
+  			ID
+  			,COMPANY_NAME
+  			,LOAN_NO
+  			,DEBT_NAME
+  			,SEX
+  			,CARD_NO
+  			,BIRTHDAY
+  			,TYPE
+  			,EXCEPT_DAY
+  			,CONTRACT_NO
+  			,APPLY_DAY
+  			,FIRST_MONTH
+  			,GOOD_PRICE
+  			,FIRST_PRICE
+  			,BACK_NO
+  			,LAST_MONTH
+  			,LOAN_AMT
+  			,PERIOD
+  			,PERIOD_PRICE
+  			,LOAN_TYPE
+  			,RE_PAY
+  			,ALL_CONTRACT
+  			,INSURE
+  			,PERIOD_UNPAID
+  			,OVERDUE_AMT
+  			,DEBT_AMT
+  			,SUM_DEBT
+  			,CUST_ACCOUNT
+  			,ENTRUST_DATE
+  			,BATCH
+  			,OVERDUE_RATE
+  			,ENTRUST_TIME
+  			,HAND_NUM
+  			,UNOVERDUE_RATE
+  			,HAND_CUST
+  			,INTER_AMT
+  			,CD_VALUE
+  			,AUTO_TYPE
+  			,HAND_TYPE
+  			,REG_ADDR
+  			,MOBILE_TEL
+  			,APPLY_TEL
+  			,HOME_TEL
+  			,UNIT_TEL
+  			,UNIT_NAME
+  			,SECTOR
+  			,UNIT_ADDR
+  			,MAR_NAME
+  			,SALE_ADDRS
+  			,FIRM
+  			,MODE_NAME
+  			,PRODUCT_NAME
+  			,LIVE_ADDRESS
+  			,APPLY_HOMETEL
+  			,APPLY_WORKTEL
+  			,SPOUSE_NAME
+  			,SPOUSE_TEL
+  			,PARENT_NAME
+  			,PARENT_PHONE
+  			,PARENT_ADDRESS
+  			,CONTACT_NAME_1
+  			,CONTACT_TEL_1
+  			,CONTACT_NAME_2
+  			,CONTACT_TEL_2
+  			,CONTACT_NAME_3
+  			,CONTACT_TEL_3
+  			,CONTACT_NAME_4
+  			,CONTACT_TEL_4
+  			,CONTACT_NAME_5
+  			,CONTACT_TEL_5
+  			,SALE_REMARK
+  			,MAIL_BOX
+  			,USER_NAME
+  			,OPEN_BANK
+  			,BANK_NO
+    	)
+    	values
+    	(
+  			 #{id}
+  			, #{companyName}
+  			, #{loanNo}
+  			, #{debtName}
+  			, #{sex}
+  			, #{cardNo}
+  			, #{birthday}
+  			, #{type}
+  			, #{exceptDay}
+  			, #{contractNo}
+  			, #{applyDay}
+  			, #{firstMonth}
+  			, #{goodPrice}
+  			, #{firstPrice}
+  			, #{backNo}
+  			, #{lastMonth}
+  			, #{loanAmt}
+  			, #{period}
+  			, #{periodPrice}
+  			, #{loanType}
+  			, #{rePay}
+  			, #{allContract}
+  			, #{insure}
+  			, #{periodUnpaid}
+  			, #{overdueAmt}
+  			, #{debtAmt}
+  			, #{sumDebt}
+  			, #{custAccount}
+  			, #{entrustDate}
+  			, #{batch}
+  			, #{overdueRate}
+  			, #{entrustTime}
+  			, #{handNum}
+  			, #{unoverdueRate}
+  			, #{handCust}
+  			, #{interAmt}
+  			, #{cdValue}
+  			, #{autoType}
+  			, #{handType}
+  			, #{regAddr}
+  			, #{mobileTel}
+  			, #{applyTel}
+  			, #{homeTel}
+  			, #{unitTel}
+  			, #{unitName}
+  			, #{sector}
+  			, #{unitAddr}
+  			, #{marName}
+  			, #{saleAddrs}
+  			, #{firm}
+  			, #{modeName}
+  			, #{productName}
+  			, #{liveAddress}
+  			, #{applyHometel}
+  			, #{applyWorktel}
+  			, #{spouseName}
+  			, #{spouseTel}
+  			, #{parentName}
+  			, #{parentPhone}
+  			, #{parentAddress}
+  			, #{contactName1}
+  			, #{contactTel1}
+  			, #{contactName2}
+  			, #{contactTel2}
+  			, #{contactName3}
+  			, #{contactTel3}
+  			, #{contactName4}
+  			, #{contactTel4}
+  			, #{contactName5}
+  			, #{contactTel5}
+  			, #{saleRemark}
+  			, #{mailBox}
+  			, #{userName}
+  			, #{openBank}
+  			, #{bankNo}
+    	)
+	</insert>
+	
+	<!-- 修改 PL_委外案件 -->
+	<update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+		update PL_LOAN_OUTSOURCE
+		<trim prefix="SET" suffixOverrides=",">
+	  				<if test="_parameter.containsKey('companyName')">  
+	  					COMPANY_NAME = #{companyName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanNo')">  
+	  					LOAN_NO = #{loanNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('debtName')">  
+	  					DEBT_NAME = #{debtName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sex')">  
+	  					SEX = #{sex},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cardNo')">  
+	  					CARD_NO = #{cardNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('birthday')">  
+	  					BIRTHDAY = #{birthday},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('type')">  
+	  					TYPE = #{type},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('exceptDay')">  
+	  					EXCEPT_DAY = #{exceptDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contractNo')">  
+	  					CONTRACT_NO = #{contractNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyDay')">  
+	  					APPLY_DAY = #{applyDay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('firstMonth')">  
+	  					FIRST_MONTH = #{firstMonth},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('goodPrice')">  
+	  					GOOD_PRICE = #{goodPrice},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('firstPrice')">  
+	  					FIRST_PRICE = #{firstPrice},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('backNo')">  
+	  					BACK_NO = #{backNo},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('lastMonth')">  
+	  					LAST_MONTH = #{lastMonth},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanAmt')">  
+	  					LOAN_AMT = #{loanAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('period')">  
+	  					PERIOD = #{period},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('periodPrice')">  
+	  					PERIOD_PRICE = #{periodPrice},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('loanType')">  
+	  					LOAN_TYPE = #{loanType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('rePay')">  
+	  					RE_PAY = #{rePay},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('allContract')">  
+	  					ALL_CONTRACT = #{allContract},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('insure')">  
+	  					INSURE = #{insure},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('periodUnpaid')">  
+	  					PERIOD_UNPAID = #{periodUnpaid},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueAmt')">  
+	  					OVERDUE_AMT = #{overdueAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('debtAmt')">  
+	  					DEBT_AMT = #{debtAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sumDebt')">  
+	  					SUM_DEBT = #{sumDebt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('custAccount')">  
+	  					CUST_ACCOUNT = #{custAccount},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('entrustDate')">  
+	  					ENTRUST_DATE = #{entrustDate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('batch')">  
+	  					BATCH = #{batch},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('overdueRate')">  
+	  					OVERDUE_RATE = #{overdueRate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('entrustTime')">  
+	  					ENTRUST_TIME = #{entrustTime},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handNum')">  
+	  					HAND_NUM = #{handNum},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unoverdueRate')">  
+	  					UNOVERDUE_RATE = #{unoverdueRate},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handCust')">  
+	  					HAND_CUST = #{handCust},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('interAmt')">  
+	  					INTER_AMT = #{interAmt},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('cdValue')">  
+	  					CD_VALUE = #{cdValue},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('autoType')">  
+	  					AUTO_TYPE = #{autoType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('handType')">  
+	  					HAND_TYPE = #{handType},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('regAddr')">  
+	  					REG_ADDR = #{regAddr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mobileTel')">  
+	  					MOBILE_TEL = #{mobileTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyTel')">  
+	  					APPLY_TEL = #{applyTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('homeTel')">  
+	  					HOME_TEL = #{homeTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitTel')">  
+	  					UNIT_TEL = #{unitTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitName')">  
+	  					UNIT_NAME = #{unitName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('sector')">  
+	  					SECTOR = #{sector},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('unitAddr')">  
+	  					UNIT_ADDR = #{unitAddr},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('marName')">  
+	  					MAR_NAME = #{marName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleAddrs')">  
+	  					SALE_ADDRS = #{saleAddrs},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('firm')">  
+	  					FIRM = #{firm},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('modeName')">  
+	  					MODE_NAME = #{modeName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('productName')">  
+	  					PRODUCT_NAME = #{productName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('liveAddress')">  
+	  					LIVE_ADDRESS = #{liveAddress},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyHometel')">  
+	  					APPLY_HOMETEL = #{applyHometel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('applyWorktel')">  
+	  					APPLY_WORKTEL = #{applyWorktel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('spouseName')">  
+	  					SPOUSE_NAME = #{spouseName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('spouseTel')">  
+	  					SPOUSE_TEL = #{spouseTel},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('parentName')">  
+	  					PARENT_NAME = #{parentName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('parentPhone')">  
+	  					PARENT_PHONE = #{parentPhone},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('parentAddress')">  
+	  					PARENT_ADDRESS = #{parentAddress},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactName1')">  
+	  					CONTACT_NAME_1 = #{contactName1},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactTel1')">  
+	  					CONTACT_TEL_1 = #{contactTel1},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactName2')">  
+	  					CONTACT_NAME_2 = #{contactName2},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactTel2')">  
+	  					CONTACT_TEL_2 = #{contactTel2},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactName3')">  
+	  					CONTACT_NAME_3 = #{contactName3},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactTel3')">  
+	  					CONTACT_TEL_3 = #{contactTel3},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactName4')">  
+	  					CONTACT_NAME_4 = #{contactName4},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactTel4')">  
+	  					CONTACT_TEL_4 = #{contactTel4},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactName5')">  
+	  					CONTACT_NAME_5 = #{contactName5},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('contactTel5')">  
+	  					CONTACT_TEL_5 = #{contactTel5},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('saleRemark')">  
+	  					SALE_REMARK = #{saleRemark},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('mailBox')">  
+	  					MAIL_BOX = #{mailBox},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('userName')">  
+	  					USER_NAME = #{userName},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('openBank')">  
+	  					OPEN_BANK = #{openBank},  
+	  				</if>		
+	  				<if test="_parameter.containsKey('bankNo')">  
+	  					BANK_NO = #{bankNo},  
+	  				</if>		
+    	</trim>
+		where 
+  			ID = #{id}				
+	</update>
+	
+	<!-- 删除 PL_委外案件 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from PL_LOAN_OUTSOURCE
+		where 
+  			ID = #{id}				
+	</delete>
+	
+	<!-- 通过主键查询 PL_委外案件 -->
+	<select id="getByPrimaryKey" resultMap="PlLoanOutsourceRetMap" parameterType="java.lang.String">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE t
+		where 
+  				t.ID = #{id}				
+	</select>
+	
+	<!-- 查询 PL_委外案件 列表 -->
+	<select id="queryForList" resultMap="PlLoanOutsourceRetMap" parameterType="java.util.Map">
+		select	
+			t.*
+		from PL_LOAN_OUTSOURCE t
+		<trim prefix="WHERE" prefixOverrides="AND |OR "> 
+				<if test="id != null and id != ''">
+	  				and t.ID = #{id}				
+	  			</if>
+				<if test="companyName != null and companyName != ''">
+	  				and t.COMPANY_NAME = #{companyName}				
+	  			</if>
+				<if test="loanNo != null and loanNo != ''">
+	  				and t.LOAN_NO = #{loanNo}				
+	  			</if>
+				<if test="debtName != null and debtName != ''">
+	  				and t.DEBT_NAME = #{debtName}				
+	  			</if>
+				<if test="sex != null and sex != ''">
+	  				and t.SEX = #{sex}				
+	  			</if>
+				<if test="cardNo != null and cardNo != ''">
+	  				and t.CARD_NO = #{cardNo}				
+	  			</if>
+				<if test="birthday != null and birthday != ''">
+	  				and t.BIRTHDAY = #{birthday}				
+	  			</if>
+				<if test="type != null and type != ''">
+	  				and t.TYPE = #{type}				
+	  			</if>
+				<if test="exceptDay != null and exceptDay != ''">
+	  				and t.EXCEPT_DAY = #{exceptDay}				
+	  			</if>
+				<if test="contractNo != null and contractNo != ''">
+	  				and t.CONTRACT_NO = #{contractNo}				
+	  			</if>
+				<if test="applyDay != null and applyDay != ''">
+	  				and t.APPLY_DAY = #{applyDay}				
+	  			</if>
+				<if test="firstMonth != null and firstMonth != ''">
+	  				and t.FIRST_MONTH = #{firstMonth}				
+	  			</if>
+				<if test="goodPrice != null">
+	  				and t.GOOD_PRICE = #{goodPrice}				
+	  			</if>
+				<if test="firstPrice != null">
+	  				and t.FIRST_PRICE = #{firstPrice}				
+	  			</if>
+				<if test="backNo != null">
+	  				and t.BACK_NO = #{backNo}				
+	  			</if>
+				<if test="lastMonth != null and lastMonth != ''">
+	  				and t.LAST_MONTH = #{lastMonth}				
+	  			</if>
+				<if test="loanAmt != null">
+	  				and t.LOAN_AMT = #{loanAmt}				
+	  			</if>
+				<if test="period != null">
+	  				and t.PERIOD = #{period}				
+	  			</if>
+				<if test="periodPrice != null">
+	  				and t.PERIOD_PRICE = #{periodPrice}				
+	  			</if>
+				<if test="loanType != null and loanType != ''">
+	  				and t.LOAN_TYPE = #{loanType}				
+	  			</if>
+				<if test="rePay != null">
+	  				and t.RE_PAY = #{rePay}				
+	  			</if>
+				<if test="allContract != null">
+	  				and t.ALL_CONTRACT = #{allContract}				
+	  			</if>
+				<if test="insure != null">
+	  				and t.INSURE = #{insure}				
+	  			</if>
+				<if test="periodUnpaid != null">
+	  				and t.PERIOD_UNPAID = #{periodUnpaid}				
+	  			</if>
+				<if test="overdueAmt != null">
+	  				and t.OVERDUE_AMT = #{overdueAmt}				
+	  			</if>
+				<if test="debtAmt != null">
+	  				and t.DEBT_AMT = #{debtAmt}				
+	  			</if>
+				<if test="sumDebt != null">
+	  				and t.SUM_DEBT = #{sumDebt}				
+	  			</if>
+				<if test="custAccount != null and custAccount != ''">
+	  				and t.CUST_ACCOUNT = #{custAccount}				
+	  			</if>
+				<if test="entrustDate != null">
+	  				and t.ENTRUST_DATE = #{entrustDate}				
+	  			</if>
+				<if test="batch != null">
+	  				and t.BATCH = #{batch}				
+	  			</if>
+				<if test="overdueRate != null">
+	  				and t.OVERDUE_RATE = #{overdueRate}				
+	  			</if>
+				<if test="entrustTime != null and entrustTime != ''">
+	  				and t.ENTRUST_TIME = #{entrustTime}				
+	  			</if>
+				<if test="handNum != null">
+	  				and t.HAND_NUM = #{handNum}				
+	  			</if>
+				<if test="unoverdueRate != null">
+	  				and t.UNOVERDUE_RATE = #{unoverdueRate}				
+	  			</if>
+				<if test="handCust != null and handCust != ''">
+	  				and t.HAND_CUST = #{handCust}				
+	  			</if>
+				<if test="interAmt != null">
+	  				and t.INTER_AMT = #{interAmt}				
+	  			</if>
+				<if test="cdValue != null">
+	  				and t.CD_VALUE = #{cdValue}				
+	  			</if>
+				<if test="autoType != null and autoType != ''">
+	  				and t.AUTO_TYPE = #{autoType}				
+	  			</if>
+				<if test="handType != null and handType != ''">
+	  				and t.HAND_TYPE = #{handType}				
+	  			</if>
+				<if test="regAddr != null and regAddr != ''">
+	  				and t.REG_ADDR = #{regAddr}				
+	  			</if>
+				<if test="mobileTel != null and mobileTel != ''">
+	  				and t.MOBILE_TEL = #{mobileTel}				
+	  			</if>
+				<if test="applyTel != null and applyTel != ''">
+	  				and t.APPLY_TEL = #{applyTel}				
+	  			</if>
+				<if test="homeTel != null and homeTel != ''">
+	  				and t.HOME_TEL = #{homeTel}				
+	  			</if>
+				<if test="unitTel != null and unitTel != ''">
+	  				and t.UNIT_TEL = #{unitTel}				
+	  			</if>
+				<if test="unitName != null and unitName != ''">
+	  				and t.UNIT_NAME = #{unitName}				
+	  			</if>
+				<if test="sector != null and sector != ''">
+	  				and t.SECTOR = #{sector}				
+	  			</if>
+				<if test="unitAddr != null and unitAddr != ''">
+	  				and t.UNIT_ADDR = #{unitAddr}				
+	  			</if>
+				<if test="marName != null and marName != ''">
+	  				and t.MAR_NAME = #{marName}				
+	  			</if>
+				<if test="saleAddrs != null and saleAddrs != ''">
+	  				and t.SALE_ADDRS = #{saleAddrs}				
+	  			</if>
+				<if test="firm != null and firm != ''">
+	  				and t.FIRM = #{firm}				
+	  			</if>
+				<if test="modeName != null and modeName != ''">
+	  				and t.MODE_NAME = #{modeName}				
+	  			</if>
+				<if test="productName != null and productName != ''">
+	  				and t.PRODUCT_NAME = #{productName}				
+	  			</if>
+				<if test="liveAddress != null and liveAddress != ''">
+	  				and t.LIVE_ADDRESS = #{liveAddress}				
+	  			</if>
+				<if test="applyHometel != null and applyHometel != ''">
+	  				and t.APPLY_HOMETEL = #{applyHometel}				
+	  			</if>
+				<if test="applyWorktel != null and applyWorktel != ''">
+	  				and t.APPLY_WORKTEL = #{applyWorktel}				
+	  			</if>
+				<if test="spouseName != null and spouseName != ''">
+	  				and t.SPOUSE_NAME = #{spouseName}				
+	  			</if>
+				<if test="spouseTel != null and spouseTel != ''">
+	  				and t.SPOUSE_TEL = #{spouseTel}				
+	  			</if>
+				<if test="parentName != null and parentName != ''">
+	  				and t.PARENT_NAME = #{parentName}				
+	  			</if>
+				<if test="parentPhone != null and parentPhone != ''">
+	  				and t.PARENT_PHONE = #{parentPhone}				
+	  			</if>
+				<if test="parentAddress != null and parentAddress != ''">
+	  				and t.PARENT_ADDRESS = #{parentAddress}				
+	  			</if>
+				<if test="contactName1 != null and contactName1 != ''">
+	  				and t.CONTACT_NAME_1 = #{contactName1}				
+	  			</if>
+				<if test="contactTel1 != null and contactTel1 != ''">
+	  				and t.CONTACT_TEL_1 = #{contactTel1}				
+	  			</if>
+				<if test="contactName2 != null and contactName2 != ''">
+	  				and t.CONTACT_NAME_2 = #{contactName2}				
+	  			</if>
+				<if test="contactTel2 != null and contactTel2 != ''">
+	  				and t.CONTACT_TEL_2 = #{contactTel2}				
+	  			</if>
+				<if test="contactName3 != null and contactName3 != ''">
+	  				and t.CONTACT_NAME_3 = #{contactName3}				
+	  			</if>
+				<if test="contactTel3 != null and contactTel3 != ''">
+	  				and t.CONTACT_TEL_3 = #{contactTel3}				
+	  			</if>
+				<if test="contactName4 != null and contactName4 != ''">
+	  				and t.CONTACT_NAME_4 = #{contactName4}				
+	  			</if>
+				<if test="contactTel4 != null and contactTel4 != ''">
+	  				and t.CONTACT_TEL_4 = #{contactTel4}				
+	  			</if>
+				<if test="contactName5 != null and contactName5 != ''">
+	  				and t.CONTACT_NAME_5 = #{contactName5}				
+	  			</if>
+				<if test="contactTel5 != null and contactTel5 != ''">
+	  				and t.CONTACT_TEL_5 = #{contactTel5}				
+	  			</if>
+				<if test="saleRemark != null and saleRemark != ''">
+	  				and t.SALE_REMARK = #{saleRemark}				
+	  			</if>
+				<if test="mailBox != null and mailBox != ''">
+	  				and t.MAIL_BOX = #{mailBox}				
+	  			</if>
+				<if test="userName != null and userName != ''">
+	  				and t.USER_NAME = #{userName}				
+	  			</if>
+				<if test="openBank != null and openBank != ''">
+	  				and t.OPEN_BANK = #{openBank}				
+	  			</if>
+				<if test="bankNo != null and bankNo != ''">
+	  				and t.BANK_NO = #{bankNo}				
+	  			</if>
+    	</trim>
+	</select>
+    <select id="getStaff" resultType="java.util.Map" parameterType="java.util.Map">
+        select * from sys_staff where staff_no=#{staffNo} limit 1
+    </select>
+	<select id="outsourceOver" resultType="java.util.Map" parameterType="java.util.Map">
+		select * from pl_loan_outsource_relation as a where a.loan_no=#{loanNo}
+		and a.stat='10002002' order by inst_date desc limit 1
+	</select>
+    <select id="outsourceCur" resultType="java.util.Map" parameterType="java.util.Map">
+		select * from pl_loan_outsource_relation as a where a.loan_no=#{loanNo}
+		and a.stat='10002001';
+	</select>
+	<update id="dealCallBackCase" parameterType="java.util.Map">
+		update pl_loan_outsource_relation set stat='10002002' where loan_no=#{loanNo}
+	</update>
+	<!-- 查询销售中心 -->
+	<select id="getRegionalSale" resultType="java.util.Map">
+		select * from sys_regional_belong where city_no is null and area_no is null and
+		prov_no in(SELECT prov_no FROM sys_org group by prov_no)
+	</select>
+	<!-- 查询 PL_委外案件 列表 -->
+	<select id="queryOutSourceForList" resultMap="LoanOutsourceRetMap" parameterType="java.util.Map">
+		<if test="flag=='plloanoutsource'.toString()">
+			SELECT CASE WHEN r.UNIT_NO IS NULL THEN '否' ELSE '是' END AS isDistrbut,r.UNIT_NAME,r.stat,
+			c.CHAN_NAME chanleName, c.CHAN_NO chanleNo, c.CUST_NAME AS  DEBT_NAME,
+			o.ID,
+			o.COMPANY_NAME,
+			o.LOAN_NO,
+			o.SEX,
+			o.CARD_NO,
+			o.BIRTHDAY,
+			o.TYPE,
+			o.EXCEPT_DAY,
+			o.CONTRACT_NO,
+			o.APPLY_DAY,
+			o.FIRST_MONTH,
+			o.GOOD_PRICE,
+			o.FIRST_PRICE,
+			o.BACK_NO,
+			o.LAST_MONTH,
+			o.LOAN_AMT,
+			o.PERIOD,
+			o.PERIOD_PRICE,
+			o.LOAN_TYPE,
+			o.RE_PAY,
+			o.ALL_CONTRACT,
+			o.INSURE,
+			o.PERIOD_UNPAID,
+			o.OVERDUE_AMT,
+			o.DEBT_AMT,
+			o.SUM_DEBT,
+			o.CUST_ACCOUNT,
+			o.ENTRUST_DATE,
+			o.BATCH,
+			o.OVERDUE_RATE,
+			o.ENTRUST_TIME,
+			o.HAND_NUM,
+			o.UNOVERDUE_RATE,
+			o.HAND_CUST,
+			o.INTER_AMT,
+			o.CD_VALUE,
+			o.AUTO_TYPE,
+			o.HAND_TYPE,
+			o.REG_ADDR,
+			o.MOBILE_TEL,
+			o.APPLY_TEL,
+			o.HOME_TEL,
+			o.UNIT_TEL,
+			o.SECTOR,
+			o.UNIT_ADDR,
+			o.MAR_NAME,
+			o.SALE_ADDRS,
+			o.FIRM,
+			o.MODE_NAME,
+			o.PRODUCT_NAME,
+			o.LIVE_ADDRESS,
+			o.APPLY_HOMETEL,
+			o.APPLY_WORKTEL,
+			o.SPOUSE_NAME,
+			o.SPOUSE_TEL,
+			o.PARENT_NAME,
+			o.PARENT_PHONE,
+			o.PARENT_ADDRESS,
+			o.CONTACT_NAME_1,
+			o.CONTACT_TEL_1,
+			o.CONTACT_NAME_2,
+			o.CONTACT_TEL_2,
+			o.CONTACT_NAME_3,
+			o.CONTACT_TEL_3,
+			o.CONTACT_NAME_4,
+			o.CONTACT_TEL_4,
+			o.CONTACT_NAME_5,
+			o.CONTACT_TEL_5,
+			o.SALE_REMARK,
+			o.MAIL_BOX,
+			o.USER_NAME,
+			o.OPEN_BANK,
+			o.BANK_NO
+			FROM pl_loan_outsource AS o
+			LEFT JOIN
+			(
+			select a.unit_no,a.unit_name,(CASE WHEN a.stat='10002001' THEN '正常' ELSE '失效' END) AS stat,a.loan_no,a.inst_date from pl_loan_outsource_relation as a,sys_staff as b
+			where a.unit_no=b.staff_no and b.staff_stat='10002001' and  (a.loan_no,a.inst_date)
+			in(select b.loan_no,max(inst_date) from pl_loan_outsource_relation as b group by b.loan_no)
+			)
+			as r ON o.LOAN_NO=r.LOAN_NO
+			INNER JOIN (select * from APP_LOAN_FUND_MATCH where match_result='40103001') AS c ON o.LOAN_NO=c.LOAN_NO
+			inner join app_loan_saler as d on o.loan_no=d.loan_no
+			<where>
+				c.MATCH_RESULT = '40103001'
+				<if test="id != null and id != ''">
+					and o.ID = #{id}
+				</if>
+				<if test="loanNo != null and loanNo != ''">
+					and o.LOAN_NO = #{loanNo}
+				</if>
+				<if test="custName != null and custName != ''">
+					and c.CUST_NAME LIKE CONCAT(CONCAT('%', #{custName}), '%')
+				</if>
+				<if test="unitName != null and unitName != ''">
+					and r.UNIT_NAME LIKE CONCAT(CONCAT('%', #{unitName}), '%')
+				</if>
+				<if test="null!=isDistrbut and ''!=isDistrbut">
+					<choose>
+						<when test="isDistrbut==10001001">
+							and r.UNIT_NAME IS NOT NULL
+						</when>
+						<otherwise>
+							<![CDATA[and (r.UNIT_NAME IS  NULL OR ''=trim(r.UNIT_NAME)) ]]>
+						</otherwise>
+					</choose>
+				</if>
+				<if test="null!=outComp and ''!=outComp">
+					and r.UNIT_NO=#{outComp}
+				</if>
+				<if test="null!=outComp and ''!=outComp">
+					and r.UNIT_NO=#{outComp}
+				</if>
+				<if test="null!=PROV_NO and ''!=PROV_NO">
+					and exists(select org_no from sys_org as e where prov_no=#{PROV_NO} and d.org_no=e.org_no)
+				</if>
+				<if test="bgnDate!=null  and bgnDate!=''">
+					and r.inst_date &gt;= #{bgnDate}
+				</if>
+				<if test="endDate!=null  and endDate!=''">
+					and r.inst_date &lt;= #{endDate}
+				</if>
+			</where>
+			GROUP BY o.LOAN_NO
+		</if>
+
+		<if test="flag=='outsourceinfo'.toString()">
+			SELECT
+			u.sumDebt AS SUM_DEBT,
+			c.CHAN_NAME chanleName, c.CHAN_NO chanleNo, c.CUST_NAME AS  DEBT_NAME,r.INST_DATE AS pltime,
+			CASE WHEN (o.IS_SETTLE IS NOT NULL AND o.IS_SETTLE = '10001001') THEN '是' ELSE '否' END AS isPayd,
+		    o.DEBT_AMT AS repayAmt,
+		    o.DEBT_AMT AS yhRepayAmt,
+		    o.ID,
+			o.COMPANY_NAME,
+			o.LOAN_NO,
+			o.SEX,
+			o.CARD_NO,
+			o.BIRTHDAY,
+			o.TYPE,
+			o.EXCEPT_DAY,
+			o.CONTRACT_NO,
+			o.APPLY_DAY,
+			o.FIRST_MONTH,
+			o.GOOD_PRICE,
+			o.FIRST_PRICE,
+			o.BACK_NO,
+			o.LAST_MONTH,
+			o.LOAN_AMT,
+			o.PERIOD,
+			o.PERIOD_PRICE,
+			o.LOAN_TYPE,
+			o.RE_PAY,
+			o.ALL_CONTRACT,
+			o.INSURE,
+			o.PERIOD_UNPAID,
+			o.OVERDUE_AMT,
+			o.DEBT_AMT,
+			o.CUST_ACCOUNT,
+			o.ENTRUST_DATE,
+			o.BATCH,
+			o.OVERDUE_RATE,
+			o.ENTRUST_TIME,
+			o.HAND_NUM,
+			o.UNOVERDUE_RATE,
+			o.HAND_CUST,
+			o.INTER_AMT,
+			o.CD_VALUE,
+			o.AUTO_TYPE,
+			o.HAND_TYPE,
+			o.REG_ADDR,
+			o.MOBILE_TEL,
+			o.APPLY_TEL,
+			o.HOME_TEL,
+			o.UNIT_TEL,
+			o.SECTOR,
+			o.UNIT_ADDR,
+			o.MAR_NAME,
+			o.SALE_ADDRS,
+			o.FIRM,
+			o.MODE_NAME,
+			o.PRODUCT_NAME,
+			o.LIVE_ADDRESS,
+			o.APPLY_HOMETEL,
+			o.APPLY_WORKTEL,
+			o.SPOUSE_NAME,
+			o.SPOUSE_TEL,
+			o.PARENT_NAME,
+			o.PARENT_PHONE,
+			o.PARENT_ADDRESS,
+			o.CONTACT_NAME_1,
+			o.CONTACT_TEL_1,
+			o.CONTACT_NAME_2,
+			o.CONTACT_TEL_2,
+			o.CONTACT_NAME_3,
+			o.CONTACT_TEL_3,
+			o.CONTACT_NAME_4,
+			o.CONTACT_TEL_4,
+			o.CONTACT_NAME_5,
+			o.CONTACT_TEL_5,
+			o.SALE_REMARK,
+			o.MAIL_BOX,
+			o.USER_NAME,
+			o.OPEN_BANK,
+			o.BANK_NO
+			FROM pl_loan_outsource AS o
+			LEFT  JOIN pl_loan_outsource_relation AS r ON o.LOAN_NO=r.LOAN_NO 
+			INNER JOIN APP_LOAN_FUND_MATCH AS c ON o.LOAN_NO=c.LOAN_NO
+			LEFT JOIN (SELECT LOAN_NO,SUM(PAY_AMT) AS sumDebt FROM pl_loan_outsource_return GROUP BY LOAN_NO) AS  u ON o.LOAN_NO=u.loan_no
+			<where>
+				c.MATCH_RESULT = '40103001'
+				<if test="null!=outComp and ''!=outComp">
+					and r.UNIT_NO=#{outComp}
+				</if>
+				<if test="id != null and id != ''">
+					and o.ID = #{id}
+				</if>
+				<if test="loanNo != null and loanNo != ''">
+					and o.LOAN_NO = #{loanNo}
+				</if>
+				<if test="custName != null and custName != ''">
+					and c.CUST_NAME LIKE CONCAT(CONCAT('%', #{custName}), '%')
+				</if>
+				<if test="unitName != null and unitName != ''">
+					and r.UNIT_NAME LIKE CONCAT(CONCAT('%', #{unitName}), '%')
+				</if>
+				<if test="null!=isPayd and ''!=isPayd">
+					<choose>
+						<when test="isPayd==10001001">
+							and o.is_settle='10001001'
+						</when>
+						<otherwise>
+							<![CDATA[and o.is_settle <> '10001001' ]]>
+						</otherwise>
+					</choose>
+				</if>
+				<if test="null!=isDistrbut and ''!=isDistrbut">
+					and o.IS_SETTLE=#{!=isDistrbut}
+				</if>
+				<if test="null!=chanleNo and ''!=chanleNo">
+					AND c.CHAN_NO=#{chanleNo}
+				</if>
+				<if test="bgnDate!=null  and bgnDate!=''">
+					and r.inst_date &gt;= #{bgnDate}
+				</if>
+				<if test="endDate!=null  and endDate!=''">
+					and r.inst_date &lt;= #{endDate}
+				</if>
+			</where>
+			GROUP BY o.LOAN_NO
+		</if>
+
+		<if test="flag=='outsourcepayment'.toString()">
+			SELECT
+			IFNULL(u.sumDebt,0) AS SUM_DEBT,
+			c.CHAN_NAME chanleName, c.CHAN_NO chanleNo, c.CUST_NAME AS  DEBT_NAME,r.INST_DATE AS pltime,
+			CASE WHEN (o.IS_SETTLE IS NOT NULL AND o.IS_SETTLE = '10001001') THEN '是' ELSE '否' END AS isPayd,
+		    o.DEBT_AMT AS repayAmt,
+		    o.DEBT_AMT AS yhRepayAmt,
+			CASE WHEN r.STAT=10002001 THEN '正常' ELSE '失效' END AS stat,
+			r.UNIT_NAME,
+			o.ID,
+			o.COMPANY_NAME,
+			o.LOAN_NO,
+			o.SEX,
+			o.CARD_NO,
+			o.BIRTHDAY,
+			o.TYPE,
+			o.EXCEPT_DAY,
+			o.CONTRACT_NO,
+			o.APPLY_DAY,
+			o.FIRST_MONTH,
+			o.GOOD_PRICE,
+			o.FIRST_PRICE,
+			o.BACK_NO,
+			o.LAST_MONTH,
+			o.LOAN_AMT,
+			o.PERIOD,
+			o.PERIOD_PRICE,
+			o.LOAN_TYPE,
+			o.RE_PAY,
+			o.ALL_CONTRACT,
+			o.INSURE,
+			o.PERIOD_UNPAID,
+			o.OVERDUE_AMT,
+			o.DEBT_AMT,
+			o.CUST_ACCOUNT,
+			o.ENTRUST_DATE,
+			o.BATCH,
+			o.OVERDUE_RATE,
+			o.ENTRUST_TIME,
+			o.HAND_NUM,
+			o.UNOVERDUE_RATE,
+			o.HAND_CUST,
+			o.INTER_AMT,
+			o.CD_VALUE,
+			o.AUTO_TYPE,
+			o.HAND_TYPE,
+			o.REG_ADDR,
+			o.MOBILE_TEL,
+			o.APPLY_TEL,
+			o.HOME_TEL,
+			o.UNIT_TEL,
+			o.SECTOR,
+			o.UNIT_ADDR,
+			o.MAR_NAME,
+			o.SALE_ADDRS,
+			o.FIRM,
+			o.MODE_NAME,
+			o.PRODUCT_NAME,
+			o.LIVE_ADDRESS,
+			o.APPLY_HOMETEL,
+			o.APPLY_WORKTEL,
+			o.SPOUSE_NAME,
+			o.SPOUSE_TEL,
+			o.PARENT_NAME,
+			o.PARENT_PHONE,
+			o.PARENT_ADDRESS,
+			o.CONTACT_NAME_1,
+			o.CONTACT_TEL_1,
+			o.CONTACT_NAME_2,
+			o.CONTACT_TEL_2,
+			o.CONTACT_NAME_3,
+			o.CONTACT_TEL_3,
+			o.CONTACT_NAME_4,
+			o.CONTACT_TEL_4,
+			o.CONTACT_NAME_5,
+			o.CONTACT_TEL_5,
+			o.SALE_REMARK,
+			o.MAIL_BOX,
+			o.USER_NAME,
+			o.OPEN_BANK,
+			o.BANK_NO
+			FROM pl_loan_outsource AS o
+			LEFT  JOIN pl_loan_outsource_relation AS r ON o.LOAN_NO=r.LOAN_NO
+			INNER JOIN APP_LOAN_FUND_MATCH AS c ON o.LOAN_NO=c.LOAN_NO
+			LEFT JOIN (SELECT LOAN_NO,SUM(PAY_AMT) AS sumDebt FROM pl_loan_outsource_return GROUP BY LOAN_NO,UNIT_NO) AS  u ON o.LOAN_NO=u.loan_no
+			<where>
+				c.MATCH_RESULT = '40103001' AND r.UNIT_NO IS NOT NULL
+				<if test="loanNo != null and loanNo != ''">
+					and o.LOAN_NO = #{loanNo}
+				</if>
+				<if test="null!=outComp and ''!=outComp">
+					and r.UNIT_NO=#{outComp}
+				</if>
+				<if test="custName != null and custName != ''">
+					and c.CUST_NAME LIKE CONCAT(CONCAT('%', #{custName}), '%')
+				</if>
+				<if test="null!=isPayd and ''!=isPayd">
+					and o.IS_SETTLE=#{isPayd}
+				</if>
+				<if test="unitName != null and unitName != ''">
+					and r.UNIT_NAME LIKE CONCAT(CONCAT('%', #{unitName}), '%')
+				</if>
+				<if test="stat != null and stat != ''">
+					and r.STAT=#{stat}
+				</if>
+				<if test="bgnDate!=null  and bgnDate!=''">
+					and r.inst_date &gt;= #{bgnDate}
+				</if>
+				<if test="endDate!=null  and endDate!=''">
+					and r.inst_date &lt;= #{endDate}
+				</if>
+			</where>
+			ORDER BY r.INST_DATE DESC
+		</if>
+	</select>
+	
+	<delete id="batchDeleteByLoanNoLst" parameterType="java.util.List">
+		DELETE FROM PL_LOAN_OUTSOURCE
+		WHERE 
+  			LOAN_NO IN
+  		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+  			#{item}	
+  		</foreach>					
+	</delete>
+	
+	<update id="batchModifyByLoanNoLst" parameterType="java.util.List">
+		UPDATE PL_LOAN_OVDU_CASE SET DEAL_STAT='50002001',OUT_FLAG='10001002' 
+		WHERE OUT_FLAG='10001001' AND LOAN_NO IN 
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			 #{item}		
+  		</foreach>		
+	</update>
+</mapper>
